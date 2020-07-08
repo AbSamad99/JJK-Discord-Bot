@@ -30,12 +30,14 @@ client.on('message', (msg) => {
     );
     let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
     if (
-      !msg.member.roles.cache.has(modRole1.id) &&
-      !msg.member.roles.cache.has(modRole2.id)
+      msg.member.roles.cache.has(modRole1.id) ||
+      msg.member.roles.cache.has(modRole2.id)
     ) {
+      console.log('Mod');
+    } else {
       msg.delete();
       msg.channel.send('Please do not link invites to other servers');
-    } else console.log('Mod');
+    }
   }
   if (msg.content.includes('mod')) {
     bestModResponse(msg);

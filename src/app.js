@@ -48,9 +48,21 @@ client.on('message', (msg) => {
     }
   }
   if (msg.content.startsWith(prefix)) {
-    if (msg.content.toLowerCase().includes('poll')) {
+    let modRole1 = msg.guild.roles.cache.find(
+      (role) => role.name === 'Special-Grade-Shaman'
+    );
+    let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
+    if (
+      msg.content.toLowerCase().includes('poll') &&
+      (!msg.member.roles.cache.has(modRole1.id) ||
+        msg.member.roles.cache.has(modRole2.id))
+    ) {
       pollAnnouncement(msg);
-    } else if (msg.content.toLowerCase().includes('chapter')) {
+    } else if (
+      msg.content.toLowerCase().includes('chapter') &&
+      (!msg.member.roles.cache.has(modRole1.id) ||
+        msg.member.roles.cache.has(modRole2.id))
+    ) {
       chapterAnnouncement(msg);
     }
   }

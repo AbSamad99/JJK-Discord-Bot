@@ -1,4 +1,4 @@
-import { reaction_numbers } from './constants';
+import { reaction_numbers } from './utilities';
 
 export const containsForbiddenLink = (msg) => {
   if (msg.content.toLowerCase().includes('pornhub.com' || 'nhentai.net')) {

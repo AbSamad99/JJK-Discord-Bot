@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
-import { DISCORD_TOKEN, prefix } from './constants';
+import { prefix } from './utilities';
 import {
   containsForbiddenLink,
   containsDiscordLink,
@@ -59,4 +59,4 @@ client.on('message', (msg) => {
   }
 });
 
-client.login(DISCORD_TOKEN);
+client.login(process.env.token);

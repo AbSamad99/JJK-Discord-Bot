@@ -25,7 +25,9 @@ client.on('message', (msg) => {
     msg.reply('Please refrain from posting links to NSFW sites');
   }
   if (containsDiscordLink(msg)) {
-    const modRole = msg.guild.roles.cache.find((role) => (role.name = 'Mod'));
+    const modRole = msg.guild.roles.cache.find(
+      (role) => (role.name = 'Special-Grade-Shaman')
+    );
     if (msg.member.roles.cache.has(modRole.id)) {
       msg.delete();
       msg.channel.send('Please do not link invites to other servers');
@@ -54,13 +56,13 @@ client.on('message', (msg) => {
     let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
     if (
       msg.content.toLowerCase().includes('poll') &&
-      (!msg.member.roles.cache.has(modRole1.id) ||
+      (msg.member.roles.cache.has(modRole1.id) ||
         msg.member.roles.cache.has(modRole2.id))
     ) {
       pollAnnouncement(msg);
     } else if (
       msg.content.toLowerCase().includes('chapter') &&
-      (!msg.member.roles.cache.has(modRole1.id) ||
+      (msg.member.roles.cache.has(modRole1.id) ||
         msg.member.roles.cache.has(modRole2.id))
     ) {
       chapterAnnouncement(msg);

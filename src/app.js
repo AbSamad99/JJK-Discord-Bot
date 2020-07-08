@@ -25,10 +25,14 @@ client.on('message', (msg) => {
     msg.reply('Please refrain from posting links to NSFW sites');
   }
   if (containsDiscordLink(msg)) {
-    const modRole = msg.guild.roles.cache.find(
+    const modRole1 = msg.guild.roles.cache.find(
       (role) => (role.name = 'Special-Grade-Shaman')
     );
-    if (msg.member.roles.cache.has(modRole.id)) {
+    let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
+    if (
+      !msg.member.roles.cache.has(modRole1.id) &&
+      !msg.member.roles.cache.has(modRole2.id)
+    ) {
       msg.delete();
       msg.channel.send('Please do not link invites to other servers');
     } else console.log('Mod');

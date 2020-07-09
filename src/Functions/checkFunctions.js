@@ -24,7 +24,8 @@ export const otherSeriesTalkCheck = (msg) => {
     (msg.content.toLowerCase().includes('fate') ||
       msg.content.toLowerCase().includes('nasu') ||
       msg.content.toLowerCase().includes('d gray man') ||
-      msg.content.toLowerCase().includes('D. Gray-man'))
+      msg.content.toLowerCase().includes('D. Gray-man') ||
+      msg.content.toLowerCase().includes('DGM'))
   ) {
     return 1;
   } else return 0;
@@ -34,7 +35,9 @@ export const xSeriesSucksCheck = (msg) => {
   if (
     msg.content.toLowerCase() === 'fate sucks' ||
     msg.content.toLowerCase() === 'd gray man sucks' ||
-    msg.content.toLowerCase() === 'kubera sucks'
+    msg.content.toLowerCase() === 'kubera sucks' ||
+    msg.content.toLowerCase() === 'dgm sucks' ||
+    msg.content.toLowerCase() === 'd. gray-man sucks'
   ) {
     return 1;
   } else return 0;

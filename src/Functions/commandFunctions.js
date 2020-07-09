@@ -91,8 +91,12 @@ export const anonMessageCommand = (msg) => {
     let temp = msg.content.slice(1);
     temp = temp.split(' ');
     let temp1 = temp.slice(2);
-    let temp2 = temp1.join(' ');
-    let temp3 = temp[1].slice(2, temp[1].length - 1);
-    console.log(temp1, temp2, temp3);
+    let message = temp1.join(' ');
+    let messageChannelId = temp[1].slice(2, temp[1].length - 1);
+    console.log(message, messageChannelId);
+    let messageChannel = msg.member.guild.channels.cache.find(
+      (ch) => ch.id === messageChannelId
+    );
+    messageChannel.send(message);
   }
 };

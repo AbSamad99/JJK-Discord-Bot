@@ -16,6 +16,9 @@ export const containsDiscordLink = (msg) => {
 };
 
 export const pollAnnouncement = (msg) => {
+  let announcementChannel = msg.member.guild.channels.cache.find(
+    (ch) => ch.name === 'announcements'
+  );
   let temp = msg.content.slice(1);
   temp = temp.split(' ');
   let pollNumber = Number(temp[1]);
@@ -28,7 +31,7 @@ export const pollAnnouncement = (msg) => {
 \:one: Awful`;
   console.log(temp[1]);
   if (pollNumber) {
-    msg.channel.send(replyMessage).then((msg) => {
+    announcementChannel.send(replyMessage).then((msg) => {
       msg.react(reaction_numbers[5]);
       msg.react(reaction_numbers[4]);
       msg.react(reaction_numbers[3]);
@@ -42,6 +45,9 @@ export const chapterAnnouncement = (msg) => {
   let mangaNewsRoleId = msg.guild.roles.cache.find(
     (role) => role.name === 'Manga-News'
   );
+  let announcementChannel = msg.member.guild.channels.cache.find(
+    (ch) => ch.name === 'announcements'
+  );
   let temp = msg.content.slice(1);
   temp = temp.split(' ');
   let chapterNumber = temp[1];
@@ -53,7 +59,7 @@ Viz: ${vizLink}
     
 Manga Plus: ${mpLink}`;
   if (temp[1] || temp[2] || temp[3]) {
-    msg.channel.send(replyMessage);
+    announcementChannel.send(replyMessage);
   }
 };
 

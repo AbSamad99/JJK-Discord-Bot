@@ -92,16 +92,19 @@ export const nfufuResponse = (msg) => {
 export const bestModResponse = (msg) => {
   if (msg.content.toLowerCase() === 'best mod?') {
     let chance = Math.random() * 100;
-    if (chance < 25) {
+    if (chance < 20) {
       msg.channel.send('Syed');
     }
-    if (chance > 25 && chance < 50) {
+    if (chance > 20 && chance < 40) {
       msg.channel.send('Kenny');
     }
-    if (chance > 50 && chance < 75) {
+    if (chance > 40 && chance < 60) {
       msg.channel.send('Ao');
     }
-    if (chance > 75) {
+    if (chance > 60 && chance < 80) {
+      msg.channel.send('Anco');
+    }
+    if (chance > 80) {
       msg.channel.send('Anco');
     }
   }

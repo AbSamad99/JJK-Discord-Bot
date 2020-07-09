@@ -105,7 +105,7 @@ export const bestModResponse = (msg) => {
       msg.channel.send('Anco');
     }
     if (chance > 80) {
-      msg.channel.send('Anco');
+      msg.channel.send('Shinya');
     }
   }
   if (

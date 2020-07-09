@@ -25,19 +25,12 @@ client.on('message', (msg) => {
     msg.reply('Please refrain from posting links to NSFW sites');
   }
   if (containsDiscordLink(msg)) {
-    const modRole1 = msg.guild.roles.cache.find(
-      (role) => (role.name = 'Special-Grade-Shaman')
-    );
-    let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
+    let modRole1 = msg.guild.roles.cache.find((role) => role.name === 'admin');
     console.log(
       msg.member.roles.cache.has(modRole1.id),
-      msg.member.roles.cache.has(modRole2.id),
       msg.member.roles.cache.entries.length
     );
-    if (
-      msg.member.roles.cache.has(modRole1.id) ||
-      msg.member.roles.cache.has(modRole2.id)
-    ) {
+    if (msg.member.roles.cache.has(modRole1.id)) {
       console.log('mod');
     } else {
       msg.delete();

@@ -29,15 +29,16 @@ client.on('message', (msg) => {
       (role) => (role.name = 'Special-Grade-Shaman')
     );
     let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
+    console.log(
+      msg.member.roles.cache.has(modRole1.id),
+      msg.member.roles.cache.has(modRole2.id),
+      msg.member.roles.cache.entries.length
+    );
     if (
       msg.member.roles.cache.has(modRole1.id) ||
       msg.member.roles.cache.has(modRole2.id)
     ) {
-      console.log(
-        msg.member.roles.cache.has(modRole1.id),
-        msg.member.roles.cache.has(modRole2.id),
-        msg.member.roles.cache.entries.length
-      );
+      console.log('mod');
     } else {
       msg.delete();
       msg.channel.send('Please do not link invites to other servers');

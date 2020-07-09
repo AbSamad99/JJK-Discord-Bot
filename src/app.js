@@ -8,6 +8,7 @@ import {
   nfufuResponse,
   bestModResponse,
   otherSeriesTalkResponse,
+  xSeriesSucksResponse,
 } from './Functions/responseFunctions';
 
 import {
@@ -50,7 +51,7 @@ client.on('message', (msg) => {
     weebResponse(msg);
   }
   if (xSeriesSucksCheck(msg)) {
-    msg.channel.send('I agree <:100:730318095821963357>');
+    xSeriesSucksResponse(msg);
   } else if (otherSeriesTalkCheck(msg)) {
     otherSeriesTalkResponse(msg);
   }

@@ -60,3 +60,19 @@ export const otherSeriesTalkResponse = (msg) => {
     msg.channel.send(`Go to <#${otherSeriesChannel.id}>`);
   }
 };
+
+export const xSeriesSucksResponse = (msg) => {
+  let chance = Math.random() * 100;
+  if (chance < 25) {
+    msg.channel.send('Facts bro');
+  }
+  if (chance > 25 && chance < 50) {
+    msg.channel.send('You said it bro');
+  }
+  if (chance > 50 && chance < 75) {
+    msg.channel.send('This dude spitting');
+  }
+  if (chance > 75) {
+    msg.channel.send('I agree <:100:730318095821963357>');
+  }
+};

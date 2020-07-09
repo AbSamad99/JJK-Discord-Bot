@@ -8,9 +8,8 @@ export const containsForbiddenLink = (msg) => {
 
 export const containsDiscordLink = (msg) => {
   if (
-    msg.content
-      .toLowerCase()
-      .includes('discord.gg/' || 'discordapp.com/invite/')
+    msg.content.toLowerCase().includes('discord.gg/') ||
+    msg.content.toLowerCase().includes('discordapp.com/invite/')
   ) {
     return true;
   } else return false;

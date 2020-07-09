@@ -35,7 +35,8 @@ client.on('message', (msg) => {
     ) {
       console.log(
         msg.member.roles.cache.has(modRole1.id),
-        msg.member.roles.cache.has(modRole2.id)
+        msg.member.roles.cache.has(modRole2.id),
+        msg.member.roles.cache.entries.length
       );
     } else {
       msg.delete();

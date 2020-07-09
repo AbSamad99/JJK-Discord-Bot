@@ -1,24 +1,26 @@
 import {
   chapterAnnouncement,
   pollAnnouncement,
+  fujoCommand,
+  todoCommand,
+  welcomeCommand,
 } from './Functions/commandFunctions';
 
+import { modPermsCheck } from './Functions/checkFunctions.js';
+
 export const prefixCommandFunction = (msg) => {
-  let modRole1 = msg.guild.roles.cache.find(
-    (role) => role.name === 'Special-Grade-Shaman'
-  );
-  let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
-  if (
-    msg.content.toLowerCase().includes('poll') &&
-    (msg.member.roles.cache.has(modRole1.id) ||
-      msg.member.roles.cache.has(modRole2.id))
-  ) {
+  if (msg.content.toLowerCase().includes('poll') && modPermsCheck(msg)) {
     pollAnnouncement(msg);
   } else if (
     msg.content.toLowerCase().includes('chapter') &&
-    (msg.member.roles.cache.has(modRole1.id) ||
-      msg.member.roles.cache.has(modRole2.id))
+    modPermsCheck(msg)
   ) {
     chapterAnnouncement(msg);
+  } else if (msg.content.toLowerCase().includes('fujo')) {
+    fujoCommand(msg);
+  } else if (msg.content.toLowerCase().includes('todo')) {
+    todoCommand(msg);
+  } else if (msg.content.toLowerCase().includes('welcome')) {
+    welcomeCommand(msg);
   }
 };

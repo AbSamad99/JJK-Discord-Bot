@@ -46,3 +46,39 @@ export const pollAnnouncement = (msg) => {
     });
   }
 };
+
+export const fujoCommand = (msg) => {
+  msg.channel.send('https://bit.ly/2ZoTsQ4');
+};
+
+export const todoCommand = (msg) => {
+  let temp = msg.content.slice(1);
+  let welcomeChannel = msg.member.guild.channels.cache.find(
+    (ch) => ch.name === 'welcome'
+  );
+  if (
+    msg.channel.id === welcomeChannel.id &&
+    temp.toLowerCase().startsWith('todo')
+  ) {
+    msg.channel.send(
+      'https://media.discordapp.net/attachments/447410298845003777/635705498624196608/K17.png'
+    );
+  }
+};
+
+export const welcomeCommand = (msg) => {
+  let temp = msg.content.slice(1);
+  let welcomeChannel = msg.member.guild.channels.cache.find(
+    (ch) => ch.name === 'welcome'
+  );
+  if (
+    msg.channel.id === welcomeChannel.id &&
+    temp.toLowerCase().startsWith('welcome')
+  ) {
+    let message = `Welcome newbie, we have three questions for you:
+1. Are you up to date on the Jujutsu Kaisen manga?
+2. Have you read the prequel?
+3. Can Todo ask you a woke question?`;
+    msg.channel.send(message);
+  }
+};

@@ -91,9 +91,24 @@ export const nfufuResponse = (msg) => {
 
 export const bestModResponse = (msg) => {
   if (msg.content.toLowerCase() === 'best mod?') {
-    msg.channel.send('Syed');
+    let chance = Math.random() * 100;
+    if (chance < 25) {
+      msg.channel.send('Syed');
+    }
+    if (chance > 25 && chance < 50) {
+      msg.channel.send('Kenny');
+    }
+    if (chance > 50 && chance < 75) {
+      msg.channel.send('Ao');
+    }
+    if (chance > 75) {
+      msg.channel.send('Anco');
+    }
   }
-  if (msg.content.toLowerCase() === 'syed is best mod') {
+  if (
+    msg.content.toLowerCase() === 'syed is best mod' ||
+    msg.content.toLowerCase() === 'syed best mod'
+  ) {
     msg.channel.send('True');
   }
 };

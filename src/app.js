@@ -19,7 +19,7 @@ import {
 } from './Functions/checkFunctions';
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as The Honored One!`);
 });
 
 client.on('message', (msg) => {

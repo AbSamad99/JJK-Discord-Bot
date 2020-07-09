@@ -82,3 +82,12 @@ export const welcomeCommand = (msg) => {
     msg.channel.send(message);
   }
 };
+
+export const anonMessageCommand = (msg) => {
+  let modBotChannel = msg.member.guild.channels.cache.find(
+    (ch) => ch.name === 'mod-bots'
+  );
+  if (msg.channel.id === modBotChannel.id) {
+    console.log(msg.content);
+  }
+};

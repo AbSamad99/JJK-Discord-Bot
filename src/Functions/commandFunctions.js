@@ -88,6 +88,8 @@ export const anonMessageCommand = (msg) => {
     (ch) => ch.name === 'mod-bots'
   );
   if (msg.channel.id === modBotChannel.id) {
-    console.log(msg.content);
+    let temp = msg.content.slice(1);
+    temp = temp.split(' ');
+    console.log(temp);
   }
 };

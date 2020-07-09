@@ -93,7 +93,7 @@ export const anonMessageCommand = (msg) => {
     let temp1 = temp.slice(2);
     let message = temp1.join(' ');
     let messageChannelId = temp[1].slice(2, temp[1].length - 1);
-    console.log(message, messageChannelId);
+    // console.log(message, messageChannelId);
     let messageChannel = msg.member.guild.channels.cache.find(
       (ch) => ch.id === messageChannelId
     );

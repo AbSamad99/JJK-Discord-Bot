@@ -50,3 +50,13 @@ export const bestModResponse = (msg) => {
     msg.channel.send('True');
   }
 };
+
+export const otherSeriesTalkResponse = (msg) => {
+  let otherSeriesChannel = msg.guild.channels.cache.find(
+    (ch) => ch.name === 'other-series'
+  );
+  let chance = Math.random() * 100;
+  if (chance > 30) {
+    msg.channel.send(`Go to <#${otherSeriesChannel.id}>`);
+  }
+};

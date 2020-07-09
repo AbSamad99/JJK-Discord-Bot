@@ -7,6 +7,7 @@ import {
   weebResponse,
   nfufuResponse,
   bestModResponse,
+  otherSeriesTalkResponse,
 } from './Functions/responseFunctions';
 
 import {
@@ -51,10 +52,7 @@ client.on('message', (msg) => {
   if (xSeriesSucksCheck(msg)) {
     msg.channel.send('I agree <:100:730318095821963357>');
   } else if (otherSeriesTalkCheck(msg)) {
-    let chance = Math.random() * 100;
-    if (chance > 30) {
-      msg.channel.send('Go to <#730126519833329706>');
-    }
+    otherSeriesTalkResponse(msg);
   }
   if (msg.content.startsWith(prefix)) {
     prefixCommandFunction(msg);

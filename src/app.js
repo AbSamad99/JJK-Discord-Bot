@@ -1,30 +1,33 @@
 const Discord = require('discord.js');
 const client = new Discord.Client();
 import { prefix } from './utilities';
+import { prefixCommandFunction } from './helperFunctions';
+
 import {
-  containsForbiddenLink,
-  containsDiscordLink,
-  pollAnnouncement,
-  chapterAnnouncement,
   weebResponse,
   nfufuResponse,
   bestModResponse,
-  weebCheck,
+} from './Functions/responseFunctions';
+
+import {
+  containsDiscordLinkCheck,
+  containsForbiddenLinkCheck,
+  isSuggestionCheck,
   otherSeriesTalkCheck,
+  weebCheck,
   xSeriesSucksCheck,
-  isSuggestion,
-} from './helperFunctions';
+} from './Functions/checkFunctions';
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
 });
 
 client.on('message', (msg) => {
-  if (containsForbiddenLink(msg)) {
+  if (containsForbiddenLinkCheck(msg)) {
     msg.delete();
     msg.reply('Please refrain from posting links to NSFW sites');
   }
-  if (containsDiscordLink(msg)) {
+  if (containsDiscordLinkCheck(msg)) {
     let modRole1 = msg.guild.roles.cache.find((role) => role.name === 'admin');
     console.log(
       msg.member.roles.cache.has(modRole1.id),
@@ -54,25 +57,9 @@ client.on('message', (msg) => {
     }
   }
   if (msg.content.startsWith(prefix)) {
-    let modRole1 = msg.guild.roles.cache.find(
-      (role) => role.name === 'Special-Grade-Shaman'
-    );
-    let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
-    if (
-      msg.content.toLowerCase().includes('poll') &&
-      (msg.member.roles.cache.has(modRole1.id) ||
-        msg.member.roles.cache.has(modRole2.id))
-    ) {
-      pollAnnouncement(msg);
-    } else if (
-      msg.content.toLowerCase().includes('chapter') &&
-      (msg.member.roles.cache.has(modRole1.id) ||
-        msg.member.roles.cache.has(modRole2.id))
-    ) {
-      chapterAnnouncement(msg);
-    }
+    prefixCommandFunction(msg);
   }
-  if (isSuggestion(msg)) {
+  if (isSuggestionCheck(msg)) {
     msg.react('👍').then(() => msg.react('👎'));
   }
 });

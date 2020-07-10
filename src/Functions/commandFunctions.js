@@ -83,6 +83,34 @@ export const welcomeCommand = (msg) => {
   }
 };
 
+export const dontCareCommand = (msg) => {
+  let temp = msg.content.slice(1);
+  let welcomeChannel = msg.member.guild.channels.cache.find(
+    (ch) => ch.name === 'welcome'
+  );
+  if (
+    msg.channel.id === welcomeChannel.id &&
+    temp.toLowerCase().startsWith('guy')
+  ) {
+    let message = `https://media.discordapp.net/attachments/447410298845003777/684664171174166538/20191130_235504.jpg?width=736&height=671`;
+    msg.channel.send(message);
+  }
+};
+
+export const shyCommand = (msg) => {
+  let temp = msg.content.slice(1);
+  let welcomeChannel = msg.member.guild.channels.cache.find(
+    (ch) => ch.name === 'welcome'
+  );
+  if (
+    msg.channel.id === welcomeChannel.id &&
+    temp.toLowerCase().startsWith('shy')
+  ) {
+    let message = `https://cdn.discordapp.com/attachments/704934870622797904/731173904269312101/Screenshot_20200507-234318_MangaZone.jpg`;
+    msg.channel.send(message);
+  }
+};
+
 export const anonMessageCommand = (msg) => {
   let modBotChannel = msg.member.guild.channels.cache.find(
     (ch) => ch.name === 'mod-bots'

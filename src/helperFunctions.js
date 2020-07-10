@@ -5,6 +5,8 @@ import {
   todoCommand,
   welcomeCommand,
   anonMessageCommand,
+  dontCareCommand,
+  shyCommand,
 } from './Functions/commandFunctions';
 
 import { modPermsCheck } from './Functions/checkFunctions.js';
@@ -23,6 +25,10 @@ export const prefixCommandFunction = (msg) => {
     todoCommand(msg);
   } else if (msg.content.toLowerCase().includes('welcome')) {
     welcomeCommand(msg);
+  } else if (msg.content.toLowerCase().includes('guy')) {
+    dontCareCommand(msg);
+  } else if (msg.content.toLowerCase().includes('shy')) {
+    shyCommand(msg);
   } else if (
     msg.content.toLowerCase().includes('message') &&
     modPermsCheck(msg)

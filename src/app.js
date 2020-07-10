@@ -25,6 +25,7 @@ client.on('ready', () => {
 });
 
 client.on('message', (msg) => {
+  console.log(msg.content);
   try {
     if (containsForbiddenLinkCheck(msg)) {
       msg.delete();

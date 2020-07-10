@@ -18,6 +18,7 @@ import {
   otherSeriesTalkCheck,
   weebCheck,
   xSeriesSucksCheck,
+  modPermsCheck,
 } from './Functions/checkFunctions';
 
 client.on('ready', () => {
@@ -25,25 +26,17 @@ client.on('ready', () => {
 });
 
 client.on('message', (msg) => {
-  console.log(msg.content);
   try {
     if (containsForbiddenLinkCheck(msg)) {
       msg.delete();
       msg.reply('Please refrain from posting links to NSFW sites');
     }
     if (containsDiscordLinkCheck(msg)) {
-      let modRole1 = msg.guild.roles.cache.find(
-        (role) => role.name === 'admin'
-      );
-      console.log(
-        msg.member.roles.cache.has(modRole1.id),
-        msg.member.roles.cache.entries.length
-      );
-      if (msg.member.roles.cache.has(modRole1.id)) {
-        console.log('mod');
-      } else {
+      if (!modPermsCheck(msg)) {
         msg.delete();
         msg.channel.send('Please do not link invites to other servers');
+      } else {
+        console.log('mod');
       }
     }
     if (msg.content.includes('mod')) {

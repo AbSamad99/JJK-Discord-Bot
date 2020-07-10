@@ -25,41 +25,47 @@ client.on('ready', () => {
 });
 
 client.on('message', (msg) => {
-  if (containsForbiddenLinkCheck(msg)) {
-    msg.delete();
-    msg.reply('Please refrain from posting links to NSFW sites');
-  }
-  if (containsDiscordLinkCheck(msg)) {
-    let modRole1 = msg.guild.roles.cache.find((role) => role.name === 'admin');
-    console.log(
-      msg.member.roles.cache.has(modRole1.id),
-      msg.member.roles.cache.entries.length
-    );
-    if (msg.member.roles.cache.has(modRole1.id)) {
-      console.log('mod');
-    } else {
+  try {
+    if (containsForbiddenLinkCheck(msg)) {
       msg.delete();
-      msg.channel.send('Please do not link invites to other servers');
+      msg.reply('Please refrain from posting links to NSFW sites');
     }
-  }
-  if (msg.content.includes('mod')) {
-    bestModResponse(msg);
-  }
-  if (msg.content.toLowerCase().includes('nfufu')) {
-    nfufuResponse(msg);
-  } else if (weebCheck(msg)) {
-    weebResponse(msg);
-  }
-  if (xSeriesSucksCheck(msg)) {
-    xSeriesSucksResponse(msg);
-  } else if (otherSeriesTalkCheck(msg)) {
-    otherSeriesTalkResponse(msg);
-  }
-  if (msg.content.startsWith(prefix)) {
-    prefixCommandFunction(msg);
-  }
-  if (isSuggestionCheck(msg)) {
-    msg.react('👍').then(() => msg.react('👎'));
+    if (containsDiscordLinkCheck(msg)) {
+      let modRole1 = msg.guild.roles.cache.find(
+        (role) => role.name === 'admin'
+      );
+      console.log(
+        msg.member.roles.cache.has(modRole1.id),
+        msg.member.roles.cache.entries.length
+      );
+      if (msg.member.roles.cache.has(modRole1.id)) {
+        console.log('mod');
+      } else {
+        msg.delete();
+        msg.channel.send('Please do not link invites to other servers');
+      }
+    }
+    if (msg.content.includes('mod')) {
+      bestModResponse(msg);
+    }
+    if (msg.content.toLowerCase().includes('nfufu')) {
+      nfufuResponse(msg);
+    } else if (weebCheck(msg)) {
+      weebResponse(msg);
+    }
+    if (xSeriesSucksCheck(msg)) {
+      xSeriesSucksResponse(msg);
+    } else if (otherSeriesTalkCheck(msg)) {
+      otherSeriesTalkResponse(msg);
+    }
+    if (msg.content.startsWith(prefix)) {
+      prefixCommandFunction(msg);
+    }
+    if (isSuggestionCheck(msg)) {
+      msg.react('👍').then(() => msg.react('👎'));
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 

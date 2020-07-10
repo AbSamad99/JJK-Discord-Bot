@@ -72,13 +72,13 @@ export const modPermsCheck = (msg) => {
     (role) => role.name === 'Special-Grade-Shaman'
   );
   let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
-  let modRole3 = msg.guild.roles.cache.find((role) => role.name === 'Admin');
-  let modRole4 = msg.guild.roles.cache.find((role) => role.name === 'Mod');
+  if (!modRole1 || !modRole2) {
+    modRole1 = msg.guild.roles.cache.find((role) => role.name === 'Admin');
+    modRole2 = msg.guild.roles.cache.find((role) => role.name === 'Mod');
+  }
   if (
     msg.member.roles.cache.has(modRole1.id) ||
-    msg.member.roles.cache.has(modRole2.id) ||
-    msg.member.roles.cache.has(modRole3.id) ||
-    msg.member.roles.cache.has(modRole4.id)
+    msg.member.roles.cache.has(modRole2.id)
   ) {
     return 1;
   } else return 0;

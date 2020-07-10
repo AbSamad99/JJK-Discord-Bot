@@ -9,7 +9,8 @@ export const weebCheck = (msg) => {
     msg.content.toLowerCase().includes('omaye') ||
     msg.content.toLowerCase().includes('naruhodo') ||
     msg.content.toLowerCase().includes('webtoonsu') ||
-    msg.content.toLowerCase().includes('ningendomo')
+    msg.content.toLowerCase().includes('ningendomo') ||
+    msg.content.toLowerCase().includes('zasshu')
   ) {
     return 1;
   } else return 0;
@@ -24,8 +25,10 @@ export const otherSeriesTalkCheck = (msg) => {
     (msg.content.toLowerCase().includes('fate') ||
       msg.content.toLowerCase().includes('nasu') ||
       msg.content.toLowerCase().includes('d gray man') ||
-      msg.content.toLowerCase().includes('D. Gray-man') ||
-      msg.content.toLowerCase().includes('DGM'))
+      msg.content.toLowerCase().includes('d. gray-man') ||
+      msg.content.toLowerCase().includes('d-gray man') ||
+      msg.content.toLowerCase().includes('dgm') ||
+      msg.content.toLowerCase().includes('kubera'))
   ) {
     return 1;
   } else return 0;

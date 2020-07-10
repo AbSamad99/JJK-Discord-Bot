@@ -47,6 +47,7 @@ export const isSuggestionCheck = (msg) => {
   let suggestionsChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'server-suggestions'
   );
+  console.log(suggestionsChannel);
   if (msg.channel.id === suggestionsChannel.id) {
     return 1;
   } else return 0;

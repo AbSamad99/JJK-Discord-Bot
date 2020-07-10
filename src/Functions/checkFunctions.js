@@ -10,7 +10,8 @@ export const weebCheck = (msg) => {
     msg.content.toLowerCase().includes('naruhodo') ||
     msg.content.toLowerCase().includes('webtoonsu') ||
     msg.content.toLowerCase().includes('ningendomo') ||
-    msg.content.toLowerCase().includes('zasshu')
+    msg.content.toLowerCase().includes('zasshu') ||
+    msg.content.toLowerCase().includes('subarashi')
   ) {
     return 1;
   } else return 0;

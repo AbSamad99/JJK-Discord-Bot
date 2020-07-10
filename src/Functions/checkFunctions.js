@@ -69,7 +69,7 @@ export const containsDiscordLinkCheck = (msg) => {
 
 export const modPermsCheck = (msg) => {
   let modRole1 = msg.guild.roles.cache.find(
-    (role) => role.name === 'Special-Grade-Shaman'
+    (role) => role.name === 'Special-Grade Shaman'
   );
   let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
   if (!modRole1 || !modRole2) {

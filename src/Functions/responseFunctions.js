@@ -31,23 +31,23 @@ export const bestModResponse = (msg) => {
   if (temp === 'best mod?') {
     let chance = Math.random() * 100;
     if (chance < 20) {
-      msg.channel.send('Syed');
+      msg.channel.send('Syed').catch(console.log);
     }
     if (chance > 20 && chance < 40) {
-      msg.channel.send('Kenny');
+      msg.channel.send('Kenny').catch(console.log);
     }
     if (chance > 40 && chance < 60) {
-      msg.channel.send('Ao');
+      msg.channel.send('Ao').catch(console.log);
     }
     if (chance > 60 && chance < 80) {
-      msg.channel.send('Anco');
+      msg.channel.send('Anco').catch(console.log);
     }
     if (chance > 80) {
-      msg.channel.send('Shinya');
+      msg.channel.send('Shinya').catch(console.log);
     }
   }
   if (temp === 'syed is best mod' || temp === 'syed best mod') {
-    msg.channel.send('True');
+    msg.channel.send('True').catch(console.log);
   }
 };
 
@@ -58,27 +58,29 @@ export const otherSeriesTalkResponse = (msg) => {
   let papaEmote = emoteArray.find((emote) => emote.name === 'JJKPapaGameOver');
   let chance = Math.random() * 100;
   if (chance > 30) {
-    msg.channel.send(
-      `Please go to <#${otherSeriesChannel.id}> <:JJKPapaGameOver:${papaEmote.id}>`
-    );
+    msg.channel
+      .send(
+        `Please go to <#${otherSeriesChannel.id}> <:JJKPapaGameOver:${papaEmote.id}>`
+      )
+      .catch(console.log);
   }
 };
 
 export const xSeriesSucksResponse = (msg) => {
   let chance = Math.random() * 100;
   if (chance < 25) {
-    msg.channel.send('Facts bro');
+    msg.channel.send('Facts bro').catch(console.log);
   }
   if (chance > 25 && chance < 50) {
-    msg.channel.send('You said it bro');
+    msg.channel.send('You said it bro').catch(console.log);
   }
   if (chance > 50 && chance < 75) {
-    msg.channel.send('This dude spitting');
+    msg.channel.send('This dude spitting').catch(console.log);
   }
   if (chance > 75 && chance < 95) {
-    msg.channel.send('I agree <:100:730318095821963357>');
+    msg.channel.send('I agree <:100:730318095821963357>').catch(console.log);
   }
   if (chance > 95) {
-    msg.channel.send('Nah');
+    msg.channel.send('Nah').catch(console.log);
   }
 };

@@ -49,7 +49,6 @@ client.on('ready', async () => {
 
 client.on('messageDelete', async (msg) => {
   try {
-    console.log('message deleted');
     if (!msg.partial) {
       if (msg.attachments.array()[0]) {
         await deleteAttachmentLog(msg);
@@ -68,13 +67,17 @@ client.on('message', (msg) => {
       prefixCommandFunction(msg);
     }
     if (containsForbiddenLinkCheck(msg)) {
-      msg.delete();
-      msg.reply('Please refrain from posting links to NSFW sites');
+      msg.delete().catch(console.log);
+      msg
+        .reply('Please refrain from posting links to NSFW sites')
+        .catch(console.log);
     }
     if (containsDiscordLinkCheck(msg)) {
       if (!modPermsCheck(msg)) {
-        msg.delete();
-        msg.channel.send('Please do not link invites to other servers');
+        msg.delete().catch(console.log);
+        msg.channel
+          .send('Please do not link invites to other servers')
+          .catch(console.log);
       } else {
         console.log('mod');
       }
@@ -93,7 +96,10 @@ client.on('message', (msg) => {
       otherSeriesTalkResponse(msg);
     }
     if (isSuggestionCheck(msg)) {
-      msg.react('👍').then(() => msg.react('👎'));
+      msg
+        .react('👍')
+        .then(() => msg.react('👎'))
+        .catch(console.log);
     }
   } catch (err) {
     console.log(err);
@@ -102,7 +108,7 @@ client.on('message', (msg) => {
 
 client.on('messageUpdate', async (oldMsg, newMsg) => {
   let honoredOne = userArray.find((user) => user.name === 'The Honored One');
-  if (newMsg.author.id !== honoredOne.id) {
+  if (newMsg.author.id !== honoredOne.id && oldMsg.content !== newMsg.content) {
     try {
       await editMessageLog(oldMsg, newMsg);
     } catch (error) {

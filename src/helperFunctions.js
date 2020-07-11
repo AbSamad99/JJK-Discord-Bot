@@ -1,3 +1,4 @@
+const Discord = require('discord.js');
 import {
   chapterAnnouncement,
   pollAnnouncement,
@@ -10,6 +11,7 @@ import {
   catalogueCommand,
   chartCommand,
   encyclopediaCommand,
+  roleAssignCommand,
 } from './Functions/commandFunctions';
 
 import { modPermsCheck } from './Functions/checkFunctions.js';
@@ -39,5 +41,35 @@ export const prefixCommandFunction = (msg) => {
     chartCommand(msg);
   } else if (temp.startsWith('catalogue')) {
     catalogueCommand(msg);
+  } else if (temp.startsWith('role')) {
+    roleAssignCommand(msg);
   }
+};
+
+export const assignRole = (msg, role) => {
+  msg.member.roles
+    .add(role)
+    .then(() => {
+      let embedResponse = new Discord.MessageEmbed()
+        .setAuthor(msg.author.tag, msg.author.avatarURL())
+        .setTitle('Role Added')
+        .setColor(3447003)
+        .addField('Info:', `Added <@&${role.id}> to <@${msg.author.id}>`);
+      msg.channel.send(embedResponse);
+    })
+    .catch(console.log);
+};
+
+export const removeRole = (msg, role) => {
+  msg.member.roles
+    .remove(role)
+    .then(() => {
+      let embedResponse = new Discord.MessageEmbed()
+        .setAuthor(msg.author.tag, msg.author.avatarURL())
+        .setTitle('Role Removed')
+        .setColor(3447003)
+        .addField('Info:', `Removed <@&${role.id}> from <@${msg.author.id}>`);
+      msg.channel.send(embedResponse);
+    })
+    .catch(console.log);
 };

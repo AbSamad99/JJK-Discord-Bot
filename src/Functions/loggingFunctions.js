@@ -11,7 +11,7 @@ export const deleteMessageLog = (msg) => {
     .setColor(3447003)
     .addField('Message:', msg.content)
     .addField('Deleted at:', msg.createdAt);
-  modChannel.send(delEmbed);
+  modChannel.send(delEmbed).catch(console.log);
 };
 
 export const deleteAttachmentLog = (msg) => {
@@ -25,7 +25,7 @@ export const deleteAttachmentLog = (msg) => {
     .setColor(3447003)
     .addField('Attachment:', msg.attachments.array()[0].name)
     .addField('Deleted at:', msg.createdAt);
-  modChannel.send(delEmbed);
+  modChannel.send(delEmbed).catch(console.log);
 };
 
 export const editMessageLog = (oldMsg, newMsg) => {
@@ -40,5 +40,5 @@ export const editMessageLog = (oldMsg, newMsg) => {
     .addField('Before:', oldMsg.content)
     .addField('After:', newMsg.content)
     .addField('Edited at:', newMsg.createdAt);
-  modChannel.send(editEmbed);
+  modChannel.send(editEmbed).catch(console.log);
 };

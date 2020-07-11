@@ -126,7 +126,8 @@ export const anonMessageCommand = (msg) => {
 };
 
 export const roleAssignCommand = (msg) => {
-  console.log('start');
+  let botChannel = channelArray.find((ch) => ch.name === 'bot-commands');
+  if (msg.channel.id !== botChannel.id) return;
   let temp = msg.content.slice(1);
   temp = temp.split(' ');
   let desiredRole = msg.guild.roles.cache.find(

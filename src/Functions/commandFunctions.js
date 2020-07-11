@@ -1,9 +1,7 @@
-import { reaction_numbers } from '../utilities';
+import { reaction_numbers, channelArray, rolesArray } from '../utilities';
 export const chapterAnnouncement = (msg) => {
-  let mangaNewsRoleId = msg.guild.roles.cache.find(
-    (role) => role.name === 'Manga-News'
-  );
-  let announcementChannel = msg.member.guild.channels.cache.find(
+  let mangaNewsRoleId = rolesArray.find((role) => role.name === 'Manga-News');
+  let announcementChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'announcements'
   );
   let temp = msg.content.slice(1);
@@ -16,13 +14,13 @@ export const chapterAnnouncement = (msg) => {
   Viz: ${vizLink}
       
   Manga Plus: ${mpLink}`;
-  if (temp[1] || temp[2] || temp[3]) {
+  if (temp[1] && temp[2] && temp[3]) {
     announcementChannel.send(replyMessage);
   }
 };
 
 export const pollAnnouncement = (msg) => {
-  let announcementChannel = msg.member.guild.channels.cache.find(
+  let announcementChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'announcements'
   );
   let temp = msg.content.slice(1);
@@ -35,7 +33,6 @@ export const pollAnnouncement = (msg) => {
   \:three: Okay 
   \:two: Bad
   \:one: Awful`;
-  console.log(temp[1]);
   if (pollNumber) {
     announcementChannel.send(replyMessage).then((msg) => {
       msg.react(reaction_numbers[5]);
@@ -52,14 +49,8 @@ export const fujoCommand = (msg) => {
 };
 
 export const todoCommand = (msg) => {
-  let temp = msg.content.slice(1);
-  let welcomeChannel = msg.member.guild.channels.cache.find(
-    (ch) => ch.name === 'welcome'
-  );
-  if (
-    msg.channel.id === welcomeChannel.id &&
-    temp.toLowerCase().startsWith('todo')
-  ) {
+  let welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
+  if (msg.channel.id === welcomeChannel.id) {
     msg.channel.send(
       'https://media.discordapp.net/attachments/447410298845003777/635705498624196608/K17.png'
     );
@@ -67,14 +58,8 @@ export const todoCommand = (msg) => {
 };
 
 export const welcomeCommand = (msg) => {
-  let temp = msg.content.slice(1);
-  let welcomeChannel = msg.member.guild.channels.cache.find(
-    (ch) => ch.name === 'welcome'
-  );
-  if (
-    msg.channel.id === welcomeChannel.id &&
-    temp.toLowerCase().startsWith('welcome')
-  ) {
+  let welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
+  if (msg.channel.id === welcomeChannel.id) {
     let message = `Welcome newbie, we have three questions for you:
 1. Are you up to date on the Jujutsu Kaisen manga?
 2. Have you read the prequel?
@@ -84,31 +69,34 @@ export const welcomeCommand = (msg) => {
 };
 
 export const dontCareCommand = (msg) => {
-  let temp = msg.content.slice(1);
-  let welcomeChannel = msg.member.guild.channels.cache.find(
-    (ch) => ch.name === 'welcome'
-  );
-  if (
-    msg.channel.id === welcomeChannel.id &&
-    temp.toLowerCase().startsWith('guy')
-  ) {
+  let welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
+  if (msg.channel.id === welcomeChannel.id) {
     let message = `https://media.discordapp.net/attachments/447410298845003777/684664171174166538/20191130_235504.jpg?width=736&height=671`;
     msg.channel.send(message);
   }
 };
 
 export const shyCommand = (msg) => {
-  let temp = msg.content.slice(1);
-  let welcomeChannel = msg.member.guild.channels.cache.find(
-    (ch) => ch.name === 'welcome'
-  );
-  if (
-    msg.channel.id === welcomeChannel.id &&
-    temp.toLowerCase().startsWith('shy')
-  ) {
+  let welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
+  if (msg.channel.id === welcomeChannel.id) {
     let message = `https://cdn.discordapp.com/attachments/704934870622797904/731173904269312101/Screenshot_20200507-234318_MangaZone.jpg`;
     msg.channel.send(message);
   }
+};
+
+export const encyclopediaCommand = (msg) => {
+  let message = `https://docs.google.com/document/d/1lPQvDk8o-jjJ_8qiIFkQmdB0GKAy4WeN_38_geoDsqw/edit?usp=sharing`;
+  msg.channel.send(message);
+};
+
+export const catalogueCommand = (msg) => {
+  let message = `https://docs.google.com/document/d/1LO6ZxqUlD3elokLhkjkoHqZGumdC3XQSHHysviKrBbA/edit?usp=sharing`;
+  msg.channel.send(message);
+};
+
+export const chartCommand = (msg) => {
+  let message = `https://docs.google.com/spreadsheets/d/1pyrdfwq-Qbj2eEJIsdD3nC9906n1KOYCNEpzn-8Wpx8/edit?usp=sharing`;
+  msg.channel.send(message);
 };
 
 export const anonMessageCommand = (msg) => {

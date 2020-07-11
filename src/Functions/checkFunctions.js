@@ -1,89 +1,93 @@
-export const weebCheck = (msg) => {
-  if (
-    msg.content.toLowerCase().includes('desu') ||
-    msg.content.toLowerCase().includes('sore wa') ||
-    msg.content.toLowerCase().includes('sore de wa') ||
-    msg.content.toLowerCase().includes('shikashi') ||
-    msg.content.toLowerCase().includes('omoshiroi') ||
-    msg.content.toLowerCase().includes('bakadomo') ||
-    msg.content.toLowerCase().includes('omaye') ||
-    msg.content.toLowerCase().includes('naruhodo') ||
-    msg.content.toLowerCase().includes('webtoonsu') ||
-    msg.content.toLowerCase().includes('ningendomo') ||
-    msg.content.toLowerCase().includes('zasshu') ||
-    msg.content.toLowerCase().includes('subarashi')
-  ) {
-    return 1;
-  } else return 0;
-};
+import { channelArray, rolesArray } from '../utilities.js';
+
+// export const weebCheck = (msg) => {
+//   let temp = msg.content.toLowerCase();
+//   if (
+//     temp.includes('desu') ||
+//     temp.includes('sore wa') ||
+//     temp.includes('sore de wa') ||
+//     temp.includes('shikashi') ||
+//     temp.includes('omoshiroi') ||
+//     temp.includes('bakadomo') ||
+//     temp.includes('omaye') ||
+//     temp.includes('naruhodo') ||
+//     temp.includes('webtoonsu') ||
+//     temp.includes('ningendomo') ||
+//     temp.includes('zasshu') ||
+//     temp.includes('subarashi')
+//   ) {
+//     return 1;
+//   } else return 0;
+// };
 
 export const otherSeriesTalkCheck = (msg) => {
-  let otherSeriesChannel = msg.guild.channels.cache.find(
+  let temp = msg.content.toLowerCase();
+  let otherSeriesChannel = channelArray.find(
     (ch) => ch.name === 'other-series'
   );
+  if (!otherSeriesChannel) {
+    return;
+  }
   if (
     msg.channel.id !== otherSeriesChannel.id &&
-    (msg.content.toLowerCase().includes('fate') ||
-      msg.content.toLowerCase().includes('nasu') ||
-      msg.content.toLowerCase().includes('d gray man') ||
-      msg.content.toLowerCase().includes('d. gray-man') ||
-      msg.content.toLowerCase().includes('d-gray man') ||
-      msg.content.toLowerCase().includes('dgm') ||
-      msg.content.toLowerCase().includes('kubera'))
+    (temp.includes('fate') ||
+      temp.includes('nasu') ||
+      temp.includes('d gray man') ||
+      temp.includes('d. gray-man') ||
+      temp.includes('d-gray man') ||
+      temp.includes('dgm') ||
+      temp.includes('kubera'))
   ) {
     return 1;
   } else return 0;
 };
 
 export const xSeriesSucksCheck = (msg) => {
+  let temp = msg.content.toLowerCase();
   if (
-    msg.content.toLowerCase() === 'fate sucks' ||
-    msg.content.toLowerCase() === 'd gray man sucks' ||
-    msg.content.toLowerCase() === 'kubera sucks' ||
-    msg.content.toLowerCase() === 'dgm sucks' ||
-    msg.content.toLowerCase() === 'd. gray-man sucks'
+    temp === 'fate sucks' ||
+    temp === 'd gray man sucks' ||
+    temp === 'kubera sucks' ||
+    temp === 'dgm sucks' ||
+    temp === 'd. gray-man sucks'
   ) {
     return 1;
   } else return 0;
 };
 
 export const isSuggestionCheck = (msg) => {
-  let suggestionsChannel = msg.guild.channels.cache.find(
+  let suggestionsChannel = channelArray.find(
     (ch) => ch.name === 'server-suggestions'
   );
+  if (!suggestionsChannel) {
+    return;
+  }
   if (msg.channel.id === suggestionsChannel.id) {
     return 1;
   } else return 0;
 };
 
 export const containsForbiddenLinkCheck = (msg) => {
-  if (msg.content.toLowerCase().includes('pornhub.com' || 'nhentai.net')) {
-    return true;
-  } else return false;
+  let temp = msg.content.toLowerCase();
+  if (temp.includes('pornhub.com') || temp.includes('nhentai.net')) {
+    return 1;
+  } else return 0;
 };
 
 export const containsDiscordLinkCheck = (msg) => {
-  if (
-    msg.content.toLowerCase().includes('discord.gg/') ||
-    msg.content.toLowerCase().includes('discordapp.com/invite/')
-  ) {
-    return true;
-  } else return false;
+  let temp = msg.content.toLowerCase();
+  if (temp.includes('discord.gg/') || temp.includes('discordapp.com/invite/')) {
+    return 1;
+  } else return 0;
 };
 
 export const modPermsCheck = (msg) => {
-  let modRole1 = msg.guild.roles.cache.find(
+  let temp = msg.member.roles.cache;
+  let modRole1 = rolesArray.find(
     (role) => role.name === 'Special-Grade Shaman'
   );
-  let modRole2 = msg.guild.roles.cache.find((role) => role.name === 'admin');
-  if (!modRole1 || !modRole2) {
-    modRole1 = msg.guild.roles.cache.find((role) => role.name === 'Admin');
-    modRole2 = msg.guild.roles.cache.find((role) => role.name === 'Mod');
-  }
-  if (
-    msg.member.roles.cache.has(modRole1.id) ||
-    msg.member.roles.cache.has(modRole2.id)
-  ) {
+  let modRole2 = rolesArray.find((role) => role.name === 'admin');
+  if (temp.has(modRole1.id) || temp.has(modRole2.id)) {
     return 1;
   } else return 0;
 };

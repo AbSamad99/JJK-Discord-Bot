@@ -9,8 +9,8 @@ import { prefixCommandFunction } from './helperFunctions';
 import { userArray } from './utilities.js';
 
 import {
-  // weebResponse,
-  // nfufuResponse,
+  weebResponse,
+  nfufuResponse,
   bestModResponse,
   otherSeriesTalkResponse,
   xSeriesSucksResponse,
@@ -21,7 +21,7 @@ import {
   containsForbiddenLinkCheck,
   isSuggestionCheck,
   otherSeriesTalkCheck,
-  //weebCheck,
+  weebCheck,
   xSeriesSucksCheck,
   modPermsCheck,
 } from './Functions/checkFunctions';
@@ -85,11 +85,11 @@ client.on('message', (msg) => {
     if (msg.content.includes('mod')) {
       bestModResponse(msg);
     }
-    // if (msg.content.toLowerCase().includes('nfufu')) {
-    //   nfufuResponse(msg);
-    // } else if (weebCheck(msg)) {
-    //   weebResponse(msg);
-    // }
+    if (msg.content.toLowerCase().includes('nfufu')) {
+      nfufuResponse(msg);
+    } else if (weebCheck(msg)) {
+      weebResponse(msg);
+    }
     if (xSeriesSucksCheck(msg)) {
       xSeriesSucksResponse(msg);
     } else if (otherSeriesTalkCheck(msg)) {

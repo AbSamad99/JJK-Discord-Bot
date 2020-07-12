@@ -1,24 +1,28 @@
 import { channelArray, rolesArray } from '../utilities.js';
 
-// export const weebCheck = (msg) => {
-//   let temp = msg.content.toLowerCase();
-//   if (
-//     temp.includes('desu') ||
-//     temp.includes('sore wa') ||
-//     temp.includes('sore de wa') ||
-//     temp.includes('shikashi') ||
-//     temp.includes('omoshiroi') ||
-//     temp.includes('bakadomo') ||
-//     temp.includes('omaye') ||
-//     temp.includes('naruhodo') ||
-//     temp.includes('webtoonsu') ||
-//     temp.includes('ningendomo') ||
-//     temp.includes('zasshu') ||
-//     temp.includes('subarashi')
-//   ) {
-//     return 1;
-//   } else return 0;
-// };
+export const weebCheck = (msg) => {
+  let honoredOneRole = rolesArray.find(
+    (role) => role.name === 'The Honored One'
+  );
+  if (honoredOneRole.id === msg.author.id) return 0;
+  let temp = msg.content.toLowerCase();
+  if (
+    temp.includes('desu') ||
+    temp.includes('sore wa') ||
+    temp.includes('sore de wa') ||
+    temp.includes('shikashi') ||
+    temp.includes('omoshiroi') ||
+    temp.includes('bakadomo') ||
+    temp.includes('omaye') ||
+    temp.includes('naruhodo') ||
+    temp.includes('webtoonsu') ||
+    temp.includes('ningendomo') ||
+    temp.includes('zasshu') ||
+    temp.includes('subarashi')
+  ) {
+    return 1;
+  } else return 0;
+};
 
 export const otherSeriesTalkCheck = (msg) => {
   let temp = msg.content.toLowerCase();

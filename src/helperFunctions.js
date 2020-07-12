@@ -1,4 +1,5 @@
 const Discord = require('discord.js');
+const ms = require('ms');
 import {
   chapterAnnouncement,
   pollAnnouncement,
@@ -12,6 +13,7 @@ import {
   chartCommand,
   encyclopediaCommand,
   roleAssignCommand,
+  muteCommand,
 } from './Functions/commandFunctions';
 
 import { modPermsCheck } from './Functions/checkFunctions.js';
@@ -25,21 +27,23 @@ export const prefixCommandFunction = (msg) => {
     chapterAnnouncement(msg);
   } else if (temp.startsWith('message') && modPermsCheck(msg)) {
     anonMessageCommand(msg);
-  } else if (temp.startsWith('fujo')) {
+  } else if (temp.startsWith('mute') && modPermsCheck(msg)) {
+    muteCommand(msg);
+  } else if (temp === 'fujo') {
     fujoCommand(msg);
-  } else if (temp.startsWith('todo')) {
+  } else if (temp === 'todo') {
     todoCommand(msg);
-  } else if (temp.startsWith('welcome')) {
+  } else if (temp === 'welcome') {
     welcomeCommand(msg);
-  } else if (temp.startsWith('guy')) {
+  } else if (temp === 'guy') {
     dontCareCommand(msg);
-  } else if (temp.startsWith('shy')) {
+  } else if (temp === 'shy') {
     shyCommand(msg);
-  } else if (temp.startsWith('encyclopedia')) {
+  } else if (temp === 'encyclopedia') {
     encyclopediaCommand(msg);
-  } else if (temp.startsWith('chart')) {
+  } else if (temp === 'chart') {
     chartCommand(msg);
-  } else if (temp.startsWith('catalogue')) {
+  } else if (temp === 'catalogue') {
     catalogueCommand(msg);
   } else if (temp.startsWith('role')) {
     roleAssignCommand(msg);
@@ -72,4 +76,21 @@ export const removeRole = (msg, role) => {
       msg.channel.send(embedResponse);
     })
     .catch(console.log);
+};
+
+export const assignMuteRole = (msg, toMute, muteRole, time) => {
+  toMute.roles
+    .add(muteRole)
+    .then(() => {
+      let embedResponse = new Discord.MessageEmbed()
+        .setAuthor(msg.author.tag, msg.author.avatarURL())
+        .setTitle('User Muted')
+        .setColor(3447003)
+        .addField('Info:', `<@${toMute.id}> has been muted for ${time}`);
+      msg.channel.send(embedResponse);
+    })
+    .catch(console.log);
+  setTimeout(() => {
+    toMute.roles.remove(muteRole).catch(console.log);
+  }, ms(time));
 };

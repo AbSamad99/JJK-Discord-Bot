@@ -1,30 +1,68 @@
-// export const weebResponse = (msg) => {
-//   let chance = Math.random() * 100;
-//   if (chance < 33) {
-//     msg.channel.send('Weeb');
-//   }
-//   if (chance > 33 && chance < 66) {
-//     msg.channel.send('Stop that weebanese');
-//   }
-//   if (chance > 66) {
-//     msg.channel.send('We need a Mega-Weeb role');
-//   }
-// };
+import { emoteArray, channelArray, userArray } from '../utilities.js';
 
-// export const nfufuResponse = (msg) => {
-//   let chance = Math.random() * 100;
-//   if (chance < 33) {
-//     msg.channel.send('Cringe');
-//   }
-//   if (chance > 33 && chance < 66) {
-//     msg.channel.send('Please stop saying that, its cringe af');
-//   }
-//   if (chance > 66) {
-//     msg.channel.send('I wish we still had the cringe role');
-//   }
-// };
+export const weebResponse = (msg) => {
+  let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
+  let papaWat = emoteArray.find((emote) => emote.name === 'JJKPapawat');
+  let generalChannel = channelArray.find((ch) => ch.name === 'general');
+  let memesChannel = channelArray.find(
+    (ch) => ch.name === 'memes-and-shitposting'
+  );
+  if (
+    msg.channel.id !== generalChannel.id &&
+    msg.channel.id !== memesChannel.id &&
+    msg.channel.id !== testChannel.id
+  )
+    return;
+  let chance = Math.random() * 100;
+  if (chance < 20) {
+    msg.channel.send('Weeb');
+  }
+  if (chance > 20 && chance < 40) {
+    msg.channel.send(`<:JJKPapawat${papaWat.id}:`);
+  }
+  if (chance > 40 && chance < 60) {
+    msg.channel.send('L');
+  }
+  if (chance > 60 && chance < 80) {
+    msg.channel.send('Why are you like this');
+  }
+  if (chance > 80) {
+    msg.channel.send('I wish we still had the cringe role');
+  }
+};
 
-import { emoteArray, channelArray } from '../utilities.js';
+export const nfufuResponse = (msg) => {
+  let honoredOne = userArray.find((user) => user.name === 'The Honored One');
+  if (honoredOne.id === msg.author.id) return;
+  let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
+  let papaWat = emoteArray.find((emote) => emote.name === 'JJKPapawat');
+  let generalChannel = channelArray.find((ch) => ch.name === 'general');
+  let memesChannel = channelArray.find(
+    (ch) => ch.name === 'memes-and-shitposting'
+  );
+  if (
+    msg.channel.id !== generalChannel.id &&
+    msg.channel.id !== memesChannel.id &&
+    msg.channel.id !== testChannel.id
+  )
+    return;
+  let chance = Math.random() * 100;
+  if (chance < 20) {
+    msg.channel.send('Cringe');
+  }
+  if (chance > 20 && chance < 40) {
+    msg.channel.send('Kokokoko');
+  }
+  if (chance > 40 && chance < 60) {
+    msg.channel.send('L');
+  }
+  if (chance > 60 && chance < 80) {
+    msg.channel.send(`<:JJKPapawat:${papaWat.id}>`);
+  }
+  if (chance > 80) {
+    msg.channel.send('nfufufu');
+  }
+};
 
 export const bestModResponse = (msg) => {
   let temp = msg.content.toLowerCase();

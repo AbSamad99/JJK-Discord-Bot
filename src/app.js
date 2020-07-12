@@ -37,6 +37,10 @@ import {
   deleteMessageLog,
   deleteAttachmentLog,
   editMessageLog,
+  addedNicknameLog,
+  changedNicknameLog,
+  removedNicknameLog,
+  changedAvatarLog,
 } from './Functions/loggingFunctions.js';
 
 client.on('ready', async () => {
@@ -114,6 +118,28 @@ client.on('messageUpdate', async (oldMsg, newMsg) => {
     } catch (error) {
       console.log(error);
     }
+  }
+});
+
+client.on('guildMemberUpdate', async (oldMem, newMem) => {
+  try {
+    if (!oldMem.nickname && newMem.nickname) {
+      addedNicknameLog(oldMem, newMem);
+    } else if (oldMem.nickname && !newMem.nickname) {
+      removedNicknameLog(oldMem, newMem);
+    } else if (
+      oldMem.nickname &&
+      newMem.nickname &&
+      oldMem.nickname !== newMem.nickname
+    ) {
+      changedNicknameLog(oldMem, newMem);
+    } else if (
+      oldMem.roles.cache.array().length === newMem.roles.cache.array().length
+    ) {
+      changedAvatarLog(oldMem, newMem);
+    }
+  } catch (err) {
+    console.log(err);
   }
 });
 

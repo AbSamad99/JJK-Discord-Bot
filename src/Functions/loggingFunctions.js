@@ -10,7 +10,7 @@ export const deleteMessageLog = (msg) => {
     .setTitle(`Message deleted in #${deletedChannel.name}`)
     .setColor(3447003)
     .addField('Message:', msg.content)
-    .addField('Deleted at:', msg.createdAt);
+    .setFooter(new Date());
   modChannel.send(delEmbed).catch(console.log);
 };
 
@@ -24,7 +24,7 @@ export const deleteAttachmentLog = (msg) => {
     .setTitle(`Message deleted in #${deletedChannel.name}`)
     .setColor(3447003)
     .addField('Attachment:', msg.attachments.array()[0].name)
-    .addField('Deleted at:', msg.createdAt);
+    .setFooter(new Date());
   modChannel.send(delEmbed).catch(console.log);
 };
 
@@ -39,6 +39,62 @@ export const editMessageLog = (oldMsg, newMsg) => {
     .setColor(3447003)
     .addField('Before:', oldMsg.content)
     .addField('After:', newMsg.content)
-    .addField('Edited at:', newMsg.createdAt);
+    .setFooter(new Date());
   modChannel.send(editEmbed).catch(console.log);
+};
+
+export const addedNicknameLog = (oldMem, newMem) => {
+  let modChannel = newMem.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
+  let addedNicknameEmbed = new Discord.MessageEmbed()
+    .setAuthor(newMem.user.tag, newMem.user.avatarURL())
+    .setTitle(`Nickname added`)
+    .setColor(3447003)
+    .addField('Before:', oldMem.displayName)
+    .addField('After:', newMem.nickname)
+    .setFooter(new Date());
+  modChannel.send(addedNicknameEmbed).catch(console.log);
+};
+
+export const removedNicknameLog = (oldMem, newMem) => {
+  let modChannel = newMem.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
+  let removedNicknameEmbed = new Discord.MessageEmbed()
+    .setAuthor(newMem.user.tag, newMem.user.avatarURL())
+    .setTitle(`Nickname removed`)
+    .setColor(3447003)
+    .addField('Before:', oldMem.nickname)
+    .addField('After:', newMem.displayName)
+    .setFooter(new Date());
+  modChannel.send(removedNicknameEmbed).catch(console.log);
+};
+
+export const changedNicknameLog = (oldMem, newMem) => {
+  let modChannel = newMem.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
+  let changedNicknameEmbed = new Discord.MessageEmbed()
+    .setAuthor(newMem.user.tag, newMem.user.avatarURL())
+    .setTitle(`Nickname changed`)
+    .setColor(3447003)
+    .addField('Before:', oldMem.nickname)
+    .addField('After:', newMem.nickname)
+    .setFooter(new Date());
+  modChannel.send(changedNicknameEmbed).catch(console.log);
+};
+
+export const changedAvatarLog = (oldMem, newMem) => {
+  let modChannel = newMem.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
+  let changedAvatarEmbed = new Discord.MessageEmbed()
+    .setAuthor(newMem.user.tag, newMem.user.avatarURL())
+    .setTitle(`Avatar changed`)
+    .setColor(3447003)
+    .setImage(`${newMem.user.avatarURL()}?size=1024`)
+    .setDescription(`<@${newMem.user.id}>`)
+    .setFooter(new Date());
+  modChannel.send(changedAvatarEmbed).catch(console.log);
 };

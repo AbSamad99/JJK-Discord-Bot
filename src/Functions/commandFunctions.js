@@ -1,10 +1,13 @@
-import { reaction_numbers, channelArray, rolesArray } from '../utilities';
-import { assignRole, removeRole, assignMuteRole } from '../helperFunctions.js';
+import { channelArray, rolesArray } from '../utilities';
+import { assignMuteRole, assignRole, removeRole } from './roleFunctions.js';
 import { hasRoleCheck, lockedRolesCheck } from './checkFunctions.js';
-import ms from 'ms';
 
 export const chapterAnnouncement = (msg) => {
-  let mangaNewsRoleId = rolesArray.find((role) => role.name === 'Manga-News');
+  let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
+  let practiceChannel = channelArray.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
+  let mangaNewsRole = rolesArray.find((role) => role.name === 'Manga News');
   let announcementChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'announcements'
   );
@@ -13,17 +16,26 @@ export const chapterAnnouncement = (msg) => {
   let chapterNumber = temp[1];
   let vizLink = temp[2];
   let mpLink = temp[3];
-  let replyMessage = `<@&${mangaNewsRoleId.id}> Chapter ${chapterNumber} is out!
+  let replyMessage = `<@&${mangaNewsRole.id}> Chapter ${chapterNumber} is out!
   
   Viz: ${vizLink}
       
   Manga Plus: ${mpLink}`;
   if (temp[1] && temp[2] && temp[3]) {
-    announcementChannel.send(replyMessage).catch(console.log);
+    if (msg.channel.id === practiceChannel.id) {
+      msg.channel.send(replyMessage).catch(console.log);
+    } else if (msg.channel.id === modBotChannel.id) {
+      announcementChannel.send(replyMessage).catch(console.log);
+    }
+  } else {
+    msg.channel
+      .send('Please follow the proper syntax of the command')
+      .catch(console.log);
   }
 };
 
 export const pollAnnouncement = (msg) => {
+  let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
   let announcementChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'announcements'
   );
@@ -41,11 +53,11 @@ export const pollAnnouncement = (msg) => {
     announcementChannel
       .send(replyMessage)
       .then((msg) => {
-        msg.react(reaction_numbers[5]);
-        msg.react(reaction_numbers[4]);
-        msg.react(reaction_numbers[3]);
-        msg.react(reaction_numbers[2]);
-        msg.react(reaction_numbers[1]);
+        msg.react('5️⃣');
+        msg.react('4️⃣');
+        msg.react('3️⃣');
+        msg.react('2️⃣');
+        msg.react('1️⃣');
       })
       .catch(console.log);
   }
@@ -144,7 +156,9 @@ export const anonMessageCommand = (msg) => {
 
 export const roleAssignCommand = (msg) => {
   let botChannel = channelArray.find((ch) => ch.name === 'bot-commands');
-  let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
+  let testChannel = msg.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
   if (msg.channel.id !== botChannel.id && msg.channel.id !== testChannel.id)
     return;
   let temp = msg.content.slice(1);
@@ -155,13 +169,16 @@ export const roleAssignCommand = (msg) => {
   if (!desiredRole) return;
   if (lockedRolesCheck(desiredRole)) return;
   if (!hasRoleCheck(msg, desiredRole)) {
-    assignRole(msg, desiredRole);
+    assignRole(msg, desiredRole, testChannel);
   } else {
-    removeRole(msg, desiredRole);
+    removeRole(msg, desiredRole, testChannel);
   }
 };
 
 export const muteCommand = (msg) => {
+  let testChannel = msg.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
   let toMute = msg.mentions.members.array()[0];
   if (!toMute) {
     msg.channel.send('Please mestion a user to mute');
@@ -176,7 +193,7 @@ export const muteCommand = (msg) => {
     return;
   } else if (
     isNaN(temp[2]) ||
-    (temp[3] !== 'm' && temp[3] !== 's' && temp[3] !== 'd')
+    (temp[3] !== 'm' && temp[3] !== 's' && temp[3] !== 'd' && temp[3] !== 'd')
   ) {
     msg.channel.send('Please specify valid time format');
     return;
@@ -186,5 +203,5 @@ export const muteCommand = (msg) => {
     return;
   }
   let time = temp[2].concat(temp[3]);
-  assignMuteRole(msg, toMute, muteRole, time);
+  assignMuteRole(msg, toMute, muteRole, time, testChannel);
 };

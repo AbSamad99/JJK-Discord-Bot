@@ -89,6 +89,12 @@ export const changedAvatarLog = (oldMem, newMem) => {
   let modChannel = newMem.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
   );
+  let user = newMem.guild.members.cache.find(
+    (mem) => mem.id === newMem.user.id
+  );
+  console.log(user.id);
+  if (!user) return;
+  console.log('passed');
   let changedAvatarEmbed = new Discord.MessageEmbed()
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
     .setTitle(`Avatar changed`)

@@ -6,7 +6,6 @@ const client = new Discord.Client({ partials: ['MESSAGE'] });
 
 import { prefix } from './utilities';
 import { prefixCommandFunction } from './helperFunctions';
-import { userArray } from './utilities.js';
 
 import {
   weebResponse,
@@ -111,7 +110,9 @@ client.on('message', (msg) => {
 });
 
 client.on('messageUpdate', async (oldMsg, newMsg) => {
-  let honoredOne = userArray.find((user) => user.name === 'The Honored One');
+  let honoredOne = newMsg.guild.members.cache.find(
+    (user) => user.name === 'The Honored One'
+  );
   if (newMsg.author.id !== honoredOne.id && oldMsg.content !== newMsg.content) {
     try {
       await editMessageLog(oldMsg, newMsg);
@@ -141,6 +142,10 @@ client.on('guildMemberUpdate', async (oldMem, newMem) => {
   } catch (err) {
     console.log(err);
   }
+});
+
+client.on('guildMemberAdd', (mem) => {
+  console.log(mem);
 });
 
 client.login(process.env.token);

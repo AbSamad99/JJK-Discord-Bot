@@ -13,7 +13,8 @@ export const deleteMessageLog = (msg, excecuter, target) => {
       .setAuthor(msg.author.tag, msg.author.avatarURL())
       .setTitle(`Message deleted in #${deletedChannel.name}`)
       .setColor(3447003)
-      .addField('Author:', msg.author.tag)
+      .setThumbnail(msg.author.avatarURL())
+      .addField('Author:', `<@${msg.author.id}>`)
       .addField('Message:', msg.content)
       .setFooter(new Date());
   } else {
@@ -22,7 +23,8 @@ export const deleteMessageLog = (msg, excecuter, target) => {
       .setAuthor(excecuter.tag, excecuter.avatarURL())
       .setTitle(`Message deleted in #${deletedChannel.name}`)
       .setColor(3447003)
-      .addField('Author:', target.tag)
+      .setThumbnail(msg.author.avatarURL())
+      .addField('Author:', `<@${target.id}>`)
       .addField('Message:', msg.content)
       .setFooter(new Date());
   }
@@ -37,12 +39,14 @@ export const deleteAttachmentLog = (msg, excecuter, target) => {
   let deletedChannel = msg.channel;
   let delEmbed;
   if (!excecuter && !target) {
+    console.log(msg.attachments.array()[0].proxyURL);
     //self delete
     delEmbed = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, msg.author.avatarURL())
       .setTitle(`Attachment deleted in #${deletedChannel.name}`)
       .setColor(3447003)
-      .addField('Author:', msg.author.tag)
+      .setThumbnail(msg.author.avatarURL())
+      .addField('Author:', `<@${msg.author.id}>`)
       .addField('Attachment:', msg.attachments.array()[0].name)
       .setFooter(new Date());
   } else {
@@ -51,7 +55,8 @@ export const deleteAttachmentLog = (msg, excecuter, target) => {
       .setAuthor(excecuter.tag, excecuter.avatarURL())
       .setTitle(`Attachment deleted in #${deletedChannel.name}`)
       .setColor(3447003)
-      .addField('Author:', target.tag)
+      .setThumbnail(msg.author.avatarURL())
+      .addField('Author:', `<@${target.id}>`)
       .addField('Attachment:', msg.attachments.array()[0].name)
       .setFooter(new Date());
   }
@@ -68,6 +73,7 @@ export const editMessageLog = (oldMsg, newMsg) => {
     .setAuthor(newMsg.author.tag, newMsg.author.avatarURL())
     .setTitle(`Message edited in #${editedChannel.name}`)
     .setColor(3447003)
+    .setThumbnail(newMsg.author.avatarURL())
     .addField('Before:', oldMsg.content)
     .addField('After:', newMsg.content)
     .setFooter(new Date());
@@ -83,6 +89,7 @@ export const addedNicknameLog = (newMem, newNick) => {
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
     .setTitle(`Nickname added`)
     .setColor(3447003)
+    .setThumbnail(newMem.user.avatarURL())
     .addField('Before:', newMem.user.username)
     .addField('After:', newNick)
     .setFooter(new Date());
@@ -98,6 +105,7 @@ export const removedNicknameLog = (newMem, oldNick) => {
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
     .setTitle(`Nickname removed`)
     .setColor(3447003)
+    .setThumbnail(newMem.user.avatarURL())
     .addField('Before:', oldNick)
     .addField('After:', newMem.user.username)
     .setFooter(new Date());
@@ -113,6 +121,7 @@ export const changedNicknameLog = (newMem, oldNick, newNick) => {
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
     .setTitle(`Nickname changed`)
     .setColor(3447003)
+    .setThumbnail(newMem.user.avatarURL())
     .addField('Before:', oldNick)
     .addField('After:', newNick)
     .setFooter(new Date());
@@ -126,6 +135,7 @@ export const changedUsername = (newMem, oldUsn, newUsn) => {
   );
   let changedNicknameEmbed = new Discord.MessageEmbed()
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
+    .setThumbnail(newMem.user.avatarURL())
     .setTitle(`Nickname changed`)
     .setColor(3447003)
     .addField('Before:', oldNick)
@@ -134,7 +144,7 @@ export const changedUsername = (newMem, oldUsn, newUsn) => {
   modChannel.send(changedNicknameEmbed).catch(console.log);
 };
 
-//logs avatar updates
+//logs avatar updates-needs work
 export const changedAvatarLog = (oldMem, newMem) => {
   let modChannel = newMem.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'

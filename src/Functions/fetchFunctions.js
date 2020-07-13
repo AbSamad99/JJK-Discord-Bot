@@ -5,12 +5,14 @@ import {
   rolesArray,
 } from '../utilities.js';
 
+//fetches array of all users
 export const fetchUsers = (client) => {
   client.users.cache.array().forEach((user) => {
     userArray.push({ name: user.username, id: user.id });
   });
 };
 
+//fetches array of all channels
 export const fetchChannels = (client) => {
   client.channels.cache.array().forEach((channel) => {
     if (channel.type === 'category') {
@@ -25,6 +27,7 @@ export const fetchChannels = (client) => {
   });
 };
 
+//fetches array of all emotes
 export const fetchEmotes = (client) => {
   client.emojis.cache.array().forEach((emote) => {
     emoteArray.push({
@@ -35,6 +38,7 @@ export const fetchEmotes = (client) => {
   });
 };
 
+//fetches array of all roles
 export const fetchRoles = (client) => {
   client.guilds.cache
     .array()[0]

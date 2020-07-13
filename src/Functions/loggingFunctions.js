@@ -1,33 +1,64 @@
 const Discord = require('discord.js');
 
-export const deleteMessageLog = (msg) => {
+//Logs deleted messages and who deleted them
+export const deleteMessageLog = (msg, excecuter, target) => {
+  let delEmbed;
   let modChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
   );
   let deletedChannel = msg.channel;
-  let delEmbed = new Discord.MessageEmbed()
-    .setAuthor(msg.author.tag, msg.author.avatarURL())
-    .setTitle(`Message deleted in #${deletedChannel.name}`)
-    .setColor(3447003)
-    .addField('Message:', msg.content)
-    .setFooter(new Date());
+  if (!excecuter && !target) {
+    //self delete
+    delEmbed = new Discord.MessageEmbed()
+      .setAuthor(msg.author.tag, msg.author.avatarURL())
+      .setTitle(`Message deleted in #${deletedChannel.name}`)
+      .setColor(3447003)
+      .addField('Author:', msg.author.tag)
+      .addField('Message:', msg.content)
+      .setFooter(new Date());
+  } else {
+    //mod delete
+    delEmbed = new Discord.MessageEmbed()
+      .setAuthor(excecuter.tag, excecuter.avatarURL())
+      .setTitle(`Message deleted in #${deletedChannel.name}`)
+      .setColor(3447003)
+      .addField('Author:', target.tag)
+      .addField('Message:', msg.content)
+      .setFooter(new Date());
+  }
   modChannel.send(delEmbed).catch(console.log);
 };
 
-export const deleteAttachmentLog = (msg) => {
+//Logs deleted attachments and who deleted them
+export const deleteAttachmentLog = (msg, excecuter, target) => {
   let modChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
   );
   let deletedChannel = msg.channel;
-  let delEmbed = new Discord.MessageEmbed()
-    .setAuthor(msg.author.tag, msg.author.avatarURL())
-    .setTitle(`Message deleted in #${deletedChannel.name}`)
-    .setColor(3447003)
-    .addField('Attachment:', msg.attachments.array()[0].name)
-    .setFooter(new Date());
+  let delEmbed;
+  if (!excecuter && !target) {
+    //self delete
+    delEmbed = new Discord.MessageEmbed()
+      .setAuthor(msg.author.tag, msg.author.avatarURL())
+      .setTitle(`Attachment deleted in #${deletedChannel.name}`)
+      .setColor(3447003)
+      .addField('Author:', msg.author.tag)
+      .addField('Attachment:', msg.attachments.array()[0].name)
+      .setFooter(new Date());
+  } else {
+    //mod delete
+    delEmbed = new Discord.MessageEmbed()
+      .setAuthor(excecuter.tag, excecuter.avatarURL())
+      .setTitle(`Attachment deleted in #${deletedChannel.name}`)
+      .setColor(3447003)
+      .addField('Author:', target.tag)
+      .addField('Attachment:', msg.attachments.array()[0].name)
+      .setFooter(new Date());
+  }
   modChannel.send(delEmbed).catch(console.log);
 };
 
+//logs edited messages
 export const editMessageLog = (oldMsg, newMsg) => {
   let modChannel = newMsg.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
@@ -43,7 +74,8 @@ export const editMessageLog = (oldMsg, newMsg) => {
   modChannel.send(editEmbed).catch(console.log);
 };
 
-export const addedNicknameLog = (oldMem, newMem) => {
+//logs nickname addition
+export const addedNicknameLog = (newMem, newNick) => {
   let modChannel = newMem.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
   );
@@ -51,13 +83,14 @@ export const addedNicknameLog = (oldMem, newMem) => {
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
     .setTitle(`Nickname added`)
     .setColor(3447003)
-    .addField('Before:', oldMem.displayName)
-    .addField('After:', newMem.nickname)
+    .addField('Before:', newMem.user.username)
+    .addField('After:', newNick)
     .setFooter(new Date());
   modChannel.send(addedNicknameEmbed).catch(console.log);
 };
 
-export const removedNicknameLog = (oldMem, newMem) => {
+//logs nickname removal
+export const removedNicknameLog = (newMem, oldNick) => {
   let modChannel = newMem.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
   );
@@ -65,13 +98,14 @@ export const removedNicknameLog = (oldMem, newMem) => {
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
     .setTitle(`Nickname removed`)
     .setColor(3447003)
-    .addField('Before:', oldMem.nickname)
-    .addField('After:', newMem.displayName)
+    .addField('Before:', oldNick)
+    .addField('After:', newMem.user.username)
     .setFooter(new Date());
   modChannel.send(removedNicknameEmbed).catch(console.log);
 };
 
-export const changedNicknameLog = (oldMem, newMem) => {
+//logs nickname changes
+export const changedNicknameLog = (newMem, oldNick, newNick) => {
   let modChannel = newMem.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
   );
@@ -79,12 +113,28 @@ export const changedNicknameLog = (oldMem, newMem) => {
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
     .setTitle(`Nickname changed`)
     .setColor(3447003)
-    .addField('Before:', oldMem.nickname)
-    .addField('After:', newMem.nickname)
+    .addField('Before:', oldNick)
+    .addField('After:', newNick)
     .setFooter(new Date());
   modChannel.send(changedNicknameEmbed).catch(console.log);
 };
 
+//logs username changes
+export const changedUsername = (newMem, oldUsn, newUsn) => {
+  let modChannel = newMem.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
+  let changedNicknameEmbed = new Discord.MessageEmbed()
+    .setAuthor(newMem.user.tag, newMem.user.avatarURL())
+    .setTitle(`Nickname changed`)
+    .setColor(3447003)
+    .addField('Before:', oldNick)
+    .addField('After:', newNick)
+    .setFooter(new Date());
+  modChannel.send(changedNicknameEmbed).catch(console.log);
+};
+
+//logs avatar updates
 export const changedAvatarLog = (oldMem, newMem) => {
   let modChannel = newMem.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
@@ -92,9 +142,9 @@ export const changedAvatarLog = (oldMem, newMem) => {
   let user = newMem.guild.members.cache.find(
     (mem) => mem.id === newMem.user.id
   );
-  console.log(user.id);
+  // console.log(user.id);
   if (!user) return;
-  console.log('passed');
+  // console.log('passed');
   let changedAvatarEmbed = new Discord.MessageEmbed()
     .setAuthor(newMem.user.tag, newMem.user.avatarURL())
     .setTitle(`Avatar changed`)

@@ -9,7 +9,7 @@ export const assignRole = (msg, role, testChannel) => {
     .setDescription(`Added <@&${role.id}> to <@${msg.author.id}>`)
     .setFooter(new Date());
   msg.member.roles
-    .add(role)
+    .add(role.id)
     .then(() => {
       msg.channel.send(embedResponse);
     })
@@ -28,7 +28,7 @@ export const removeRole = (msg, role, testChannel) => {
     .setFooter(new Date());
 
   msg.member.roles
-    .remove(role)
+    .remove(role.id)
     .then(() => {
       msg.channel.send(embedResponse);
     })
@@ -52,7 +52,7 @@ export const assignMuteRole = (msg, toMute, muteRole, time, testChannel) => {
     .setDescription(`<@${toMute.id}> has been unmuted`)
     .setFooter(new Date());
   toMute.roles
-    .add(muteRole)
+    .add(muteRole.id)
     .then(() => {
       msg.channel.send(addEmbedResponse);
     })
@@ -62,7 +62,7 @@ export const assignMuteRole = (msg, toMute, muteRole, time, testChannel) => {
     .catch(console.log);
   setTimeout(() => {
     toMute.roles
-      .remove(muteRole)
+      .remove(muteRole.id)
       .then(() => {
         testChannel.send(removeEmbedResponse);
       })

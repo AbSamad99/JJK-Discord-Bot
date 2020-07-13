@@ -4,7 +4,12 @@ dotenv.config();
 
 const client = new Discord.Client({ partials: ['MESSAGE'] });
 
-import { prefix } from './utilities';
+import {
+  prefix,
+  previousDeleteLogCount,
+  previousDeleteLogId,
+  previousMemberUpdateLogId,
+} from './utilities';
 import { prefixCommandFunction } from './helperFunctions';
 
 import {
@@ -40,7 +45,10 @@ import {
   changedNicknameLog,
   removedNicknameLog,
   changedAvatarLog,
+  changedUsername,
 } from './Functions/loggingFunctions.js';
+
+import { userArray } from './utilities';
 
 client.on('ready', async () => {
   console.log(`Logged in as The Honored One`);
@@ -48,19 +56,77 @@ client.on('ready', async () => {
   await fetchChannels(client);
   await fetchEmotes(client);
   await fetchRoles(client);
+  let temp = await client.guilds.cache
+    .first()
+    .fetchAuditLogs({
+      type: 'MESSAGE_DELETE',
+    })
+    .then((audit) => audit.entries.first());
+  previousDeleteLogId = temp.id;
+  previousDeleteLogCount = temp.extra.count;
+  temp = await client.guilds.cache
+    .first()
+    .fetchAuditLogs({
+      type: 'MEMBER_UPDATE',
+    })
+    .then((audit) => audit.entries.first());
+  previousMemberUpdateLogId = temp.id;
 });
 
 client.on('messageDelete', async (msg) => {
-  try {
-    if (!msg.partial) {
+  const fetchedLogs = await msg.guild
+    .fetchAuditLogs({
+      type: 'MESSAGE_DELETE',
+    })
+    .then((audit) => audit.entries.first());
+  if (!fetchedLogs) console.log('No Audit Was Logged');
+  const { executor, target } = fetchedLogs;
+  //excecutor->mod
+  //target->user
+  // msg.author->author of the message;
+  if (
+    fetchedLogs.id === previousDeleteLogId &&
+    fetchedLogs.extra.count > previousDeleteLogCount
+  ) {
+    //when mod delete
+    previousDeleteLogCount++;
+    try {
+      if (!msg.partial) {
+        if (msg.attachments.array()[0]) {
+          await deleteAttachmentLog(msg, executor, target);
+        } else {
+          await deleteMessageLog(msg, executor, target);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  } else if (
+    fetchedLogs.id !== previousDeleteLogId &&
+    fetchedLogs.extra.count === 1
+  ) {
+    //when self delete
+    previousDeleteLogId = fetchedLogs.id;
+    previousDeleteLogCount = 1;
+    try {
+      if (msg.attachments.array()[0]) {
+        await deleteAttachmentLog(msg, executor, target);
+      } else {
+        await deleteMessageLog(msg, executor, target);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  } else {
+    try {
       if (msg.attachments.array()[0]) {
         await deleteAttachmentLog(msg);
       } else {
         await deleteMessageLog(msg);
       }
+    } catch (err) {
+      console.log(err);
     }
-  } catch (error) {
-    console.log(error);
   }
 });
 
@@ -110,7 +176,7 @@ client.on('message', (msg) => {
 });
 
 client.on('messageUpdate', async (oldMsg, newMsg) => {
-  let honoredOne = newMsg.guild.members.cache.find(
+  let honoredOne = await userArray.find(
     (user) => user.name === 'The Honored One'
   );
   if (newMsg.author.id !== honoredOne.id && oldMsg.content !== newMsg.content) {
@@ -123,21 +189,27 @@ client.on('messageUpdate', async (oldMsg, newMsg) => {
 });
 
 client.on('guildMemberUpdate', async (oldMem, newMem) => {
+  const fetchedLogs = await newMem.guild
+    .fetchAuditLogs({
+      type: 'MEMBER_UPDATE',
+    })
+    .then((audit) => audit.entries.first());
+  // console.log(oldMem);
+  // console.log(newMem);
+  let nick = fetchedLogs.changes[0];
+  console.log(nick, fetchedLogs.id, previousMemberUpdateLogId);
   try {
-    if (!oldMem.nickname && newMem.nickname) {
-      addedNicknameLog(oldMem, newMem);
-    } else if (oldMem.nickname && !newMem.nickname) {
-      removedNicknameLog(oldMem, newMem);
-    } else if (
-      oldMem.nickname &&
-      newMem.nickname &&
-      oldMem.nickname !== newMem.nickname
-    ) {
-      changedNicknameLog(oldMem, newMem);
-    } else if (
-      oldMem.roles.cache.array().length === newMem.roles.cache.array().length
-    ) {
-      changedAvatarLog(oldMem, newMem);
+    if (previousMemberUpdateLogId !== fetchedLogs.id) {
+      if (!nick.old && nick.new) {
+        addedNicknameLog(newMem, nick.new);
+      } else if (nick.old && !nick.new) {
+        removedNicknameLog(newMem, nick.old);
+      } else if (nick.old && nick.new && nick.old !== nick.new) {
+        changedNicknameLog(newMem, nick.old, nick.new);
+      }
+      previousMemberUpdateLogId = fetchedLogs.id;
+    } else {
+      console.log('Something else happened');
     }
   } catch (err) {
     console.log(err);

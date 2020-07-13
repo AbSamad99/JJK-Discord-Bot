@@ -155,7 +155,9 @@ export const anonMessageCommand = (msg) => {
 };
 
 export const roleAssignCommand = (msg) => {
-  let botChannel = channelArray.find((ch) => ch.name === 'bot-commands');
+  let botChannel = msg.guild.channels.cache.find(
+    (ch) => ch.name === 'bot-commands'
+  );
   let testChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
   );
@@ -163,7 +165,7 @@ export const roleAssignCommand = (msg) => {
     return;
   let temp = msg.content.slice(1);
   temp = temp.split(' ');
-  let desiredRole = msg.guild.roles.cache.find(
+  let desiredRole = rolesArray.find(
     (role) => role.name.toLowerCase() == temp[1].toLowerCase()
   );
   if (!desiredRole) return;
@@ -184,7 +186,7 @@ export const muteCommand = (msg) => {
     msg.channel.send('Please mestion a user to mute');
     return;
   }
-  let muteRole = msg.guild.roles.cache.find((role) => role.name === 'Muted');
+  let muteRole = rolesArray.find((role) => role.name === 'Muted');
   toMute = msg.guild.member(toMute);
   let temp = msg.content.slice(1);
   temp = temp.split(' ');

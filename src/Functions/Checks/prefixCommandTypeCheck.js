@@ -1,24 +1,27 @@
 const Discord = require('discord.js');
 const ms = require('ms');
 import {
-  chapterAnnouncement,
-  pollAnnouncement,
   fujoCommand,
   todoCommand,
   welcomeCommand,
-  anonMessageCommand,
   dontCareCommand,
   shyCommand,
   catalogueCommand,
   chartCommand,
   encyclopediaCommand,
   roleAssignCommand,
+} from '../Commands/userCommands.js';
+
+import {
+  chapterAnnouncement,
+  pollAnnouncement,
+  anonMessageCommand,
   muteCommand,
-} from './Functions/commandFunctions';
+} from '../Commands/modCommands.js';
 
-import { modPermsCheck } from './Functions/checkFunctions.js';
+import { modPermsCheck } from './RoleChecks.js';
 
-import { rolesArray } from './utilities.js';
+import { rolesArray } from '../../utilities.js';
 
 export const prefixCommandFunction = (msg) => {
   let honoredOneRole = rolesArray.find(

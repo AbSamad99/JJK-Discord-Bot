@@ -12,4 +12,6 @@ export var previousDeleteLogId = null;
 
 export var previousMemberUpdateLogId = null;
 
+export var previousMemberRoleUpdateLogId = null;
+
 export var previousDeleteLogCount = null;

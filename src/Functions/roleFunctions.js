@@ -1,7 +1,7 @@
 const Discord = require('discord.js');
 const ms = require('ms');
 
-export const assignRole = (msg, role, testChannel) => {
+export const assignRole = (msg, role) => {
   let embedResponse = new Discord.MessageEmbed()
     .setAuthor(msg.author.tag, msg.author.avatarURL())
     .setTitle('Role Added')
@@ -13,13 +13,10 @@ export const assignRole = (msg, role, testChannel) => {
     .then(() => {
       msg.channel.send(embedResponse);
     })
-    .then(() => {
-      testChannel.send(embedResponse);
-    })
     .catch(console.log);
 };
 
-export const removeRole = (msg, role, testChannel) => {
+export const removeRole = (msg, role) => {
   let embedResponse = new Discord.MessageEmbed()
     .setAuthor(msg.author.tag, msg.author.avatarURL())
     .setTitle('Role Removed')
@@ -32,13 +29,10 @@ export const removeRole = (msg, role, testChannel) => {
     .then(() => {
       msg.channel.send(embedResponse);
     })
-    .then(() => {
-      testChannel.send(embedResponse);
-    })
     .catch(console.log);
 };
 
-export const assignMuteRole = (msg, toMute, muteRole, time, testChannel) => {
+export const assignMuteRole = (msg, toMute, muteRole, time) => {
   let addEmbedResponse = new Discord.MessageEmbed()
     .setAuthor(msg.author.tag, msg.author.avatarURL())
     .setTitle('User Muted')
@@ -56,16 +50,8 @@ export const assignMuteRole = (msg, toMute, muteRole, time, testChannel) => {
     .then(() => {
       msg.channel.send(addEmbedResponse);
     })
-    .then(() => {
-      testChannel.send(addEmbedResponse);
-    })
     .catch(console.log);
   setTimeout(() => {
-    toMute.roles
-      .remove(muteRole.id)
-      .then(() => {
-        testChannel.send(removeEmbedResponse);
-      })
-      .catch(console.log);
+    toMute.roles.remove(muteRole.id).catch(console.log);
   }, ms(time));
 };

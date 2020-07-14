@@ -9,8 +9,9 @@ import {
   previousDeleteLogCount,
   previousDeleteLogId,
   previousMemberUpdateLogId,
+  previousMemberRoleUpdateLogId,
+  rolesArray,
 } from './utilities';
-import { prefixCommandFunction } from './helperFunctions';
 
 import {
   weebResponse,
@@ -20,15 +21,19 @@ import {
   xSeriesSucksResponse,
 } from './Functions/responseFunctions';
 
+//importing required Check functions
+import { modPermsCheck } from './Functions/Checks/RoleChecks.js';
 import {
+  isSuggestionCheck,
   containsDiscordLinkCheck,
   containsForbiddenLinkCheck,
-  isSuggestionCheck,
-  otherSeriesTalkCheck,
-  weebCheck,
+} from './Functions/Checks/moderationHelpCheck.js';
+import { prefixCommandFunction } from './Functions/Checks/prefixCommandTypeCheck.js';
+import {
   xSeriesSucksCheck,
-  modPermsCheck,
-} from './Functions/checkFunctions';
+  weebCheck,
+  otherSeriesTalkCheck,
+} from './Functions/Checks/miscChecks.js';
 
 import {
   fetchUsers,
@@ -38,12 +43,10 @@ import {
 } from './Functions/fetchFunctions';
 
 import {
-  deleteMessageLog,
-  deleteAttachmentLog,
+  deleteMessageAndAttachmentLog,
   editMessageLog,
-  addedNicknameLog,
   changedNicknameLog,
-  removedNicknameLog,
+  changedRoleLog,
   changedAvatarLog,
   changedUsername,
 } from './Functions/loggingFunctions.js';
@@ -71,62 +74,81 @@ client.on('ready', async () => {
     })
     .then((audit) => audit.entries.first());
   previousMemberUpdateLogId = temp.id;
+  temp = await client.guilds.cache.first().fetchAuditLogs({
+    type: 'MEMBER_ROLE_UPDATE',
+  });
+  previousMemberRoleUpdateLogId = temp.id;
 });
 
 client.on('messageDelete', async (msg) => {
-  const fetchedLogs = await msg.guild
-    .fetchAuditLogs({
-      type: 'MESSAGE_DELETE',
-    })
-    .then((audit) => audit.entries.first());
-  if (!fetchedLogs) console.log('No Audit Was Logged');
-  const { executor, target } = fetchedLogs;
-  //excecutor->mod
-  //target->user
-  // msg.author->author of the message;
-  if (
-    fetchedLogs.id === previousDeleteLogId &&
-    fetchedLogs.extra.count > previousDeleteLogCount
-  ) {
-    //when mod delete
-    previousDeleteLogCount++;
-    try {
-      if (!msg.partial) {
-        if (msg.attachments.array()[0]) {
-          await deleteAttachmentLog(msg, executor, target);
-        } else {
-          await deleteMessageLog(msg, executor, target);
+  try {
+    const userLogs = await msg.guild
+      .fetchAuditLogs({
+        type: 'MESSAGE_DELETE',
+      })
+      .then((audit) => audit.entries.first());
+    if (!userLogs) console.log('No Audit Was Logged');
+    const { executor, target } = userLogs;
+    //excecutor->mod
+    //target->user
+    // msg.author->author of the message;
+    if (
+      userLogs.id === previousDeleteLogId &&
+      userLogs.extra.count > previousDeleteLogCount
+    ) {
+      //when mod delete
+      previousDeleteLogCount++;
+      try {
+        if (!msg.partial) {
+          if (msg.attachments.array()[0]) {
+            await deleteMessageAndAttachmentLog(
+              msg,
+              'attachment',
+              executor,
+              target
+            );
+          } else {
+            await deleteMessageAndAttachmentLog(
+              msg,
+              'message',
+              executor,
+              target
+            );
+          }
         }
+      } catch (error) {
+        console.log(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  } else if (
-    fetchedLogs.id !== previousDeleteLogId &&
-    fetchedLogs.extra.count === 1
-  ) {
-    //when self delete
-    previousDeleteLogId = fetchedLogs.id;
-    previousDeleteLogCount = 1;
-    try {
+    } else if (
+      userLogs.id !== previousDeleteLogId &&
+      userLogs.extra.count === 1
+    ) {
+      //when self delete
+      previousDeleteLogId = userLogs.id;
+      previousDeleteLogCount = 1;
+      try {
+        if (msg.attachments.array()[0]) {
+          await deleteMessageAndAttachmentLog(
+            msg,
+            'attachment',
+            executor,
+            target
+          );
+        } else {
+          await deleteMessageAndAttachmentLog(msg, 'message', executor, target);
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    } else {
       if (msg.attachments.array()[0]) {
-        await deleteAttachmentLog(msg, executor, target);
+        await deleteMessageAndAttachmentLog(msg, 'attachment');
       } else {
-        await deleteMessageLog(msg, executor, target);
+        await deleteMessageAndAttachmentLog(msg, 'message');
       }
-    } catch (err) {
-      console.log(err);
     }
-  } else {
-    try {
-      if (msg.attachments.array()[0]) {
-        await deleteAttachmentLog(msg);
-      } else {
-        await deleteMessageLog(msg);
-      }
-    } catch (err) {
-      console.log(err);
-    }
+  } catch (err) {
+    console.log(err);
   }
 });
 
@@ -189,30 +211,105 @@ client.on('messageUpdate', async (oldMsg, newMsg) => {
 });
 
 client.on('guildMemberUpdate', async (oldMem, newMem) => {
-  const fetchedLogs = await newMem.guild
+  const userLogs = await newMem.guild
     .fetchAuditLogs({
       type: 'MEMBER_UPDATE',
     })
     .then((audit) => audit.entries.first());
+  const roleLogs = await newMem.guild
+    .fetchAuditLogs({
+      type: 'MEMBER_ROLE_UPDATE',
+    })
+    .then((audit) => audit.entries.first());
   // console.log(oldMem);
   // console.log(newMem);
-  let nick = fetchedLogs.changes[0];
-  console.log(nick, fetchedLogs.id, previousMemberUpdateLogId);
-  try {
-    if (previousMemberUpdateLogId !== fetchedLogs.id) {
+  let nick = userLogs.changes[0];
+  let role = roleLogs.changes[0];
+  // console.log(role.new);
+  if (previousMemberUpdateLogId !== userLogs.id) {
+    if (userLogs.target.tag !== userLogs.executor.tag) {
+      //Mod made the changes
       if (!nick.old && nick.new) {
-        addedNicknameLog(newMem, nick.new);
+        //new nickname
+        changedNicknameLog(
+          newMem,
+          nick.old,
+          nick.new,
+          'add',
+          userLogs.executor
+        );
       } else if (nick.old && !nick.new) {
-        removedNicknameLog(newMem, nick.old);
+        //removed nicknamed
+        changedNicknameLog(
+          newMem,
+          nick.old,
+          nick.new,
+          'remove',
+          userLogs.executor
+        );
       } else if (nick.old && nick.new && nick.old !== nick.new) {
-        changedNicknameLog(newMem, nick.old, nick.new);
+        //nickname changed
+        changedNicknameLog(
+          newMem,
+          nick.old,
+          nick.new,
+          'edit',
+          userLogs.executor
+        );
       }
-      previousMemberUpdateLogId = fetchedLogs.id;
     } else {
-      console.log('Something else happened');
+      //User made changes
+      if (!nick.old && nick.new) {
+        //new nickname
+        changedNicknameLog(newMem, nick.old, nick.new, 'add');
+      } else if (nick.old && !nick.new) {
+        //removed nicknamed
+        changedNicknameLog(newMem, nick.old, nick.new, 'remove');
+      } else if (nick.old && nick.new && nick.old !== nick.new) {
+        //nickname changed
+        changedNicknameLog(newMem, nick.old, nick.new, 'edit');
+      }
     }
-  } catch (err) {
-    console.log(err);
+    previousMemberUpdateLogId = userLogs.id;
+  } else if (previousMemberRoleUpdateLogId !== roleLogs.id) {
+    if (roleLogs.changes[0].key === '$add') {
+      if (role.new[0].name.toLowerCase() === 'muted') {
+        changedRoleLog(
+          newMem,
+          roleLogs.target,
+          role.new[0].id,
+          'mute',
+          roleLogs.executor
+        );
+      } else {
+        changedRoleLog(
+          newMem,
+          roleLogs.target,
+          role.new[0].id,
+          'add',
+          roleLogs.executor
+        );
+      }
+    } else if (roleLogs.changes[0].key === '$remove') {
+      if (role.new[0].name.toLowerCase() === 'muted') {
+        changedRoleLog(
+          newMem,
+          roleLogs.target,
+          role.new[0].id,
+          'unmute',
+          roleLogs.executor
+        );
+      } else {
+        changedRoleLog(
+          newMem,
+          roleLogs.target,
+          role.new[0].id,
+          'remove',
+          roleLogs.executor
+        );
+      }
+    }
+    previousMemberRoleUpdateLogId = roleLogs.id;
   }
 });
 

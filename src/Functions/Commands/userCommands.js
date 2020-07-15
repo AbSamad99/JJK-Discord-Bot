@@ -1,5 +1,5 @@
 import { channelArray, rolesArray } from '../../utilities.js';
-import { assignRole, removeRole } from '../roleFunctions.js';
+import { assignRole, removeRole } from '../Roles/roleFunctions.js';
 import { hasRoleCheck, lockedRolesCheck } from '../Checks/RoleChecks';
 
 export const fujoCommand = (msg) => {

@@ -8,10 +8,10 @@ export const emoteArray = [];
 
 export const rolesArray = [];
 
-export var previousDeleteLogId = null;
+export const previousDeleteLogId = [];
 
-export var previousMemberUpdateLogId = null;
+export const previousMemberUpdateLogId = [];
 
-export var previousMemberRoleUpdateLogId = null;
+export const previousMemberRoleUpdateLogId = [];
 
-export var previousDeleteLogCount = null;
+export const previousDeleteLogCount = [];

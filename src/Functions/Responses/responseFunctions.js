@@ -1,4 +1,4 @@
-import { emoteArray, channelArray, userArray } from '../utilities.js';
+import { emoteArray, channelArray, userArray } from '../../utilities.js';
 
 export const weebResponse = (msg) => {
   let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
@@ -18,7 +18,7 @@ export const weebResponse = (msg) => {
     msg.channel.send('Weeb');
   }
   if (chance > 20 && chance < 40) {
-    msg.channel.send(`<:JJKPapawat${papaWat.id}:`);
+    msg.channel.send(`<:JJKPapawat:${papaWat.id}>`);
   }
   if (chance > 40 && chance < 60) {
     msg.channel.send('L');

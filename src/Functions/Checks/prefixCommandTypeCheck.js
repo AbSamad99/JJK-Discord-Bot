@@ -17,6 +17,7 @@ import {
   pollAnnouncement,
   anonMessageCommand,
   muteCommand,
+  kickCommand,
 } from '../Commands/modCommands.js';
 
 import { modPermsCheck } from './RoleChecks.js';
@@ -40,6 +41,11 @@ export const prefixCommandFunction = (msg) => {
     (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
   ) {
     muteCommand(msg);
+  } else if (
+    temp.startsWith('kick') &&
+    (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
+  ) {
+    kickCommand(msg);
   } else if (temp === 'fujo') {
     fujoCommand(msg);
   } else if (temp === 'todo') {

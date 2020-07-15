@@ -1,6 +1,7 @@
 import { channelArray, rolesArray } from '../../utilities';
-import { assignMuteRole } from '../roleFunctions.js';
+import { assignMuteRole } from '../Roles/roleFunctions.js';
 
+//command to help with chapter announcement
 export const chapterAnnouncement = (msg) => {
   let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
   let practiceChannel = channelArray.find(
@@ -33,6 +34,7 @@ export const chapterAnnouncement = (msg) => {
   }
 };
 
+//command to help with poll announcement
 export const pollAnnouncement = (msg) => {
   let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
   let announcementChannel = msg.guild.channels.cache.find(
@@ -62,6 +64,7 @@ export const pollAnnouncement = (msg) => {
   }
 };
 
+//command to send anon messages
 export const anonMessageCommand = (msg) => {
   let modBotChannel = msg.member.guild.channels.cache.find(
     (ch) => ch.name === 'mod-bots'
@@ -80,18 +83,20 @@ export const anonMessageCommand = (msg) => {
   }
 };
 
+//command to mute users
 export const muteCommand = (msg) => {
-  let testChannel = msg.guild.channels.cache.find(
+  let toMute, muteRole, temp, reason, time, testChannel;
+  toMute = msg.mentions.members.array()[0];
+  testChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'syed-bot-practice'
   );
-  let toMute = msg.mentions.members.array()[0];
   if (!toMute) {
-    msg.channel.send('Please mestion a user to mute');
+    msg.channel.send('Please mention a user to mute');
     return;
   }
-  let muteRole = rolesArray.find((role) => role.name === 'Muted');
+  muteRole = rolesArray.find((role) => role.name === 'Muted');
   toMute = msg.guild.member(toMute);
-  let temp = msg.content.slice(1);
+  temp = msg.content.slice(1);
   temp = temp.split(' ');
   if (!temp[2] || !temp[3]) {
     msg.channel.send('Please mention duration of the mute');
@@ -107,6 +112,39 @@ export const muteCommand = (msg) => {
     msg.channel.send('User is Already Muted');
     return;
   }
-  let time = temp[2].concat(temp[3]);
-  assignMuteRole(msg, toMute, muteRole, time);
+  if (temp.length > 4) {
+    reason = temp.slice(4);
+    reason = reason.join(' ');
+  } else {
+    reason = 'No reason specified';
+  }
+  time = temp[2].concat(temp[3]);
+  assignMuteRole(msg, toMute, muteRole, time, testChannel, reason);
+};
+
+//command to kick users
+export const kickCommand = (msg) => {
+  let toKick, temp, reason, testChannel;
+  toKick = msg.mentions.members.array()[0];
+  testChannel = msg.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
+  if (!toKick) {
+    msg.channel.send('Please mention a user to kick');
+    return;
+  }
+  temp = msg.content.slice(1);
+  temp = temp.split(' ');
+  if (temp.length > 2) {
+    reason = temp.slice(2);
+    reason = reason.join(' ');
+  } else {
+    msg.channel.send('Please provide a reason for kick');
+    return;
+  }
+  console.log({
+    user: toKick.user.username,
+    reason: reason,
+  });
+  // toKick.kick(reason);
 };

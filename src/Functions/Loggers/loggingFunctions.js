@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const createEmbed = require('./Helpers/createEmbed.js');
+const createEmbed = require('../Helpers/createEmbed.js');
 
 //Logs deleted messages or attachments and who deleted them
 export const deleteMessageAndAttachmentLog = (msg, type, excecuter, target) => {
@@ -170,12 +170,6 @@ export const changedRoleLog = (newMem, target, roleId, type, excecuter) => {
   } else if (type === 'remove') {
     title = 'Role Removed';
     description = `Removed <@&${roleId}> from <@${target.id}>`;
-  } else if (type == 'mute') {
-    title = 'User Muted';
-    description = `<@${target.id}> has been <@&${roleId}>`;
-  } else if (type == 'unmute') {
-    title = 'User Unmuted';
-    description = `<@${target.id}> is no longer <@&${roleId}>`;
   }
 
   //creating the embed

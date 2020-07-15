@@ -11,6 +11,10 @@ import { messageDeleteCaseHandler } from './Cases/messageDelete.js';
 import { readyCaseHandler } from './Cases/ready.js';
 
 client.on('ready', async () => {
+  client.user.setStatus('online');
+  client.user.setActivity('You All', {
+    type: 'WATCHING',
+  });
   readyCaseHandler(client);
 });
 
@@ -27,6 +31,7 @@ client.on('messageUpdate', async (oldMsg, newMsg) => {
 });
 
 client.on('guildMemberUpdate', async (oldMem, newMem) => {
+  newMem.user.discriminator;
   guildMemberUpdateCaseHandler(oldMem, newMem);
 });
 

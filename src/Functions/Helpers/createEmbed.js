@@ -8,7 +8,8 @@ const createEmbed = (
   field1,
   field2,
   thumbnail,
-  description
+  description,
+  image
 ) => {
   let discorEmbed = new Discord.MessageEmbed()
     .setAuthor(authorName, authorUrl)
@@ -26,6 +27,9 @@ const createEmbed = (
   }
   if (description) {
     discorEmbed.setDescription(description);
+  }
+  if (image) {
+    discorEmbed.setImage(image);
   }
   return discorEmbed;
 };

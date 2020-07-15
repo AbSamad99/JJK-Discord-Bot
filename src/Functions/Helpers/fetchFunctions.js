@@ -12,7 +12,12 @@ import {
 //fetches array of all users
 export const fetchUsers = (client) => {
   client.users.cache.array().forEach((user) => {
-    userArray.push({ name: user.username, id: user.id });
+    userArray.push({
+      name: user.username,
+      id: user.id,
+      avatar: user.displayAvatarURL(),
+      discriminator: user.discriminator,
+    });
   });
 };
 

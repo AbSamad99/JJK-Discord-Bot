@@ -6,10 +6,25 @@ import {
 import {
   changedNicknameLog,
   changedRoleLog,
+  changedUsernameAndDiscriminatorLog,
+  changedAvatarLog,
 } from '../Functions/Loggers/loggingFunctions.js';
+
+import { userArray } from '../utilities.js';
 
 export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   try {
+    console.log(userArray.length, newMem.guild.memberCount);
+    const user = userArray.find((user) => user.id === newMem.user.id);
+    if (!user) {
+      userArray.push({
+        name: newMem.user.username,
+        id: newMem.user.id,
+        avatar: newMem.user.displayAvatarURL(),
+        discriminator: newMem.user.discriminator,
+      });
+      return;
+    }
     const userLogs = await newMem.guild
       .fetchAuditLogs({
         type: 'MEMBER_UPDATE',
@@ -20,6 +35,10 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         type: 'MEMBER_ROLE_UPDATE',
       })
       .then((audit) => audit.entries.first());
+    console.log(user.name, user.discriminator);
+    console.log(newMem.user.username, newMem.user.discriminator);
+    console.log(user.avatar);
+    console.log(newMem.user.displayAvatarURL());
     // console.log(userLogs.id, previousDeleteLogId);
     // console.log(roleLogs.id, previousMemberRoleUpdateLogId);
     let nick = userLogs.changes[0];
@@ -97,7 +116,24 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         }
       }
       previousMemberRoleUpdateLogId[0] = roleLogs.id;
-    } else {
+    }
+    //checking if username was changed
+    else if (user.name !== newMem.user.username) {
+      changedUsernameAndDiscriminatorLog(newMem, user, 'username');
+      user.name = newMem.user.username;
+    }
+    //checking if discriminator was updated
+    else if (user.discriminator !== newMem.user.discriminator) {
+      changedUsernameAndDiscriminatorLog(newMem, user, 'discriminator');
+      user.discriminator = newMem.user.discriminator;
+    }
+    //checking if avatar was updated
+    else if (user.avatar !== newMem.user.displayAvatarURL()) {
+      changedAvatarLog(newMem, user);
+      user.avatar = newMem.user.displayAvatarURL();
+    }
+    //rest of the cases
+    else {
       console.log('something else happened');
     }
   } catch (err) {

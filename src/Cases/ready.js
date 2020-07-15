@@ -10,10 +10,10 @@ import {
 
 export const readyCaseHandler = async (client) => {
   console.log(`Logged in as The Honored One`);
-  fetchUsers(client);
   fetchChannels(client);
   fetchEmotes(client);
   fetchRoles(client);
+  fetchUsers(client);
   fetchMemberRoleUpdateLogId(client);
   fetchMemberUpdateLogId(client);
   fetchMessageDeleteLogIdAndCount(client);

@@ -4,7 +4,7 @@ const ms = require('ms');
 //adds role to user
 export const assignRole = (msg, role) => {
   let embedResponse = new Discord.MessageEmbed()
-    .setAuthor(msg.author.tag, msg.author.avatarURL())
+    .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
     .setTitle('Role Added')
     .setColor(3447003)
     .setDescription(`Added <@&${role.id}> to <@${msg.author.id}>`)
@@ -20,7 +20,7 @@ export const assignRole = (msg, role) => {
 //removes role from user
 export const removeRole = (msg, role) => {
   let embedResponse = new Discord.MessageEmbed()
-    .setAuthor(msg.author.tag, msg.author.avatarURL())
+    .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
     .setTitle('Role Removed')
     .setColor(3447003)
     .setDescription(`Removed <@&${role.id}> from <@${msg.author.id}>`)
@@ -44,14 +44,14 @@ export const assignMuteRole = (
   reason
 ) => {
   let addEmbedResponse = new Discord.MessageEmbed()
-    .setAuthor(msg.author.tag, msg.author.avatarURL())
+    .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
     .setTitle('User Muted')
     .setColor(3447003)
     .setDescription(`<@${toMute.id}> has been <@&${muteRole.id}> for ${time}`)
     .addField('Reason:', reason)
     .setFooter(new Date());
   let removeEmbedResponse = new Discord.MessageEmbed()
-    .setAuthor(msg.author.tag, msg.author.avatarURL())
+    .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
     .setTitle('User Unmuted')
     .setColor(3447003)
     .setDescription(`<@${toMute.id}> is no longer <@&${muteRole.id}>`)

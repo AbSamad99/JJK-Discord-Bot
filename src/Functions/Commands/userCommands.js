@@ -86,10 +86,16 @@ export const roleAssignCommand = (msg) => {
     return;
   let temp = msg.content.slice(1);
   temp = temp.split(' ');
+  if (!temp[1]) {
+    msg.channel.send('Please specify a character name');
+  }
   let desiredRole = rolesArray.find(
     (role) => role.name.toLowerCase() == temp[1].toLowerCase()
   );
-  if (!desiredRole) return;
+  if (!desiredRole) {
+    msg.channel.send('Please specify a valid character name');
+    return;
+  }
   if (lockedRolesCheck(desiredRole)) return;
   if (!hasRoleCheck(msg, desiredRole)) {
     assignRole(msg, desiredRole);

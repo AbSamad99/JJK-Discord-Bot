@@ -314,3 +314,35 @@ export const changedAvatarLog = (newMem, user) => {
     console.log(err);
   }
 };
+
+//logs when user joins the server
+export const userJoinLog = (mem, modChannel) => {
+  try {
+    let joinEmbed, authorName, authorUrl, title, color, thumbnail, description;
+
+    //setting relevant fields
+    authorName = mem.user.tag;
+    authorUrl = mem.user.displayAvatarURL();
+    title = 'Member Joined';
+    color = 3447003;
+    thumbnail = authorUrl;
+    description = `<@${mem.user.id}> has joined the server. The total number of users is now at ${mem.guild.memberCount}`;
+
+    //creating the embed
+    joinEmbed = createEmbed.createEmbed(
+      authorName,
+      authorUrl,
+      title,
+      color,
+      null,
+      null,
+      thumbnail,
+      description
+    );
+
+    //logging
+    modChannel.send(joinEmbed).catch(console.log);
+  } catch (err) {
+    console.log(err);
+  }
+};

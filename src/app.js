@@ -9,10 +9,11 @@ import { messageUpdateCaseHandler } from './Cases/messageUpdate.js';
 import { guildMemberUpdateCaseHandler } from './Cases/guildMemberUpdate.js';
 import { messageDeleteCaseHandler } from './Cases/messageDelete.js';
 import { readyCaseHandler } from './Cases/ready.js';
+import { guildMemberAddCaseHandler } from './Cases/guildMemberAdd.js';
 
 client.on('ready', async () => {
-  client.user.setStatus('online');
-  client.user.setActivity('You All', {
+  await client.user.setStatus('online');
+  await client.user.setActivity('You All', {
     type: 'WATCHING',
   });
   readyCaseHandler(client);
@@ -31,12 +32,11 @@ client.on('messageUpdate', async (oldMsg, newMsg) => {
 });
 
 client.on('guildMemberUpdate', async (oldMem, newMem) => {
-  newMem.user.discriminator;
   guildMemberUpdateCaseHandler(oldMem, newMem);
 });
 
 client.on('guildMemberAdd', (mem) => {
-  console.log(mem);
+  guildMemberAddCaseHandler(mem);
 });
 
 client.login(process.env.token);

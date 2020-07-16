@@ -114,7 +114,10 @@ export const roleAssignCommand = (msg) => {
     msg.channel.send('Please specify a valid character name');
     return;
   }
-  if (lockedRolesCheck(desiredRole)) return;
+  if (lockedRolesCheck(desiredRole)) {
+    msg.channel.send('Cannot Assign that role');
+    return;
+  }
   if (!hasRoleCheck(msg, desiredRole)) {
     assignRole(msg, desiredRole);
   } else {

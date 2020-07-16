@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-const ms = require('ms');
+
 import {
   fujoCommand,
   todoCommand,
@@ -53,6 +53,15 @@ export const prefixCommandFunction = (msg) => {
     (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
   ) {
     kickCommand(msg);
+  } else if (
+    temp.startsWith('test') &&
+    (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
+  ) {
+    temp = temp.split(' ');
+    let tempEmbed = new Discord.MessageEmbed()
+      .setTitle('Test')
+      .setImage(temp[1]);
+    msg.channel.send(tempEmbed).catch(console.log);
   } else if (temp === 'fujo') {
     fujoCommand(msg);
   } else if (temp === 'todo') {

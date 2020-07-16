@@ -1,5 +1,5 @@
 const Discord = require('discord.js');
-import { channelArray } from '../utilities';
+import { channelArray, userArray } from '../utilities';
 import { userJoinLog } from '../Functions/Loggers/loggingFunctions.js';
 
 export const guildMemberAddCaseHandler = (mem) => {
@@ -37,6 +37,13 @@ export const guildMemberAddCaseHandler = (mem) => {
       .catch(console.log);
 
     userJoinLog(mem, modChannel);
+
+    userArray.push({
+      name: mem.user.username,
+      id: mem.user.id,
+      displayAvatarURL: mem.user.displayAvatarURL(),
+      discriminator: mem.user.discriminator,
+    });
   } catch (err) {
     console.log(err);
   }

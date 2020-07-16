@@ -1,5 +1,8 @@
 import { channelArray, rolesArray } from '../../utilities';
 import { assignMuteRole } from '../Roles/roleFunctions.js';
+import { userKickLog, userBanLog } from '../Loggers/loggingFunctions.js';
+import { canBeBannedOrKicked } from '../Checks/RoleChecks.js';
+import ms from 'ms';
 
 //command to help with chapter announcement
 export const chapterAnnouncement = (msg) => {
@@ -133,6 +136,10 @@ export const kickCommand = (msg) => {
     msg.channel.send('Please mention a user to kick');
     return;
   }
+  if (!canBeBannedOrKicked(toKick)) {
+    msg.channel.send('You cannot kick this user');
+    return;
+  }
   temp = msg.content.slice(1);
   temp = temp.split(' ');
   if (temp.length > 2) {
@@ -146,5 +153,48 @@ export const kickCommand = (msg) => {
     user: toKick.user.username,
     reason: reason,
   });
-  // toKick.kick(reason);
+
+  toKick
+    .kick(reason)
+    .then(() => {
+      userKickLog(null, msg, testChannel, toKick, reason);
+    })
+    .catch(console.log);
+};
+
+//command to ban users
+export const banCommand = (msg) => {
+  let toBan, temp, reason, testChannel;
+  toBan = msg.mentions.members.array()[0];
+  testChannel = msg.guild.channels.cache.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
+  if (!toBan) {
+    msg.channel.send('Please mention a user to ban');
+    return;
+  }
+  if (!canBeBannedOrKicked(toBan)) {
+    msg.channel.send('You cannot ban this user');
+    return;
+  }
+  temp = msg.content.slice(1);
+  temp = temp.split(' ');
+  if (temp.length > 2) {
+    reason = temp.slice(2);
+    reason = reason.join(' ');
+  } else {
+    msg.channel.send('Please provide a reason for ban');
+    return;
+  }
+  console.log({
+    user: toBan.user.username,
+    reason: reason,
+  });
+
+  toBan
+    .ban({ reason: reason })
+    .then(() => {
+      userBanLog(null, msg, testChannel, toBan, reason);
+    })
+    .catch(console.log);
 };

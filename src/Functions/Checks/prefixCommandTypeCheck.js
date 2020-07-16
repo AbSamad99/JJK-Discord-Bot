@@ -10,6 +10,7 @@ import {
   chartCommand,
   encyclopediaCommand,
   roleAssignCommand,
+  prequelCommand,
 } from '../Commands/userCommands.js';
 
 import {
@@ -18,6 +19,7 @@ import {
   anonMessageCommand,
   muteCommand,
   kickCommand,
+  banCommand,
 } from '../Commands/modCommands.js';
 
 import { modPermsCheck } from './RoleChecks.js';
@@ -42,6 +44,11 @@ export const prefixCommandFunction = (msg) => {
   ) {
     muteCommand(msg);
   } else if (
+    temp.startsWith('ban') &&
+    (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
+  ) {
+    banCommand(msg);
+  } else if (
     temp.startsWith('kick') &&
     (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
   ) {
@@ -62,6 +69,8 @@ export const prefixCommandFunction = (msg) => {
     chartCommand(msg);
   } else if (temp === 'catalogue') {
     catalogueCommand(msg);
+  } else if (temp.startsWith('prequel')) {
+    prequelCommand(msg);
   } else if (temp.startsWith('role')) {
     roleAssignCommand(msg);
   }

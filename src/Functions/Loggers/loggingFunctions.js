@@ -1,8 +1,9 @@
 const Discord = require('discord.js');
-const createEmbed = require('../Helpers/createEmbed.js');
+
+import { createEmbed } from '../Helpers/createEmbed.js';
 
 //Logs deleted messages or attachments and who deleted them
-export const deleteMessageAndAttachmentLog = (msg, type, excecuter, target) => {
+export const deleteMessageAndAttachmentLog = (msg, type, executor, target) => {
   try {
     let delEmbed,
       authorName,
@@ -35,20 +36,20 @@ export const deleteMessageAndAttachmentLog = (msg, type, excecuter, target) => {
       field2.content = msg.attachments.array()[0].name;
     }
 
-    if (!excecuter && !target) {
+    if (!executor && !target) {
       //self delete
       authorName = msg.author.tag;
       authorUrl = msg.author.displayAvatarURL();
       field1.content = `<@${msg.author.id}>`;
     } else {
       //mod delete
-      authorName = excecuter.tag;
-      authorUrl = excecuter.displayAvatarURL();
+      authorName = executor.tag;
+      authorUrl = executor.displayAvatarURL();
       field1.content = `<@${target.id}>`;
     }
 
     //creating the embed
-    delEmbed = createEmbed.createEmbed(
+    delEmbed = createEmbed(
       authorName,
       authorUrl,
       title,
@@ -87,7 +88,7 @@ export const editMessageLog = (oldMsg, newMsg) => {
     field2 = { title: 'After:', content: newMsg.content };
 
     //creating the embed
-    editEmbed = createEmbed.createEmbed(
+    editEmbed = createEmbed(
       authorName,
       authorUrl,
       title,
@@ -151,7 +152,7 @@ export const changedNicknameLog = (newMem, oldNick, newNick, type, mod) => {
     }
 
     //creating the embed
-    changedNicknameEmbed = createEmbed.createEmbed(
+    changedNicknameEmbed = createEmbed(
       authorName,
       authorUrl,
       title,
@@ -169,7 +170,7 @@ export const changedNicknameLog = (newMem, oldNick, newNick, type, mod) => {
 };
 
 //logs role addition/removal
-export const changedRoleLog = (newMem, target, roleId, type, excecuter) => {
+export const changedRoleLog = (newMem, target, roleId, type, executor) => {
   try {
     let roleEmbed, authorName, authorUrl, title, color, description;
 
@@ -179,8 +180,8 @@ export const changedRoleLog = (newMem, target, roleId, type, excecuter) => {
     );
 
     //setting commom fields
-    authorName = excecuter.tag;
-    authorUrl = excecuter.displayAvatarURL();
+    authorName = executor.tag;
+    authorUrl = executor.displayAvatarURL();
     color = 3447003;
 
     //adding fields based on type
@@ -193,7 +194,7 @@ export const changedRoleLog = (newMem, target, roleId, type, excecuter) => {
     }
 
     //creating the embed
-    roleEmbed = createEmbed.createEmbed(
+    roleEmbed = createEmbed(
       authorName,
       authorUrl,
       title,
@@ -250,7 +251,7 @@ export const changedUsernameAndDiscriminatorLog = (newMem, user, type) => {
     }
 
     //creating the embed
-    changedUsernameEmbed = createEmbed.createEmbed(
+    changedUsernameEmbed = createEmbed(
       authorName,
       authorUrl,
       title,
@@ -296,7 +297,7 @@ export const changedAvatarLog = (newMem, user) => {
     thumbnail = authorUrl;
 
     //creating embed
-    changedAvatarEmbed = createEmbed.createEmbed(
+    changedAvatarEmbed = createEmbed(
       authorName,
       authorUrl,
       title,
@@ -329,7 +330,7 @@ export const userJoinLog = (mem, modChannel) => {
     description = `<@${mem.user.id}> has joined the server. The total number of users is now at ${mem.guild.memberCount}`;
 
     //creating the embed
-    joinEmbed = createEmbed.createEmbed(
+    joinEmbed = createEmbed(
       authorName,
       authorUrl,
       title,
@@ -342,6 +343,108 @@ export const userJoinLog = (mem, modChannel) => {
 
     //logging
     modChannel.send(joinEmbed).catch(console.log);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//logs when user is kicked from the server
+export const userKickLog = (kickAuditLog, msg, modChannel, toKick, reason) => {
+  try {
+    let kickEmbed,
+      authorName,
+      authorUrl,
+      title,
+      color,
+      field1,
+      thumbnail,
+      description;
+
+    //setting relevant fields
+    title = 'Member Kicked';
+    color = 3447003;
+    field1 = { title: 'Reason:', content: '' };
+
+    if (!msg) {
+      authorName = kickAuditLog.executor.tag;
+      authorUrl = kickAuditLog.executor.displayAvatarURL();
+      thumbnail = kickAuditLog.target.displayAvatarURL();
+      description = `<@${kickAuditLog.target.id}> has been kicked from the server.`;
+      field1.content = kickAuditLog.reason;
+      if (!field1.content) field1.content = 'No Reason was provided';
+    } else {
+      authorName = msg.author.tag;
+      authorUrl = msg.author.displayAvatarURL();
+      thumbnail = toKick.user.displayAvatarURL();
+      description = `<@${toKick.user.id}> has been kicked from the server.`;
+      field1.content = reason;
+    }
+
+    //creating the embed
+    kickEmbed = createEmbed(
+      authorName,
+      authorUrl,
+      title,
+      color,
+      field1,
+      null,
+      thumbnail,
+      description
+    );
+
+    //logging
+    modChannel.send(kickEmbed).catch(console.log);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//logs when user is banned from the server
+export const userBanLog = (banAuditLog, msg, modChannel, toBan, reason) => {
+  try {
+    let banEmbed,
+      authorName,
+      authorUrl,
+      title,
+      color,
+      field1,
+      thumbnail,
+      description;
+
+    //setting relevant fields
+    title = 'Member Banned';
+    color = 3447003;
+    field1 = { title: 'Reason:', content: '' };
+
+    if (!msg) {
+      authorName = banAuditLog.executor.tag;
+      authorUrl = banAuditLog.executor.displayAvatarURL();
+      thumbnail = banAuditLog.target.displayAvatarURL();
+      description = `<@${banAuditLog.target.id}> has been Banned from the server.`;
+      field1.content = banAuditLog.reason;
+      if (!field1.content) field1.content = 'No Reason was provided';
+    } else {
+      authorName = msg.author.tag;
+      authorUrl = msg.author.displayAvatarURL();
+      thumbnail = toBan.user.displayAvatarURL();
+      description = `<@${toBan.user.id}> has been Banned from the server.`;
+      field1.content = reason;
+    }
+
+    //creating the embed
+    banEmbed = createEmbed(
+      authorName,
+      authorUrl,
+      title,
+      color,
+      field1,
+      null,
+      thumbnail,
+      description
+    );
+
+    //logging
+    modChannel.send(banEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

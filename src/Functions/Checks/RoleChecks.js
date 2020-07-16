@@ -64,3 +64,13 @@ export const lockedRolesCheck = (role) => {
     return 1;
   } else return 0;
 };
+
+export const canBeBannedOrKicked = (mem) => {
+  let modRole1, modRole2, temp;
+  modRole1 = rolesArray.find((role) => role.name === 'Special-Grade Shaman');
+  modRole2 = rolesArray.find((role) => role.name === 'admin');
+  temp = mem.roles.cache;
+  if (temp.has(modRole1.id) || temp.has(modRole2.id)) {
+    return 0;
+  } else return 1;
+};

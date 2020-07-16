@@ -75,6 +75,24 @@ export const chartCommand = (msg) => {
   msg.channel.send(message).catch(console.log);
 };
 
+export const prequelCommand = (msg) => {
+  try {
+    let welcomeChannel, mangaChannel;
+    welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
+    mangaChannel = channelArray.find((ch) => ch.name === 'manga-discussion');
+    if (
+      msg.channel.id === welcomeChannel.id ||
+      msg.channel.id === mangaChannel.id
+    ) {
+      msg.channel.send(
+        'https://mangadex.org/title/30288/tokyo-metropolitan-magic-technical-school'
+      );
+    }
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 export const roleAssignCommand = (msg) => {
   let botChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'bot-commands'

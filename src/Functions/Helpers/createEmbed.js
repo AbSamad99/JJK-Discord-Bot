@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const createEmbed = (
+export const createEmbed = (
   authorName,
   authorUrl,
   title,
@@ -36,8 +36,4 @@ const createEmbed = (
   } catch (err) {
     console.log(err);
   }
-};
-
-module.exports = {
-  createEmbed: createEmbed,
 };

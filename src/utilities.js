@@ -15,3 +15,7 @@ export const previousMemberUpdateLogId = [];
 export const previousMemberRoleUpdateLogId = [];
 
 export const previousDeleteLogCount = [];
+
+export const previousMemberKickLogId = [];
+
+export const previousMemberBanLogId = [];

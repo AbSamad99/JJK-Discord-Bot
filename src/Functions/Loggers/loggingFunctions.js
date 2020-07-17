@@ -449,3 +449,24 @@ export const userBanLog = (banAuditLog, msg, modChannel, toBan, reason) => {
     console.log(err);
   }
 };
+
+//logs when messages are purged
+export const messageBulkDeleteLog = (msgs) => {
+  let modChannel, messageArray, delEmbed;
+  modChannel = msgs
+    .array()[0]
+    .guild.channels.cache.find((ch) => ch.name === 'syed-bot-practice');
+  messageArray = msgs.array();
+  for (let i = 1; i < messageArray.length; i++) {
+    delEmbed = new Discord.MessageEmbed()
+      .setAuthor(
+        messageArray[i].author.tag,
+        messageArray[i].author.displayAvatarURL()
+      )
+      .setTitle(`Message deleted in ${messageArray[i].channel.name}`)
+      .addField('Message:', messageArray[i].content)
+      .setColor(3447003)
+      .setFooter(new Date());
+    modChannel.send(delEmbed);
+  }
+};

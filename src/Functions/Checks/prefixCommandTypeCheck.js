@@ -1,5 +1,3 @@
-const Discord = require('discord.js');
-
 import {
   fujoCommand,
   todoCommand,
@@ -20,6 +18,7 @@ import {
   muteCommand,
   kickCommand,
   banCommand,
+  purgeCommand,
 } from '../Commands/modCommands.js';
 
 import { modPermsCheck } from './RoleChecks.js';
@@ -32,55 +31,89 @@ export const prefixCommandFunction = (msg) => {
   );
   let temp = msg.content.toLowerCase();
   temp = temp.slice(1);
+
+  //poll
   if (temp.startsWith('poll') && modPermsCheck(msg)) {
     pollAnnouncement(msg);
-  } else if (temp.startsWith('chapter') && modPermsCheck(msg)) {
+  }
+
+  //chap
+  else if (temp.startsWith('chapter') && modPermsCheck(msg)) {
     chapterAnnouncement(msg);
-  } else if (temp.startsWith('message') && modPermsCheck(msg)) {
+  }
+
+  //anon
+  else if (temp.startsWith('message') && modPermsCheck(msg)) {
     anonMessageCommand(msg);
-  } else if (
-    temp.startsWith('mute') &&
-    (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
-  ) {
+  }
+
+  //anon
+  else if (temp.startsWith('purge') && modPermsCheck(msg)) {
+    purgeCommand(msg);
+  }
+
+  //mute
+  else if (temp.startsWith('mute') && modPermsCheck(msg)) {
     muteCommand(msg);
-  } else if (
-    temp.startsWith('ban') &&
-    (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
-  ) {
+  }
+
+  //ban
+  else if (temp.startsWith('ban') && modPermsCheck(msg)) {
     banCommand(msg);
-  } else if (
-    temp.startsWith('kick') &&
-    (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
-  ) {
+  }
+
+  //kick
+  else if (temp.startsWith('kick') && modPermsCheck(msg)) {
     kickCommand(msg);
-  } else if (
-    temp.startsWith('test') &&
-    (modPermsCheck(msg) || msg.member.roles.cache.has(honoredOneRole.id))
-  ) {
-    temp = temp.split(' ');
-    let tempEmbed = new Discord.MessageEmbed()
-      .setTitle('Test')
-      .setImage(temp[1]);
-    msg.channel.send(tempEmbed).catch(console.log);
-  } else if (temp === 'fujo') {
+  }
+
+  //fujo
+  else if (temp === 'fujo') {
     fujoCommand(msg);
-  } else if (temp === 'todo') {
+  }
+
+  //todo
+  else if (temp === 'todo') {
     todoCommand(msg);
-  } else if (temp === 'welcome') {
+  }
+
+  //welcome
+  else if (temp === 'welcome') {
     welcomeCommand(msg);
-  } else if (temp === 'guy') {
+  }
+
+  //guy
+  else if (temp === 'guy') {
     dontCareCommand(msg);
-  } else if (temp === 'shy') {
+  }
+
+  //shy
+  else if (temp === 'shy') {
     shyCommand(msg);
-  } else if (temp === 'encyclopedia') {
+  }
+
+  //encyclopedia
+  else if (temp === 'encyclopedia') {
     encyclopediaCommand(msg);
-  } else if (temp === 'chart') {
+  }
+
+  //chart
+  else if (temp === 'chart') {
     chartCommand(msg);
-  } else if (temp === 'catalogue') {
+  }
+
+  //catalogue
+  else if (temp === 'catalogue') {
     catalogueCommand(msg);
-  } else if (temp.startsWith('prequel')) {
+  }
+
+  //prequel
+  else if (temp.startsWith('prequel')) {
     prequelCommand(msg);
-  } else if (temp.startsWith('role')) {
+  }
+
+  //role
+  else if (temp.startsWith('role')) {
     roleAssignCommand(msg);
   }
 };

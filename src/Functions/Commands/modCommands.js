@@ -1,8 +1,9 @@
+const Discord = require('discord.js');
+
 import { channelArray, rolesArray } from '../../utilities';
 import { assignMuteRole } from '../Roles/roleFunctions.js';
 import { userKickLog, userBanLog } from '../Loggers/loggingFunctions.js';
 import { canBeBannedOrKicked } from '../Checks/RoleChecks.js';
-import ms from 'ms';
 
 //command to help with chapter announcement
 export const chapterAnnouncement = (msg) => {
@@ -197,4 +198,48 @@ export const banCommand = (msg) => {
       userBanLog(null, msg, testChannel, toBan, reason);
     })
     .catch(console.log);
+};
+
+//command to purge messages
+export const purgeCommand = (msg) => {
+  try {
+    let temp, number, logsChannel, testChannel;
+    logsChannel = msg.guild.channels.cache
+      .array()
+      .find((ch) => ch.name === 'logs');
+    testChannel = msg.guild.channels.cache
+      .array()
+      .find((ch) => ch.name === 'syed-bot-practice');
+    temp = msg.content.slice(1);
+    temp = temp.split(' ');
+    number = parseInt(temp[1]);
+    if (isNaN(number)) {
+      msg.channel.send('Please provide a valid number');
+      return;
+    }
+    if (number > 300) {
+      msg.channel.send('Please input a lower number');
+      return;
+    }
+    if (msg.channel.id === logsChannel.id) {
+      msg.channel.send('Cannot purge messages here');
+      return;
+    }
+    let purgeEmbed = new Discord.MessageEmbed()
+      .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
+      .setTitle('Messages purged')
+      .setDescription(
+        `<@${msg.author.id}> has purged ${number - 1} messages in <#${
+          msg.channel.id
+        }>`
+      )
+      .setColor(3447003)
+      .setFooter(new Date());
+    msg.channel
+      .bulkDelete(number)
+      .then(() => testChannel.send(purgeEmbed))
+      .catch(console.log);
+  } catch (err) {
+    console.log(err);
+  }
 };

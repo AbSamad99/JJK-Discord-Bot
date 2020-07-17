@@ -12,6 +12,7 @@ import { readyCaseHandler } from './Cases/ready.js';
 import { guildMemberAddCaseHandler } from './Cases/guildMemberAdd.js';
 import { guildMemberRemoveCaseHandler } from './Cases/guildMemberRemove.js';
 import { guildBanAddCaseHandler } from './Cases/guildBanAdd.js';
+import { messageBulkDeleteLog } from './Functions/Loggers/loggingFunctions';
 
 client.on('ready', async () => {
   await client.user.setStatus('online');
@@ -23,6 +24,14 @@ client.on('ready', async () => {
 
 client.on('messageDelete', async (msg) => {
   messageDeleteCaseHandler(msg);
+});
+
+client.on('messageDeleteBulk', (msgs) => {
+  try {
+    messageBulkDeleteLog(msgs);
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 client.on('message', (msg) => {

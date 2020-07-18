@@ -40,7 +40,7 @@ export const messageCaseHandler = (msg) => {
       if (!modPermsCheck(msg)) {
         msg.delete().catch(console.log);
         msg.channel
-          .send('Please do not link invites to other servers')
+          .reply('Please do not link invites to other servers')
           .catch(console.log);
       } else {
         console.log('mod');
@@ -59,7 +59,11 @@ export const messageCaseHandler = (msg) => {
       weebResponse(msg);
     }
     //sakuna response
-    if (msg.content.toLowerCase().includes('sakuna')) {
+    if (
+      msg.content.toLowerCase().includes('sakuna') ||
+      msg.content.toLowerCase().includes('sukana') ||
+      msg.content.toLowerCase().includes('sakana')
+    ) {
       msg.channel.send(`It's Sukuna`);
     }
     //series sucks response

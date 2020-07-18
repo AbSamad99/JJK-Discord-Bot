@@ -3,12 +3,10 @@ import {
   previousMemberRoleUpdateLogId,
 } from '../utilities';
 
-import {
-  changedNicknameLog,
-  changedRoleLog,
-  changedUsernameAndDiscriminatorLog,
-  changedAvatarLog,
-} from '../Functions/Loggers/loggingFunctions.js';
+import { changedNicknameLog } from '../Functions/Loggers/changedNicknameLog.js';
+import { changedRoleLog } from '../Functions/Loggers/changedRoleLog.js';
+import { changedUsernameAndDiscriminatorLog } from '../Functions/Loggers/changedUsernameAndDiscriminatorLog.js';
+import { changedAvatarLog } from '../Functions/Loggers/changedAvatarLog.js';
 
 import { userArray } from '../utilities.js';
 

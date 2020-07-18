@@ -2,7 +2,8 @@ const Discord = require('discord.js');
 
 import { channelArray, rolesArray } from '../../utilities';
 import { assignMuteRole } from '../Roles/roleFunctions.js';
-import { userKickLog, userBanLog } from '../Loggers/loggingFunctions.js';
+import { userKickLog } from '../Loggers/userKickLog.js';
+import { userBanLog } from '../Loggers/userBanLog.js';
 import { canBeBannedOrKicked } from '../Checks/RoleChecks.js';
 
 //command to help with chapter announcement

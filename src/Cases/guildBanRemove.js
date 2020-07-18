@@ -1,6 +1,6 @@
 import { previousMemberBanRemoveLogId } from '../utilities';
 
-import { userBanRemoveLog } from '../Functions/Loggers/loggingFunctions.js';
+import { userBanRemoveLog } from '../Functions/Loggers/userBanRemoveLog.js';
 
 export const guildBanRemoveCaseHandler = async (guild, mem) => {
   try {

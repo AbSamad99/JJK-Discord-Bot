@@ -77,12 +77,14 @@ export const chartCommand = (msg) => {
 
 export const prequelCommand = (msg) => {
   try {
-    let welcomeChannel, mangaChannel;
+    let welcomeChannel, mangaChannel, testChannel;
     welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
     mangaChannel = channelArray.find((ch) => ch.name === 'manga-discussion');
+    testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
     if (
       msg.channel.id === welcomeChannel.id ||
-      msg.channel.id === mangaChannel.id
+      msg.channel.id === mangaChannel.id ||
+      msg.channel.id === testChannel.id
     ) {
       msg.channel.send(
         'https://mangadex.org/title/30288/tokyo-metropolitan-magic-technical-school'

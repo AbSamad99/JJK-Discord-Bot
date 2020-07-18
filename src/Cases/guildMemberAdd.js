@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 import { channelArray, userArray } from '../utilities';
-import { userJoinLog } from '../Functions/Loggers/loggingFunctions.js';
+import { userJoinLog } from '../Functions//Loggers/userJoinLog.js';
 
 export const guildMemberAddCaseHandler = (mem) => {
   try {

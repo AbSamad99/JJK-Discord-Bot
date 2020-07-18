@@ -3,10 +3,9 @@ import {
   previousMemberBanLogId,
   userArray,
 } from '../utilities.js';
-import {
-  userKickLog,
-  userLeaveLog,
-} from '../Functions/Loggers/loggingFunctions.js';
+
+import { userKickLog } from '../Functions/Loggers/userKickLog.js';
+import { userLeaveLog } from '../Functions/Loggers/userLeaveLog.js';
 
 export const guildMemberRemoveCaseHandler = async (mem) => {
   try {

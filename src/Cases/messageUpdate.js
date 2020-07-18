@@ -1,4 +1,4 @@
-import { editMessageLog } from '../Functions/Loggers/loggingFunctions.js';
+import { editMessageLog } from '../Functions//Loggers/messageUpdateLog.js';
 
 import { userArray } from '../utilities';
 

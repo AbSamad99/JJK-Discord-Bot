@@ -1,6 +1,6 @@
 import { previousDeleteLogCount, previousDeleteLogId } from '../utilities';
 
-import { deleteMessageAndAttachmentLog } from '../Functions/Loggers/loggingFunctions.js';
+import { deleteMessageAndAttachmentLog } from '../Functions/Loggers/messageDeleteLog.js';
 
 export const messageDeleteCaseHandler = async (msg) => {
   try {

@@ -1,5 +1,5 @@
 import { userArray, previousMemberBanLogId } from '../utilities';
-import { userBanLog } from '../Functions/Loggers/loggingFunctions.js';
+import { userBanLog } from '../Functions/Loggers/userBanLog.js';
 
 export const guildBanAddCaseHandler = async (guild, mem) => {
   try {

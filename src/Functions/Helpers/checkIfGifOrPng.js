@@ -42,7 +42,7 @@ export const checkIfGifOrPng = async (user1, user2) => {
         return `https://cdn.discordapp.com/avatars/${user1.id}/${user1.avatar}.png?size=256`;
       } else {
         // console.log('3');
-        return user.displayAvatarURL();
+        return user1.displayAvatarURL();
       }
     }
   } catch (err) {

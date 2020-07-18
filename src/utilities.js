@@ -19,3 +19,5 @@ export const previousDeleteLogCount = [];
 export const previousMemberKickLogId = [];
 
 export const previousMemberBanLogId = [];
+
+export const previousMemberBanRemoveLogId = [];

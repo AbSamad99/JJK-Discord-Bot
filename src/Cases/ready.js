@@ -8,6 +8,7 @@ import {
   fetchMessageDeleteLogIdAndCount,
   fetchMemberKickLogId,
   fetchMemberBanLogId,
+  fetchMemberBanRemoveLogId,
 } from '../Functions/Helpers/fetchFunctions.js';
 
 export const readyCaseHandler = async (client) => {
@@ -21,4 +22,5 @@ export const readyCaseHandler = async (client) => {
   fetchMessageDeleteLogIdAndCount(client);
   fetchMemberKickLogId(client);
   fetchMemberBanLogId(client);
+  fetchMemberBanRemoveLogId(client);
 };

@@ -9,6 +9,7 @@ import {
   previousMemberUpdateLogId,
   previousMemberKickLogId,
   previousMemberBanLogId,
+  previousMemberBanRemoveLogId,
 } from '../../utilities';
 
 //fetches array of all users
@@ -152,6 +153,22 @@ export const fetchMemberBanLogId = async (client) => {
       .then((audit) => audit.entries.first());
     if (!temp) temp = { id: null };
     previousMemberBanLogId.push(temp.id);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//fetches member ban remove log id
+export const fetchMemberBanRemoveLogId = async (client) => {
+  try {
+    let temp = await client.guilds.cache
+      .first()
+      .fetchAuditLogs({
+        type: 'MEMBER_BAN_REMOVE',
+      })
+      .then((audit) => audit.entries.first());
+    if (!temp) temp = { id: null };
+    previousMemberBanRemoveLogId.push(temp.id);
   } catch (err) {
     console.log(err);
   }

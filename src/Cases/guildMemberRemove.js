@@ -1,4 +1,8 @@
-import { previousMemberKickLogId, userArray } from '../utilities.js';
+import {
+  previousMemberKickLogId,
+  previousMemberBanLogId,
+  userArray,
+} from '../utilities.js';
 import {
   userKickLog,
   userLeaveLog,
@@ -6,7 +10,7 @@ import {
 
 export const guildMemberRemoveCaseHandler = async (mem) => {
   try {
-    let theHonoredOne, kickAuditLog, modChannel;
+    let theHonoredOne, banAuditLog, kickAuditLog, modChannel;
 
     modChannel = mem.guild.channels.cache
       .array()
@@ -20,6 +24,12 @@ export const guildMemberRemoveCaseHandler = async (mem) => {
       })
       .then((audit) => audit.entries.first());
 
+    banAuditLog = await mem.guild
+      .fetchAuditLogs({
+        type: 'MEMBER_BAN_ADD',
+      })
+      .then((audit) => audit.entries.first());
+
     if (previousMemberKickLogId[0] !== kickAuditLog.id) {
       if (theHonoredOne.id === kickAuditLog.executor.id) {
         return;
@@ -27,6 +37,8 @@ export const guildMemberRemoveCaseHandler = async (mem) => {
         await userKickLog(kickAuditLog, null, modChannel);
       }
       previousMemberKickLogId[0] = kickAuditLog.id;
+    } else if (previousMemberBanLogId[0] !== banAuditLog.id) {
+      return;
     } else {
       await userLeaveLog(mem, modChannel);
     }

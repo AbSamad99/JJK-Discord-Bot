@@ -13,6 +13,7 @@ import { guildMemberAddCaseHandler } from './Cases/guildMemberAdd.js';
 import { guildMemberRemoveCaseHandler } from './Cases/guildMemberRemove.js';
 import { guildBanAddCaseHandler } from './Cases/guildBanAdd.js';
 import { messageBulkDeleteLog } from './Functions/Loggers/loggingFunctions';
+import { guildBanRemoveCaseHandler } from './Cases/guildBanRemove';
 
 client.on('ready', async () => {
   await client.user.setStatus('online');
@@ -52,6 +53,10 @@ client.on('guildMemberRemove', (mem) => {
 
 client.on('guildBanAdd', (guild, mem) => {
   guildBanAddCaseHandler(guild, mem);
+});
+
+client.on('guildBanRemove', (guild, mem) => {
+  guildBanRemoveCaseHandler(guild, mem);
 });
 
 client.login(process.env.token);

@@ -20,7 +20,8 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
       userArray.push({
         name: newMem.user.username,
         id: newMem.user.id,
-        avatar: newMem.user.displayAvatarURL(),
+        avatarUrl: newMem.user.displayAvatarURL(),
+        avatar: newMem.user.avatar,
         discriminator: newMem.user.discriminator,
       });
       return;
@@ -37,7 +38,7 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
       .then((audit) => audit.entries.first());
     console.log(user.name, user.discriminator);
     console.log(newMem.user.username, newMem.user.discriminator);
-    console.log(user.avatar);
+    console.log(user.avatarUrl);
     console.log(newMem.user.displayAvatarURL());
     // console.log(userLogs.id, previousDeleteLogId);
     // console.log(roleLogs.id, previousMemberRoleUpdateLogId);
@@ -51,7 +52,7 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         //Mod made the changes
         if (!nick.old && nick.new) {
           //new nickname
-          changedNicknameLog(
+          await changedNicknameLog(
             newMem,
             nick.old,
             nick.new,
@@ -60,7 +61,7 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
           );
         } else if (nick.old && !nick.new) {
           //removed nicknamed
-          changedNicknameLog(
+          await changedNicknameLog(
             newMem,
             nick.old,
             nick.new,
@@ -69,7 +70,7 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
           );
         } else if (nick.old && nick.new && nick.old !== nick.new) {
           //nickname changed
-          changedNicknameLog(
+          await changedNicknameLog(
             newMem,
             nick.old,
             nick.new,
@@ -81,13 +82,13 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         //User made changes
         if (!nick.old && nick.new) {
           //new nickname
-          changedNicknameLog(newMem, nick.old, nick.new, 'add');
+          await changedNicknameLog(newMem, nick.old, nick.new, 'add');
         } else if (nick.old && !nick.new) {
           //removed nicknamed
-          changedNicknameLog(newMem, nick.old, nick.new, 'remove');
+          await changedNicknameLog(newMem, nick.old, nick.new, 'remove');
         } else if (nick.old && nick.new && nick.old !== nick.new) {
           //nickname changed
-          changedNicknameLog(newMem, nick.old, nick.new, 'edit');
+          await changedNicknameLog(newMem, nick.old, nick.new, 'edit');
         }
       }
       previousMemberUpdateLogId[0] = userLogs.id;
@@ -96,7 +97,7 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
     else if (previousMemberRoleUpdateLogId[0] !== roleLogs.id) {
       if (roleLogs.changes[0].key === '$add') {
         if (role.new[0].name.toLowerCase() !== 'muted') {
-          changedRoleLog(
+          await changedRoleLog(
             newMem,
             roleLogs.target,
             role.new[0].id,
@@ -106,7 +107,7 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         }
       } else if (roleLogs.changes[0].key === '$remove') {
         if (role.new[0].name.toLowerCase() !== 'muted') {
-          changedRoleLog(
+          await changedRoleLog(
             newMem,
             roleLogs.target,
             role.new[0].id,
@@ -119,18 +120,23 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
     }
     //checking if username was changed
     else if (user.name !== newMem.user.username) {
-      changedUsernameAndDiscriminatorLog(newMem, user, 'username');
+      await changedUsernameAndDiscriminatorLog(newMem, user, 'username');
       user.name = newMem.user.username;
     }
     //checking if discriminator was updated
     else if (user.discriminator !== newMem.user.discriminator) {
-      changedUsernameAndDiscriminatorLog(newMem, user, 'discriminator');
+      await changedUsernameAndDiscriminatorLog(newMem, user, 'discriminator');
       user.discriminator = newMem.user.discriminator;
     }
     //checking if avatar was updated
-    else if (user.avatar !== newMem.user.displayAvatarURL()) {
-      changedAvatarLog(newMem, user);
-      user.avatar = newMem.user.displayAvatarURL();
+    else if (user.avatarUrl !== newMem.user.displayAvatarURL()) {
+      console.log(user.avatar);
+      console.log(newMem.user.avatar);
+      if (user.avatarUrl !== null) {
+        await changedAvatarLog(newMem, user);
+      }
+      user.avatarUrl = newMem.user.displayAvatarURL();
+      user.avatar = newMem.user.avatar;
     }
     //rest of the cases
     else {

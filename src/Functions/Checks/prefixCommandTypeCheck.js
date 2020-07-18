@@ -9,6 +9,7 @@ import {
   encyclopediaCommand,
   roleAssignCommand,
   prequelCommand,
+  wikiCommand,
 } from '../Commands/userCommands.js';
 
 import {
@@ -110,6 +111,11 @@ export const prefixCommandFunction = (msg) => {
   //prequel
   else if (temp.startsWith('prequel')) {
     prequelCommand(msg);
+  }
+
+  //wiki
+  else if (temp.startsWith('wiki')) {
+    wikiCommand(msg);
   }
 
   //role

@@ -27,11 +27,7 @@ client.on('messageDelete', async (msg) => {
 });
 
 client.on('messageDeleteBulk', (msgs) => {
-  try {
-    messageBulkDeleteLog(msgs);
-  } catch (err) {
-    console.log(err);
-  }
+  messageBulkDeleteLog(msgs);
 });
 
 client.on('message', (msg) => {

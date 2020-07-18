@@ -18,7 +18,8 @@ export const fetchUsers = (client) => {
       userArray.push({
         name: user.username,
         id: user.id,
-        avatar: user.displayAvatarURL(),
+        avatarUrl: user.displayAvatarURL(),
+        avatar: user.avatar,
         discriminator: user.discriminator,
       });
     });

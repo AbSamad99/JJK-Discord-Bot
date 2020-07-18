@@ -47,7 +47,7 @@ export const messageCaseHandler = (msg) => {
       }
     }
     //mod response
-    if (msg.content.includes('mod')) {
+    if (msg.content.toLowerCase().includes('mod')) {
       bestModResponse(msg);
     }
     //nfufu response
@@ -57,6 +57,10 @@ export const messageCaseHandler = (msg) => {
     //weeb response
     else if (weebCheck(msg)) {
       weebResponse(msg);
+    }
+    //sakuna response
+    if (msg.content.toLowerCase().includes('sakuna')) {
+      msg.channel.send(`It's Sukuna`);
     }
     //series sucks response
     if (xSeriesSucksCheck(msg)) {

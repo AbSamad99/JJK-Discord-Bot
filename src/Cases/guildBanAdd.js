@@ -21,7 +21,7 @@ export const guildBanAddCaseHandler = async (guild, mem) => {
       if (theHonoredOne.id === banAuditLog.executor.id) {
         return;
       } else {
-        userBanLog(banAuditLog, null, modChannel);
+        await userBanLog(banAuditLog, null, modChannel);
       }
       previousMemberBanLogId[0] = banAuditLog.id;
     }

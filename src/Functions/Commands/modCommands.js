@@ -98,6 +98,10 @@ export const muteCommand = (msg) => {
     msg.channel.send('Please mention a user to mute');
     return;
   }
+  if (!canBeBannedOrKicked(toMute)) {
+    msg.channel.send('You cannot mute this user');
+    return;
+  }
   muteRole = rolesArray.find((role) => role.name === 'Muted');
   toMute = msg.guild.member(toMute);
   temp = msg.content.slice(1);
@@ -120,7 +124,8 @@ export const muteCommand = (msg) => {
     reason = temp.slice(4);
     reason = reason.join(' ');
   } else {
-    reason = 'No reason specified';
+    msg.channel.send('Please provide a reason for mute');
+    return;
   }
   time = temp[2].concat(temp[3]);
   assignMuteRole(msg, toMute, muteRole, time, testChannel, reason);

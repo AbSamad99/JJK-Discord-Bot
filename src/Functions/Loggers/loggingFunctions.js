@@ -1,9 +1,15 @@
 const Discord = require('discord.js');
 
 import { createEmbed } from '../Helpers/createEmbed.js';
+import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
 
 //Logs deleted messages or attachments and who deleted them
-export const deleteMessageAndAttachmentLog = (msg, type, executor, target) => {
+export const deleteMessageAndAttachmentLog = async (
+  msg,
+  type,
+  executor,
+  target
+) => {
   try {
     let delEmbed,
       authorName,
@@ -23,7 +29,6 @@ export const deleteMessageAndAttachmentLog = (msg, type, executor, target) => {
     let deletedChannel = msg.channel;
 
     //setting common fields for both cases
-    thumbnail = msg.author.displayAvatarURL();
     title = `Message deleted in #${deletedChannel.name}`;
     field2 = { title: 'Message:', content: '' };
     field1 = { title: 'Author:', content: '' };
@@ -39,14 +44,16 @@ export const deleteMessageAndAttachmentLog = (msg, type, executor, target) => {
     if (!executor && !target) {
       //self delete
       authorName = msg.author.tag;
-      authorUrl = msg.author.displayAvatarURL();
+      authorUrl = await checkIfGifOrPng(msg.author);
       field1.content = `<@${msg.author.id}>`;
     } else {
       //mod delete
       authorName = executor.tag;
-      authorUrl = executor.displayAvatarURL();
+      authorUrl = await checkIfGifOrPng(executor);
       field1.content = `<@${target.id}>`;
     }
+
+    thumbnail = authorUrl;
 
     //creating the embed
     delEmbed = createEmbed(
@@ -67,7 +74,7 @@ export const deleteMessageAndAttachmentLog = (msg, type, executor, target) => {
 };
 
 //logs edited messages
-export const editMessageLog = (oldMsg, newMsg) => {
+export const editMessageLog = async (oldMsg, newMsg) => {
   try {
     let editEmbed, authorName, authorUrl, title, color, field1, field2;
 
@@ -81,7 +88,7 @@ export const editMessageLog = (oldMsg, newMsg) => {
 
     //setting the fields
     authorName = newMsg.author.tag;
-    authorUrl = newMsg.author.displayAvatarURL();
+    authorUrl = await checkIfGifOrPng(newMsg.author);
     title = `Message edited in #${editedChannel.name}`;
     color = 3447003;
     field1 = { title: 'Before:', content: oldMsg.content };
@@ -105,7 +112,13 @@ export const editMessageLog = (oldMsg, newMsg) => {
 };
 
 //logs nickname addition, change and removal
-export const changedNicknameLog = (newMem, oldNick, newNick, type, mod) => {
+export const changedNicknameLog = async (
+  newMem,
+  oldNick,
+  newNick,
+  type,
+  mod
+) => {
   try {
     let changedNicknameEmbed,
       authorName,
@@ -125,16 +138,18 @@ export const changedNicknameLog = (newMem, oldNick, newNick, type, mod) => {
     color = 3447003;
     field1 = { title: 'Before:', content: '' };
     field2 = { title: 'After:', content: '' };
-    thumbnail = newMem.user.displayAvatarURL();
 
     //seeing if user edited nickname or a mod
     if (!mod) {
       authorName = newMem.user.tag;
-      authorUrl = newMem.user.displayAvatarURL();
+      authorUrl = await checkIfGifOrPng(newMem.user);
     } else {
       authorName = mod.tag;
-      authorUrl = mod.displayAvatarURL();
+      authorUrl = await checkIfGifOrPng(mod);
     }
+
+    thumbnail = authorUrl;
+    console.log(authorUrl);
 
     //determining type of nickname edit
     if (type === 'add') {
@@ -170,7 +185,13 @@ export const changedNicknameLog = (newMem, oldNick, newNick, type, mod) => {
 };
 
 //logs role addition/removal
-export const changedRoleLog = (newMem, target, roleId, type, executor) => {
+export const changedRoleLog = async (
+  newMem,
+  target,
+  roleId,
+  type,
+  executor
+) => {
   try {
     let roleEmbed, authorName, authorUrl, title, color, description;
 
@@ -181,7 +202,7 @@ export const changedRoleLog = (newMem, target, roleId, type, executor) => {
 
     //setting commom fields
     authorName = executor.tag;
-    authorUrl = executor.displayAvatarURL();
+    authorUrl = await checkIfGifOrPng(executor);
     color = 3447003;
 
     //adding fields based on type
@@ -213,7 +234,11 @@ export const changedRoleLog = (newMem, target, roleId, type, executor) => {
 };
 
 //logs username changes
-export const changedUsernameAndDiscriminatorLog = (newMem, user, type) => {
+export const changedUsernameAndDiscriminatorLog = async (
+  newMem,
+  user,
+  type
+) => {
   try {
     let modChannel,
       changedUsernameEmbed,
@@ -232,7 +257,7 @@ export const changedUsernameAndDiscriminatorLog = (newMem, user, type) => {
 
     //setting relevant fields
     authorName = newMem.user.tag;
-    authorUrl = newMem.user.displayAvatarURL();
+    authorUrl = await checkIfGifOrPng(newMem.user);
     color = 3447003;
     field1 = { title: 'Before:', content: '' };
     field2 = { title: 'After', content: '' };
@@ -270,7 +295,7 @@ export const changedUsernameAndDiscriminatorLog = (newMem, user, type) => {
 };
 
 //logs avatar updates
-export const changedAvatarLog = (newMem, user) => {
+export const changedAvatarLog = async (newMem, user) => {
   try {
     let modChannel,
       changedAvatarEmbed,
@@ -289,12 +314,15 @@ export const changedAvatarLog = (newMem, user) => {
 
     //setting relevant fields
     authorName = newMem.user.tag;
-    authorUrl = newMem.user.displayAvatarURL();
+    authorUrl = await checkIfGifOrPng(newMem.user);
     title = 'Avatar Changed';
     color = 3447003;
-    image = user.avatar;
+    image = await checkIfGifOrPng(null, user);
     description = `<@${newMem.user.id}> has updated their avatar from the one below to the one on the right`;
     thumbnail = authorUrl;
+
+    console.log(authorUrl);
+    console.log(image);
 
     //creating embed
     changedAvatarEmbed = createEmbed(
@@ -317,13 +345,13 @@ export const changedAvatarLog = (newMem, user) => {
 };
 
 //logs when user joins the server
-export const userJoinLog = (mem, modChannel) => {
+export const userJoinLog = async (mem, modChannel) => {
   try {
     let joinEmbed, authorName, authorUrl, title, color, thumbnail, description;
 
     //setting relevant fields
     authorName = mem.user.tag;
-    authorUrl = mem.user.displayAvatarURL();
+    authorUrl = await checkIfGifOrPng(mem.user);
     title = 'Member Joined';
     color = 3447003;
     thumbnail = authorUrl;
@@ -349,7 +377,13 @@ export const userJoinLog = (mem, modChannel) => {
 };
 
 //logs when user is kicked from the server
-export const userKickLog = (kickAuditLog, msg, modChannel, toKick, reason) => {
+export const userKickLog = async (
+  kickAuditLog,
+  msg,
+  modChannel,
+  toKick,
+  reason
+) => {
   try {
     let kickEmbed,
       authorName,
@@ -367,15 +401,15 @@ export const userKickLog = (kickAuditLog, msg, modChannel, toKick, reason) => {
 
     if (!msg) {
       authorName = kickAuditLog.executor.tag;
-      authorUrl = kickAuditLog.executor.displayAvatarURL();
-      thumbnail = kickAuditLog.target.displayAvatarURL();
+      authorUrl = await checkIfGifOrPng(kickAuditLog.executor);
+      thumbnail = await checkIfGifOrPng(kickAuditLog.target);
       description = `<@${kickAuditLog.target.id}> has been kicked from the server.`;
       field1.content = kickAuditLog.reason;
       if (!field1.content) field1.content = 'No Reason was provided';
     } else {
       authorName = msg.author.tag;
-      authorUrl = msg.author.displayAvatarURL();
-      thumbnail = toKick.user.displayAvatarURL();
+      authorUrl = await checkIfGifOrPng(msg.author);
+      thumbnail = await checkIfGifOrPng(toKick.user);
       description = `<@${toKick.user.id}> has been kicked from the server.`;
       field1.content = reason;
     }
@@ -399,8 +433,43 @@ export const userKickLog = (kickAuditLog, msg, modChannel, toKick, reason) => {
   }
 };
 
+export const userLeaveLog = async (mem, modChannel) => {
+  try {
+    let leaveEmbed, authorName, authorUrl, title, color, description;
+
+    //setting relevant fields
+    authorName = mem.user.tag;
+    authorUrl = await checkIfGifOrPng(mem.user);
+    title = 'Member Left';
+    color = 3447003;
+    description = `<@${mem.user.id}> has left the server`;
+
+    //creating the embed
+    leaveEmbed = createEmbed(
+      authorName,
+      authorUrl,
+      title,
+      color,
+      null,
+      null,
+      null,
+      description
+    );
+
+    modChannel.send(leaveEmbed).catch(console.logy);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 //logs when user is banned from the server
-export const userBanLog = (banAuditLog, msg, modChannel, toBan, reason) => {
+export const userBanLog = async (
+  banAuditLog,
+  msg,
+  modChannel,
+  toBan,
+  reason
+) => {
   try {
     let banEmbed,
       authorName,
@@ -418,15 +487,15 @@ export const userBanLog = (banAuditLog, msg, modChannel, toBan, reason) => {
 
     if (!msg) {
       authorName = banAuditLog.executor.tag;
-      authorUrl = banAuditLog.executor.displayAvatarURL();
-      thumbnail = banAuditLog.target.displayAvatarURL();
+      authorUrl = await checkIfGifOrPng(banAuditLog.executor);
+      thumbnail = await checkIfGifOrPng(banAuditLog.target);
       description = `<@${banAuditLog.target.id}> has been Banned from the server.`;
       field1.content = banAuditLog.reason;
       if (!field1.content) field1.content = 'No Reason was provided';
     } else {
       authorName = msg.author.tag;
-      authorUrl = msg.author.displayAvatarURL();
-      thumbnail = toBan.user.displayAvatarURL();
+      authorUrl = await checkIfGifOrPng(msg.author);
+      thumbnail = await checkIfGifOrPng(toBan.user);
       description = `<@${toBan.user.id}> has been Banned from the server.`;
       field1.content = reason;
     }
@@ -452,21 +521,25 @@ export const userBanLog = (banAuditLog, msg, modChannel, toBan, reason) => {
 
 //logs when messages are purged
 export const messageBulkDeleteLog = (msgs) => {
-  let modChannel, messageArray, delEmbed;
-  modChannel = msgs
-    .array()[0]
-    .guild.channels.cache.find((ch) => ch.name === 'syed-bot-practice');
-  messageArray = msgs.array();
-  for (let i = 1; i < messageArray.length; i++) {
-    delEmbed = new Discord.MessageEmbed()
-      .setAuthor(
-        messageArray[i].author.tag,
-        messageArray[i].author.displayAvatarURL()
-      )
-      .setTitle(`Message deleted in ${messageArray[i].channel.name}`)
-      .addField('Message:', messageArray[i].content)
-      .setColor(3447003)
-      .setFooter(new Date());
-    modChannel.send(delEmbed);
+  try {
+    let modChannel, messageArray, delEmbed;
+    modChannel = msgs
+      .array()[0]
+      .guild.channels.cache.find((ch) => ch.name === 'syed-bot-practice');
+    messageArray = msgs.array();
+    for (let i = messageArray.length - 1; i >= 1; i--) {
+      delEmbed = new Discord.MessageEmbed()
+        .setAuthor(
+          messageArray[i].author.tag,
+          messageArray[i].author.displayAvatarURL()
+        )
+        .setTitle(`Message deleted in ${messageArray[i].channel.name}`)
+        .addField('Message:', messageArray[i].content)
+        .setColor(3447003)
+        .setFooter(new Date());
+      modChannel.send(delEmbed);
+    }
+  } catch (err) {
+    console.log(err);
   }
 };

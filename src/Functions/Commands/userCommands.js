@@ -93,6 +93,12 @@ export const prequelCommand = (msg) => {
   }
 };
 
+export const wikiCommand = (msg) => {
+  msg.channel
+    .send('https://jujutsu-kaisen.fandom.com/wiki/Jujutsu_Kaisen_Wiki')
+    .catch(console.log);
+};
+
 export const roleAssignCommand = (msg) => {
   let botChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'bot-commands'

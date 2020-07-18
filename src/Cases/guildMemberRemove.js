@@ -1,5 +1,8 @@
 import { previousMemberKickLogId, userArray } from '../utilities.js';
-import { userKickLog } from '../Functions/Loggers/loggingFunctions.js';
+import {
+  userKickLog,
+  userLeaveLog,
+} from '../Functions/Loggers/loggingFunctions.js';
 
 export const guildMemberRemoveCaseHandler = async (mem) => {
   try {
@@ -21,9 +24,11 @@ export const guildMemberRemoveCaseHandler = async (mem) => {
       if (theHonoredOne.id === kickAuditLog.executor.id) {
         return;
       } else {
-        userKickLog(kickAuditLog, null, modChannel);
+        await userKickLog(kickAuditLog, null, modChannel);
       }
       previousMemberKickLogId[0] = kickAuditLog.id;
+    } else {
+      await userLeaveLog(mem, modChannel);
     }
   } catch (err) {
     console.log(err);

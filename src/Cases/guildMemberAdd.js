@@ -41,7 +41,8 @@ export const guildMemberAddCaseHandler = (mem) => {
     userArray.push({
       name: mem.user.username,
       id: mem.user.id,
-      displayAvatarURL: mem.user.displayAvatarURL(),
+      avatarUrl: mem.user.displayAvatarURL(),
+      avatar: mem.user.avatar,
       discriminator: mem.user.discriminator,
     });
   } catch (err) {

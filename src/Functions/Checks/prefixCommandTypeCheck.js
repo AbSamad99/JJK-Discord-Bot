@@ -1,9 +1,13 @@
+import { roleAssignCommand } from '../Commands/userCommands.js';
+
 import {
-  roleAssignCommand,
-  addArtCommand,
-  getArtCommand,
   getAllArtCommand,
-} from '../Commands/userCommands.js';
+  getArtCommand,
+  getArtNamesCommand,
+  addArtCommand,
+  addArtCharacterCommand,
+  removeArtCharacterCommand,
+} from '../Commands/artCommands.js';
 
 import { fujoCommand } from '../Commands/miscCommands.js';
 
@@ -32,7 +36,7 @@ import {
   purgeCommand,
 } from '../Commands/modCommands.js';
 
-import { modPermsCheck } from './RoleChecks.js';
+import { modPermsCheck, communityRoleCheck } from './RoleChecks.js';
 
 export const prefixCommandFunction = (msg) => {
   let temp = msg.content.toLowerCase();
@@ -79,13 +83,37 @@ export const prefixCommandFunction = (msg) => {
   }
 
   //add art
-  else if (temp.startsWith('addart') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('addart') &&
+    modPermsCheck(msg) &&
+    communityRoleCheck(msg) &&
+    !temp.startsWith('addartcharacter')
+  ) {
     addArtCommand(msg);
   }
 
+  //add character
+  else if (temp.startsWith('addartcharacter') && modPermsCheck(msg)) {
+    addArtCharacterCommand(msg);
+  }
+
+  //removes character
+  else if (temp.startsWith('removeartcharacter') && modPermsCheck(msg)) {
+    removeArtCharacterCommand(msg);
+  }
+
   //get art
-  else if (temp.startsWith('getart') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('getart') &&
+    modPermsCheck(msg) &&
+    !temp.startsWith('getartnames')
+  ) {
     getArtCommand(msg);
+  }
+
+  //get art names
+  else if (temp.startsWith('getartnames') && modPermsCheck(msg)) {
+    getArtNamesCommand(msg);
   }
 
   //fujo

@@ -11,6 +11,16 @@ export const modPermsCheck = (msg) => {
   } else return 0;
 };
 
+export const communityRoleCheck = (msg) => {
+  let temp = msg.member.roles.cache;
+  let communityRole = rolesArray.find(
+    (role) => role.name === 'Community Service Shaman'
+  );
+  if (temp.has(communityRole.id)) {
+    return 1;
+  } else return 0;
+};
+
 export const hasRoleCheck = (msg, role) => {
   if (msg.member.roles.cache.has(role.id)) {
     return 1;

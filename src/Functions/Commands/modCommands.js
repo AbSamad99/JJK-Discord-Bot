@@ -23,9 +23,9 @@ export const chapterAnnouncement = (msg) => {
   let mpLink = temp[3];
   let replyMessage = `<@&${mangaNewsRole.id}> Chapter ${chapterNumber} is out!
     
-    Viz: ${vizLink}
+Viz: ${vizLink}
         
-    Manga Plus: ${mpLink}`;
+Manga Plus: ${mpLink}`;
   if (temp[1] && temp[2] && temp[3]) {
     if (msg.channel.id === practiceChannel.id) {
       msg.channel.send(replyMessage).catch(console.log);
@@ -42,6 +42,9 @@ export const chapterAnnouncement = (msg) => {
 //command to help with poll announcement
 export const pollAnnouncement = (msg) => {
   let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
+  let practiceChannel = channelArray.find(
+    (ch) => ch.name === 'syed-bot-practice'
+  );
   let announcementChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'announcements'
   );
@@ -50,22 +53,28 @@ export const pollAnnouncement = (msg) => {
   let pollNumber = Number(temp[1]);
   let replyMessage = `<:globe_with_meridians:729386644259471390> Chapter ${pollNumber} rating. <:globe_with_meridians:729386644259471390>
           
-    \:five: Great
-    \:four: Good
-    \:three: Okay 
-    \:two: Bad
-    \:one: Awful`;
+\:five: Great
+\:four: Good
+\:three: Okay 
+\:two: Bad
+\:one: Awful`;
   if (pollNumber) {
-    announcementChannel
-      .send(replyMessage)
-      .then((msg) => {
-        msg.react('5️⃣');
-        msg.react('4️⃣');
-        msg.react('3️⃣');
-        msg.react('2️⃣');
-        msg.react('1️⃣');
-      })
-      .catch(console.log);
+    if (msg.channel.id === practiceChannel.id) {
+      msg.channel.send(replyMessage).catch(console.log);
+    } else if (msg.channel.id === modBotChannel.id) {
+      announcementChannel
+        .send(replyMessage)
+        .then((msg) => {
+          msg.react('5️⃣');
+          msg.react('4️⃣');
+          msg.react('3️⃣');
+          msg.react('2️⃣');
+          msg.react('1️⃣');
+        })
+        .catch(console.log);
+    }
+  } else {
+    msg.channel.send('Please provide a number');
   }
 };
 

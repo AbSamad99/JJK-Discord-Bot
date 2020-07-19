@@ -23,9 +23,9 @@ export const welcomeCommand = (msg) => {
     msg.channel.id === testChannel.id
   ) {
     let message = `Welcome newbie, we have three questions for you:
-  1. Are you up to date on the Jujutsu Kaisen manga?
-  2. Have you read the prequel?
-  3. Can Todo ask you a woke question?`;
+1. Are you up to date on the Jujutsu Kaisen manga?
+2. Have you read the prequel?
+3. Can Todo ask you a woke question?`;
     msg.channel.send(message).catch(console.log);
   }
 };

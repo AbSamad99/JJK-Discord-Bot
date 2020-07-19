@@ -1,16 +1,26 @@
 import {
-  fujoCommand,
-  todoCommand,
+  roleAssignCommand,
+  addArtCommand,
+  getArtCommand,
+  getAllArtCommand,
+} from '../Commands/userCommands.js';
+
+import { fujoCommand } from '../Commands/miscCommands.js';
+
+import {
   welcomeCommand,
-  dontCareCommand,
+  todoCommand,
   shyCommand,
+  dontCareCommand,
+} from '../Commands/welcomeCommands.js';
+
+import {
   catalogueCommand,
   chartCommand,
-  encyclopediaCommand,
-  roleAssignCommand,
   prequelCommand,
   wikiCommand,
-} from '../Commands/userCommands.js';
+  encyclopediaCommand,
+} from '../Commands/linkCommands.js';
 
 import {
   chapterAnnouncement,
@@ -24,12 +34,7 @@ import {
 
 import { modPermsCheck } from './RoleChecks.js';
 
-import { rolesArray } from '../../utilities.js';
-
 export const prefixCommandFunction = (msg) => {
-  let honoredOneRole = rolesArray.find(
-    (role) => role.name === 'The Honored One'
-  );
   let temp = msg.content.toLowerCase();
   temp = temp.slice(1);
 
@@ -66,6 +71,21 @@ export const prefixCommandFunction = (msg) => {
   //kick
   else if (temp.startsWith('kick') && modPermsCheck(msg)) {
     kickCommand(msg);
+  }
+
+  //get all art
+  else if (temp.startsWith('getallart') && modPermsCheck(msg)) {
+    getAllArtCommand(msg);
+  }
+
+  //add art
+  else if (temp.startsWith('addart') && modPermsCheck(msg)) {
+    addArtCommand(msg);
+  }
+
+  //get art
+  else if (temp.startsWith('getart') && modPermsCheck(msg)) {
+    getArtCommand(msg);
   }
 
   //fujo

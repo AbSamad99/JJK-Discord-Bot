@@ -18,11 +18,9 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
     );
     console.log(userArray.length, newMem.guild.memberCount);
     // console.log(userArray[0]);
-    const user = userArray.find((user, i) => user.id === newMem.user.id);
+    const user = userArray.find((user) => user.id === newMem.user.id);
 
-    const check = (element) => element.id === newMem.user.id;
-
-    index = userArray.findIndex(check);
+    index = userArray.findIndex((user) => user.id === newMem.user.id);
 
     console.log(index);
 

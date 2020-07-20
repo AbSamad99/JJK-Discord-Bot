@@ -4,6 +4,7 @@ const fs = require('fs');
 //adds an art
 const addArtCommand = async (msg) => {
   try {
+    msg.suppressEmbeds();
     const characterArtObj = JSON.parse(
       fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
     );
@@ -45,10 +46,58 @@ const addArtCommand = async (msg) => {
         JSON.stringify(characterArtObj)
       );
     }
-    msg.channel
-      .send('Added')
-      .then(() => msg.suppressEmbeds())
-      .catch(console.log);
+    msg.channel.send('Added').catch(console.log);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//removes an art
+const removeArtCommand = async (msg) => {
+  try {
+    let artChannel, testChannel, temp, characterArray, index;
+
+    msg.suppressEmbeds();
+    const characterArtObj = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
+    );
+
+    artChannel = msg.guild.channels.cache.find(
+      (ch) => ch.name === 'music-and-art'
+    );
+    testChannel = msg.guild.channels.cache.find(
+      (ch) => ch.name === 'syed-bot-practice'
+    );
+
+    if (msg.channel.id !== artChannel.id && msg.channel.id !== testChannel.id)
+      return;
+
+    temp = msg.content.slice(1);
+    temp = temp.split(' ');
+    if (!temp[1]) {
+      msg.channel.send('Please specify a character name');
+      return;
+    }
+    characterArray = characterArtObj[temp[1].toLowerCase()];
+    if (!characterArray) {
+      msg.channel.send('Invalid character');
+      return;
+    }
+    if (!temp[2]) {
+      msg.channel.send('Please provide link');
+      return;
+    }
+    index = characterArray.findIndex((link) => link === temp[2]);
+    if (index == -1) {
+      msg.channel.send('No such link exists');
+      return;
+    }
+    characterArray.splice(index, 1);
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/art.json`,
+      JSON.stringify(characterArtObj)
+    );
+    msg.channel.send('Deleted').catch(console.log);
   } catch (err) {
     console.log(err);
   }
@@ -234,4 +283,5 @@ module.exports = {
   removeArtCharacterCommand: removeArtCharacterCommand,
   addArtCharacterCommand: addArtCharacterCommand,
   getArtNamesCommand: getArtNamesCommand,
+  removeArtCommand: removeArtCommand,
 };

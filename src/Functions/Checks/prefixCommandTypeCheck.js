@@ -7,6 +7,7 @@ const {
   addArtCommand,
   addArtCharacterCommand,
   removeArtCharacterCommand,
+  removeArtCommand,
 } = require('../Commands/artCommands.js');
 
 const { fujoCommand } = require('../Commands/miscCommands.js');
@@ -100,6 +101,15 @@ const prefixCommandFunction = (msg) => {
   //removes character
   else if (temp.startsWith('removeartcharacter') && modPermsCheck(msg)) {
     removeArtCharacterCommand(msg);
+  }
+
+  //removes art
+  else if (
+    temp.startsWith('removeart') &&
+    modPermsCheck(msg) &&
+    !temp.startsWith('removeartcharacter')
+  ) {
+    removeArtCommand(msg);
   }
 
   //get art

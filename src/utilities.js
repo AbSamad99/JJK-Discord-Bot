@@ -1,28 +1,20 @@
-export const prefix = '-';
+const prefix = '-';
 
-export const userArray = [];
+const previousDeleteLogId = [];
 
-export const channelArray = [];
+const previousMemberUpdateLogId = [];
 
-export const emoteArray = [];
+const previousMemberRoleUpdateLogId = [];
 
-export const rolesArray = [];
+const previousDeleteLogCount = [];
 
-export const previousDeleteLogId = [];
+const previousMemberKickLogId = [];
 
-export const previousMemberUpdateLogId = [];
+const previousMemberBanLogId = [];
 
-export const previousMemberRoleUpdateLogId = [];
+const previousMemberBanRemoveLogId = [];
 
-export const previousDeleteLogCount = [];
-
-export const previousMemberKickLogId = [];
-
-export const previousMemberBanLogId = [];
-
-export const previousMemberBanRemoveLogId = [];
-
-export const characterArtObj = {
+const characterArtObj = {
   yuji: [],
   megumi: [],
   nobara: [],
@@ -72,4 +64,16 @@ export const characterArtObj = {
   takeda: [],
   ozawa: [],
   ui: [],
+};
+
+module.exports = {
+  prefix: prefix,
+  previousDeleteLogId: previousDeleteLogId,
+  previousMemberUpdateLogId: previousMemberUpdateLogId,
+  previousMemberRoleUpdateLogId: previousMemberRoleUpdateLogId,
+  previousDeleteLogCount: previousDeleteLogCount,
+  previousMemberKickLogId: previousMemberKickLogId,
+  previousMemberBanLogId: previousMemberBanLogId,
+  previousMemberBanRemoveLogId: previousMemberBanRemoveLogId,
+  characterArtObj: characterArtObj,
 };

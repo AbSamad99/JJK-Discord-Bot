@@ -1,6 +1,10 @@
-import { channelArray, rolesArray } from '../../utilities';
+const fs = require('fs');
 
-export const weebCheck = (msg) => {
+const weebCheck = (msg) => {
+  const rolesArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
+  );
+
   let honoredOneRole = rolesArray.find(
     (role) => role.name === 'The Honored One'
   );
@@ -24,7 +28,10 @@ export const weebCheck = (msg) => {
   } else return 0;
 };
 
-export const otherSeriesTalkCheck = (msg) => {
+const otherSeriesTalkCheck = (msg) => {
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let temp = msg.content.toLowerCase();
   let otherSeriesChannel = channelArray.find(
     (ch) => ch.name === 'other-series'
@@ -46,7 +53,7 @@ export const otherSeriesTalkCheck = (msg) => {
   } else return 0;
 };
 
-export const xSeriesSucksCheck = (msg) => {
+const xSeriesSucksCheck = (msg) => {
   let temp = msg.content.toLowerCase();
   if (
     temp === 'fate sucks' ||
@@ -57,4 +64,10 @@ export const xSeriesSucksCheck = (msg) => {
   ) {
     return 1;
   } else return 0;
+};
+
+module.exports = {
+  weebCheck: weebCheck,
+  otherSeriesTalkCheck: otherSeriesTalkCheck,
+  xSeriesSucksCheck: xSeriesSucksCheck,
 };

@@ -1,8 +1,6 @@
-import {
-  userArray,
-  channelArray,
-  emoteArray,
-  rolesArray,
+const fs = require('fs');
+
+const {
   previousDeleteLogCount,
   previousDeleteLogId,
   previousMemberRoleUpdateLogId,
@@ -10,13 +8,15 @@ import {
   previousMemberKickLogId,
   previousMemberBanLogId,
   previousMemberBanRemoveLogId,
-} from '../../utilities';
+  characterArtObj,
+} = require('../../utilities');
 
 //fetches array of all users
-export const fetchUsers = (client) => {
+const fetchUsers = (client) => {
   try {
+    let tempArray = [];
     client.users.cache.array().forEach((user) => {
-      userArray.push({
+      tempArray.push({
         name: user.username,
         id: user.id,
         avatarUrl: user.displayAvatarURL(),
@@ -24,65 +24,84 @@ export const fetchUsers = (client) => {
         discriminator: user.discriminator,
       });
     });
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/users.json`,
+      JSON.stringify(tempArray)
+    );
   } catch (err) {
     console.log(err);
   }
 };
 
 //fetches array of all channels
-export const fetchChannels = (client) => {
+const fetchChannels = (client) => {
   try {
+    let tempArray = [];
     client.channels.cache.array().forEach((channel) => {
       if (channel.type === 'category') {
         return;
       }
-      channelArray.push({
+      tempArray.push({
         type: channel.type,
         name: channel.name,
         id: channel.id,
         nsfw: channel.nsfw,
       });
     });
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/channels.json`,
+      JSON.stringify(tempArray)
+    );
   } catch (err) {
     console.log(err);
   }
 };
 
 //fetches array of all emotes
-export const fetchEmotes = (client) => {
+const fetchEmotes = (client) => {
   try {
+    let tempArray = [];
     client.emojis.cache.array().forEach((emote) => {
-      emoteArray.push({
+      tempArray.push({
         name: emote.name,
         id: emote.id,
         animated: emote.animated,
       });
     });
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/emotes.json`,
+      JSON.stringify(tempArray)
+    );
   } catch (err) {
     console.log(err);
   }
 };
 
 //fetches array of all roles
-export const fetchRoles = (client) => {
+const fetchRoles = (client) => {
   try {
+    let tempArray = [];
     client.guilds.cache
       .array()[0]
       .roles.cache.array()
       .forEach((role) => {
-        rolesArray.push({
+        tempArray.push({
           name: role.name,
           id: role.id,
           color: role.color,
         });
       });
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/roles.json`,
+      JSON.stringify(tempArray)
+    );
   } catch (err) {
     console.log(err);
   }
 };
 
 //fetches message delete log id and count
-export const fetchMessageDeleteLogIdAndCount = async (client) => {
+const fetchMessageDeleteLogIdAndCount = async (client) => {
   try {
     let temp = await client.guilds.cache
       .first()
@@ -98,7 +117,7 @@ export const fetchMessageDeleteLogIdAndCount = async (client) => {
 };
 
 //fetches member update log id
-export const fetchMemberUpdateLogId = async (client) => {
+const fetchMemberUpdateLogId = async (client) => {
   try {
     let temp = await client.guilds.cache
       .first()
@@ -113,7 +132,7 @@ export const fetchMemberUpdateLogId = async (client) => {
 };
 
 //fetches member role update log id
-export const fetchMemberRoleUpdateLogId = async (client) => {
+const fetchMemberRoleUpdateLogId = async (client) => {
   try {
     let temp = await client.guilds.cache
       .first()
@@ -128,7 +147,7 @@ export const fetchMemberRoleUpdateLogId = async (client) => {
 };
 
 //fetches member kick log id
-export const fetchMemberKickLogId = async (client) => {
+const fetchMemberKickLogId = async (client) => {
   try {
     let temp = await client.guilds.cache
       .first()
@@ -143,7 +162,7 @@ export const fetchMemberKickLogId = async (client) => {
 };
 
 //fetches member ban log id
-export const fetchMemberBanLogId = async (client) => {
+const fetchMemberBanLogId = async (client) => {
   try {
     let temp = await client.guilds.cache
       .first()
@@ -159,7 +178,7 @@ export const fetchMemberBanLogId = async (client) => {
 };
 
 //fetches member ban remove log id
-export const fetchMemberBanRemoveLogId = async (client) => {
+const fetchMemberBanRemoveLogId = async (client) => {
   try {
     let temp = await client.guilds.cache
       .first()
@@ -172,4 +191,31 @@ export const fetchMemberBanRemoveLogId = async (client) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+//constructs the charartobj
+const stringifyCharacterArtObj = () => {
+  try {
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/art.json`,
+      JSON.stringify(characterArtObj)
+    );
+    delete characterArtObj;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = {
+  fetchUsers: fetchUsers,
+  fetchChannels: fetchChannels,
+  fetchEmotes: fetchEmotes,
+  fetchRoles: fetchRoles,
+  fetchMessageDeleteLogIdAndCount: fetchMessageDeleteLogIdAndCount,
+  fetchMemberUpdateLogId: fetchMemberUpdateLogId,
+  fetchMemberRoleUpdateLogId: fetchMemberRoleUpdateLogId,
+  fetchMemberKickLogId: fetchMemberKickLogId,
+  fetchMemberBanLogId: fetchMemberBanLogId,
+  fetchMemberBanRemoveLogId: fetchMemberBanRemoveLogId,
+  stringifyCharacterArtObj: stringifyCharacterArtObj,
 };

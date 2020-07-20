@@ -1,9 +1,13 @@
-import { editMessageLog } from '../Functions//Loggers/messageUpdateLog.js';
+const fs = require('fs');
 
-import { userArray } from '../utilities';
+const editMessageLog = require('../Functions//Loggers/messageUpdateLog.js');
 
-export const messageUpdateCaseHandler = async (oldMsg, newMsg) => {
+const messageUpdateCaseHandler = async (oldMsg, newMsg) => {
   try {
+    const userArray = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
+    );
+
     let honoredOne = await userArray.find(
       (user) => user.name === 'The Honored One'
     );
@@ -13,11 +17,13 @@ export const messageUpdateCaseHandler = async (oldMsg, newMsg) => {
     ) {
       try {
         await editMessageLog(oldMsg, newMsg);
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        console.log(err);
       }
     }
   } catch (err) {
     console.log(err);
   }
 };
+
+module.exports = messageUpdateCaseHandler;

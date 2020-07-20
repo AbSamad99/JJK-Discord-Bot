@@ -1,13 +1,8 @@
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //Logs deleted messages or attachments and who deleted them
-export const deleteMessageAndAttachmentLog = async (
-  msg,
-  type,
-  executor,
-  target
-) => {
+const deleteMessageAndAttachmentLog = async (msg, type, executor, target) => {
   try {
     let delEmbed,
       authorName,
@@ -72,3 +67,5 @@ export const deleteMessageAndAttachmentLog = async (
     console.log(err);
   }
 };
+
+module.exports = deleteMessageAndAttachmentLog;

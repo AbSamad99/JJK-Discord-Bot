@@ -1,6 +1,6 @@
-import { deleteMessageAndAttachmentLog } from '../Functions/Loggers/messageDeleteLog';
+const deleteMessageAndAttachmentLog = require('../Functions/Loggers/messageDeleteLog');
 
-export const messageBulkDeleteCaseHandler = async (msgs) => {
+const messageBulkDeleteCaseHandler = async (msgs) => {
   try {
     let modChannel, messageArray, bulkDeleteAuditLog;
     modChannel = msgs
@@ -36,3 +36,5 @@ export const messageBulkDeleteCaseHandler = async (msgs) => {
     console.log(err);
   }
 };
+
+module.exports = messageBulkDeleteCaseHandler;

@@ -1,14 +1,8 @@
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs when user is banned from the server
-export const userBanLog = async (
-  banAuditLog,
-  msg,
-  modChannel,
-  toBan,
-  reason
-) => {
+const userBanLog = async (banAuditLog, msg, modChannel, toBan, reason) => {
   try {
     let banEmbed,
       authorName,
@@ -57,3 +51,5 @@ export const userBanLog = async (
     console.log(err);
   }
 };
+
+module.exports = userBanLog;

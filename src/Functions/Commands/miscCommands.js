@@ -1,3 +1,7 @@
-export const fujoCommand = (msg) => {
+const fujoCommand = (msg) => {
   msg.channel.send('https://bit.ly/2ZoTsQ4').catch(console.log);
+};
+
+module.exports = {
+  fujoCommand: fujoCommand,
 };

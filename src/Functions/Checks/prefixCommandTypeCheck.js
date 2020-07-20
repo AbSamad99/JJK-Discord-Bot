@@ -1,32 +1,32 @@
-import { roleAssignCommand } from '../Commands/userCommands.js';
+const roleAssignCommand = require('../Commands/userCommands.js');
 
-import {
+const {
   getAllArtCommand,
   getArtCommand,
   getArtNamesCommand,
   addArtCommand,
   addArtCharacterCommand,
   removeArtCharacterCommand,
-} from '../Commands/artCommands.js';
+} = require('../Commands/artCommands.js');
 
-import { fujoCommand } from '../Commands/miscCommands.js';
+const { fujoCommand } = require('../Commands/miscCommands.js');
 
-import {
+const {
   welcomeCommand,
   todoCommand,
   shyCommand,
   dontCareCommand,
-} from '../Commands/welcomeCommands.js';
+} = require('../Commands/welcomeCommands.js');
 
-import {
+const {
   catalogueCommand,
   chartCommand,
   prequelCommand,
   wikiCommand,
   encyclopediaCommand,
-} from '../Commands/linkCommands.js';
+} = require('../Commands/linkCommands.js');
 
-import {
+const {
   chapterAnnouncement,
   pollAnnouncement,
   anonMessageCommand,
@@ -34,11 +34,11 @@ import {
   kickCommand,
   banCommand,
   purgeCommand,
-} from '../Commands/modCommands.js';
+} = require('../Commands/modCommands.js');
 
-import { modPermsCheck, communityRoleCheck } from './RoleChecks.js';
+const { modPermsCheck, communityRoleCheck } = require('./RoleChecks.js');
 
-export const prefixCommandFunction = (msg) => {
+const prefixCommandFunction = (msg) => {
   let temp = msg.content.toLowerCase();
   temp = temp.slice(1);
 
@@ -171,3 +171,5 @@ export const prefixCommandFunction = (msg) => {
     roleAssignCommand(msg);
   }
 };
+
+module.exports = prefixCommandFunction;

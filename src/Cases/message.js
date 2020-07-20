@@ -1,28 +1,28 @@
-import { prefix } from '../utilities';
+const { prefix } = require('../utilities.js');
 
-import {
+const {
   weebResponse,
   nfufuResponse,
   bestModResponse,
   otherSeriesTalkResponse,
   xSeriesSucksResponse,
-} from '../Functions/Responses/responseFunctions';
+} = require('../Functions/Responses/responseFunctions');
 
 //importing required Check functions
-import { modPermsCheck } from '../Functions/Checks/RoleChecks.js';
-import {
+const { modPermsCheck } = require('../Functions/Checks/RoleChecks.js');
+const {
   isSuggestionCheck,
   containsDiscordLinkCheck,
   containsForbiddenLinkCheck,
-} from '../Functions/Checks/moderationHelpCheck.js';
-import { prefixCommandFunction } from '../Functions/Checks/prefixCommandTypeCheck.js';
-import {
+} = require('../Functions/Checks/moderationHelpCheck.js');
+const prefixCommandFunction = require('../Functions/Checks/prefixCommandTypeCheck.js');
+const {
   xSeriesSucksCheck,
   weebCheck,
   otherSeriesTalkCheck,
-} from '../Functions/Checks/miscChecks.js';
+} = require('../Functions/Checks/miscChecks.js');
 
-export const messageCaseHandler = (msg) => {
+const messageCaseHandler = (msg) => {
   try {
     //checks from commannd
     if (msg.content.startsWith(prefix)) {
@@ -85,3 +85,5 @@ export const messageCaseHandler = (msg) => {
     console.log(err);
   }
 };
+
+module.exports = messageCaseHandler;

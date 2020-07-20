@@ -1,12 +1,8 @@
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs username changes
-export const changedUsernameAndDiscriminatorLog = async (
-  newMem,
-  user,
-  type
-) => {
+const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
   try {
     let modChannel,
       changedUsernameEmbed,
@@ -61,3 +57,5 @@ export const changedUsernameAndDiscriminatorLog = async (
     console.log(err);
   }
 };
+
+module.exports = changedUsernameAndDiscriminatorLog;

@@ -1,14 +1,8 @@
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs when user is kicked from the server
-export const userKickLog = async (
-  kickAuditLog,
-  msg,
-  modChannel,
-  toKick,
-  reason
-) => {
+const userKickLog = async (kickAuditLog, msg, modChannel, toKick, reason) => {
   try {
     let kickEmbed,
       authorName,
@@ -57,3 +51,5 @@ export const userKickLog = async (
     console.log(err);
   }
 };
+
+module.exports = userKickLog;

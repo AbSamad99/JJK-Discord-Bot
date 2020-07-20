@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const ms = require('ms');
 
 //adds role to user
-export const assignRole = (msg, role) => {
+const assignRole = (msg, role) => {
   let embedResponse = new Discord.MessageEmbed()
     .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
     .setTitle('Role Added')
@@ -18,7 +18,7 @@ export const assignRole = (msg, role) => {
 };
 
 //removes role from user
-export const removeRole = (msg, role) => {
+const removeRole = (msg, role) => {
   let embedResponse = new Discord.MessageEmbed()
     .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
     .setTitle('Role Removed')
@@ -35,14 +35,7 @@ export const removeRole = (msg, role) => {
 };
 
 //mutes/unmutes the user
-export const assignMuteRole = (
-  msg,
-  toMute,
-  muteRole,
-  time,
-  testChannel,
-  reason
-) => {
+const assignMuteRole = (msg, toMute, muteRole, time, testChannel, reason) => {
   let addEmbedResponse = new Discord.MessageEmbed()
     .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
     .setTitle('User Muted')
@@ -73,4 +66,10 @@ export const assignMuteRole = (
       })
       .catch(console.log);
   }, ms(time));
+};
+
+module.exports = {
+  assignRole: assignRole,
+  removeRole: removeRole,
+  assignMuteRole: assignMuteRole,
 };

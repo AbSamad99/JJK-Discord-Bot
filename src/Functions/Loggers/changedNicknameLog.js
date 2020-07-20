@@ -1,16 +1,10 @@
 const Discord = require('discord.js');
 
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs nickname addition, change and removal
-export const changedNicknameLog = async (
-  newMem,
-  oldNick,
-  newNick,
-  type,
-  mod
-) => {
+const changedNicknameLog = async (newMem, oldNick, newNick, type, mod) => {
   try {
     let changedNicknameEmbed,
       authorName,
@@ -75,3 +69,5 @@ export const changedNicknameLog = async (
     console.log(err);
   }
 };
+
+module.exports = changedNicknameLog;

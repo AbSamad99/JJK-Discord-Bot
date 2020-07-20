@@ -1,10 +1,12 @@
 const urlExist = require('url-exist');
-
-import { characterArtObj } from '../../utilities.js';
+const fs = require('fs');
 
 //adds an art
-export const addArtCommand = async (msg) => {
+const addArtCommand = async (msg) => {
   try {
+    const characterArtObj = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
+    );
     let artChannel, testChannel, temp, characterArray, index;
 
     artChannel = msg.guild.channels.cache.find(
@@ -38,6 +40,10 @@ export const addArtCommand = async (msg) => {
         return;
       }
       characterArray.push(temp[index]);
+      fs.writeFileSync(
+        `${process.cwd()}/src/Json-Files/art.json`,
+        JSON.stringify(characterArtObj)
+      );
     }
     msg.channel
       .send('Added')
@@ -49,8 +55,12 @@ export const addArtCommand = async (msg) => {
 };
 
 //gets an art
-export const getArtCommand = (msg) => {
+const getArtCommand = (msg) => {
   try {
+    const characterArtObj = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
+    );
+
     let artChannel, testChannel, temp, characterArray, randomIndex;
 
     artChannel = msg.guild.channels.cache.find(
@@ -86,8 +96,12 @@ export const getArtCommand = (msg) => {
 };
 
 //gets all art for a character
-export const getAllArtCommand = (msg) => {
+const getAllArtCommand = (msg) => {
   try {
+    const characterArtObj = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
+    );
+
     let artChannel, testChannel, temp, characterArray, index, message;
 
     artChannel = msg.guild.channels.cache.find(
@@ -132,8 +146,12 @@ export const getAllArtCommand = (msg) => {
 };
 
 //adds a new character
-export const removeArtCharacterCommand = (msg) => {
+const removeArtCharacterCommand = (msg) => {
   try {
+    const characterArtObj = fs.readFileSync(
+      `${process.cwd()}/src/Json-Files/art.json`
+    );
+
     let temp, characterArray;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
@@ -154,8 +172,12 @@ export const removeArtCharacterCommand = (msg) => {
 };
 
 //removes a character
-export const addArtCharacterCommand = (msg) => {
+const addArtCharacterCommand = (msg) => {
   try {
+    const characterArtObj = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
+    );
+
     let temp, characterArray;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
@@ -169,14 +191,22 @@ export const addArtCharacterCommand = (msg) => {
       return;
     }
     characterArtObj[temp[1].toLowerCase()] = [];
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/art.json`,
+      JSON.stringify(characterArtObj)
+    );
     msg.channel.send(`Added Character ${temp[1]}`).catch(console.log);
   } catch (err) {
     console.log(err);
   }
 };
 
-export const getArtNamesCommand = (msg) => {
+const getArtNamesCommand = (msg) => {
   try {
+    const characterArtObj = JSON.parse(
+      fs.writeFileSync(`${process.cwd()}/src/Json-Files/art.json`)
+    );
+
     let temp, message, index;
 
     temp = Object.keys(characterArtObj);
@@ -190,4 +220,13 @@ export const getArtNamesCommand = (msg) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+module.exports = {
+  addArtCommand: addArtCommand,
+  getArtCommand: getArtCommand,
+  getAllArtCommand: getAllArtCommand,
+  removeArtCharacterCommand: removeArtCharacterCommand,
+  addArtCharacterCommand: addArtCharacterCommand,
+  getArtNamesCommand: getArtNamesCommand,
 };

@@ -1,18 +1,22 @@
-import {
+const fs = require('fs');
+
+const {
   previousMemberUpdateLogId,
   previousMemberRoleUpdateLogId,
-} from '../utilities';
+} = require('../utilities');
 
-import { changedNicknameLog } from '../Functions/Loggers/changedNicknameLog.js';
-import { changedRoleLog } from '../Functions/Loggers/changedRoleLog.js';
-import { changedUsernameAndDiscriminatorLog } from '../Functions/Loggers/changedUsernameAndDiscriminatorLog.js';
-import { changedAvatarLog } from '../Functions/Loggers/changedAvatarLog.js';
+const changedNicknameLog = require('../Functions/Loggers/changedNicknameLog.js');
+const changedRoleLog = require('../Functions/Loggers/changedRoleLog.js');
+const changedUsernameAndDiscriminatorLog = require('../Functions/Loggers/changedUsernameAndDiscriminatorLog.js');
+const changedAvatarLog = require('../Functions/Loggers/changedAvatarLog.js');
 
-import { userArray } from '../utilities.js';
-
-export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
+const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   try {
+    const userArray = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
+    );
     console.log(userArray.length, newMem.guild.memberCount);
+    // console.log(userArray[0]);
     const user = userArray.find((user) => user.id === newMem.user.id);
     if (!user) {
       userArray.push({
@@ -22,6 +26,7 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         avatar: newMem.user.avatar,
         discriminator: newMem.user.discriminator,
       });
+      fs.writeFileSync(`${process.cwd()}/src/Json-Files/users.json`, userArray);
       return;
     }
     const userLogs = await newMem.guild
@@ -144,3 +149,5 @@ export const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
     console.log(err);
   }
 };
+
+module.exports = guildMemberUpdateCaseHandler;

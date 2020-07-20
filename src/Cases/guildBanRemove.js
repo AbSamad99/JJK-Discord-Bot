@@ -1,8 +1,8 @@
-import { previousMemberBanRemoveLogId } from '../utilities';
+const { previousMemberBanRemoveLogId } = require('../utilities.js');
 
-import { userBanRemoveLog } from '../Functions/Loggers/userBanRemoveLog.js';
+const userBanRemoveLog = require('../Functions/Loggers/userBanRemoveLog.js');
 
-export const guildBanRemoveCaseHandler = async (guild, mem) => {
+const guildBanRemoveCaseHandler = async (guild, mem) => {
   try {
     let banRemoveAuditLog, modChannel;
 
@@ -24,3 +24,5 @@ export const guildBanRemoveCaseHandler = async (guild, mem) => {
     console.log(err);
   }
 };
+
+module.exports = guildBanRemoveCaseHandler;

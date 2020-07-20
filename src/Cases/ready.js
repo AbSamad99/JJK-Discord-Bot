@@ -1,4 +1,4 @@
-import {
+const {
   fetchUsers,
   fetchChannels,
   fetchEmotes,
@@ -9,9 +9,10 @@ import {
   fetchMemberKickLogId,
   fetchMemberBanLogId,
   fetchMemberBanRemoveLogId,
-} from '../Functions/Helpers/fetchFunctions.js';
+  stringifyCharacterArtObj,
+} = require('../Functions/Helpers/fetchFunctions.js');
 
-export const readyCaseHandler = async (client) => {
+const readyCaseHandler = async (client) => {
   console.log(`Logged in as The Honored One`);
   fetchChannels(client);
   fetchEmotes(client);
@@ -23,4 +24,7 @@ export const readyCaseHandler = async (client) => {
   fetchMemberKickLogId(client);
   fetchMemberBanLogId(client);
   fetchMemberBanRemoveLogId(client);
+  stringifyCharacterArtObj();
 };
+
+module.exports = readyCaseHandler;

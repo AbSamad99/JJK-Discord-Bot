@@ -1,14 +1,19 @@
-import {
+const fs = require('fs');
+
+const {
   previousMemberKickLogId,
   previousMemberBanLogId,
-  userArray,
-} from '../utilities.js';
+} = require('../utilities.js');
 
-import { userKickLog } from '../Functions/Loggers/userKickLog.js';
-import { userLeaveLog } from '../Functions/Loggers/userLeaveLog.js';
+const userKickLog = require('../Functions/Loggers/userKickLog.js');
+const userLeaveLog = require('../Functions/Loggers/userLeaveLog.js');
 
-export const guildMemberRemoveCaseHandler = async (mem) => {
+const guildMemberRemoveCaseHandler = async (mem) => {
   try {
+    const userArray = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
+    );
+
     let theHonoredOne, banAuditLog, kickAuditLog, modChannel;
 
     modChannel = mem.guild.channels.cache
@@ -45,3 +50,5 @@ export const guildMemberRemoveCaseHandler = async (mem) => {
     console.log(err);
   }
 };
+
+module.exports = guildMemberRemoveCaseHandler;

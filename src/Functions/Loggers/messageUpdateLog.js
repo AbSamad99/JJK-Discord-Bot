@@ -1,10 +1,10 @@
 const Discord = require('discord.js');
 
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs edited messages
-export const editMessageLog = async (oldMsg, newMsg) => {
+const editMessageLog = async (oldMsg, newMsg) => {
   try {
     let editEmbed, authorName, authorUrl, title, color, field1, field2;
 
@@ -40,3 +40,5 @@ export const editMessageLog = async (oldMsg, newMsg) => {
     console.log(err);
   }
 };
+
+module.exports = editMessageLog;

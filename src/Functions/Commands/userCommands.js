@@ -1,9 +1,13 @@
-import { rolesArray } from '../../utilities.js';
-import { assignRole, removeRole } from '../Roles/roleFunctions.js';
-import { hasRoleCheck, lockedRolesCheck } from '../Checks/RoleChecks';
+const fs = require('fs');
+
+const { assignRole, removeRole } = require('../Roles/roleFunctions.js');
+const { hasRoleCheck, lockedRolesCheck } = require('../Checks/RoleChecks');
 
 //assigns character role to a member
-export const roleAssignCommand = (msg) => {
+const roleAssignCommand = (msg) => {
+  const rolesArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
+  );
   let botChannel, testChannel, temp, desiredRole;
   botChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'bot-commands'
@@ -36,3 +40,5 @@ export const roleAssignCommand = (msg) => {
     removeRole(msg, desiredRole);
   }
 };
+
+module.exports = roleAssignCommand;

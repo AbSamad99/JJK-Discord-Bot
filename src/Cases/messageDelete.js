@@ -1,8 +1,11 @@
-import { previousDeleteLogCount, previousDeleteLogId } from '../utilities';
+const {
+  previousDeleteLogCount,
+  previousDeleteLogId,
+} = require('../utilities.js');
 
-import { deleteMessageAndAttachmentLog } from '../Functions/Loggers/messageDeleteLog.js';
+const deleteMessageAndAttachmentLog = require('../Functions/Loggers/messageDeleteLog.js');
 
-export const messageDeleteCaseHandler = async (msg) => {
+const messageDeleteCaseHandler = async (msg) => {
   try {
     const userLogs = await msg.guild
       .fetchAuditLogs({
@@ -38,8 +41,8 @@ export const messageDeleteCaseHandler = async (msg) => {
             );
           }
         }
-      } catch (error) {
-        console.log(error);
+      } catch (err) {
+        console.log(err);
       }
     } else if (
       userLogs.id !== previousDeleteLogId[0] &&
@@ -73,3 +76,5 @@ export const messageDeleteCaseHandler = async (msg) => {
     console.log(err);
   }
 };
+
+module.exports = messageDeleteCaseHandler;

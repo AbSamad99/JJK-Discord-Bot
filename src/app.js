@@ -4,16 +4,16 @@ dotenv.config();
 
 const client = new Discord.Client({ partials: ['MESSAGE'] });
 
-import { messageCaseHandler } from './Cases/message.js';
-import { messageUpdateCaseHandler } from './Cases/messageUpdate.js';
-import { guildMemberUpdateCaseHandler } from './Cases/guildMemberUpdate.js';
-import { messageDeleteCaseHandler } from './Cases/messageDelete.js';
-import { readyCaseHandler } from './Cases/ready.js';
-import { guildMemberAddCaseHandler } from './Cases/guildMemberAdd.js';
-import { guildMemberRemoveCaseHandler } from './Cases/guildMemberRemove.js';
-import { guildBanAddCaseHandler } from './Cases/guildBanAdd.js';
-import { guildBanRemoveCaseHandler } from './Cases/guildBanRemove.js';
-import { messageBulkDeleteCaseHandler } from './Cases/messageBulkDelete.js';
+const messageCaseHandler = require('./Cases/message.js');
+const messageUpdateCaseHandler = require('./Cases/messageUpdate.js');
+const guildMemberUpdateCaseHandler = require('./Cases/guildMemberUpdate.js');
+const messageDeleteCaseHandler = require('./Cases/messageDelete.js');
+const readyCaseHandler = require('./Cases/ready.js');
+const guildMemberAddCaseHandler = require('./Cases/guildMemberAdd.js');
+const guildMemberRemoveCaseHandler = require('./Cases/guildMemberRemove.js');
+const guildBanAddCaseHandler = require('./Cases/guildBanAdd.js');
+const guildBanRemoveCaseHandler = require('./Cases/guildBanRemove.js');
+const messageBulkDeleteCaseHandler = require('./Cases/messageBulkDelete.js');
 
 client.on('ready', async () => {
   await client.user.setStatus('online');

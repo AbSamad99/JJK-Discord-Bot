@@ -1,16 +1,10 @@
 const Discord = require('discord.js');
 
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs role addition/removal
-export const changedRoleLog = async (
-  newMem,
-  target,
-  roleId,
-  type,
-  executor
-) => {
+const changedRoleLog = async (newMem, target, roleId, type, executor) => {
   try {
     let roleEmbed, authorName, authorUrl, title, color, description;
 
@@ -51,3 +45,5 @@ export const changedRoleLog = async (
     console.log(err);
   }
 };
+
+module.exports = changedRoleLog;

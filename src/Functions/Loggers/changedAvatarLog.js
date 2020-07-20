@@ -1,8 +1,8 @@
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs avatar updates
-export const changedAvatarLog = async (newMem, user) => {
+const changedAvatarLog = async (newMem, user) => {
   try {
     let modChannel,
       changedAvatarEmbed,
@@ -50,3 +50,5 @@ export const changedAvatarLog = async (newMem, user) => {
     console.log(err);
   }
 };
+
+module.exports = changedAvatarLog;

@@ -1,8 +1,8 @@
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs when user joins the server
-export const userJoinLog = async (mem, modChannel) => {
+const userJoinLog = async (mem, modChannel) => {
   try {
     let joinEmbed, authorName, authorUrl, title, color, thumbnail, description;
 
@@ -32,3 +32,5 @@ export const userJoinLog = async (mem, modChannel) => {
     console.log(err);
   }
 };
+
+module.exports = userJoinLog;

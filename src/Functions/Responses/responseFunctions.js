@@ -1,6 +1,12 @@
-import { emoteArray, channelArray, userArray } from '../../utilities.js';
+const fs = require('fs');
 
-export const weebResponse = (msg) => {
+const weebResponse = (msg) => {
+  const emoteArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/emotes.json`)
+  );
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
   let papaWat = emoteArray.find((emote) => emote.name === 'JJKPapawat');
   let generalChannel = channelArray.find((ch) => ch.name === 'general');
@@ -31,7 +37,16 @@ export const weebResponse = (msg) => {
   }
 };
 
-export const nfufuResponse = (msg) => {
+const nfufuResponse = (msg) => {
+  const userArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
+  );
+  const emoteArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/emotes.json`)
+  );
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let honoredOne = userArray.find((user) => user.name === 'The Honored One');
   if (honoredOne.id === msg.author.id) return;
   let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
@@ -64,7 +79,7 @@ export const nfufuResponse = (msg) => {
   }
 };
 
-export const bestModResponse = (msg) => {
+const bestModResponse = (msg) => {
   let temp = msg.content.toLowerCase();
   if (temp === 'best mod?') {
     let chance = Math.random() * 100;
@@ -89,7 +104,13 @@ export const bestModResponse = (msg) => {
   }
 };
 
-export const otherSeriesTalkResponse = (msg) => {
+const otherSeriesTalkResponse = (msg) => {
+  const emoteArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/emotes.json`)
+  );
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let otherSeriesChannel = channelArray.find(
     (ch) => ch.name === 'other-series'
   );
@@ -104,7 +125,7 @@ export const otherSeriesTalkResponse = (msg) => {
   }
 };
 
-export const xSeriesSucksResponse = (msg) => {
+const xSeriesSucksResponse = (msg) => {
   let chance = Math.random() * 100;
   if (chance < 25) {
     msg.channel.send('Facts bro').catch(console.log);
@@ -121,4 +142,12 @@ export const xSeriesSucksResponse = (msg) => {
   if (chance > 95) {
     msg.channel.send('Nah').catch(console.log);
   }
+};
+
+module.exports = {
+  weebResponse: weebResponse,
+  nfufuResponse: nfufuResponse,
+  bestModResponse: bestModResponse,
+  otherSeriesTalkResponse: otherSeriesTalkResponse,
+  xSeriesSucksResponse: xSeriesSucksResponse,
 };

@@ -1,9 +1,17 @@
 const Discord = require('discord.js');
-import { channelArray, userArray } from '../utilities';
-import { userJoinLog } from '../Functions//Loggers/userJoinLog.js';
+const fs = require('fs');
 
-export const guildMemberAddCaseHandler = (mem) => {
+const userJoinLog = require('../Functions//Loggers/userJoinLog.js');
+
+const guildMemberAddCaseHandler = (mem) => {
   try {
+    const userArray = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
+    );
+    const channelArray = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+    );
+
     let welcomeChannel,
       modChannel,
       rulesChannel,
@@ -45,7 +53,10 @@ export const guildMemberAddCaseHandler = (mem) => {
       avatar: mem.user.avatar,
       discriminator: mem.user.discriminator,
     });
+    fs.writeFileSync(`${process.cwd()}/src/Json-Files/users.json`, userArray);
   } catch (err) {
     console.log(err);
   }
 };
+
+module.exports = guildMemberAddCaseHandler;

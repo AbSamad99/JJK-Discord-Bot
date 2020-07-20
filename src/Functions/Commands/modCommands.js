@@ -1,13 +1,20 @@
 const Discord = require('discord.js');
+const fs = require('fs');
+const urlExist = require('url-exist');
 
-import { channelArray, rolesArray } from '../../utilities';
-import { assignMuteRole } from '../Roles/roleFunctions.js';
-import { userKickLog } from '../Loggers/userKickLog.js';
-import { userBanLog } from '../Loggers/userBanLog.js';
-import { canBeBannedOrKicked } from '../Checks/RoleChecks.js';
+const { assignMuteRole } = require('../Roles/roleFunctions.js');
+const userKickLog = require('../Loggers/userKickLog.js');
+const userBanLog = require('../Loggers/userBanLog.js');
+const { canBeBannedOrKicked } = require('../Checks/RoleChecks.js');
 
 //command to help with chapter announcement
-export const chapterAnnouncement = (msg) => {
+const chapterAnnouncement = async (msg) => {
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
+  const rolesArray = fs.readFileSync(
+    `${process.cwd()}/src/Json-Files/roles.json`
+  );
   let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
   let practiceChannel = channelArray.find(
     (ch) => ch.name === 'syed-bot-practice'
@@ -20,7 +27,15 @@ export const chapterAnnouncement = (msg) => {
   temp = temp.split(' ');
   let chapterNumber = temp[1];
   let vizLink = temp[2];
+  if (!(await urlExist(vizLink))) {
+    msg.channel.send('Viz link is invalid').catch(console.log);
+    return;
+  }
   let mpLink = temp[3];
+  if (!(await urlExist(mpLink))) {
+    msg.channel.send('Manga Plus link is invalid').catch(console.log);
+    return;
+  }
   let replyMessage = `<@&${mangaNewsRole.id}> Chapter ${chapterNumber} is out!
     
 Viz: ${vizLink}
@@ -40,7 +55,10 @@ Manga Plus: ${mpLink}`;
 };
 
 //command to help with poll announcement
-export const pollAnnouncement = (msg) => {
+const pollAnnouncement = (msg) => {
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
   let practiceChannel = channelArray.find(
     (ch) => ch.name === 'syed-bot-practice'
@@ -79,7 +97,7 @@ export const pollAnnouncement = (msg) => {
 };
 
 //command to send anon messages
-export const anonMessageCommand = (msg) => {
+const anonMessageCommand = (msg) => {
   let modBotChannel = msg.member.guild.channels.cache.find(
     (ch) => ch.name === 'mod-bots'
   );
@@ -98,7 +116,10 @@ export const anonMessageCommand = (msg) => {
 };
 
 //command to mute users
-export const muteCommand = (msg) => {
+const muteCommand = (msg) => {
+  const rolesArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
+  );
   let toMute, muteRole, temp, reason, time, testChannel;
   toMute = msg.mentions.members.array()[0];
   testChannel = msg.guild.channels.cache.find(
@@ -142,7 +163,7 @@ export const muteCommand = (msg) => {
 };
 
 //command to kick users
-export const kickCommand = (msg) => {
+const kickCommand = (msg) => {
   let toKick, temp, reason, testChannel;
   toKick = msg.mentions.members.array()[0];
   testChannel = msg.guild.channels.cache.find(
@@ -179,7 +200,7 @@ export const kickCommand = (msg) => {
 };
 
 //command to ban users
-export const banCommand = (msg) => {
+const banCommand = (msg) => {
   let toBan, temp, reason, testChannel;
   toBan = msg.mentions.members.array()[0];
   testChannel = msg.guild.channels.cache.find(
@@ -216,7 +237,7 @@ export const banCommand = (msg) => {
 };
 
 //command to purge messages
-export const purgeCommand = (msg) => {
+const purgeCommand = (msg) => {
   try {
     let temp, number, logsChannel, testChannel;
     logsChannel = msg.guild.channels.cache
@@ -257,4 +278,14 @@ export const purgeCommand = (msg) => {
   } catch (err) {
     console.log(err);
   }
+};
+
+module.exports = {
+  chapterAnnouncement: chapterAnnouncement,
+  pollAnnouncement: pollAnnouncement,
+  anonMessageCommand: anonMessageCommand,
+  muteCommand: muteCommand,
+  kickCommand: kickCommand,
+  banCommand: banCommand,
+  purgeCommand: purgeCommand,
 };

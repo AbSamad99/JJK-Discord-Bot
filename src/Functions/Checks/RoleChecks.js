@@ -1,6 +1,9 @@
-import { rolesArray } from '../../utilities.js';
+const fs = require('fs');
 
-export const modPermsCheck = (msg) => {
+const modPermsCheck = (msg) => {
+  const rolesArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
+  );
   let temp = msg.member.roles.cache;
   let modRole1 = rolesArray.find(
     (role) => role.name === 'Special-Grade Shaman'
@@ -11,7 +14,10 @@ export const modPermsCheck = (msg) => {
   } else return 0;
 };
 
-export const communityRoleCheck = (msg) => {
+const communityRoleCheck = (msg) => {
+  const rolesArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
+  );
   let temp = msg.member.roles.cache;
   let communityRole = rolesArray.find(
     (role) => role.name === 'Community Service Shaman'
@@ -21,13 +27,13 @@ export const communityRoleCheck = (msg) => {
   } else return 0;
 };
 
-export const hasRoleCheck = (msg, role) => {
+const hasRoleCheck = (msg, role) => {
   if (msg.member.roles.cache.has(role.id)) {
     return 1;
   } else return 0;
 };
 
-export const lockedRolesCheck = (role) => {
+const lockedRolesCheck = (role) => {
   if (
     role.name === 'admin' ||
     role.name === 'Dyno' ||
@@ -75,7 +81,10 @@ export const lockedRolesCheck = (role) => {
   } else return 0;
 };
 
-export const canBeBannedOrKicked = (mem) => {
+const canBeBannedOrKicked = (mem) => {
+  const rolesArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
+  );
   let modRole1, modRole2, temp;
   modRole1 = rolesArray.find((role) => role.name === 'Special-Grade Shaman');
   modRole2 = rolesArray.find((role) => role.name === 'admin');
@@ -83,4 +92,12 @@ export const canBeBannedOrKicked = (mem) => {
   if (temp.has(modRole1.id) || temp.has(modRole2.id)) {
     return 0;
   } else return 1;
+};
+
+module.exports = {
+  modPermsCheck: modPermsCheck,
+  communityRoleCheck: communityRoleCheck,
+  hasRoleCheck: hasRoleCheck,
+  lockedRolesCheck: lockedRolesCheck,
+  canBeBannedOrKicked: canBeBannedOrKicked,
 };

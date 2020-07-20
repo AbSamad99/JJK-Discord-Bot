@@ -1,8 +1,14 @@
-import { userArray, previousMemberBanLogId } from '../utilities';
-import { userBanLog } from '../Functions/Loggers/userBanLog.js';
+const fs = require('fs');
 
-export const guildBanAddCaseHandler = async (guild, mem) => {
+const { previousMemberBanLogId } = require('../utilities.js');
+const userBanLog = require('../Functions/Loggers/userBanLog.js');
+
+const guildBanAddCaseHandler = async (guild, mem) => {
   try {
+    const userArray = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
+    );
+
     let theHonoredOne, banAuditLog, modChannel;
 
     modChannel = guild.channels.cache
@@ -29,3 +35,5 @@ export const guildBanAddCaseHandler = async (guild, mem) => {
     console.log(err);
   }
 };
+
+module.exports = guildBanAddCaseHandler;

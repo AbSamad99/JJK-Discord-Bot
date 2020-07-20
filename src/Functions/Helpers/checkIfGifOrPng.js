@@ -1,6 +1,6 @@
 const urlExists = require('url-exist');
 
-export const checkIfGifOrPng = async (user1, user2) => {
+const checkIfGifOrPng = async (user1, user2) => {
   try {
     if (!user1) {
       // console.log(user2);
@@ -49,3 +49,5 @@ export const checkIfGifOrPng = async (user1, user2) => {
     console.log(err);
   }
 };
+
+module.exports = checkIfGifOrPng;

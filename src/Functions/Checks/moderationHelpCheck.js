@@ -1,6 +1,9 @@
-import { channelArray } from '../../utilities';
+const fs = require('fs');
 
-export const isSuggestionCheck = (msg) => {
+const isSuggestionCheck = (msg) => {
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let suggestionsChannel = channelArray.find(
     (ch) => ch.name === 'server-suggestions'
   );
@@ -12,16 +15,22 @@ export const isSuggestionCheck = (msg) => {
   } else return 0;
 };
 
-export const containsForbiddenLinkCheck = (msg) => {
+const containsForbiddenLinkCheck = (msg) => {
   let temp = msg.content.toLowerCase();
   if (temp.includes('pornhub.com') || temp.includes('nhentai.net')) {
     return 1;
   } else return 0;
 };
 
-export const containsDiscordLinkCheck = (msg) => {
+const containsDiscordLinkCheck = (msg) => {
   let temp = msg.content.toLowerCase();
   if (temp.includes('discord.gg/') || temp.includes('discordapp.com/invite/')) {
     return 1;
   } else return 0;
+};
+
+module.exports = {
+  isSuggestionCheck: isSuggestionCheck,
+  containsForbiddenLinkCheck: containsForbiddenLinkCheck,
+  containsDiscordLinkCheck: containsDiscordLinkCheck,
 };

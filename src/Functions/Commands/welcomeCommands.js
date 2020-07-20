@@ -1,6 +1,9 @@
-import { channelArray } from '../../utilities.js';
+const fs = require('fs');
 
-export const todoCommand = (msg) => {
+const todoCommand = (msg) => {
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
   let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
   if (
@@ -15,7 +18,10 @@ export const todoCommand = (msg) => {
   }
 };
 
-export const welcomeCommand = (msg) => {
+const welcomeCommand = (msg) => {
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
   let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
   if (
@@ -30,7 +36,10 @@ export const welcomeCommand = (msg) => {
   }
 };
 
-export const dontCareCommand = (msg) => {
+const dontCareCommand = (msg) => {
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
   let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
   if (
@@ -42,7 +51,10 @@ export const dontCareCommand = (msg) => {
   }
 };
 
-export const shyCommand = (msg) => {
+const shyCommand = (msg) => {
+  const channelArray = JSON.parse(
+    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
+  );
   let welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
   let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
   if (
@@ -52,4 +64,11 @@ export const shyCommand = (msg) => {
     let message = `https://cdn.discordapp.com/attachments/704934870622797904/731173904269312101/Screenshot_20200507-234318_MangaZone.jpg`;
     msg.channel.send(message).catch(console.log);
   }
+};
+
+module.exports = {
+  todoCommand: todoCommand,
+  welcomeCommand: welcomeCommand,
+  dontCareCommand: dontCareCommand,
+  shyCommand: shyCommand,
 };

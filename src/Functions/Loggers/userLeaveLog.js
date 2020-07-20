@@ -1,7 +1,7 @@
-import { createEmbed } from '../Helpers/createEmbed.js';
-import { checkIfGifOrPng } from '../Helpers/checkIfGifOrPng.js';
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
-export const userLeaveLog = async (mem, modChannel) => {
+const userLeaveLog = async (mem, modChannel) => {
   try {
     let leaveEmbed, authorName, authorUrl, title, color, description;
 
@@ -29,3 +29,5 @@ export const userLeaveLog = async (mem, modChannel) => {
     console.log(err);
   }
 };
+
+module.exports = userLeaveLog;

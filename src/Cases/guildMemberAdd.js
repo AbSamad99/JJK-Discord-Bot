@@ -53,7 +53,10 @@ const guildMemberAddCaseHandler = (mem) => {
       avatar: mem.user.avatar,
       discriminator: mem.user.discriminator,
     });
-    fs.writeFileSync(`${process.cwd()}/src/Json-Files/users.json`, userArray);
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/users.json`,
+      JSON.stringify(userArray)
+    );
   } catch (err) {
     console.log(err);
   }

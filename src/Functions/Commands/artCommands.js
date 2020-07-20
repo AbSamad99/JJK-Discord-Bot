@@ -148,8 +148,8 @@ const getAllArtCommand = (msg) => {
 //adds a new character
 const removeArtCharacterCommand = (msg) => {
   try {
-    const characterArtObj = fs.readFileSync(
-      `${process.cwd()}/src/Json-Files/art.json`
+    const characterArtObj = JSON.parse(
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
     );
 
     let temp, characterArray;
@@ -165,6 +165,10 @@ const removeArtCharacterCommand = (msg) => {
       return;
     }
     delete characterArtObj[temp[1].toLowerCase()];
+    fs.writeFileSync(
+      `${process.cwd()}/src/Json-Files/art.json`,
+      JSON.stringify(characterArtObj)
+    );
     msg.channel.send(`Removed Character ${temp[1]}`).catch(console.log);
   } catch (err) {
     console.log(err);
@@ -204,16 +208,17 @@ const addArtCharacterCommand = (msg) => {
 const getArtNamesCommand = (msg) => {
   try {
     const characterArtObj = JSON.parse(
-      fs.writeFileSync(`${process.cwd()}/src/Json-Files/art.json`)
+      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
     );
 
-    let temp, message, index;
+    let temp1, temp2, message, index;
 
-    temp = Object.keys(characterArtObj);
-    message = temp[0];
+    temp1 = Object.keys(characterArtObj);
+    temp2 = Object.values(characterArtObj);
+    message = `${temp1[0]}: ${temp2[0].length}`;
 
-    for (index = 1; index < temp.length; index++) {
-      message = `${message}, ${temp[index]}`;
+    for (index = 1; index < temp1.length; index++) {
+      message = `${message}, ${temp1[index]}: ${temp2[index].length}`;
     }
 
     msg.channel.send(message).catch(console.log);

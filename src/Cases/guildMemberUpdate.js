@@ -12,12 +12,20 @@ const changedAvatarLog = require('../Functions/Loggers/changedAvatarLog.js');
 
 const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   try {
+    let index;
     const userArray = JSON.parse(
       fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
     );
     console.log(userArray.length, newMem.guild.memberCount);
     // console.log(userArray[0]);
-    const user = userArray.find((user) => user.id === newMem.user.id);
+    const user = userArray.find((user, i) => user.id === newMem.user.id);
+
+    const check = (element) => element.id === newMem.user.id;
+
+    index = userArray.findIndex(check);
+
+    console.log(index);
+
     if (!user) {
       userArray.push({
         name: newMem.user.username,
@@ -26,7 +34,10 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         avatar: newMem.user.avatar,
         discriminator: newMem.user.discriminator,
       });
-      fs.writeFileSync(`${process.cwd()}/src/Json-Files/users.json`, userArray);
+      fs.writeFileSync(
+        `${process.cwd()}/src/Json-Files/users.json`,
+        JSON.stringify(userArray)
+      );
       return;
     }
     const userLogs = await newMem.guild
@@ -124,12 +135,20 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
     //checking if username was changed
     else if (user.name !== newMem.user.username) {
       await changedUsernameAndDiscriminatorLog(newMem, user, 'username');
-      user.name = newMem.user.username;
+      userArray[index].name = newMem.user.username;
+      fs.writeFileSync(
+        `${process.cwd()}/src/Json-Files/users.json`,
+        JSON.stringify(userArray)
+      );
     }
     //checking if discriminator was updated
     else if (user.discriminator !== newMem.user.discriminator) {
       await changedUsernameAndDiscriminatorLog(newMem, user, 'discriminator');
-      user.discriminator = newMem.user.discriminator;
+      userArray[index].discriminator = newMem.user.discriminator;
+      fs.writeFileSync(
+        `${process.cwd()}/src/Json-Files/users.json`,
+        JSON.stringify(userArray)
+      );
     }
     //checking if avatar was updated
     else if (user.avatarUrl !== newMem.user.displayAvatarURL()) {
@@ -138,8 +157,12 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
       if (user.avatarUrl !== null) {
         await changedAvatarLog(newMem, user);
       }
-      user.avatarUrl = newMem.user.displayAvatarURL();
-      user.avatar = newMem.user.avatar;
+      userArray[index].avatarUrl = newMem.user.displayAvatarURL();
+      userArray[index].avatar = newMem.user.avatar;
+      fs.writeFileSync(
+        `${process.cwd()}/src/Json-Files/users.json`,
+        JSON.stringify(userArray)
+      );
     }
     //rest of the cases
     else {

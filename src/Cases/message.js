@@ -46,6 +46,13 @@ const messageCaseHandler = (msg) => {
         console.log('mod');
       }
     }
+    //checks if the message is a suggestion
+    if (isSuggestionCheck(msg)) {
+      msg
+        .react('👍')
+        .then(() => msg.react('👎'))
+        .catch(console.log);
+    }
     //mod response
     if (msg.content.toLowerCase().includes('mod')) {
       bestModResponse(msg);
@@ -74,13 +81,6 @@ const messageCaseHandler = (msg) => {
     // else if (otherSeriesTalkCheck(msg)) {
     //   otherSeriesTalkResponse(msg);
     // }
-    //checks if the message is a suggestion
-    if (isSuggestionCheck(msg)) {
-      msg
-        .react('👍')
-        .then(() => msg.react('👎'))
-        .catch(console.log);
-    }
   } catch (err) {
     console.log(err);
   }

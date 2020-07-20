@@ -13,6 +13,7 @@ const {
 } = require('../Functions/Helpers/fetchFunctions.js');
 
 const readyCaseHandler = async (client) => {
+  console.log(process.cwd());
   console.log(`Logged in as The Honored One`);
   fetchChannels(client);
   fetchEmotes(client);

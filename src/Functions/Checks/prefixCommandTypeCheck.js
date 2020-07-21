@@ -1,6 +1,6 @@
 const {
   roleAssignCommand,
-  suggestionCommand,
+  userSuggestionCommand,
 } = require('../Commands/userCommands.js');
 
 const {
@@ -38,12 +38,12 @@ const {
   kickCommand,
   banCommand,
   purgeCommand,
+  modSuggestionCommand,
 } = require('../Commands/modCommands.js');
 
 const { roleCheck } = require('./helperChecks.js');
 
-const prefixCommandFunction = (msg) => {
-  let temp = msg.content.toLowerCase();
+const prefixCommandFunction = (msg, temp) => {
   temp = temp.slice(1);
 
   //poll
@@ -178,7 +178,12 @@ const prefixCommandFunction = (msg) => {
 
   // //suggestion command
   if (temp.startsWith('suggest')) {
-    suggestionCommand(msg);
+    if (
+      roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin')
+    ) {
+      modSuggestionCommand(msg);
+    } else userSuggestionCommand(msg);
   }
 
   //fujo

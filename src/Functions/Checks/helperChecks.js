@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-export const channelCheck = (msg, channelName) => {
+const channelCheck = (msg, channelName) => {
   try {
     const channelArray = JSON.parse(
       fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
@@ -17,7 +17,7 @@ export const channelCheck = (msg, channelName) => {
   }
 };
 
-export const roleCheck = (user, roleName) => {
+const roleCheck = (user, roleName) => {
   try {
     // console.log(user.roles.cache.array());
     const rolesArray = JSON.parse(
@@ -33,7 +33,22 @@ export const roleCheck = (user, roleName) => {
   }
 };
 
+const artCommandParametersCheck = (temp, msg, characterArtObj) => {
+  let characterArray;
+  if (!temp[1]) {
+    msg.channel.send('Please specify a character name');
+    return 0;
+  }
+  characterArray = characterArtObj[temp[1].toLowerCase()];
+  if (!characterArray) {
+    msg.channel.send('Invalid character');
+    return 0;
+  }
+  return 1;
+};
+
 module.exports = {
   channelCheck: channelCheck,
   roleCheck: roleCheck,
+  artCommandParametersCheck: artCommandParametersCheck,
 };

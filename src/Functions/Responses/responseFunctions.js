@@ -65,8 +65,7 @@ const nfufuResponse = (msg) => {
   }
 };
 
-const bestModResponse = (msg) => {
-  let temp = msg.content.toLowerCase();
+const bestModResponse = (msg, temp) => {
   if (temp === 'best mod?') {
     let chance = Math.random() * 100;
     if (chance < 20) {

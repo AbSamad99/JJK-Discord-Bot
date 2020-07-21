@@ -2,9 +2,8 @@ const fs = require('fs');
 
 const { channelCheck, roleCheck } = require('./helperChecks.js');
 
-const weebCheck = (msg) => {
+const weebCheck = (msg, temp) => {
   if (!msg.member || roleCheck(msg.member, 'The Honored One')) return 0;
-  let temp = msg.content.toLowerCase();
   if (
     temp.includes('desu') ||
     temp.includes('sore wa') ||
@@ -23,8 +22,7 @@ const weebCheck = (msg) => {
   } else return 0;
 };
 
-const otherSeriesTalkCheck = (msg) => {
-  let temp = msg.content.toLowerCase();
+const otherSeriesTalkCheck = (msg, temp) => {
   if (
     !channelCheck(msg, 'other-series') &&
     (temp.includes('fate') ||
@@ -39,8 +37,7 @@ const otherSeriesTalkCheck = (msg) => {
   } else return 0;
 };
 
-const xSeriesSucksCheck = (msg) => {
-  let temp = msg.content.toLowerCase();
+const xSeriesSucksCheck = (temp) => {
   if (
     temp === 'fate sucks' ||
     temp === 'd gray man sucks' ||

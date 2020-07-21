@@ -1,7 +1,13 @@
 const urlExist = require('url-exist');
 const fs = require('fs');
 
-const { channelCheck } = require('../Checks/helperChecks.js');
+const {
+  channelCheck,
+  artCommandParametersCheck,
+} = require('../Checks/helperChecks.js');
+const {
+  containsInvalidArtLinkCheck,
+} = require('../Checks/moderationHelpCheck.js');
 
 //adds an art
 const addArtCommand = async (msg) => {
@@ -21,22 +27,22 @@ const addArtCommand = async (msg) => {
     count = 0;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
-    if (!temp[1]) {
-      msg.channel.send('Please specify a character name');
-      return;
-    }
+    if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
     characterArray = characterArtObj[temp[1].toLowerCase()];
-    if (!characterArray) {
-      msg.channel.send('Invalid character');
-      return;
-    }
     if (!temp[2]) {
       msg.channel.send('Please provide link');
       return;
     }
     for (index = 2; index < temp.length; index++) {
-      if (!(await urlExist(temp[index]))) {
+      if (
+        !(await urlExist(temp[index])) ||
+        containsInvalidArtLinkCheck(temp[index])
+      ) {
         msg.channel.send(`Link ${index - 1} is invalid`);
+        continue;
+      }
+      if (characterArray.includes(temp[index])) {
+        msg.channel.send(`Link ${index - 1} is already present`);
         continue;
       }
       characterArray.push(temp[index]);
@@ -70,15 +76,8 @@ const removeArtCommand = async (msg) => {
 
     temp = msg.content.slice(1);
     temp = temp.split(' ');
-    if (!temp[1]) {
-      msg.channel.send('Please specify a character name');
-      return;
-    }
+    if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
     characterArray = characterArtObj[temp[1].toLowerCase()];
-    if (!characterArray) {
-      msg.channel.send('Invalid character');
-      return;
-    }
     if (!temp[2]) {
       msg.channel.send('Please provide link');
       return;
@@ -116,15 +115,8 @@ const getArtCommand = (msg) => {
 
     temp = msg.content.slice(1);
     temp = temp.split(' ');
-    if (!temp[1]) {
-      msg.channel.send('Please specify a character name');
-      return;
-    }
+    if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
     characterArray = characterArtObj[temp[1].toLowerCase()];
-    if (!characterArray) {
-      msg.channel.send('Invalid character');
-      return;
-    }
     if (!characterArray.length) {
       msg.channel.send('No art added for this character');
       return;
@@ -153,15 +145,8 @@ const getAllArtCommand = (msg) => {
 
     temp = msg.content.slice(1);
     temp = temp.split(' ');
-    if (!temp[1]) {
-      msg.channel.send('Please specify a character name');
-      return;
-    }
+    if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
     characterArray = characterArtObj[temp[1].toLowerCase()];
-    if (!characterArray) {
-      msg.channel.send('Invalid character');
-      return;
-    }
     if (!characterArray.length) {
       msg.channel.send('No art added for this character');
       return;
@@ -192,15 +177,8 @@ const removeArtCharacterCommand = (msg) => {
     let temp, characterArray;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
-    if (!temp[1]) {
-      msg.channel.send('Please specify a character name');
-      return;
-    }
+    if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
     characterArray = characterArtObj[temp[1].toLowerCase()];
-    if (!characterArray) {
-      msg.channel.send('Invalid Character');
-      return;
-    }
     delete characterArtObj[temp[1].toLowerCase()];
     fs.writeFileSync(
       `${process.cwd()}/src/Json-Files/art.json`,
@@ -222,15 +200,8 @@ const addArtCharacterCommand = (msg) => {
     let temp, characterArray;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
-    if (!temp[1]) {
-      msg.channel.send('Please specify a character name');
-      return;
-    }
+    if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
     characterArray = characterArtObj[temp[1].toLowerCase()];
-    if (characterArray) {
-      msg.channel.send('Character already present');
-      return;
-    }
     characterArtObj[temp[1].toLowerCase()] = [];
     fs.writeFileSync(
       `${process.cwd()}/src/Json-Files/art.json`,

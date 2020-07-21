@@ -6,6 +6,8 @@ const { assignMuteRole } = require('../Roles/roleFunctions.js');
 const userKickLog = require('../Loggers/userKickLog.js');
 const userBanLog = require('../Loggers/userBanLog.js');
 const { channelCheck, roleCheck } = require('../Checks/helperChecks.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const createEmbed = require('../Helpers/createEmbed.js');
 
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
@@ -281,6 +283,68 @@ const purgeCommand = (msg) => {
   }
 };
 
+//makes a suggestion embed-user
+const modSuggestionCommand = async (msg) => {
+  let suggestEmbed,
+    temp,
+    message,
+    index,
+    authorName,
+    authorUrl,
+    title,
+    color,
+    field1,
+    description,
+    image;
+
+  temp = msg.content.slice(1);
+  temp = temp.split(' ');
+  if (!temp[1]) {
+    msg.channel.send(`Provide an input`);
+    return;
+  }
+  if (temp.length < 11) {
+    msg.channel.send('Input must contain at least 10 words');
+    return;
+  }
+  message = temp[1];
+  for (index = 2; index < temp.length; index++) {
+    message = `${message} ${temp[index]}`;
+  }
+  authorName = msg.author.tag;
+  authorUrl = await checkIfGifOrPng(msg.author);
+  title = 'Suggestion';
+  color = 3447003;
+  description = `<@${msg.author.id}> has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively`;
+  field1 = {
+    title: 'Suggestion:',
+    content: message,
+  };
+  // console.log(msg.attachments.array()[0]);
+  if (msg.attachments.array()[0]) {
+    image = msg.attachments.array()[0].url;
+  } else image = null;
+  suggestEmbed = createEmbed(
+    authorName,
+    authorUrl,
+    title,
+    color,
+    field1,
+    null,
+    null,
+    description,
+    image
+  );
+  msg.channel
+    .send(suggestEmbed)
+    .then((botMsg) => {
+      botMsg.react('👍');
+      botMsg.react('👎');
+    })
+    .then(() => msg.delete())
+    .catch(console.log);
+};
+
 module.exports = {
   chapterAnnouncement: chapterAnnouncement,
   pollAnnouncement: pollAnnouncement,
@@ -289,4 +353,5 @@ module.exports = {
   kickCommand: kickCommand,
   banCommand: banCommand,
   purgeCommand: purgeCommand,
+  modSuggestionCommand: modSuggestionCommand,
 };

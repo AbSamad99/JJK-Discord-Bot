@@ -41,8 +41,8 @@ const roleAssignCommand = (msg) => {
   }
 };
 
-//makes a suggestion embed
-const suggestionCommand = async (msg) => {
+//makes a suggestion embed-user
+const userSuggestionCommand = async (msg) => {
   let suggestEmbed,
     temp,
     message,
@@ -54,11 +54,7 @@ const suggestionCommand = async (msg) => {
     field1,
     description,
     image;
-  if (
-    !channelCheck(msg, 'server-suggestions') &&
-    !channelCheck(msg, 'syed-bot-practice')
-  )
-    return;
+  if (!channelCheck(msg, 'server-suggestions')) return;
   temp = msg.content.slice(1);
   temp = temp.split(' ');
   if (!temp[1]) {
@@ -66,7 +62,7 @@ const suggestionCommand = async (msg) => {
     return;
   }
   if (temp.length < 11) {
-    msg.channel.send('Provide an input greater than 10 words');
+    msg.channel.send('Input must contain at least 10 words');
     return;
   }
   message = temp[1];
@@ -109,5 +105,5 @@ const suggestionCommand = async (msg) => {
 
 module.exports = {
   roleAssignCommand: roleAssignCommand,
-  suggestionCommand: suggestionCommand,
+  userSuggestionCommand: userSuggestionCommand,
 };

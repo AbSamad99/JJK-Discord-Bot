@@ -23,20 +23,24 @@ const { roleCheck } = require('../Functions/Checks/helperChecks.js');
 
 const messageCaseHandler = (msg) => {
   try {
+    let temp = msg.content.toLowerCase();
     //checks from commannd
     if (msg.content.startsWith(prefix)) {
-      prefixCommandFunction(msg);
+      prefixCommandFunction(msg, temp);
     }
     //checks if it contains a forbidden link
-    if (containsForbiddenLinkCheck(msg)) {
+    if (containsForbiddenLinkCheck(temp)) {
       msg.delete().catch(console.log);
       msg
         .reply('Please refrain from posting links to NSFW sites')
         .catch(console.log);
     }
     //checks if it contains discord inv link
-    if (containsDiscordLinkCheck(msg)) {
-      if (!roleCheck(msg.member, 'Special-Grade Shaman')) {
+    if (containsDiscordLinkCheck(temp)) {
+      if (
+        !roleCheck(msg.member, 'Special-Grade Shaman') &&
+        !roleCheck(msg.member, 'admin')
+      ) {
         msg.delete().catch(console.log);
         msg.channel
           .reply('Please do not link invites to other servers')
@@ -46,31 +50,31 @@ const messageCaseHandler = (msg) => {
       }
     }
     //mod response
-    if (msg.content.toLowerCase().includes('mod')) {
-      bestModResponse(msg);
+    if (temp.includes('mod')) {
+      bestModResponse(msg, temp);
     }
     //nfufu response
-    if (msg.content.toLowerCase().includes('nfufu')) {
+    if (temp.includes('nfufu')) {
       nfufuResponse(msg);
     }
     //weeb response
-    else if (weebCheck(msg)) {
+    else if (weebCheck(msg, temp)) {
       weebResponse(msg);
     }
     //sakuna response
     if (
-      msg.content.toLowerCase().includes('sakuna') ||
-      msg.content.toLowerCase().includes('sukana') ||
-      msg.content.toLowerCase().includes('sakana')
+      temp.includes('sakuna') ||
+      temp.includes('sukana') ||
+      temp.includes('sakana')
     ) {
       msg.channel.send(`It's Sukuna`);
     }
     //series sucks response
-    if (xSeriesSucksCheck(msg)) {
+    if (xSeriesSucksCheck(temp)) {
       xSeriesSucksResponse(msg);
     }
     // //tells people to go to other series
-    // else if (otherSeriesTalkCheck(msg)) {
+    // else if (otherSeriesTalkCheck(msg, temp)) {
     //   otherSeriesTalkResponse(msg);
     // }
   } catch (err) {

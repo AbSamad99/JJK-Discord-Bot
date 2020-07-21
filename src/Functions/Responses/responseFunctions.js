@@ -1,22 +1,16 @@
 const fs = require('fs');
 
+const { channelCheck } = require('../Checks/helperChecks');
+
 const weebResponse = (msg) => {
   const emoteArray = JSON.parse(
     fs.readFileSync(`${process.cwd()}/src/Json-Files/emotes.json`)
   );
-  const channelArray = JSON.parse(
-    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-  );
-  let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
   let papaWat = emoteArray.find((emote) => emote.name === 'JJKPapawat');
-  let generalChannel = channelArray.find((ch) => ch.name === 'general');
-  let memesChannel = channelArray.find(
-    (ch) => ch.name === 'memes-and-shitposting'
-  );
   if (
-    msg.channel.id !== generalChannel.id &&
-    msg.channel.id !== memesChannel.id &&
-    msg.channel.id !== testChannel.id
+    !channelCheck(msg, 'memes-and-shitposting') &&
+    !channelCheck(msg, 'general') &&
+    !channelCheck(msg, 'syed-bot-practice')
   )
     return;
   let chance = Math.random() * 100;
@@ -44,21 +38,13 @@ const nfufuResponse = (msg) => {
   const emoteArray = JSON.parse(
     fs.readFileSync(`${process.cwd()}/src/Json-Files/emotes.json`)
   );
-  const channelArray = JSON.parse(
-    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-  );
   let honoredOne = userArray.find((user) => user.name === 'The Honored One');
   if (honoredOne.id === msg.author.id) return;
-  let testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
   let papaWat = emoteArray.find((emote) => emote.name === 'JJKPapawat');
-  let generalChannel = channelArray.find((ch) => ch.name === 'general');
-  let memesChannel = channelArray.find(
-    (ch) => ch.name === 'memes-and-shitposting'
-  );
   if (
-    msg.channel.id !== generalChannel.id &&
-    msg.channel.id !== memesChannel.id &&
-    msg.channel.id !== testChannel.id
+    !channelCheck(msg, 'general') &&
+    !channelCheck(msg, 'memes-and-shitposting') &&
+    !channelCheck(msg, 'syed-bot-practice')
   )
     return;
   let chance = Math.random() * 100;

@@ -1,38 +1,5 @@
 const fs = require('fs');
 
-const modPermsCheck = (msg) => {
-  const rolesArray = JSON.parse(
-    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
-  );
-  let temp = msg.member.roles.cache;
-  let modRole1 = rolesArray.find(
-    (role) => role.name === 'Special-Grade Shaman'
-  );
-  let modRole2 = rolesArray.find((role) => role.name === 'admin');
-  if (temp.has(modRole1.id) || temp.has(modRole2.id)) {
-    return 1;
-  } else return 0;
-};
-
-const communityRoleCheck = (msg) => {
-  const rolesArray = JSON.parse(
-    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
-  );
-  let temp = msg.member.roles.cache;
-  let communityRole = rolesArray.find(
-    (role) => role.name === 'Community Service Shaman'
-  );
-  if (temp.has(communityRole.id)) {
-    return 1;
-  } else return 0;
-};
-
-const hasRoleCheck = (msg, role) => {
-  if (msg.member.roles.cache.has(role.id)) {
-    return 1;
-  } else return 0;
-};
-
 const lockedRolesCheck = (role) => {
   if (
     role.name === 'admin' ||
@@ -81,23 +48,6 @@ const lockedRolesCheck = (role) => {
   } else return 0;
 };
 
-const canBeBannedOrKicked = (mem) => {
-  const rolesArray = JSON.parse(
-    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
-  );
-  let modRole1, modRole2, temp;
-  modRole1 = rolesArray.find((role) => role.name === 'Special-Grade Shaman');
-  modRole2 = rolesArray.find((role) => role.name === 'admin');
-  temp = mem.roles.cache;
-  if (temp.has(modRole1.id) || temp.has(modRole2.id)) {
-    return 0;
-  } else return 1;
-};
-
 module.exports = {
-  modPermsCheck: modPermsCheck,
-  communityRoleCheck: communityRoleCheck,
-  hasRoleCheck: hasRoleCheck,
   lockedRolesCheck: lockedRolesCheck,
-  canBeBannedOrKicked: canBeBannedOrKicked,
 };

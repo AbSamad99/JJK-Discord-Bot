@@ -1,6 +1,8 @@
 const urlExist = require('url-exist');
 const fs = require('fs');
 
+const { channelCheck } = require('../Checks/helperChecks.js');
+
 //adds an art
 const addArtCommand = async (msg) => {
   try {
@@ -8,18 +10,15 @@ const addArtCommand = async (msg) => {
     const characterArtObj = JSON.parse(
       fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
     );
-    let artChannel, testChannel, temp, characterArray, index;
+    let temp, characterArray, index, count;
 
-    artChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'music-and-art'
-    );
-    testChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
-
-    if (msg.channel.id !== artChannel.id && msg.channel.id !== testChannel.id)
+    if (
+      !channelCheck(msg, 'music-and-art') &&
+      !channelCheck(msg, 'syed-bot-practice')
+    )
       return;
 
+    count = 0;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
     if (!temp[1]) {
@@ -36,17 +35,18 @@ const addArtCommand = async (msg) => {
       return;
     }
     for (index = 2; index < temp.length; index++) {
-      if (!(await urlExist(temp[2]))) {
+      if (!(await urlExist(temp[index]))) {
         msg.channel.send(`Link ${index - 1} is invalid`);
-        return;
+        continue;
       }
       characterArray.push(temp[index]);
+      count++;
       fs.writeFileSync(
         `${process.cwd()}/src/Json-Files/art.json`,
         JSON.stringify(characterArtObj)
       );
     }
-    msg.channel.send('Added').catch(console.log);
+    msg.channel.send(`Number of links added: ${count}`).catch(console.log);
   } catch (err) {
     console.log(err);
   }
@@ -55,21 +55,17 @@ const addArtCommand = async (msg) => {
 //removes an art
 const removeArtCommand = async (msg) => {
   try {
-    let artChannel, testChannel, temp, characterArray, index;
+    let temp, characterArray, index;
 
     msg.suppressEmbeds();
     const characterArtObj = JSON.parse(
       fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
     );
 
-    artChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'music-and-art'
-    );
-    testChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
-
-    if (msg.channel.id !== artChannel.id && msg.channel.id !== testChannel.id)
+    if (
+      !channelCheck(msg, 'music-and-art') &&
+      !channelCheck(msg, 'syed-bot-practice')
+    )
       return;
 
     temp = msg.content.slice(1);
@@ -97,7 +93,7 @@ const removeArtCommand = async (msg) => {
       `${process.cwd()}/src/Json-Files/art.json`,
       JSON.stringify(characterArtObj)
     );
-    msg.channel.send('Deleted').catch(console.log);
+    msg.channel.send('Removed').catch(console.log);
   } catch (err) {
     console.log(err);
   }
@@ -110,16 +106,12 @@ const getArtCommand = (msg) => {
       fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
     );
 
-    let artChannel, testChannel, temp, characterArray, randomIndex;
+    let temp, characterArray, randomIndex;
 
-    artChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'music-and-art'
-    );
-    testChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
-
-    if (msg.channel.id !== artChannel.id && msg.channel.id !== testChannel.id)
+    if (
+      !channelCheck(msg, 'music-and-art') &&
+      !channelCheck(msg, 'syed-bot-practice')
+    )
       return;
 
     temp = msg.content.slice(1);
@@ -151,16 +143,12 @@ const getAllArtCommand = (msg) => {
       fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
     );
 
-    let artChannel, testChannel, temp, characterArray, index, message;
+    let temp, characterArray, index, message;
 
-    artChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'music-and-art'
-    );
-    testChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
-
-    if (msg.channel.id !== artChannel.id && msg.channel.id !== testChannel.id)
+    if (
+      !channelCheck(msg, 'music-and-art') &&
+      !channelCheck(msg, 'syed-bot-practice')
+    )
       return;
 
     temp = msg.content.slice(1);
@@ -179,9 +167,9 @@ const getAllArtCommand = (msg) => {
       return;
     }
 
-    message = `-addart ${temp[1]}`;
+    message = `${characterArray[0]}`;
 
-    for (index = 0; index < characterArray.length; index++) {
+    for (index = 1; index < characterArray.length; index++) {
       message = `${message} ${characterArray[index]}`;
     }
 

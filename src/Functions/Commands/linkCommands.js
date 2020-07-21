@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const { channelCheck } = require('../Checks/helperChecks.js');
+
 const encyclopediaCommand = (msg) => {
   let message = `https://docs.google.com/document/d/1lPQvDk8o-jjJ_8qiIFkQmdB0GKAy4WeN_38_geoDsqw/edit?usp=sharing`;
   msg.channel.send(message).catch(console.log);
@@ -17,17 +19,10 @@ const chartCommand = (msg) => {
 
 const prequelCommand = (msg) => {
   try {
-    const channelArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-    );
-    let welcomeChannel, mangaChannel, testChannel;
-    welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
-    mangaChannel = channelArray.find((ch) => ch.name === 'manga-discussion');
-    testChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
     if (
-      msg.channel.id === welcomeChannel.id ||
-      msg.channel.id === mangaChannel.id ||
-      msg.channel.id === testChannel.id
+      channelCheck(msg, 'welcome') ||
+      channelCheck(msg, 'manga-discussion') ||
+      channelCheck(msg, 'syed-bot-practice')
     ) {
       msg.channel.send(
         'https://mangadex.org/title/30288/tokyo-metropolitan-magic-technical-school'

@@ -1,14 +1,9 @@
 const fs = require('fs');
 
-const weebCheck = (msg) => {
-  const rolesArray = JSON.parse(
-    fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
-  );
+const { channelCheck, roleCheck } = require('./helperChecks.js');
 
-  let honoredOneRole = rolesArray.find(
-    (role) => role.name === 'The Honored One'
-  );
-  if (honoredOneRole.id === msg.author.id) return 0;
+const weebCheck = (msg) => {
+  if (!msg.member || roleCheck(msg.member, 'The Honored One')) return 0;
   let temp = msg.content.toLowerCase();
   if (
     temp.includes('desu') ||
@@ -29,18 +24,9 @@ const weebCheck = (msg) => {
 };
 
 const otherSeriesTalkCheck = (msg) => {
-  const channelArray = JSON.parse(
-    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-  );
   let temp = msg.content.toLowerCase();
-  let otherSeriesChannel = channelArray.find(
-    (ch) => ch.name === 'other-series'
-  );
-  if (!otherSeriesChannel) {
-    return 0;
-  }
   if (
-    msg.channel.id !== otherSeriesChannel.id &&
+    !channelCheck(msg, 'other-series') &&
     (temp.includes('fate') ||
       temp.includes('nasu') ||
       temp.includes('d gray man') ||

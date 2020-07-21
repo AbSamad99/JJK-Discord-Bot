@@ -1,4 +1,7 @@
-const roleAssignCommand = require('../Commands/userCommands.js');
+const {
+  roleAssignCommand,
+  suggestionCommand,
+} = require('../Commands/userCommands.js');
 
 const {
   getAllArtCommand,
@@ -37,76 +40,118 @@ const {
   purgeCommand,
 } = require('../Commands/modCommands.js');
 
-const { modPermsCheck, communityRoleCheck } = require('./RoleChecks.js');
+const { roleCheck } = require('./helperChecks.js');
 
 const prefixCommandFunction = (msg) => {
   let temp = msg.content.toLowerCase();
   temp = temp.slice(1);
 
   //poll
-  if (temp.startsWith('poll') && modPermsCheck(msg)) {
+  if (
+    temp.startsWith('poll') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     pollAnnouncement(msg);
   }
 
   //chap
-  else if (temp.startsWith('chapter') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('chapter') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     chapterAnnouncement(msg);
   }
 
   //anon
-  else if (temp.startsWith('message') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('message') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     anonMessageCommand(msg);
   }
 
   //anon
-  else if (temp.startsWith('purge') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('purge') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     purgeCommand(msg);
   }
 
   //mute
-  else if (temp.startsWith('mute') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('mute') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     muteCommand(msg);
   }
 
   //ban
-  else if (temp.startsWith('ban') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('ban') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     banCommand(msg);
   }
 
   //kick
-  else if (temp.startsWith('kick') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('kick') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     kickCommand(msg);
   }
 
   //get all art
-  else if (temp.startsWith('getallart') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('getallart') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     getAllArtCommand(msg);
   }
 
   //add art
   else if (
     temp.startsWith('addart') &&
-    modPermsCheck(msg) &&
-    communityRoleCheck(msg) &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin') ||
+      roleCheck(msg.member, 'Community Service Shaman')) &&
     !temp.startsWith('addartcharacter')
   ) {
     addArtCommand(msg);
   }
 
   //add character
-  else if (temp.startsWith('addartcharacter') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('addartcharacter') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     addArtCharacterCommand(msg);
   }
 
   //removes character
-  else if (temp.startsWith('removeartcharacter') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('removeartcharacter') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     removeArtCharacterCommand(msg);
   }
 
   //removes art
   else if (
     temp.startsWith('removeart') &&
-    modPermsCheck(msg) &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin')) &&
     !temp.startsWith('removeartcharacter')
   ) {
     removeArtCommand(msg);
@@ -115,15 +160,25 @@ const prefixCommandFunction = (msg) => {
   //get art
   else if (
     temp.startsWith('getart') &&
-    modPermsCheck(msg) &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin')) &&
     !temp.startsWith('getartnames')
   ) {
     getArtCommand(msg);
   }
 
   //get art names
-  else if (temp.startsWith('getartnames') && modPermsCheck(msg)) {
+  else if (
+    temp.startsWith('getartnames') &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
     getArtNamesCommand(msg);
+  }
+
+  // //suggestion command
+  if (temp.startsWith('suggest')) {
+    suggestionCommand(msg);
   }
 
   //fujo

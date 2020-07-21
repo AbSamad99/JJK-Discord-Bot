@@ -9,9 +9,7 @@ const {
 } = require('../Functions/Responses/responseFunctions');
 
 //importing required Check functions
-const { modPermsCheck } = require('../Functions/Checks/RoleChecks.js');
 const {
-  isSuggestionCheck,
   containsDiscordLinkCheck,
   containsForbiddenLinkCheck,
 } = require('../Functions/Checks/moderationHelpCheck.js');
@@ -21,6 +19,7 @@ const {
   weebCheck,
   otherSeriesTalkCheck,
 } = require('../Functions/Checks/miscChecks.js');
+const { roleCheck } = require('../Functions/Checks/helperChecks.js');
 
 const messageCaseHandler = (msg) => {
   try {
@@ -37,7 +36,7 @@ const messageCaseHandler = (msg) => {
     }
     //checks if it contains discord inv link
     if (containsDiscordLinkCheck(msg)) {
-      if (!modPermsCheck(msg)) {
+      if (!roleCheck(msg.member, 'Special-Grade Shaman')) {
         msg.delete().catch(console.log);
         msg.channel
           .reply('Please do not link invites to other servers')
@@ -45,13 +44,6 @@ const messageCaseHandler = (msg) => {
       } else {
         console.log('mod');
       }
-    }
-    //checks if the message is a suggestion
-    if (isSuggestionCheck(msg)) {
-      msg
-        .react('👍')
-        .then(() => msg.react('👎'))
-        .catch(console.log);
     }
     //mod response
     if (msg.content.toLowerCase().includes('mod')) {

@@ -1,21 +1,21 @@
 const fs = require('fs');
 
 const { assignRole, removeRole } = require('../Roles/roleFunctions.js');
-const { hasRoleCheck, lockedRolesCheck } = require('../Checks/RoleChecks');
+const { lockedRolesCheck } = require('../Checks/RoleChecks');
+const { channelCheck, roleCheck } = require('../Checks/helperChecks.js');
+const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //assigns character role to a member
 const roleAssignCommand = (msg) => {
   const rolesArray = JSON.parse(
     fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
   );
-  let botChannel, testChannel, temp, desiredRole;
-  botChannel = msg.guild.channels.cache.find(
-    (ch) => ch.name === 'bot-commands'
-  );
-  testChannel = msg.guild.channels.cache.find(
-    (ch) => ch.name === 'syed-bot-practice'
-  );
-  if (msg.channel.id !== botChannel.id && msg.channel.id !== testChannel.id)
+  let temp, desiredRole;
+  if (
+    !channelCheck(msg, 'bot-commands') &&
+    !channelCheck(msg, 'syed-bot-practice')
+  )
     return;
   temp = msg.content.slice(1);
   temp = temp.split(' ');
@@ -24,7 +24,7 @@ const roleAssignCommand = (msg) => {
     return;
   }
   desiredRole = rolesArray.find(
-    (role) => role.name.toLowerCase() == temp[1].toLowerCase()
+    (role) => role.name.toLowerCase() === temp[1].toLowerCase()
   );
   if (!desiredRole) {
     msg.channel.send('Please specify a valid character name');
@@ -34,11 +34,80 @@ const roleAssignCommand = (msg) => {
     msg.channel.send('Cannot Assign that role');
     return;
   }
-  if (!hasRoleCheck(msg, desiredRole)) {
+  if (!roleCheck(msg.member, desiredRole.name)) {
     assignRole(msg, desiredRole);
   } else {
     removeRole(msg, desiredRole);
   }
 };
 
-module.exports = roleAssignCommand;
+//makes a suggestion embed
+const suggestionCommand = async (msg) => {
+  let suggestEmbed,
+    temp,
+    message,
+    index,
+    authorName,
+    authorUrl,
+    title,
+    color,
+    field1,
+    description,
+    image;
+  if (
+    !channelCheck(msg, 'server-suggestions') &&
+    !channelCheck(msg, 'syed-bot-practice')
+  )
+    return;
+  temp = msg.content.slice(1);
+  temp = temp.split(' ');
+  if (!temp[1]) {
+    msg.channel.send(`Provide an input`);
+    return;
+  }
+  if (temp.length < 11) {
+    msg.channel.send('Provide an input greater than 10 words');
+    return;
+  }
+  message = temp[1];
+  for (index = 2; index < temp.length; index++) {
+    message = `${message} ${temp[index]}`;
+  }
+  authorName = msg.author.tag;
+  authorUrl = await checkIfGifOrPng(msg.author);
+  title = 'Suggestion';
+  color = 3447003;
+  description = `<@${msg.author.id}> has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively`;
+  field1 = {
+    title: 'Suggestion:',
+    content: message,
+  };
+  console.log(msg.attachments.array()[0]);
+  if (msg.attachments.array()[0]) {
+    image = msg.attachments.array()[0].url;
+  } else image = null;
+  suggestEmbed = createEmbed(
+    authorName,
+    authorUrl,
+    title,
+    color,
+    field1,
+    null,
+    null,
+    description,
+    image
+  );
+  msg.channel
+    .send(suggestEmbed)
+    .then((botMsg) => {
+      botMsg.react('👍');
+      botMsg.react('👎');
+    })
+    .then(() => msg.delete())
+    .catch(console.log);
+};
+
+module.exports = {
+  roleAssignCommand: roleAssignCommand,
+  suggestionCommand: suggestionCommand,
+};

@@ -29,12 +29,13 @@ const changedNicknameLog = async (newMem, oldNick, newNick, type, mod) => {
     if (!mod) {
       authorName = newMem.user.tag;
       authorUrl = await checkIfGifOrPng(newMem.user);
+      thumbnail = authorUrl;
     } else {
       authorName = mod.tag;
       authorUrl = await checkIfGifOrPng(mod);
+      thumbnail = await checkIfGifOrPng(newMem.user);
     }
 
-    thumbnail = authorUrl;
     console.log(authorUrl);
 
     //determining type of nickname edit

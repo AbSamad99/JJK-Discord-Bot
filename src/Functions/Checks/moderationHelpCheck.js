@@ -1,20 +1,5 @@
 const fs = require('fs');
 
-const isSuggestionCheck = (msg) => {
-  const channelArray = JSON.parse(
-    fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-  );
-  let suggestionsChannel = channelArray.find(
-    (ch) => ch.name === 'server-suggestions'
-  );
-  if (!suggestionsChannel) {
-    return 0;
-  }
-  if (msg.channel.id === suggestionsChannel.id) {
-    return 1;
-  } else return 0;
-};
-
 const containsForbiddenLinkCheck = (msg) => {
   let temp = msg.content.toLowerCase();
   if (temp.includes('pornhub.com') || temp.includes('nhentai.net')) {
@@ -30,7 +15,6 @@ const containsDiscordLinkCheck = (msg) => {
 };
 
 module.exports = {
-  isSuggestionCheck: isSuggestionCheck,
   containsForbiddenLinkCheck: containsForbiddenLinkCheck,
   containsDiscordLinkCheck: containsDiscordLinkCheck,
 };

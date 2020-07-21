@@ -5,7 +5,7 @@ const urlExist = require('url-exist');
 const { assignMuteRole } = require('../Roles/roleFunctions.js');
 const userKickLog = require('../Loggers/userKickLog.js');
 const userBanLog = require('../Loggers/userBanLog.js');
-const { canBeBannedOrKicked } = require('../Checks/RoleChecks.js');
+const { channelCheck, roleCheck } = require('../Checks/helperChecks.js');
 
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
@@ -14,10 +14,6 @@ const chapterAnnouncement = async (msg) => {
   );
   const rolesArray = fs.readFileSync(
     `${process.cwd()}/src/Json-Files/roles.json`
-  );
-  let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
-  let practiceChannel = channelArray.find(
-    (ch) => ch.name === 'syed-bot-practice'
   );
   let mangaNewsRole = rolesArray.find((role) => role.name === 'Manga News');
   let announcementChannel = msg.guild.channels.cache.find(
@@ -42,9 +38,9 @@ Viz: ${vizLink}
         
 Manga Plus: ${mpLink}`;
   if (temp[1] && temp[2] && temp[3]) {
-    if (msg.channel.id === practiceChannel.id) {
+    if (channelCheck(msg, 'syed-bot-practice')) {
       msg.channel.send(replyMessage).catch(console.log);
-    } else if (msg.channel.id === modBotChannel.id) {
+    } else if (channelCheck(msg, 'mod-bots')) {
       announcementChannel.send(replyMessage).catch(console.log);
     }
   } else {
@@ -58,10 +54,6 @@ Manga Plus: ${mpLink}`;
 const pollAnnouncement = (msg) => {
   const channelArray = JSON.parse(
     fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-  );
-  let modBotChannel = channelArray.find((ch) => ch.name === 'mod-bots');
-  let practiceChannel = channelArray.find(
-    (ch) => ch.name === 'syed-bot-practice'
   );
   let announcementChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'announcements'
@@ -77,17 +69,26 @@ const pollAnnouncement = (msg) => {
 \:two: Bad
 \:one: Awful`;
   if (pollNumber) {
-    if (msg.channel.id === practiceChannel.id) {
-      msg.channel.send(replyMessage).catch(console.log);
-    } else if (msg.channel.id === modBotChannel.id) {
+    if (channelCheck(msg, 'syed-bot-practice')) {
+      msg.channel
+        .send(replyMessage)
+        .then((botMsg) => {
+          botMsg.react('5️⃣');
+          botMsg.react('4️⃣');
+          botMsg.react('3️⃣');
+          botMsg.react('2️⃣');
+          botMsg.react('1️⃣');
+        })
+        .catch(console.log);
+    } else if (channelCheck(msg, 'mod-bots')) {
       announcementChannel
         .send(replyMessage)
-        .then((msg) => {
-          msg.react('5️⃣');
-          msg.react('4️⃣');
-          msg.react('3️⃣');
-          msg.react('2️⃣');
-          msg.react('1️⃣');
+        .then((botMsg) => {
+          botMsg.react('5️⃣');
+          botMsg.react('4️⃣');
+          botMsg.react('3️⃣');
+          botMsg.react('2️⃣');
+          botMsg.react('1️⃣');
         })
         .catch(console.log);
     }
@@ -98,7 +99,7 @@ const pollAnnouncement = (msg) => {
 
 //command to send anon messages
 const anonMessageCommand = (msg) => {
-  let modBotChannel = msg.member.guild.channels.cache.find(
+  let modBotChannel = msg.guild.channels.cache.find(
     (ch) => ch.name === 'mod-bots'
   );
   if (msg.channel.id === modBotChannel.id) {
@@ -108,7 +109,7 @@ const anonMessageCommand = (msg) => {
     let message = temp1.join(' ');
     let messageChannelId = temp[1].slice(2, temp[1].length - 1);
     // console.log(message, messageChannelId);
-    let messageChannel = msg.member.guild.channels.cache.find(
+    let messageChannel = msg.guild.channels.cache.find(
       (ch) => ch.id === messageChannelId
     );
     messageChannel.send(message).catch(console.log);
@@ -129,7 +130,7 @@ const muteCommand = (msg) => {
     msg.channel.send('Please mention a user to mute');
     return;
   }
-  if (!canBeBannedOrKicked(toMute)) {
+  if (roleCheck(toMute, 'Special-Grade Shaman') || roleCheck(toMute, 'admin')) {
     msg.channel.send('You cannot mute this user');
     return;
   }
@@ -173,7 +174,7 @@ const kickCommand = (msg) => {
     msg.channel.send('Please mention a user to kick');
     return;
   }
-  if (!canBeBannedOrKicked(toKick)) {
+  if (roleCheck(toKick, 'Special-Grade Shaman') || roleCheck(toKick, 'admin')) {
     msg.channel.send('You cannot kick this user');
     return;
   }
@@ -210,7 +211,7 @@ const banCommand = (msg) => {
     msg.channel.send('Please mention a user to ban');
     return;
   }
-  if (!canBeBannedOrKicked(toBan)) {
+  if (roleCheck(toBan, 'Special-Grade Shaman') || roleCheck(toBan, 'admin')) {
     msg.channel.send('You cannot ban this user');
     return;
   }

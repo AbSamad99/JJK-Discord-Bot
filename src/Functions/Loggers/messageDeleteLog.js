@@ -4,6 +4,7 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //Logs deleted messages or attachments and who deleted them
 const deleteMessageAndAttachmentLog = async (msg, type, executor, target) => {
   try {
+    // console.log(msg, executor, target, type);
     let delEmbed,
       authorName,
       authorUrl,
@@ -41,14 +42,14 @@ const deleteMessageAndAttachmentLog = async (msg, type, executor, target) => {
       authorName = msg.author.tag;
       authorUrl = await checkIfGifOrPng(msg.author);
       field1.content = `<@${msg.author.id}>`;
+      thumbnail = authorUrl;
     } else {
       //mod delete
       authorName = executor.tag;
       authorUrl = await checkIfGifOrPng(executor);
       field1.content = `<@${target.id}>`;
+      thumbnail = await checkIfGifOrPng(target);
     }
-
-    thumbnail = authorUrl;
 
     //creating the embed
     delEmbed = createEmbed(

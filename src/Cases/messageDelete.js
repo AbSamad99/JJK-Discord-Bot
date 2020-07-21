@@ -17,6 +17,8 @@ const messageDeleteCaseHandler = async (msg) => {
     //excecutor->mod
     //target->user
     // msg.author->author of the message;
+    console.log(userLogs.id, previousDeleteLogId[0]);
+    console.log(userLogs.extra.count, previousDeleteLogCount[0]);
     if (
       userLogs.id === previousDeleteLogId[0] &&
       userLogs.extra.count > previousDeleteLogCount[0]

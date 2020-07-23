@@ -1,5 +1,7 @@
+const urlExist = require('url-exist');
 const fs = require('fs');
 
+//checking the channel where message is sent
 const channelCheck = (msg, channelName) => {
   try {
     const channelArray = JSON.parse(
@@ -17,6 +19,7 @@ const channelCheck = (msg, channelName) => {
   }
 };
 
+//checking if user has a role
 const roleCheck = (user, roleName) => {
   try {
     // console.log(user.roles.cache.array());
@@ -33,6 +36,7 @@ const roleCheck = (user, roleName) => {
   }
 };
 
+//checking the art command parameters
 const artCommandParametersCheck = (temp, msg, characterArtObj) => {
   let characterArray;
   if (!temp[1]) {

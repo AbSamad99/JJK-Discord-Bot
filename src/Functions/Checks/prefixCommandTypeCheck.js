@@ -4,33 +4,6 @@ const {
 } = require('../Commands/userCommands.js');
 
 const {
-  getAllArtCommand,
-  getArtCommand,
-  getArtNamesCommand,
-  addArtCommand,
-  addArtCharacterCommand,
-  removeArtCharacterCommand,
-  removeArtCommand,
-} = require('../Commands/artCommands.js');
-
-const { fujoCommand } = require('../Commands/miscCommands.js');
-
-const {
-  welcomeCommand,
-  todoCommand,
-  shyCommand,
-  dontCareCommand,
-} = require('../Commands/welcomeCommands.js');
-
-const {
-  catalogueCommand,
-  chartCommand,
-  prequelCommand,
-  wikiCommand,
-  encyclopediaCommand,
-} = require('../Commands/linkCommands.js');
-
-const {
   chapterAnnouncement,
   pollAnnouncement,
   anonMessageCommand,
@@ -38,17 +11,32 @@ const {
   kickCommand,
   banCommand,
   purgeCommand,
-  modSuggestionCommand,
+  strikeCommand,
 } = require('../Commands/modCommands.js');
 
-const { roleCheck } = require('./helperChecks.js');
+const {
+  encyclopediaLink,
+  wikiLink,
+  chartLink,
+  catalogueLink,
+  prequelLink,
+  todoLink,
+  shyLink,
+  guyLink,
+  fujoLink,
+} = require('../../links.js');
+
+const artCommandTypeCheck = require('./artCommandTypeCheck.js');
+const { roleCheck, channelCheck } = require('./helperChecks.js');
 
 const prefixCommandFunction = (msg, temp) => {
-  temp = temp.slice(1);
+  let keyword = temp.slice(1);
+  keyword = keyword.split(' ');
+  keyword = keyword[0];
 
   //poll
   if (
-    temp.startsWith('poll') &&
+    keyword === 'poll' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
@@ -57,7 +45,7 @@ const prefixCommandFunction = (msg, temp) => {
 
   //chap
   else if (
-    temp.startsWith('chapter') &&
+    keyword === 'chapter' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
@@ -66,16 +54,16 @@ const prefixCommandFunction = (msg, temp) => {
 
   //anon
   else if (
-    temp.startsWith('message') &&
+    keyword === 'message' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
     anonMessageCommand(msg);
   }
 
-  //anon
+  //purge
   else if (
-    temp.startsWith('purge') &&
+    keyword === 'purge' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
@@ -84,7 +72,7 @@ const prefixCommandFunction = (msg, temp) => {
 
   //mute
   else if (
-    temp.startsWith('mute') &&
+    keyword === 'mute' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
@@ -93,7 +81,7 @@ const prefixCommandFunction = (msg, temp) => {
 
   //ban
   else if (
-    temp.startsWith('ban') &&
+    keyword === 'ban' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
@@ -102,143 +90,106 @@ const prefixCommandFunction = (msg, temp) => {
 
   //kick
   else if (
-    temp.startsWith('kick') &&
+    keyword === 'kick' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
     kickCommand(msg);
   }
 
-  //get all art
+  //strike
   else if (
-    temp.startsWith('getallart') &&
+    keyword === 'strike' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
-    getAllArtCommand(msg);
+    strikeCommand(msg);
   }
 
-  //add art
-  else if (
-    temp.startsWith('addart') &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin') ||
-      roleCheck(msg.member, 'Community Service Shaman')) &&
-    !temp.startsWith('addartcharacter')
-  ) {
-    addArtCommand(msg);
-  }
-
-  //add character
-  else if (
-    temp.startsWith('addartcharacter') &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    addArtCharacterCommand(msg);
-  }
-
-  //removes character
-  else if (
-    temp.startsWith('removeartcharacter') &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    removeArtCharacterCommand(msg);
-  }
-
-  //removes art
-  else if (
-    temp.startsWith('removeart') &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin')) &&
-    !temp.startsWith('removeartcharacter')
-  ) {
-    removeArtCommand(msg);
-  }
-
-  //get art
-  else if (
-    temp.startsWith('getart') &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin')) &&
-    !temp.startsWith('getartnames')
-  ) {
-    getArtCommand(msg);
-  }
-
-  //get art names
-  else if (
-    temp.startsWith('getartnames') &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    getArtNamesCommand(msg);
+  //art check
+  else if (keyword.includes('art')) {
+    artCommandTypeCheck(msg, keyword);
   }
 
   // //suggestion command
-  if (temp.startsWith('suggest')) {
-    if (
-      roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin')
-    ) {
-      modSuggestionCommand(msg);
-    } else userSuggestionCommand(msg);
-  }
-
-  //fujo
-  else if (temp === 'fujo') {
-    fujoCommand(msg);
-  }
-
-  //todo
-  else if (temp === 'todo') {
-    todoCommand(msg);
-  }
-
-  //welcome
-  else if (temp === 'welcome') {
-    welcomeCommand(msg);
-  }
-
-  //guy
-  else if (temp === 'guy') {
-    dontCareCommand(msg);
-  }
-
-  //shy
-  else if (temp === 'shy') {
-    shyCommand(msg);
-  }
-
-  //encyclopedia
-  else if (temp === 'encyclopedia') {
-    encyclopediaCommand(msg);
-  }
-
-  //chart
-  else if (temp === 'chart') {
-    chartCommand(msg);
-  }
-
-  //catalogue
-  else if (temp === 'catalogue') {
-    catalogueCommand(msg);
-  }
-
-  //prequel
-  else if (temp.startsWith('prequel')) {
-    prequelCommand(msg);
-  }
-
-  //wiki
-  else if (temp.startsWith('wiki')) {
-    wikiCommand(msg);
+  if (keyword.startsWith('suggest')) {
+    userSuggestionCommand(msg);
   }
 
   //role
-  else if (temp.startsWith('role')) {
+  else if (keyword === 'role') {
     roleAssignCommand(msg);
+  }
+
+  //fujo
+  else if (keyword === 'fujo') {
+    msg.channel.send(fujoLink).catch(console.log);
+  }
+
+  //todo
+  else if (
+    keyword === 'todo' &&
+    (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+  ) {
+    msg.channel.send(todoLink).catch(console.log);
+  }
+
+  //welcome
+  else if (
+    keyword === 'welcome' &&
+    (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+  ) {
+    let message = `Welcome newbie, we have three questions for you:
+1. Are you up to date on the Jujutsu Kaisen manga?
+2. Have you read the prequel?
+3. Can Todo ask you a woke question?`;
+    msg.channel.send(message).catch(console.log);
+  }
+
+  //guy
+  else if (
+    keyword === 'guy' &&
+    (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+  ) {
+    msg.channel.send(guyLink).catch(console.log);
+  }
+
+  //shy
+  else if (
+    keyword === 'shy' &&
+    (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+  ) {
+    msg.channel.send(shyLink).catch(console.log);
+  }
+
+  //encyclopedia
+  else if (keyword === 'encyclopedia') {
+    msg.channel.send(encyclopediaLink).catch(console.log);
+  }
+
+  //chart
+  else if (keyword === 'chart') {
+    msg.channel.send(chartLink).catch(console.log);
+  }
+
+  //catalogue
+  else if (keyword === 'catalogue') {
+    msg.channel.send(catalogueLink).catch(console.log);
+  }
+
+  //prequel
+  else if (
+    keyword === 'prequel' &&
+    (channelCheck(msg, 'welcome') ||
+      channelCheck(msg, 'manga-discussion') ||
+      channelCheck(msg, 'syed-bot-practice'))
+  ) {
+    msg.channel.send(prequelLink).catch(console.log);
+  }
+
+  //wiki
+  else if (keyword === 'wiki') {
+    msg.channel.send(wikiLink).catch(console.log);
   }
 };
 

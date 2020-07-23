@@ -13,6 +13,7 @@ const guildMemberAddCaseHandler = (mem) => {
     );
 
     let welcomeChannel,
+      userIndex,
       modChannel,
       rulesChannel,
       infoChannel,
@@ -46,17 +47,22 @@ const guildMemberAddCaseHandler = (mem) => {
 
     userJoinLog(mem, modChannel);
 
-    userArray.push({
-      name: mem.user.username,
-      id: mem.user.id,
-      avatarUrl: mem.user.displayAvatarURL(),
-      avatar: mem.user.avatar,
-      discriminator: mem.user.discriminator,
-    });
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/users.json`,
-      JSON.stringify(userArray)
-    );
+    userIndex = userArray.findIndex((user) => user.id === mem.user.id);
+
+    if (userIndex === -1) {
+      userArray.push({
+        name: mem.user.username,
+        id: mem.user.id,
+        avatarUrl: mem.user.displayAvatarURL(),
+        avatar: mem.user.avatar,
+        discriminator: mem.user.discriminator,
+        strikes: 0,
+      });
+      fs.writeFileSync(
+        `${process.cwd()}/src/Json-Files/users.json`,
+        JSON.stringify(userArray)
+      );
+    }
   } catch (err) {
     console.log(err);
   }

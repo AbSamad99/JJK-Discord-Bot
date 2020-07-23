@@ -31,6 +31,7 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         avatarUrl: newMem.user.displayAvatarURL(),
         avatar: newMem.user.avatar,
         discriminator: newMem.user.discriminator,
+        strikes: 0,
       });
       fs.writeFileSync(
         `${process.cwd()}/src/Json-Files/users.json`,

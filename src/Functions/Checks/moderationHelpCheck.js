@@ -12,12 +12,13 @@ const containsDiscordLinkCheck = (temp) => {
   } else return 0;
 };
 
-const containsInvalidArtLinkCheck = (link) => {
+const containsInvalidArtLinkCheck = async (link) => {
   if (
     link.includes('twitter.com/') ||
     link.includes('pixiv.net/') ||
     link.includes('instagram.com/') ||
-    link.includes('tumblr.com/')
+    link.includes('tumblr.com/') ||
+    (await urlExist(temp[index]))
   )
     return 0;
   else return 1;

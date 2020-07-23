@@ -22,6 +22,7 @@ const fetchUsers = (client) => {
         avatarUrl: user.displayAvatarURL(),
         avatar: user.avatar,
         discriminator: user.discriminator,
+        strikes: 0,
       });
     });
     fs.writeFileSync(

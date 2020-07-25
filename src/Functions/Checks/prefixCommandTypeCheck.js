@@ -1,6 +1,6 @@
 const {
   roleAssignCommand,
-  userSuggestionCommand,
+  suggestionCommand,
 } = require('../Commands/userCommands.js');
 
 const {
@@ -113,7 +113,7 @@ const prefixCommandFunction = (msg, temp) => {
 
   // //suggestion command
   if (keyword.startsWith('suggest')) {
-    userSuggestionCommand(msg);
+    suggestionCommand(msg);
   }
 
   //role

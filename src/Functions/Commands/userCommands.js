@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const ms = require('ms');
 
 const { assignRole, removeRole } = require('../Roles/roleFunctions.js');
 const { lockedRolesCheck } = require('../Checks/miscChecks.js');
@@ -46,7 +47,7 @@ const roleAssignCommand = (msg) => {
 };
 
 //makes a suggestion embed-user
-const userSuggestionCommand = async (msg) => {
+const suggestionCommand = async (msg) => {
   try {
     let suggestEmbed, temp, message, index, authorUrl;
 
@@ -88,6 +89,9 @@ const userSuggestionCommand = async (msg) => {
       .then((botMsg) => {
         botMsg.react('👍');
         botMsg.react('👎');
+        setTimeout(() => {
+          console.log('Wait over');
+        }, ms('1s'));
       })
       .then(() => msg.delete())
       .catch(console.log);
@@ -98,5 +102,5 @@ const userSuggestionCommand = async (msg) => {
 
 module.exports = {
   roleAssignCommand: roleAssignCommand,
-  userSuggestionCommand: userSuggestionCommand,
+  suggestionCommand: suggestionCommand,
 };

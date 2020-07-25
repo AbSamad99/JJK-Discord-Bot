@@ -1,49 +1,40 @@
-const createEmbed = require('../Helpers/createEmbed.js');
+const Discord = require('discord.js');
+
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs when user is kicked from the server
 const userKickLog = async (kickAuditLog, msg, modChannel, toKick, reason) => {
   try {
-    let kickEmbed,
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      thumbnail,
-      description;
+    let kickEmbed, authorUrl, thumbnail;
 
     //setting relevant fields
-    title = 'Member Kicked';
-    color = 3447003;
-    field1 = { title: 'Reason:', content: '' };
+
+    kickEmbed = new Discord.MessageEmbed()
+      .setTitle('Member Kicked')
+      .setColor(3447003)
+      .setFooter(new Date());
 
     if (!msg) {
-      authorName = kickAuditLog.executor.tag;
       authorUrl = await checkIfGifOrPng(kickAuditLog.executor);
       thumbnail = await checkIfGifOrPng(kickAuditLog.target);
-      description = `<@${kickAuditLog.target.id}> has been kicked from the server.`;
-      field1.content = kickAuditLog.reason;
-      if (!field1.content) field1.content = 'No Reason was provided';
+      kickEmbed
+        .setAuthor(kickAuditLog.executor.tag, authorUrl)
+        .setThumbnail(thumbnail)
+        .setDescription(
+          `<@${kickAuditLog.target.id}> has been kicked from the server.`
+        );
+      if (!kickAuditLog.reason)
+        kickEmbed.addField('Reason:', 'No reason was provided');
+      else kickEmbed.addField('Reason', kickAuditLog.reason);
     } else {
-      authorName = msg.author.tag;
       authorUrl = await checkIfGifOrPng(msg.author);
       thumbnail = await checkIfGifOrPng(toKick.user);
-      description = `<@${toKick.user.id}> has been kicked from the server.`;
-      field1.content = reason;
+      kickEmbed
+        .setAuthor(msg.author.tag, authorUrl)
+        .setThumbnail(thumbnail)
+        .setDescription(`<@${toKick.user.id}> has been kicked from the server.`)
+        .addField('Reason:', reason);
     }
-
-    //creating the embed
-    kickEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      null,
-      thumbnail,
-      description
-    );
 
     //logging
     modChannel.send(kickEmbed).catch(console.log);

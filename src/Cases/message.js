@@ -45,8 +45,6 @@ const messageCaseHandler = (msg) => {
         msg.channel
           .reply('Please do not link invites to other servers')
           .catch(console.log);
-      } else {
-        console.log('mod');
       }
     }
     //mod response

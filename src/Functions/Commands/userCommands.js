@@ -1,9 +1,9 @@
+const Discord = require('discord.js');
 const fs = require('fs');
 
 const { assignRole, removeRole } = require('../Roles/roleFunctions.js');
 const { lockedRolesCheck } = require('../Checks/miscChecks.js');
 const { channelCheck, roleCheck } = require('../Checks/helperChecks.js');
-const createEmbed = require('../Helpers/createEmbed.js');
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //assigns character role to a member
@@ -48,21 +48,12 @@ const roleAssignCommand = (msg) => {
 //makes a suggestion embed-user
 const userSuggestionCommand = async (msg) => {
   try {
-    let suggestEmbed,
-      temp,
-      message,
-      index,
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      description,
-      image;
+    let suggestEmbed, temp, message, index, authorUrl;
+
     if (
       !channelCheck(msg, 'server-suggestions') &&
-      (!roleCheck(msg.member, 'Special-Grade Shaman') ||
-        !roleCheck(msg.member, 'admin'))
+      !roleCheck(msg.member, 'Special-Grade Shaman') &&
+      !roleCheck(msg.member, 'admin')
     )
       return;
     temp = msg.content.slice(1);
@@ -79,30 +70,19 @@ const userSuggestionCommand = async (msg) => {
     for (index = 2; index < temp.length; index++) {
       message = `${message} ${temp[index]}`;
     }
-    authorName = msg.author.tag;
     authorUrl = await checkIfGifOrPng(msg.author);
-    title = 'Suggestion';
-    color = 3447003;
-    description = `<@${msg.author.id}> has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively`;
-    field1 = {
-      title: 'Suggestion:',
-      content: message,
-    };
-    console.log(msg.attachments.array()[0]);
+    suggestEmbed = new Discord.MessageEmbed()
+      .setAuthor(msg.author.tag, authorUrl)
+      .setTitle('Suggestion')
+      .setColor(3447003)
+      .setDescription(
+        `<@${msg.author.id}> has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively`
+      )
+      .addField('Suggestion', message)
+      .setFooter(new Date());
     if (msg.attachments.array()[0]) {
-      image = msg.attachments.array()[0].url;
-    } else image = null;
-    suggestEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      null,
-      null,
-      description,
-      image
-    );
+      suggestEmbed.setImage(msg.attachments.array()[0].url);
+    }
     msg.channel
       .send(suggestEmbed)
       .then((botMsg) => {

@@ -12,67 +12,30 @@ const messageDeleteCaseHandler = async (msg) => {
         type: 'MESSAGE_DELETE',
       })
       .then((audit) => audit.entries.first());
-    if (!userLogs) console.log('No Audit Was Logged');
     const { executor, target } = userLogs;
     //excecutor->mod
     //target->user
     // msg.author->author of the message;
-    console.log(userLogs.id, previousDeleteLogId[0]);
-    console.log(userLogs.extra.count, previousDeleteLogCount[0]);
+    //when mod delete type 1
     if (
       userLogs.id === previousDeleteLogId[0] &&
       userLogs.extra.count > previousDeleteLogCount[0]
     ) {
-      //when mod delete
       previousDeleteLogCount[0]++;
-      try {
-        if (!msg.partial) {
-          if (msg.attachments.array()[0]) {
-            await deleteMessageAndAttachmentLog(
-              msg,
-              'attachment',
-              executor,
-              target
-            );
-          } else {
-            await deleteMessageAndAttachmentLog(
-              msg,
-              'message',
-              executor,
-              target
-            );
-          }
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    } else if (
+      await deleteMessageAndAttachmentLog(msg, executor, target);
+    }
+    //when mod delete type 2
+    else if (
       userLogs.id !== previousDeleteLogId[0] &&
       userLogs.extra.count === 1
     ) {
-      //when self delete
       previousDeleteLogId[0] = userLogs.id;
       previousDeleteLogCount[0] = 1;
-      try {
-        if (msg.attachments.array()[0]) {
-          await deleteMessageAndAttachmentLog(
-            msg,
-            'attachment',
-            executor,
-            target
-          );
-        } else {
-          await deleteMessageAndAttachmentLog(msg, 'message', executor, target);
-        }
-      } catch (err) {
-        console.log(err);
-      }
-    } else {
-      if (msg.attachments.array()[0]) {
-        await deleteMessageAndAttachmentLog(msg, 'attachment');
-      } else {
-        await deleteMessageAndAttachmentLog(msg, 'message');
-      }
+      await deleteMessageAndAttachmentLog(msg, executor, target);
+    }
+    //when self delete
+    else {
+      await deleteMessageAndAttachmentLog(msg);
     }
   } catch (err) {
     console.log(err);

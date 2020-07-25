@@ -1,18 +1,11 @@
-const createEmbed = require('../Helpers/createEmbed.js');
+const Discord = require('discord.js');
+
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs username changes
 const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
   try {
-    let modChannel,
-      changedUsernameEmbed,
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      field2,
-      description;
+    let modChannel, changedUsernameAndDiscriminatorEmbed, authorUrl;
 
     //selecting logs channel
     modChannel = newMem.guild.channels.cache.find(
@@ -20,39 +13,30 @@ const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
     );
 
     //setting relevant fields
-    authorName = newMem.user.tag;
     authorUrl = await checkIfGifOrPng(newMem.user);
-    color = 3447003;
-    field1 = { title: 'Before:', content: '' };
-    field2 = { title: 'After', content: '' };
+
+    changedUsernameAndDiscriminatorEmbed = new Discord.MessageEmbed()
+      .setAuthor(newMem.user.tag, authorUrl)
+      .setColor(3447003)
+      .setFooter(new Date());
 
     //deciding between Username and discriminator logs
     if (type === 'username') {
-      title = 'Username Changed';
-      description = `<@${newMem.user.id}> has changed their userame`;
-      field1.content = user.name;
-      field2.content = newMem.user.username;
+      changedUsernameAndDiscriminatorEmbed
+        .setTitle('Username Changed')
+        .setDescription(`<@${newMem.user.id}> has changed their username`)
+        .addField('Before:', user.name)
+        .addField('After:', newMem.user.username);
     } else if (type === 'discriminator') {
-      title = 'Discriminator Changed';
-      description = `<@${newMem.user.id}> has changed their discriminator`;
-      field1.content = user.discriminator;
-      field2.content = newMem.user.discriminator;
+      changedUsernameAndDiscriminatorEmbed
+        .setTitle('Discriminator Changed')
+        .setDescription(`<@${newMem.user.id}> has changed their discriminator`)
+        .addField('Before:', user.discriminator)
+        .addField('After:', newMem.user.discriminator);
     }
 
-    //creating the embed
-    changedUsernameEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      field2,
-      null,
-      description
-    );
-
     //sending to logs channel
-    modChannel.send(changedUsernameEmbed).catch(console.log);
+    modChannel.send(changedUsernameAndDiscriminatorEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

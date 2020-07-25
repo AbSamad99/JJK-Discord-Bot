@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const client = new Discord.Client({ partials: ['MESSAGE'] });
+const client = new Discord.Client();
 
 const messageCaseHandler = require('./Cases/message.js');
 const messageUpdateCaseHandler = require('./Cases/messageUpdate.js');

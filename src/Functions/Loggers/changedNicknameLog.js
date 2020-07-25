@@ -1,19 +1,11 @@
 const Discord = require('discord.js');
 
-const createEmbed = require('../Helpers/createEmbed.js');
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs nickname addition, change and removal
-const changedNicknameLog = async (newMem, oldNick, newNick, type, mod) => {
+const changedNicknameLog = async (newMem, nick, mod) => {
   try {
-    let changedNicknameEmbed,
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      field2,
-      thumbnail;
+    let changedNicknameEmbed, authorUrl, thumbnail;
 
     //selcting the log channel
     let modChannel = newMem.guild.channels.cache.find(
@@ -21,48 +13,42 @@ const changedNicknameLog = async (newMem, oldNick, newNick, type, mod) => {
     );
 
     //setting necessary fields
-    color = 3447003;
-    field1 = { title: 'Before:', content: '' };
-    field2 = { title: 'After:', content: '' };
+
+    changedNicknameEmbed = new Discord.MessageEmbed()
+      .setColor(3447003)
+      .setFooter(new Date());
 
     //seeing if user edited nickname or a mod
     if (!mod) {
-      authorName = newMem.user.tag;
       authorUrl = await checkIfGifOrPng(newMem.user);
-      thumbnail = authorUrl;
+      changedNicknameEmbed
+        .setAuthor(newMem.user.tag, authorUrl)
+        .setThumbnail(authorUrl);
     } else {
-      authorName = mod.tag;
       authorUrl = await checkIfGifOrPng(mod);
       thumbnail = await checkIfGifOrPng(newMem.user);
+      changedNicknameEmbed
+        .setAuthor(mod.tag, authorUrl)
+        .setThumbnail(thumbnail);
     }
-
-    console.log(authorUrl);
 
     //determining type of nickname edit
-    if (type === 'add') {
-      title = `Nickname added for ${newMem.user.tag}`;
-      field1.content = newMem.user.username;
-      field2.content = newNick;
-    } else if (type === 'remove') {
-      title = `Nickname removed for ${newMem.user.tag}`;
-      field1.content = oldNick;
-      field2.content = newMem.user.username;
-    } else if (type === 'edit') {
-      title = `Nickname changed for ${newMem.user.tag}`;
-      field1.content = oldNick;
-      field2.content = newNick;
+    if (!nick.old && nick.new) {
+      changedNicknameEmbed
+        .setTitle(`Nickname added for ${newMem.user.tag}`)
+        .addField('Before:', newMem.user.username)
+        .addField('After:', nick.new);
+    } else if (nick.old && !nick.new) {
+      changedNicknameEmbed
+        .setTitle(`Nickname removed for ${newMem.user.tag}`)
+        .addField('Before:', nick.old)
+        .addField('After:', newMem.user.username);
+    } else if (nick.old && nick.new && nick.old !== nick.new) {
+      changedNicknameEmbed
+        .setTitle(`Nickname changed for ${newMem.user.tag}`)
+        .addField('Before:', nick.old)
+        .addField('After:', nick.new);
     }
-
-    //creating the embed
-    changedNicknameEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      field2,
-      thumbnail
-    );
 
     //sending the messages
     modChannel.send(changedNicknameEmbed).catch(console.log);

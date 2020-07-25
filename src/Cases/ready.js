@@ -14,7 +14,6 @@ const {
 
 const readyCaseHandler = async (client) => {
   try {
-    console.log(process.cwd());
     console.log(`Logged in as The Honored One`);
     fetchChannels(client);
     fetchEmotes(client);

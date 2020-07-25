@@ -1,43 +1,35 @@
 const Discord = require('discord.js');
 
-const createEmbed = require('../Helpers/createEmbed.js');
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs role addition/removal
-const changedRoleLog = async (newMem, target, roleId, type, executor) => {
+const changedRoleLog = async (newMem, roleLogs, roleId) => {
   try {
-    let roleEmbed, authorName, authorUrl, title, color, description;
+    let roleEmbed, authorUrl;
 
     //selcting the log channel
     let modChannel = newMem.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
 
-    //setting commom fields
-    authorName = executor.tag;
-    authorUrl = await checkIfGifOrPng(executor);
-    color = 3447003;
+    //getting url
+    authorUrl = await checkIfGifOrPng(roleLogs.executor);
+
+    roleEmbed = new Discord.MessageEmbed()
+      .setAuthor(roleLogs.executor.tag, authorUrl)
+      .setColor(3447003)
+      .setFooter(new Date());
 
     //adding fields based on type
-    if (type === 'add') {
-      title = 'Role Added';
-      description = `Added <@&${roleId}> to <@${target.id}>`;
-    } else if (type === 'remove') {
-      title = 'Role Removed';
-      description = `Removed <@&${roleId}> from <@${target.id}>`;
+    if (roleLogs.changes[0].key === '$add') {
+      roleEmbed
+        .setTitle('Role Added')
+        .setDescription(`Added <@&${roleId}> to <@${roleLogs.target.id}>`);
+    } else if (roleLogs.changes[0].key === '$remove') {
+      roleEmbed
+        .setTitle('Role Removed')
+        .setDescription(`Removed <@&${roleId}> from <@${roleLogs.target.id}>`);
     }
-
-    //creating the embed
-    roleEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      null,
-      null,
-      null,
-      description
-    );
 
     //sending the messages
     modChannel.send(roleEmbed).catch(console.log);

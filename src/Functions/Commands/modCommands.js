@@ -6,7 +6,7 @@ const { assignMuteRole } = require('../Roles/roleFunctions.js');
 const userKickLog = require('../Loggers/userKickLog.js');
 const userBanLog = require('../Loggers/userBanLog.js');
 const { channelCheck, roleCheck } = require('../Checks/helperChecks.js');
-const createEmbed = require('../Helpers/createEmbed.js');
+const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
@@ -118,7 +118,6 @@ const anonMessageCommand = (msg) => {
     let temp1 = temp.slice(2);
     let message = temp1.join(' ');
     let messageChannelId = temp[1].slice(2, temp[1].length - 1);
-    // console.log(message, messageChannelId);
     let messageChannel = msg.guild.channels.cache.find(
       (ch) => ch.id === messageChannelId
     );
@@ -312,7 +311,7 @@ const purgeCommand = (msg) => {
 };
 
 //command to issue strikes
-const strikeCommand = (msg) => {
+const strikeCommand = async (msg) => {
   try {
     let toStrike,
       userIndex,
@@ -321,7 +320,9 @@ const strikeCommand = (msg) => {
       reason,
       testChannel,
       userArray,
-      rolesArray;
+      rolesArray,
+      authorUrl,
+      toStrikeUrl;
     toStrike = msg.mentions.members.array()[0];
     testChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
@@ -364,32 +365,25 @@ const strikeCommand = (msg) => {
       return;
     }
     userArray[userIndex].strikes++;
+    authorUrl = await checkIfGifOrPng(msg.author);
+    toStrikeUrl = await checkIfGifOrPng(toStrike);
+    let strikeEmbed = new Discord.MessageEmbed()
+      .setAuthor(msg.author.tag, authorUrl)
+      .setTitle('Strike Issued')
+      .setColor(3447003)
+      .setThumbnail(toStrikeUrl)
+      .setFooter(new Date());
+    //1 strike
     if (userArray[userIndex].strikes === 1) {
-      let tempEmbed = createEmbed(
-        msg.author.tag,
-        msg.author.displayAvatarURL(),
-        'Strike Issued',
-        3447003,
-        null,
-        null,
-        toStrike.user.displayAvatarURL(),
-        `<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
-This is their first strike, therefore they are only being warned. The next strike will result in them being muted for 24 hours`
-      );
-      msg.channel.send(tempEmbed);
-    } else if (userArray[userIndex].strikes === 2) {
-      let tempEmbed = createEmbed(
-        msg.author.tag,
-        msg.author.displayAvatarURL(),
-        'Strike Issued',
-        3447003,
-        null,
-        null,
-        toStrike.user.displayAvatarURL(),
-        `<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
-This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`
-      );
-      msg.channel.send(tempEmbed);
+      strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
+This is their first strike, therefore they are only being warned. The next strike will result in them being muted for 24 hours`);
+      msg.channel.send(strikeEmbed);
+    }
+    //2 strikes
+    else if (userArray[userIndex].strikes === 2) {
+      strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
+This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`);
+      msg.channel.send(strikeEmbed);
       rolesArray = JSON.parse(
         fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
       );
@@ -402,19 +396,12 @@ This is their second strike, therefore they shall be muted for 24 hours. The nex
         testChannel,
         `Muted for getting issued a 2nd strike for the following reason: ${reason}`
       );
-    } else if (userArray[userIndex].strikes === 3) {
-      let tempEmbed = createEmbed(
-        msg.author.tag,
-        msg.author.displayAvatarURL(),
-        'Strike Issued',
-        3447003,
-        null,
-        null,
-        toStrike.user.displayAvatarURL(),
-        `<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
-This is their third strike, therefore they shall be kicked from the server. The next strike will result in them being permanentally banned from the server`
-      );
-      msg.channel.send(tempEmbed);
+    }
+    //3 strikes
+    else if (userArray[userIndex].strikes === 3) {
+      strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
+This is their third strike, therefore they shall be kicked from the server. The next strike will result in them being permanentally banned from the server`);
+      msg.channel.send(strikeEmbed);
       toStrike
         .kick(
           `Kicked for getting issued a 3rd strike for the following reason: ${reason}`
@@ -428,18 +415,11 @@ This is their third strike, therefore they shall be kicked from the server. The 
             `Kicked for getting issued a 3rd strike for the following reason: ${reason}`
           ).catch(console.log);
         });
-    } else if (userArray[userIndex].strikes === 4) {
-      let tempEmbed = createEmbed(
-        msg.author.tag,
-        msg.author.displayAvatarURL(),
-        'Strike Issued',
-        3447003,
-        null,
-        null,
-        toStrike.user.displayAvatarURL(),
-        `<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
-This is their fourth strike, therefore they shall be permanentally banned from the server.`
-      );
+    }
+    //4 strikes
+    else if (userArray[userIndex].strikes === 4) {
+      strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
+This is their fourth strike, therefore they shall be permanentally banned from the server.`);
       msg.channel.send(tempEmbed);
       toStrike
         .ban({
@@ -459,10 +439,6 @@ This is their fourth strike, therefore they shall be permanentally banned from t
       `${process.cwd()}/src/Json-Files/users.json`,
       JSON.stringify(userArray)
     );
-    // console.log({
-    //   user: toStrike.user.username,
-    //   reason: reason,
-    // });
   } catch (err) {
     console.log(err);
   }

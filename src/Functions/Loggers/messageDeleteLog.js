@@ -1,69 +1,56 @@
-const createEmbed = require('../Helpers/createEmbed.js');
+const Discord = require('discord.js');
+
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //Logs deleted messages or attachments and who deleted them
-const deleteMessageAndAttachmentLog = async (msg, type, executor, target) => {
+const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
   try {
-    // console.log(msg, executor, target, type);
-    let delEmbed,
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      field2,
-      thumbnail;
+    let deleteEmbed, authorUrl, thumbnail, attachments, modChannel;
 
     //selecting logs channel
-    let modChannel = msg.guild.channels.cache.find(
+    modChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
 
-    //selecting channel where message was deleted
-    let deletedChannel = msg.channel;
-
     //setting common fields for both cases
-    field1 = { title: 'Author:', content: '' };
-    color = 3447003;
 
-    //finding if message or attachment was deleted
-    if (type === 'message') {
-      title = `Message deleted in #${deletedChannel.name}`;
-      field2 = { title: 'Message:', content: '' };
-      field2.content = msg.content;
-    } else if (type === 'attachment') {
-      title = `Attachment deleted in #${deletedChannel.name}`;
-      field2 = { title: 'Attachment:', content: '' };
-      field2.content = msg.attachments.array()[0].name;
-    }
+    deleteEmbed = new Discord.MessageEmbed()
+      .setColor(3447003)
+      .setFooter(new Date())
+      .setTitle(`Message deleted in #${msg.channel.name}`);
 
     if (!executor && !target) {
       //self delete
-      authorName = msg.author.tag;
       authorUrl = await checkIfGifOrPng(msg.author);
-      field1.content = `<@${msg.author.id}>`;
-      thumbnail = authorUrl;
+      deleteEmbed
+        .setAuthor(msg.author.tag, authorUrl)
+        .setThumbnail(authorUrl)
+        .addField('Author:', `<@${msg.author.id}>`);
     } else {
       //mod delete
-      authorName = executor.tag;
       authorUrl = await checkIfGifOrPng(executor);
-      field1.content = `<@${target.id}>`;
       thumbnail = await checkIfGifOrPng(target);
+      deleteEmbed
+        .setAuthor(executor.tag, authorUrl)
+        .setThumbnail(thumbnail)
+        .addField('Author:', `<@${target.id}>`);
     }
 
-    //creating the embed
-    delEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      field1,
-      field2,
-      thumbnail
-    );
+    if (msg.content.length) {
+      deleteEmbed.addField('Message:', msg.content);
+    }
+
+    if (msg.attachments.array().length) {
+      attachments = msg.attachments.array()[0].name;
+      for (let i = 1; i < msg.attachments.array().length; i++) {
+        attachments = `${attachments}
+${msg.attachments.array()[i].name}`;
+      }
+      deleteEmbed.addField('Attachment(s):', attachments);
+    }
 
     //sending the embeded message
-    modChannel.send(delEmbed).catch(console.log);
+    modChannel.send(deleteEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

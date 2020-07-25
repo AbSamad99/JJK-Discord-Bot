@@ -1,36 +1,23 @@
-const createEmbed = require('../Helpers/createEmbed.js');
+const Discord = require('discord.js');
+
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs when user is banned from the server
 const userBanRemoveLog = async (banRemovalAuditLog, modChannel) => {
   try {
-    let banRemovalEmbed,
-      authorName,
-      authorUrl,
-      title,
-      color,
-      thumbnail,
-      description;
+    let banRemovalEmbed, authorUrl, thumbnail;
 
     //setting relevant fields
-    authorName = banRemovalAuditLog.executor.tag;
     authorUrl = await checkIfGifOrPng(banRemovalAuditLog.executor);
-    title = 'Member Unbanned';
-    color = 3447003;
     thumbnail = await checkIfGifOrPng(banRemovalAuditLog.target);
-    description = `<@${banRemovalAuditLog.target.id}> has been Unbanned.`;
 
-    //creating the embed
-    banRemovalEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      null,
-      null,
-      thumbnail,
-      description
-    );
+    banRemovalEmbed = new Discord.MessageEmbed()
+      .setAuthor(banRemovalAuditLog.executor.tag, authorUrl)
+      .setTitle('Member Unbanned')
+      .setColor(3447003)
+      .setThumbnail(thumbnail)
+      .setDescription(`<@${banRemovalAuditLog.target.id}> has been Unbanned.`)
+      .setFooter(new Date());
 
     //logging
     modChannel.send(banRemovalEmbed).catch(console.log);

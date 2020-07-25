@@ -1,30 +1,24 @@
-const createEmbed = require('../Helpers/createEmbed.js');
+const Discord = require('discord.js');
+
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs when user joins the server
 const userJoinLog = async (mem, modChannel) => {
   try {
-    let joinEmbed, authorName, authorUrl, title, color, thumbnail, description;
+    let joinEmbed, authorUrl;
 
     //setting relevant fields
-    authorName = mem.user.tag;
     authorUrl = await checkIfGifOrPng(mem.user);
-    title = 'Member Joined';
-    color = 3447003;
-    thumbnail = authorUrl;
-    description = `<@${mem.user.id}> has joined the server. The total number of users is now at ${mem.guild.memberCount}`;
 
-    //creating the embed
-    joinEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      null,
-      null,
-      thumbnail,
-      description
-    );
+    joinEmbed = new Discord.MessageEmbed()
+      .setAuthor(mem.user.tag, authorUrl)
+      .setTitle('Member Joined')
+      .setColor(3447003)
+      .setThumbnail(authorUrl)
+      .setDescription(
+        `<@${mem.user.id}> has joined the server. The total number of users is now at ${mem.guild.memberCount}`
+      )
+      .setFooter(new Date());
 
     //logging
     modChannel.send(joinEmbed).catch(console.log);

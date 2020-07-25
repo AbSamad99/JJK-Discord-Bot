@@ -1,18 +1,11 @@
-const createEmbed = require('../Helpers/createEmbed.js');
+const Discord = require('discord.js');
+
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs avatar updates
 const changedAvatarLog = async (newMem, user) => {
   try {
-    let modChannel,
-      changedAvatarEmbed,
-      authorName,
-      authorUrl,
-      title,
-      color,
-      thumbnail,
-      description,
-      image;
+    let modChannel, changedAvatarEmbed, authorUrl, image;
 
     //selecting the logs channel
     modChannel = newMem.guild.channels.cache.find(
@@ -20,29 +13,19 @@ const changedAvatarLog = async (newMem, user) => {
     );
 
     //setting relevant fields
-    authorName = newMem.user.tag;
     authorUrl = await checkIfGifOrPng(newMem.user);
-    title = 'Avatar Changed';
-    color = 3447003;
     image = await checkIfGifOrPng(null, user);
-    description = `<@${newMem.user.id}> has updated their avatar from the one below to the one on the right`;
-    thumbnail = authorUrl;
 
-    console.log(authorUrl);
-    console.log(image);
-
-    //creating embed
-    changedAvatarEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      null,
-      null,
-      thumbnail,
-      description,
-      image
-    );
+    changedAvatarEmbed = new Discord.MessageEmbed()
+      .setAuthor(newMem.user.tag, authorUrl)
+      .setTitle('Avatar Changed')
+      .setImage(image)
+      .setDescription(
+        `<@${newMem.user.id}> has updated their avatar from the one below to the one on the right`
+      )
+      .setColor(3447003)
+      .setThumbnail(authorUrl)
+      .setFooter(new Date());
 
     //sending to the logs
     modChannel.send(changedAvatarEmbed).catch(console.log);

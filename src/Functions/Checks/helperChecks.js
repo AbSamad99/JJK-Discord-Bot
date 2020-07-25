@@ -22,13 +22,11 @@ const channelCheck = (msg, channelName) => {
 //checking if user has a role
 const roleCheck = (user, roleName) => {
   try {
-    // console.log(user.roles.cache.array());
     const rolesArray = JSON.parse(
       fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
     );
     const requiredRole = rolesArray.find((role) => role.name === roleName);
     if (!requiredRole) return 0;
-    // console.log(requiredRole.name);
     if (user.roles.cache.has(requiredRole.id)) return 1;
     else return 0;
   } catch (err) {

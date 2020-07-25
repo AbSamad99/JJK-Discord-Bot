@@ -1,28 +1,20 @@
-const createEmbed = require('../Helpers/createEmbed.js');
+const Discord = require('discord.js');
+
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 const userLeaveLog = async (mem, modChannel) => {
   try {
-    let leaveEmbed, authorName, authorUrl, title, color, description;
+    let leaveEmbed, authorUrl;
 
     //setting relevant fields
-    authorName = mem.user.tag;
     authorUrl = await checkIfGifOrPng(mem.user);
-    title = 'Member Left';
-    color = 3447003;
-    description = `<@${mem.user.id}> has left the server`;
 
-    //creating the embed
-    leaveEmbed = createEmbed(
-      authorName,
-      authorUrl,
-      title,
-      color,
-      null,
-      null,
-      null,
-      description
-    );
+    leaveEmbed = new Discord.MessageEmbed()
+      .setAuthor(mem.user.tag, authorUrl)
+      .setTitle('Member Left')
+      .setColor(3447003)
+      .setDescription(`<@${mem.user.id}> has left the server`)
+      .setFooter(new Date());
 
     modChannel.send(leaveEmbed).catch(console.logy);
   } catch (err) {

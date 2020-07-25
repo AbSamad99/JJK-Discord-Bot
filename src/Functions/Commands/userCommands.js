@@ -84,17 +84,19 @@ const suggestionCommand = async (msg) => {
     if (msg.attachments.array()[0]) {
       suggestEmbed.setImage(msg.attachments.array()[0].url);
     }
-    msg.channel
+    await msg.channel
       .send(suggestEmbed)
       .then((botMsg) => {
         botMsg.react('👍');
         botMsg.react('👎');
-        setTimeout(() => {
-          console.log('Wait over');
-        }, ms('1s'));
       })
-      .then(() => msg.delete())
       .catch(console.log);
+
+    setTimeout(() => {
+      console.log('Wait over');
+    }, ms('1s'));
+
+    msg.delete().catch(console.log);
   } catch (err) {
     console.log(err);
   }

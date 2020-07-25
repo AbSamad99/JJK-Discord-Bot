@@ -93,10 +93,8 @@ const suggestionCommand = async (msg) => {
       .catch(console.log);
 
     setTimeout(() => {
-      console.log('Wait over');
+      msg.delete().catch(console.log);
     }, ms('1s'));
-
-    msg.delete().catch(console.log);
   } catch (err) {
     console.log(err);
   }

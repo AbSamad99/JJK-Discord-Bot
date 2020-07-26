@@ -31,7 +31,7 @@ const addArtCommand = async (msg) => {
     temp = temp.split(' ');
 
     //getting required object
-    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+    characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
@@ -60,7 +60,7 @@ const addArtCommand = async (msg) => {
     }
 
     await ArtSchema.findOneAndUpdate(
-      { name: temp[1] },
+      { name: temp[1].toLowerCase() },
       { links: characterArray },
       { useFindAndModify: false }
     );
@@ -91,7 +91,7 @@ const removeArtCommand = async (msg) => {
     temp = temp.split(' ');
 
     //getting required object
-    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+    characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
@@ -119,7 +119,7 @@ const removeArtCommand = async (msg) => {
 
     //saving changes to the json file
     await ArtSchema.findOneAndUpdate(
-      { name: temp[1] },
+      { name: temp[1].toLowerCase() },
       { links: characterArray },
       { useFindAndModify: false }
     );
@@ -147,7 +147,7 @@ const getArtCommand = async (msg) => {
     temp = temp.split(' ');
 
     //getting required object
-    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+    characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
@@ -187,7 +187,7 @@ const getAllArtCommand = async (msg) => {
     temp = temp.split(' ');
 
     //getting required object
-    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+    characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
@@ -226,16 +226,18 @@ const removeArtCharacterCommand = async (msg) => {
     temp = temp.split(' ');
 
     //getting required object
-    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+    characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
 
     //deleting the category
-    await ArtSchema.findOneAndDelete({ name: temp[1] });
+    await ArtSchema.findOneAndDelete({ name: temp[1].toLowerCase() });
 
     //send message
-    msg.channel.send(`Removed Character ${temp[1]}`).catch(console.log);
+    msg.channel
+      .send(`Removed Character ${temp[1].toLowerCase()}`)
+      .catch(console.log);
   } catch (err) {
     console.log(err);
   }
@@ -249,13 +251,13 @@ const addArtCharacterCommand = async (msg) => {
     temp = msg.content.slice(1);
     temp = temp.split(' ');
 
-    if (!temp[1]) {
+    if (!temp[1].toLowerCase()) {
       msg.channel.send('Please specify a character name');
       return;
     }
 
     //getting required object
-    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+    characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
     //checking the parameters given
     if (characterArtObj) {
@@ -264,10 +266,12 @@ const addArtCharacterCommand = async (msg) => {
     }
 
     //adding the new category
-    await ArtSchema.create({ name: temp[1], links: [] });
+    await ArtSchema.create({ name: temp[1].toLowerCase(), links: [] });
 
     //sending appropriate message
-    msg.channel.send(`Added Character ${temp[1]}`).catch(console.log);
+    msg.channel
+      .send(`Added Character ${temp[1].toLowerCase()}`)
+      .catch(console.log);
   } catch (err) {
     console.log(err);
   }

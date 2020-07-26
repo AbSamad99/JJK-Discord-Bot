@@ -33,6 +33,7 @@ client.on('messageDeleteBulk', (msgs) => {
 
 client.on('message', (msg) => {
   messageCaseHandler(msg);
+  msg.guild.emojis.cache.array();
 });
 
 client.on('messageUpdate', async (oldMsg, newMsg) => {

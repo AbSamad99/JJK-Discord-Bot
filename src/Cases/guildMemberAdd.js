@@ -8,9 +8,7 @@ const guildMemberAddCaseHandler = (mem) => {
     const userArray = JSON.parse(
       fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
     );
-    const channelArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-    );
+    const channelArray = mem.guild.channels.cache.array();
 
     let welcomeChannel,
       userIndex,
@@ -20,12 +18,8 @@ const guildMemberAddCaseHandler = (mem) => {
       message,
       messageEmbed;
 
-    welcomeChannel = mem.guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'welcome');
-    modChannel = mem.guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'syed-bot-practice');
+    welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
+    modChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
     rulesChannel = channelArray.find((ch) => ch.name === 'rules');
     infoChannel = channelArray.find((ch) => ch.name === 'information');
 

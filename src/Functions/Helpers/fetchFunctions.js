@@ -34,73 +34,6 @@ const fetchUsers = (client) => {
   }
 };
 
-//fetches array of all channels
-const fetchChannels = (client) => {
-  try {
-    let tempArray = [];
-    client.channels.cache.array().forEach((channel) => {
-      if (channel.type === 'category') {
-        return;
-      }
-      tempArray.push({
-        type: channel.type,
-        name: channel.name,
-        id: channel.id,
-        nsfw: channel.nsfw,
-      });
-    });
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/channels.json`,
-      JSON.stringify(tempArray)
-    );
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-//fetches array of all emotes
-const fetchEmotes = (client) => {
-  try {
-    let tempArray = [];
-    client.emojis.cache.array().forEach((emote) => {
-      tempArray.push({
-        name: emote.name,
-        id: emote.id,
-        animated: emote.animated,
-      });
-    });
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/emotes.json`,
-      JSON.stringify(tempArray)
-    );
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-//fetches array of all roles
-const fetchRoles = (client) => {
-  try {
-    let tempArray = [];
-    client.guilds.cache
-      .array()[0]
-      .roles.cache.array()
-      .forEach((role) => {
-        tempArray.push({
-          name: role.name,
-          id: role.id,
-          color: role.color,
-        });
-      });
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/roles.json`,
-      JSON.stringify(tempArray)
-    );
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 //fetches message delete log id and count
 const fetchMessageDeleteLogIdAndCount = async (client) => {
   try {
@@ -209,9 +142,6 @@ const stringifyCharacterArtObj = () => {
 
 module.exports = {
   fetchUsers: fetchUsers,
-  fetchChannels: fetchChannels,
-  fetchEmotes: fetchEmotes,
-  fetchRoles: fetchRoles,
   fetchMessageDeleteLogIdAndCount: fetchMessageDeleteLogIdAndCount,
   fetchMemberUpdateLogId: fetchMemberUpdateLogId,
   fetchMemberRoleUpdateLogId: fetchMemberRoleUpdateLogId,

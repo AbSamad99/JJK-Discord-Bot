@@ -11,13 +11,9 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
   try {
-    const channelArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-    );
-    const rolesArray = fs.readFileSync(
-      `${process.cwd()}/src/Json-Files/roles.json`
-    );
-    let mangaNewsRole = rolesArray.find((role) => role.name === 'Manga News');
+    let mangaNewsRole = msg.guild.roles.cache
+      .array()
+      .find((role) => role.name === 'Manga News');
     let announcementChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'announcements'
     );
@@ -58,12 +54,9 @@ Manga Plus: ${mpLink}`;
 //command to help with poll announcement
 const pollAnnouncement = (msg) => {
   try {
-    const channelArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-    );
-    let announcementChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'announcements'
-    );
+    let announcementChannel = msg.guild.channels.cache
+      .array()
+      .find((ch) => ch.name === 'announcements');
     let temp = msg.content.slice(1);
     temp = temp.split(' ');
     let pollNumber = Number(temp[1]);
@@ -130,9 +123,6 @@ const anonMessageCommand = (msg) => {
 //command to mute users
 const muteCommand = (msg) => {
   try {
-    const rolesArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
-    );
     let toMute, muteRole, temp, reason, time, testChannel;
     toMute = msg.mentions.members.array()[0];
     testChannel = msg.guild.channels.cache.find(
@@ -149,7 +139,9 @@ const muteCommand = (msg) => {
       msg.channel.send('You cannot mute this user');
       return;
     }
-    muteRole = rolesArray.find((role) => role.name === 'Muted');
+    muteRole = msg.guild.roles.cache
+      .array()
+      .find((role) => role.name === 'Muted');
     toMute = msg.guild.member(toMute);
     temp = msg.content.slice(1);
     temp = temp.split(' ');
@@ -320,7 +312,6 @@ const strikeCommand = async (msg) => {
       reason,
       testChannel,
       userArray,
-      rolesArray,
       authorUrl,
       toStrikeUrl;
     toStrike = msg.mentions.members.array()[0];
@@ -384,10 +375,9 @@ This is their first strike, therefore they are only being warned. The next strik
       strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
 This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`);
       msg.channel.send(strikeEmbed);
-      rolesArray = JSON.parse(
-        fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
-      );
-      muteRole = rolesArray.find((role) => role.name === 'Muted');
+      muteRole = msg.guild.roles.cache
+        .array()
+        .find((role) => role.name === 'Muted');
       assignMuteRole(
         msg,
         toStrike,

@@ -4,10 +4,9 @@ const { channelCheck } = require('../Checks/helperChecks');
 
 const weebResponse = (msg) => {
   try {
-    const emoteArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/emotes.json`)
-    );
-    let papaWat = emoteArray.find((emote) => emote.name === 'JJKPapawat');
+    let papaWat = msg.guild.emojis.cache
+      .array()
+      .find((emote) => emote.name === 'JJKPapawat');
     if (
       !channelCheck(msg, 'memes-and-shitposting') &&
       !channelCheck(msg, 'general') &&
@@ -40,12 +39,11 @@ const nfufuResponse = (msg) => {
     const userArray = JSON.parse(
       fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
     );
-    const emoteArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/emotes.json`)
-    );
     let honoredOne = userArray.find((user) => user.name === 'The Honored One');
     if (honoredOne.id === msg.author.id) return;
-    let papaWat = emoteArray.find((emote) => emote.name === 'JJKPapawat');
+    let papaWat = msg.guild.emojis.cache
+      .array()
+      .find((emote) => emote.name === 'JJKPapawat');
     if (
       !channelCheck(msg, 'general') &&
       !channelCheck(msg, 'memes-and-shitposting') &&
@@ -103,18 +101,12 @@ const bestModResponse = (msg, temp) => {
 
 const otherSeriesTalkResponse = (msg) => {
   try {
-    const emoteArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/emotes.json`)
-    );
-    const channelArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/channels.json`)
-    );
-    let otherSeriesChannel = channelArray.find(
-      (ch) => ch.name === 'other-series'
-    );
-    let papaEmote = emoteArray.find(
-      (emote) => emote.name === 'JJKPapaGameOver'
-    );
+    let otherSeriesChannel = msg.guild.channels.cache
+      .array()
+      .find((ch) => ch.name === 'other-series');
+    let papaEmote = msg.guild.emojis.cache
+      .array()
+      .find((emote) => emote.name === 'JJKPapaGameOver');
     let chance = Math.random() * 100;
     if (chance > 30) {
       msg.channel

@@ -10,9 +10,6 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //assigns character role to a member
 const roleAssignCommand = (msg) => {
   try {
-    const rolesArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/roles.json`)
-    );
     let temp, desiredRole;
     if (
       !channelCheck(msg, 'bot-commands') &&
@@ -25,9 +22,9 @@ const roleAssignCommand = (msg) => {
       msg.channel.send('Please specify a character name');
       return;
     }
-    desiredRole = rolesArray.find(
-      (role) => role.name.toLowerCase() === temp[1].toLowerCase()
-    );
+    desiredRole = msg.guild.roles.cache
+      .array()
+      .find((role) => role.name.toLowerCase() === temp[1].toLowerCase());
     if (!desiredRole) {
       msg.channel.send('Please specify a valid character name');
       return;

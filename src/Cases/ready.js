@@ -1,8 +1,5 @@
 const {
   fetchUsers,
-  fetchChannels,
-  fetchEmotes,
-  fetchRoles,
   fetchMemberRoleUpdateLogId,
   fetchMemberUpdateLogId,
   fetchMessageDeleteLogIdAndCount,
@@ -15,9 +12,6 @@ const {
 const readyCaseHandler = async (client) => {
   try {
     console.log(`Logged in as The Honored One`);
-    fetchChannels(client);
-    fetchEmotes(client);
-    fetchRoles(client);
     fetchUsers(client);
     fetchMemberRoleUpdateLogId(client);
     fetchMemberUpdateLogId(client);

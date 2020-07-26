@@ -16,21 +16,11 @@ const messageBulkDeleteCaseHandler = async (msgs) => {
       .then((audit) => audit.entries.first());
 
     for (let i = messageArray.length - 1; i >= 1; i--) {
-      if (messageArray[i].attachments.array().length) {
-        await deleteMessageAndAttachmentLog(
-          messageArray[i],
-          'attachment',
-          bulkDeleteAuditLog.executor,
-          messageArray[i].author
-        );
-      } else {
-        await deleteMessageAndAttachmentLog(
-          messageArray[i],
-          'message',
-          bulkDeleteAuditLog.executor,
-          messageArray[i].author
-        );
-      }
+      await deleteMessageAndAttachmentLog(
+        messageArray[i],
+        bulkDeleteAuditLog.executor,
+        messageArray[i].author
+      );
     }
   } catch (err) {
     console.log(err);

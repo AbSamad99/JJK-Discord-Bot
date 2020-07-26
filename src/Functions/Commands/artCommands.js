@@ -1,6 +1,8 @@
 const urlExist = require('url-exist');
 const fs = require('fs');
 
+const ArtSchema = require('../../Schemas/ArtSchema.js');
+
 const {
   channelCheck,
   artCommandParametersCheck,
@@ -16,11 +18,6 @@ const addArtCommand = async (msg) => {
     //Suppressing embeds from links
     msg.suppressEmbeds();
 
-    //getting required object
-    characterArtObj = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
-    );
-
     //checking if the command was issued in appropriate channel
     if (
       !channelCheck(msg, 'music-and-art') &&
@@ -33,11 +30,14 @@ const addArtCommand = async (msg) => {
     temp = msg.content.slice(1);
     temp = temp.split(' ');
 
+    //getting required object
+    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
 
     //getting required array
-    characterArray = characterArtObj[temp[1].toLowerCase()];
+    characterArray = characterArtObj.links;
 
     //return if no links were provided
     if (!temp[2]) {
@@ -57,11 +57,13 @@ const addArtCommand = async (msg) => {
       }
       characterArray.push(temp[index]);
       count++;
-      fs.writeFileSync(
-        `${process.cwd()}/src/Json-Files/art.json`,
-        JSON.stringify(characterArtObj)
-      );
     }
+
+    await ArtSchema.findOneAndUpdate(
+      { name: temp[1] },
+      { links: characterArray },
+      { useFindAndModify: false }
+    );
 
     //sending appropriate message after links are stored
     msg.channel.send(`Number of links added: ${count}`).catch(console.log);
@@ -77,11 +79,6 @@ const removeArtCommand = async (msg) => {
     //Suppressing embeds from links
     msg.suppressEmbeds();
 
-    //getting the needed object
-    const characterArtObj = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
-    );
-
     //checking if the command was issued in appropriate channel
     if (
       !channelCheck(msg, 'music-and-art') &&
@@ -93,11 +90,14 @@ const removeArtCommand = async (msg) => {
     temp = msg.content.slice(1);
     temp = temp.split(' ');
 
+    //getting required object
+    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
 
     //getting required array
-    characterArray = characterArtObj[temp[1].toLowerCase()];
+    characterArray = characterArtObj.links;
 
     //return if no links were provided
     if (!temp[2]) {
@@ -118,9 +118,10 @@ const removeArtCommand = async (msg) => {
     characterArray.splice(index, 1);
 
     //saving changes to the json file
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/art.json`,
-      JSON.stringify(characterArtObj)
+    await ArtSchema.findOneAndUpdate(
+      { name: temp[1] },
+      { links: characterArray },
+      { useFindAndModify: false }
     );
 
     //sending back appropriate message
@@ -131,14 +132,9 @@ const removeArtCommand = async (msg) => {
 };
 
 //gets an art
-const getArtCommand = (msg) => {
+const getArtCommand = async (msg) => {
   let temp, characterArray, randomIndex, characterArtObj;
   try {
-    //getting the needed object
-    characterArtObj = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
-    );
-
     //checking if the command was issued in appropriate channel
     if (
       !channelCheck(msg, 'music-and-art') &&
@@ -150,11 +146,14 @@ const getArtCommand = (msg) => {
     temp = msg.content.slice(1);
     temp = temp.split(' ');
 
+    //getting required object
+    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
 
     //getting required array
-    characterArray = characterArtObj[temp[1].toLowerCase()];
+    characterArray = characterArtObj.links;
 
     //return if no link is stored
     if (!characterArray.length) {
@@ -173,14 +172,9 @@ const getArtCommand = (msg) => {
 };
 
 //gets all art for a character
-const getAllArtCommand = (msg) => {
+const getAllArtCommand = async (msg) => {
   let temp, characterArray, index, message, characterArtObj;
   try {
-    //getting needed object
-    characterArtObj = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
-    );
-
     //checking the channel
     if (
       !channelCheck(msg, 'music-and-art') &&
@@ -192,11 +186,14 @@ const getAllArtCommand = (msg) => {
     temp = msg.content.slice(1);
     temp = temp.split(' ');
 
+    //getting required object
+    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
 
     //getting needed array
-    characterArray = characterArtObj[temp[1].toLowerCase()];
+    characterArray = characterArtObj.links;
 
     //return if no links were stored
     if (!characterArray.length) {
@@ -221,38 +218,21 @@ const getAllArtCommand = (msg) => {
 };
 
 //removes a new character
-const removeArtCharacterCommand = (msg) => {
+const removeArtCharacterCommand = async (msg) => {
   let temp, characterArray, characterArtObj;
   try {
-    //getting needed object
-    characterArtObj = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
-    );
-
     //getting params
     temp = msg.content.slice(1);
     temp = temp.split(' ');
 
+    //getting required object
+    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
 
-    //getting the array
-    characterArray = characterArtObj[temp[1].toLowerCase()];
-
-    //return if category doesnt exist
-    if (!characterArray) {
-      msg.channel.send('No art added for this character');
-      return;
-    }
-
     //deleting the category
-    delete characterArtObj[temp[1].toLowerCase()];
-
-    //write the changes
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/art.json`,
-      JSON.stringify(characterArtObj)
-    );
+    await ArtSchema.findOneAndDelete({ name: temp[1] });
 
     //send message
     msg.channel.send(`Removed Character ${temp[1]}`).catch(console.log);
@@ -262,38 +242,29 @@ const removeArtCharacterCommand = (msg) => {
 };
 
 //adds a character
-const addArtCharacterCommand = (msg) => {
+const addArtCharacterCommand = async (msg) => {
   let temp, characterArray, characterArtObj;
   try {
-    //getting needed object
-    characterArtObj = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
-    );
-
     //getting params
     temp = msg.content.slice(1);
     temp = temp.split(' ');
 
+    if (!temp[1]) {
+      msg.channel.send('Please specify a character name');
+      return;
+    }
+
+    //getting required object
+    characterArtObj = await ArtSchema.findOne({ name: temp[1] });
+
     //checking the parameters given
-    if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
-
-    //getting the array
-    characterArray = characterArtObj[temp[1].toLowerCase()];
-
-    //checking if character already exists
-    if (characterArray) {
-      msg.channel.send('Character already present').catch(console.log);
+    if (characterArtObj) {
+      msg.channel.send('Character already exists');
       return;
     }
 
     //adding the new category
-    characterArtObj[temp[1].toLowerCase()] = [];
-
-    //writing the changes
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/art.json`,
-      JSON.stringify(characterArtObj)
-    );
+    await ArtSchema.create({ name: temp[1], links: [] });
 
     //sending appropriate message
     msg.channel.send(`Added Character ${temp[1]}`).catch(console.log);
@@ -302,22 +273,16 @@ const addArtCharacterCommand = (msg) => {
   }
 };
 
-const getArtNamesCommand = (msg) => {
-  let temp1, temp2, message, index, characterArtObj;
+const getArtNamesCommand = async (msg) => {
+  let temp1, temp2, message, index, characterArtArray;
   try {
     //getting required object
-    characterArtObj = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/art.json`)
-    );
-
-    //fetching the keys and values of the object
-    temp1 = Object.keys(characterArtObj);
-    temp2 = Object.values(characterArtObj);
+    characterArtArray = await ArtSchema.find({});
 
     //constructing the return message
-    message = `${temp1[0]}: ${temp2[0].length}`;
-    for (index = 1; index < temp1.length; index++) {
-      message = `${message}, ${temp1[index]}: ${temp2[index].length}`;
+    message = `${characterArtArray[0].name}: ${characterArtArray[0].links.length}`;
+    for (index = 1; index < characterArtArray.length; index++) {
+      message = `${message}, ${characterArtArray[index].name}: ${characterArtArray[index].links.length}`;
     }
 
     //sending required data

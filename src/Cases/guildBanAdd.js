@@ -3,19 +3,17 @@ const fs = require('fs');
 const { previousMemberBanLogId } = require('../utilities.js');
 const userBanLog = require('../Functions/Loggers/userBanLog.js');
 
+const UserSchema = require('../Schemas/UserSchema.js');
+
 const guildBanAddCaseHandler = async (guild, mem) => {
   try {
-    const userArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
-    );
-
     let theHonoredOne, banAuditLog, modChannel;
 
     modChannel = guild.channels.cache
       .array()
       .find((ch) => ch.name === 'syed-bot-practice');
 
-    theHonoredOne = userArray.find((user) => user.name === 'The Honored One');
+    theHonoredOne = await UserSchema.findOne({ id: '730109162616389644' });
 
     banAuditLog = await guild
       .fetchAuditLogs({

@@ -2,7 +2,13 @@ const Discord = require('discord.js');
 const dotenv = require('dotenv');
 dotenv.config();
 
+const connectDB = require('./config/db.js');
+
+//starting up our client
 const client = new Discord.Client();
+
+//connecting to DB
+connectDB();
 
 const messageCaseHandler = require('./Cases/message.js');
 const messageUpdateCaseHandler = require('./Cases/messageUpdate.js');
@@ -33,7 +39,6 @@ client.on('messageDeleteBulk', (msgs) => {
 
 client.on('message', (msg) => {
   messageCaseHandler(msg);
-  msg.guild.emojis.cache.array();
 });
 
 client.on('messageUpdate', async (oldMsg, newMsg) => {

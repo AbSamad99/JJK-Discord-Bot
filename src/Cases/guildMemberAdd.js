@@ -1,17 +1,16 @@
 const Discord = require('discord.js');
 const fs = require('fs');
 
+const UserSchema = require('../Schemas/UserSchema.js');
+
 const userJoinLog = require('../Functions//Loggers/userJoinLog.js');
 
-const guildMemberAddCaseHandler = (mem) => {
+const guildMemberAddCaseHandler = async (mem) => {
   try {
-    const userArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
-    );
     const channelArray = mem.guild.channels.cache.array();
 
     let welcomeChannel,
-      userIndex,
+      user,
       modChannel,
       rulesChannel,
       infoChannel,
@@ -41,10 +40,10 @@ const guildMemberAddCaseHandler = (mem) => {
 
     userJoinLog(mem, modChannel);
 
-    userIndex = userArray.findIndex((user) => user.id === mem.user.id);
+    user = await UserSchema.findOne({ id: mem.user.id });
 
-    if (userIndex === -1) {
-      userArray.push({
+    if (!user) {
+      await UserSchema.create({
         name: mem.user.username,
         id: mem.user.id,
         avatarUrl: mem.user.displayAvatarURL(),
@@ -52,10 +51,6 @@ const guildMemberAddCaseHandler = (mem) => {
         discriminator: mem.user.discriminator,
         strikes: 0,
       });
-      fs.writeFileSync(
-        `${process.cwd()}/src/Json-Files/users.json`,
-        JSON.stringify(userArray)
-      );
     }
   } catch (err) {
     console.log(err);

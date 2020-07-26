@@ -33,13 +33,11 @@ const roleCheck = (user, roleName) => {
 
 //checking the art command parameters
 const artCommandParametersCheck = (temp, msg, characterArtObj) => {
-  let characterArray;
   if (!temp[1]) {
     msg.channel.send('Please specify a character name');
     return 0;
   }
-  characterArray = characterArtObj[temp[1].toLowerCase()];
-  if (!characterArray) {
+  if (!characterArtObj) {
     msg.channel.send('Invalid character');
     return 0;
   }

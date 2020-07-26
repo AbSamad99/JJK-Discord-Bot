@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const UserSchema = require('../Schemas/UserSchema.js');
+
 const {
   previousMemberUpdateLogId,
   previousMemberRoleUpdateLogId,
@@ -12,20 +14,13 @@ const changedAvatarLog = require('../Functions/Loggers/changedAvatarLog.js');
 
 const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   try {
-    let index, user;
+    let user;
 
-    //getting userarray
-    const userArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
-    );
-
-    //finding the index and the user at the index
-    index = userArray.findIndex((user) => user.id === newMem.user.id);
-    user = userArray[index];
+    user = await UserSchema.findOne({ id: newMem.user.id });
 
     //adding member to the cache if they werent already present
     if (!user) {
-      userArray.push({
+      await UserSchema.create({
         name: newMem.user.username,
         id: newMem.user.id,
         avatarUrl: newMem.user.displayAvatarURL(),
@@ -33,10 +28,6 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         discriminator: newMem.user.discriminator,
         strikes: 0,
       });
-      fs.writeFileSync(
-        `${process.cwd()}/src/Json-Files/users.json`,
-        JSON.stringify(userArray)
-      );
       return;
     }
 
@@ -83,19 +74,21 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
     //checking if username was changed
     if (user.name !== newMem.user.username) {
       await changedUsernameAndDiscriminatorLog(newMem, user, 'username');
-      userArray[index].name = newMem.user.username;
-      fs.writeFileSync(
-        `${process.cwd()}/src/Json-Files/users.json`,
-        JSON.stringify(userArray)
+      await UserSchema.findOneAndUpdate(
+        { id: newMem.user.id },
+        { name: newMem.user.username },
+        {
+          useFindAndModify: false,
+        }
       );
     }
     //checking if discriminator was updated
     if (user.discriminator !== newMem.user.discriminator) {
       await changedUsernameAndDiscriminatorLog(newMem, user, 'discriminator');
-      userArray[index].discriminator = newMem.user.discriminator;
-      fs.writeFileSync(
-        `${process.cwd()}/src/Json-Files/users.json`,
-        JSON.stringify(userArray)
+      await UserSchema.findOneAndUpdate(
+        { id: newMem.user.id },
+        { discriminator: newMem.user.discriminator },
+        { useFindAndModify: false }
       );
     }
     //checking if avatar was updated
@@ -103,11 +96,13 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
       if (user.avatarUrl !== null) {
         await changedAvatarLog(newMem, user);
       }
-      userArray[index].avatarUrl = newMem.user.displayAvatarURL();
-      userArray[index].avatar = newMem.user.avatar;
-      fs.writeFileSync(
-        `${process.cwd()}/src/Json-Files/users.json`,
-        JSON.stringify(userArray)
+      await UserSchema.findOneAndUpdate(
+        { id: newMem.user.id },
+        {
+          avatarUrl: newMem.user.displayAvatarURL(),
+          avatar: newMem.user.avatar,
+        },
+        { useFindAndModify: false }
       );
     }
   } catch (err) {

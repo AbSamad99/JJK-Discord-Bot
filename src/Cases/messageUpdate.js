@@ -1,16 +1,12 @@
 const fs = require('fs');
 
+const UserSchema = require('../Schemas/UserSchema.js');
+
 const editMessageLog = require('../Functions//Loggers/messageUpdateLog.js');
 
 const messageUpdateCaseHandler = async (oldMsg, newMsg) => {
   try {
-    const userArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
-    );
-
-    let honoredOne = await userArray.find(
-      (user) => user.name === 'The Honored One'
-    );
+    let honoredOne = UserSchema.findOne({ id: '730109162616389644' });
 
     if (
       newMsg.author.id !== honoredOne.id &&

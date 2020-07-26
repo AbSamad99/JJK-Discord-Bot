@@ -11,29 +11,6 @@ const {
   characterArtObj,
 } = require('../../utilities');
 
-//fetches array of all users
-const fetchUsers = (client) => {
-  try {
-    let tempArray = [];
-    client.users.cache.array().forEach((user) => {
-      tempArray.push({
-        name: user.username,
-        id: user.id,
-        avatarUrl: user.displayAvatarURL(),
-        avatar: user.avatar,
-        discriminator: user.discriminator,
-        strikes: 0,
-      });
-    });
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/users.json`,
-      JSON.stringify(tempArray)
-    );
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 //fetches message delete log id and count
 const fetchMessageDeleteLogIdAndCount = async (client) => {
   try {
@@ -127,26 +104,11 @@ const fetchMemberBanRemoveLogId = async (client) => {
   }
 };
 
-//constructs the charartobj
-const stringifyCharacterArtObj = () => {
-  try {
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/art.json`,
-      JSON.stringify(characterArtObj)
-    );
-    delete characterArtObj;
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 module.exports = {
-  fetchUsers: fetchUsers,
   fetchMessageDeleteLogIdAndCount: fetchMessageDeleteLogIdAndCount,
   fetchMemberUpdateLogId: fetchMemberUpdateLogId,
   fetchMemberRoleUpdateLogId: fetchMemberRoleUpdateLogId,
   fetchMemberKickLogId: fetchMemberKickLogId,
   fetchMemberBanLogId: fetchMemberBanLogId,
   fetchMemberBanRemoveLogId: fetchMemberBanRemoveLogId,
-  stringifyCharacterArtObj: stringifyCharacterArtObj,
 };

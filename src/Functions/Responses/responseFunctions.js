@@ -2,6 +2,8 @@ const fs = require('fs');
 
 const { channelCheck } = require('../Checks/helperChecks');
 
+const UserSchema = require('../../Schemas/UserSchema');
+
 const weebResponse = (msg) => {
   try {
     let papaWat = msg.guild.emojis.cache
@@ -34,12 +36,9 @@ const weebResponse = (msg) => {
   }
 };
 
-const nfufuResponse = (msg) => {
+const nfufuResponse = async (msg) => {
   try {
-    const userArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
-    );
-    let honoredOne = userArray.find((user) => user.name === 'The Honored One');
+    let honoredOne = await UserSchema.findOne({ id: 730109162616389644 });
     if (honoredOne.id === msg.author.id) return;
     let papaWat = msg.guild.emojis.cache
       .array()

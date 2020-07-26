@@ -28,6 +28,7 @@ const {
 
 const artCommandTypeCheck = require('./artCommandTypeCheck.js');
 const { roleCheck, channelCheck } = require('./helperChecks.js');
+const seedUsers = require('../Helpers/seeder.js');
 
 const prefixCommandFunction = (msg, temp) => {
   let keyword = temp.slice(1);
@@ -50,6 +51,8 @@ const prefixCommandFunction = (msg, temp) => {
       roleCheck(msg.member, 'admin'))
   ) {
     chapterAnnouncement(msg);
+  } else if (keyword === 'seed' && msg.author.id === '390450196711997440') {
+    seedUsers(msg);
   }
 
   //anon

@@ -1,5 +1,7 @@
 const fs = require('fs');
 
+const UserSchema = require('../Schemas/UserSchema.js');
+
 const {
   previousMemberKickLogId,
   previousMemberBanLogId,
@@ -10,17 +12,13 @@ const userLeaveLog = require('../Functions/Loggers/userLeaveLog.js');
 
 const guildMemberRemoveCaseHandler = async (mem) => {
   try {
-    const userArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
-    );
-
     let theHonoredOne, banAuditLog, kickAuditLog, modChannel;
 
     modChannel = mem.guild.channels.cache
       .array()
       .find((ch) => ch.name === 'syed-bot-practice');
 
-    theHonoredOne = userArray.find((user) => user.name === 'The Honored One');
+    theHonoredOne = await UserSchema.findOne({ id: '730109162616389644' });
 
     kickAuditLog = await mem.guild
       .fetchAuditLogs({

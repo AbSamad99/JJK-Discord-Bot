@@ -2,6 +2,8 @@ const Discord = require('discord.js');
 const fs = require('fs');
 const urlExist = require('url-exist');
 
+const UserSchema = require('../../Schemas/UserSchema.js');
+
 const { assignMuteRole } = require('../Roles/roleFunctions.js');
 const userKickLog = require('../Loggers/userKickLog.js');
 const userBanLog = require('../Loggers/userBanLog.js');
@@ -306,14 +308,15 @@ const purgeCommand = (msg) => {
 const strikeCommand = async (msg) => {
   try {
     let toStrike,
-      userIndex,
+      user,
       temp,
       muteRole,
       reason,
       testChannel,
-      userArray,
       authorUrl,
-      toStrikeUrl;
+      toStrikeUrl,
+      strikesCount;
+
     toStrike = msg.mentions.members.array()[0];
     testChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
@@ -322,20 +325,14 @@ const strikeCommand = async (msg) => {
       msg.channel.send('Please mention a user to ban');
       return;
     }
-    userArray = JSON.parse(
-      fs.readFileSync(`${process.cwd()}/src/Json-Files/users.json`)
-    );
-    userIndex = userArray.findIndex(
-      (user) => user.id === msg.mentions.members.array()[0].user.id
-    );
-    if (userIndex === -1) {
-      userIndex = userArray.length;
-      userArray.push({
-        name: msg.mentions.members.array()[0].user.username,
-        id: msg.mentions.members.array()[0].user.id,
-        avatarUrl: msg.mentions.members.array()[0].user.displayAvatarURL(),
-        avatar: msg.mentions.members.array()[0].user.avatar,
-        discriminator: msg.mentions.members.array()[0].user.discriminator,
+    user = await UserSchema.findOne({ id: toStrike.user.id });
+    if (!user) {
+      await UserSchema.create({
+        name: toStrike.user.username,
+        id: toStrike.user.id,
+        avatarUrl: toStrike.user.displayAvatarURL(),
+        avatar: toStrike.user.avatar,
+        discriminator: toStrike.user.discriminator,
         strikes: 0,
       });
     }
@@ -355,9 +352,20 @@ const strikeCommand = async (msg) => {
       msg.channel.send('Please provide a reason for strike');
       return;
     }
-    userArray[userIndex].strikes++;
+
+    strikesCount = user.strikes;
+    strikesCount++;
+
+    await UserSchema.findOneAndUpdate(
+      { id: toStrike.user.id },
+      { strikes: strikesCount },
+      { useFindAndModify: false }
+    );
+
+    user = await UserSchema.findOne({ id: toStrike.user.id });
+
     authorUrl = await checkIfGifOrPng(msg.author);
-    toStrikeUrl = await checkIfGifOrPng(toStrike);
+    toStrikeUrl = await checkIfGifOrPng(toStrike.user);
     let strikeEmbed = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, authorUrl)
       .setTitle('Strike Issued')
@@ -365,14 +373,14 @@ const strikeCommand = async (msg) => {
       .setThumbnail(toStrikeUrl)
       .setFooter(new Date());
     //1 strike
-    if (userArray[userIndex].strikes === 1) {
-      strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
+    if (user.strikes === 1) {
+      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
 This is their first strike, therefore they are only being warned. The next strike will result in them being muted for 24 hours`);
       msg.channel.send(strikeEmbed);
     }
     //2 strikes
-    else if (userArray[userIndex].strikes === 2) {
-      strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
+    else if (user.strikes === 2) {
+      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
 This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`);
       msg.channel.send(strikeEmbed);
       muteRole = msg.guild.roles.cache
@@ -388,8 +396,8 @@ This is their second strike, therefore they shall be muted for 24 hours. The nex
       );
     }
     //3 strikes
-    else if (userArray[userIndex].strikes === 3) {
-      strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
+    else if (user.strikes === 3) {
+      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
 This is their third strike, therefore they shall be kicked from the server. The next strike will result in them being permanentally banned from the server`);
       msg.channel.send(strikeEmbed);
       toStrike
@@ -407,10 +415,10 @@ This is their third strike, therefore they shall be kicked from the server. The 
         });
     }
     //4 strikes
-    else if (userArray[userIndex].strikes === 4) {
-      strikeEmbed.setDescription(`<@${userArray[userIndex].id}> has been issued a strike for the following reason: ${reason}. 
+    else if (user.strikes === 4) {
+      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
 This is their fourth strike, therefore they shall be permanentally banned from the server.`);
-      msg.channel.send(tempEmbed);
+      msg.channel.send(strikeEmbed);
       toStrike
         .ban({
           reason: `Banned for getting issued a 4th strike for the following reason: ${reason}`,
@@ -424,11 +432,12 @@ This is their fourth strike, therefore they shall be permanentally banned from t
             `Banned for getting issued a 4th strike for the following reason: ${reason}`
           );
         });
+      await UserSchema.findOneAndUpdate(
+        { id: toStrike.user.id },
+        { strikes: 0 },
+        { useFindAndModify: false }
+      );
     }
-    fs.writeFileSync(
-      `${process.cwd()}/src/Json-Files/users.json`,
-      JSON.stringify(userArray)
-    );
   } catch (err) {
     console.log(err);
   }

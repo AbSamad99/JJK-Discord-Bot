@@ -38,7 +38,7 @@ const weebResponse = (msg) => {
 
 const nfufuResponse = async (msg) => {
   try {
-    let honoredOne = await UserSchema.findOne({ id: 730109162616389644 });
+    let honoredOne = await UserSchema.findOne({ id: '730109162616389644' });
     if (honoredOne.id === msg.author.id) return;
     let papaWat = msg.guild.emojis.cache
       .array()

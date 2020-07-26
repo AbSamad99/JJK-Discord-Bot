@@ -219,7 +219,7 @@ const getAllArtCommand = async (msg) => {
 
 //removes a new character
 const removeArtCharacterCommand = async (msg) => {
-  let temp, characterArray, characterArtObj;
+  let temp, characterArtObj;
   try {
     //getting params
     temp = msg.content.slice(1);
@@ -245,7 +245,7 @@ const removeArtCharacterCommand = async (msg) => {
 
 //adds a character
 const addArtCharacterCommand = async (msg) => {
-  let temp, characterArray, characterArtObj;
+  let temp, characterArtObj;
   try {
     //getting params
     temp = msg.content.slice(1);
@@ -278,7 +278,7 @@ const addArtCharacterCommand = async (msg) => {
 };
 
 const getArtNamesCommand = async (msg) => {
-  let temp1, temp2, message, index, characterArtArray;
+  let message, index, characterArtArray;
   try {
     //getting required object
     characterArtArray = await ArtSchema.find({});

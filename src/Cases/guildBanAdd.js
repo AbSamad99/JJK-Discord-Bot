@@ -7,9 +7,9 @@ const UserSchema = require('../Schemas/UserSchema.js');
 
 const guildBanAddCaseHandler = async (guild, mem) => {
   try {
-    let theHonoredOne, banAuditLog, modChannel;
+    let theHonoredOne, banAuditLog, logsChannel;
 
-    modChannel = guild.channels.cache
+    logsChannel = guild.channels.cache
       .array()
       .find((ch) => ch.name === 'syed-bot-practice');
 
@@ -25,7 +25,7 @@ const guildBanAddCaseHandler = async (guild, mem) => {
       if (theHonoredOne.id === banAuditLog.executor.id) {
         return;
       } else {
-        await userBanLog(banAuditLog, null, modChannel);
+        await userBanLog(banAuditLog, null, logsChannel);
       }
       previousMemberBanLogId[0] = banAuditLog.id;
     }

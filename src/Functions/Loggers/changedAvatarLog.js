@@ -5,21 +5,20 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //logs avatar updates
 const changedAvatarLog = async (newMem, user) => {
   try {
-    let modChannel, changedAvatarEmbed, authorUrl, image;
+    let logsChannel, changedAvatarEmbed, authorUrl;
 
     //selecting the logs channel
-    modChannel = newMem.guild.channels.cache.find(
+    logsChannel = newMem.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
 
     //setting relevant fields
     authorUrl = await checkIfGifOrPng(newMem.user);
-    image = await checkIfGifOrPng(null, user);
 
     changedAvatarEmbed = new Discord.MessageEmbed()
       .setAuthor(newMem.user.tag, authorUrl)
       .setTitle('Avatar Changed')
-      .setImage(image)
+      .setImage(await checkIfGifOrPng(null, user))
       .setDescription(
         `<@${newMem.user.id}> has updated their avatar from the one below to the one on the right`
       )
@@ -28,7 +27,7 @@ const changedAvatarLog = async (newMem, user) => {
       .setFooter(new Date());
 
     //sending to the logs
-    modChannel.send(changedAvatarEmbed).catch(console.log);
+    logsChannel.send(changedAvatarEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

@@ -101,8 +101,8 @@ const pollAnnouncement = (msg) => {
   }
 };
 
-//command to send anon messages
-const anonMessageCommand = (msg) => {
+//command to send bot messages
+const botMessageCommand = (msg) => {
   try {
     let modBotChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'mod-bots'
@@ -122,12 +122,107 @@ const anonMessageCommand = (msg) => {
   }
 };
 
+//command to send bot embedded messages
+const botEmbedMessageCommand = async (msg) => {
+  try {
+    let modBotChannel,
+      embeddedMessage,
+      temp,
+      messageChannelId,
+      messageChannel,
+      tempArray,
+      title,
+      desc,
+      thumbnail,
+      field1,
+      field2,
+      image;
+
+    modBotChannel = msg.guild.channels.cache.find(
+      (ch) => ch.name === 'mod-bots'
+    );
+
+    embeddedMessage = new Discord.MessageEmbed();
+
+    if (msg.channel.id !== modBotChannel.id) return;
+    temp = msg.content.slice(1);
+    temp = temp.split(' ');
+    messageChannelId = temp[1].slice(2, temp[1].length - 1);
+
+    messageChannel = msg.guild.channels.cache.find(
+      (ch) => ch.id === messageChannelId
+    );
+    if (!messageChannel) {
+      msg.channel.send('Invalid Channel');
+      return;
+    }
+    tempArray = msg.content.split('>');
+    tempArray.splice(0, 1);
+    for (let i = 1; i < tempArray.length - 1; i++) {
+      tempArray[i] = tempArray[i].slice(0, tempArray[i].length - 2);
+    }
+    title = tempArray[1].split('::');
+    desc = tempArray[2].split('::');
+    thumbnail = tempArray[3].split('::');
+    field1 = tempArray[4].split('::');
+    field2 = tempArray[5].split('::');
+    image = tempArray[6].split('::');
+
+    if (
+      title[0].toLowerCase() !== 'title' ||
+      desc[0].toLowerCase() !== 'description' ||
+      thumbnail[0].toLowerCase() !== 'thumbnail' ||
+      field1[0].toLowerCase() !== 'field1' ||
+      field2[0].toLowerCase() !== 'field2' ||
+      image[0].toLowerCase() !== 'image'
+    ) {
+      console.log(
+        'Invalid format, please follow the proper syntax of the command'
+      );
+      return;
+    }
+
+    embeddedMessage.setAuthor(
+      msg.author.tag,
+      await checkIfGifOrPng(msg.author)
+    );
+
+    embeddedMessage.setTitle(title[1]);
+
+    embeddedMessage.setDescription(desc[1]);
+
+    if (thumbnail[1].toLowerCase() !== 'null') {
+      embeddedMessage.setThumbnail(thumbnail[1]);
+    }
+
+    if (field1[1].toLowerCase() !== 'null') {
+      field1 = field1[1].split(',,');
+      embeddedMessage.addField(field1[0], field1[1]);
+    }
+
+    if (field2[1].toLowerCase() !== 'null') {
+      field2 = field2[1].split(',,');
+      embeddedMessage.addField(field2[0], field2[1]);
+    }
+
+    if (image[1].toLowerCase() !== 'null') {
+      embeddedMessage.setImage(image[1]);
+    } else if (msg.attachments.array()[0]) {
+      embeddedMessage.setImage(msg.attachments.array()[0].url);
+    }
+
+    messageChannel.send(embeddedMessage).catch(console.log);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 //command to mute users
 const muteCommand = (msg) => {
   try {
-    let toMute, muteRole, temp, reason, time, testChannel;
+    let toMute, muteRole, temp, reason, time, logsChannel;
     toMute = msg.mentions.members.array()[0];
-    testChannel = msg.guild.channels.cache.find(
+    logsChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
     if (!toMute) {
@@ -169,7 +264,7 @@ const muteCommand = (msg) => {
       return;
     }
     time = temp[2].concat(temp[3]);
-    assignMuteRole(msg, toMute, muteRole, time, testChannel, reason);
+    assignMuteRole(msg, toMute, muteRole, time, logsChannel, reason);
   } catch (err) {
     console.log(err);
   }
@@ -178,9 +273,9 @@ const muteCommand = (msg) => {
 //command to kick users
 const kickCommand = (msg) => {
   try {
-    let toKick, temp, reason, testChannel;
+    let toKick, temp, reason, logsChannel;
     toKick = msg.mentions.members.array()[0];
-    testChannel = msg.guild.channels.cache.find(
+    logsChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
     if (!toKick) {
@@ -203,15 +298,11 @@ const kickCommand = (msg) => {
       msg.channel.send('Please provide a reason for kick');
       return;
     }
-    console.log({
-      user: toKick.user.username,
-      reason: reason,
-    });
 
     toKick
       .kick(reason)
       .then(() => {
-        userKickLog(null, msg, testChannel, toKick, reason);
+        userKickLog(null, msg, logsChannel, toKick, reason);
       })
       .catch(console.log);
   } catch (err) {
@@ -222,9 +313,9 @@ const kickCommand = (msg) => {
 //command to ban users
 const banCommand = (msg) => {
   try {
-    let toBan, temp, reason, testChannel;
+    let toBan, temp, reason, logsChannel;
     toBan = msg.mentions.members.array()[0];
-    testChannel = msg.guild.channels.cache.find(
+    logsChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
     if (!toBan) {
@@ -252,7 +343,7 @@ const banCommand = (msg) => {
     toBan
       .ban({ reason: reason })
       .then(() => {
-        userBanLog(null, msg, testChannel, toBan, reason);
+        userBanLog(null, msg, logsChannel, toBan, reason);
       })
       .catch(console.log);
   } catch (err) {
@@ -263,11 +354,8 @@ const banCommand = (msg) => {
 //command to purge messages
 const purgeCommand = (msg) => {
   try {
-    let temp, number, logsChannel, testChannel;
+    let temp, number, logsChannel;
     logsChannel = msg.guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'logs');
-    testChannel = msg.guild.channels.cache
       .array()
       .find((ch) => ch.name === 'syed-bot-practice');
     temp = msg.content.slice(1);
@@ -297,7 +385,7 @@ const purgeCommand = (msg) => {
       .setFooter(new Date());
     msg.channel
       .bulkDelete(number)
-      .then(() => testChannel.send(purgeEmbed))
+      .then(() => logsChannel.send(purgeEmbed))
       .catch(console.log);
   } catch (err) {
     console.log(err);
@@ -307,18 +395,10 @@ const purgeCommand = (msg) => {
 //command to issue strikes
 const strikeCommand = async (msg) => {
   try {
-    let toStrike,
-      user,
-      temp,
-      muteRole,
-      reason,
-      testChannel,
-      authorUrl,
-      toStrikeUrl,
-      strikesCount;
+    let toStrike, user, temp, muteRole, reason, logsChannel, strikesCount;
 
     toStrike = msg.mentions.members.array()[0];
-    testChannel = msg.guild.channels.cache.find(
+    logsChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
     if (!toStrike) {
@@ -364,42 +444,56 @@ const strikeCommand = async (msg) => {
 
     user = await UserSchema.findOne({ id: toStrike.user.id });
 
-    authorUrl = await checkIfGifOrPng(msg.author);
-    toStrikeUrl = await checkIfGifOrPng(toStrike.user);
     let strikeEmbed = new Discord.MessageEmbed()
-      .setAuthor(msg.author.tag, authorUrl)
+      .setAuthor(msg.author.tag, await checkIfGifOrPng(msg.author))
       .setTitle('Strike Issued')
       .setColor(3447003)
-      .setThumbnail(toStrikeUrl)
+      .setThumbnail(await checkIfGifOrPng(toStrike.user))
       .setFooter(new Date());
     //1 strike
     if (user.strikes === 1) {
       strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
 This is their first strike, therefore they are only being warned. The next strike will result in them being muted for 24 hours`);
-      msg.channel.send(strikeEmbed);
+
+      msg.channel
+        .send(strikeEmbed)
+        .then(() => logsChannel.send(strikeEmbed))
+        .catch(console.log);
     }
     //2 strikes
     else if (user.strikes === 2) {
-      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
-This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`);
-      msg.channel.send(strikeEmbed);
       muteRole = msg.guild.roles.cache
         .array()
         .find((role) => role.name === 'Muted');
-      assignMuteRole(
-        msg,
-        toStrike,
-        muteRole,
-        '24h',
-        testChannel,
-        `Muted for getting issued a 2nd strike for the following reason: ${reason}`
-      );
+
+      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
+This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`);
+
+      msg.channel
+        .send(strikeEmbed)
+        .then(() => logsChannel.send(strikeEmbed))
+        .then(() =>
+          assignMuteRole(
+            msg,
+            toStrike,
+            muteRole,
+            '24h',
+            logsChannel,
+            `Muted for getting issued a 2nd strike for the following reason: ${reason}`
+          )
+        )
+        .catch(console.log);
     }
     //3 strikes
     else if (user.strikes === 3) {
       strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
 This is their third strike, therefore they shall be kicked from the server. The next strike will result in them being permanentally banned from the server`);
-      msg.channel.send(strikeEmbed);
+
+      msg.channel
+        .send(strikeEmbed)
+        .then(() => logsChannel.send(strikeEmbed))
+        .catch(console.log);
+
       toStrike
         .kick(
           `Kicked for getting issued a 3rd strike for the following reason: ${reason}`
@@ -408,17 +502,25 @@ This is their third strike, therefore they shall be kicked from the server. The 
           userKickLog(
             null,
             msg,
-            testChannel,
+            logsChannel,
             toStrike,
             `Kicked for getting issued a 3rd strike for the following reason: ${reason}`
-          ).catch(console.log);
-        });
+          );
+        })
+        .catch(console.log);
     }
     //4 strikes
     else if (user.strikes === 4) {
       strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
 This is their fourth strike, therefore they shall be permanentally banned from the server.`);
-      msg.channel.send(strikeEmbed);
+
+      msg.channel
+        .send(strikeEmbed)
+        .then(() => {
+          logsChannel.send(strikeEmbed);
+        })
+        .catch(console.log);
+
       toStrike
         .ban({
           reason: `Banned for getting issued a 4th strike for the following reason: ${reason}`,
@@ -427,11 +529,13 @@ This is their fourth strike, therefore they shall be permanentally banned from t
           userBanLog(
             null,
             msg,
-            testChannel,
+            logsChannel,
             toStrike,
             `Banned for getting issued a 4th strike for the following reason: ${reason}`
           );
-        });
+        })
+        .catch(console.log);
+
       await UserSchema.findOneAndUpdate(
         { id: toStrike.user.id },
         { strikes: 0 },
@@ -446,7 +550,8 @@ This is their fourth strike, therefore they shall be permanentally banned from t
 module.exports = {
   chapterAnnouncement: chapterAnnouncement,
   pollAnnouncement: pollAnnouncement,
-  anonMessageCommand: anonMessageCommand,
+  botMessageCommand: botMessageCommand,
+  botEmbedMessageCommand: botEmbedMessageCommand,
   muteCommand: muteCommand,
   kickCommand: kickCommand,
   banCommand: banCommand,

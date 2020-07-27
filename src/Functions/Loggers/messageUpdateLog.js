@@ -5,18 +5,16 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //logs edited messages
 const editMessageLog = async (oldMsg, newMsg) => {
   try {
-    let editEmbed, authorUrl;
+    let editEmbed, logsChannel;
 
     //selecting log channel
-    let modChannel = newMsg.guild.channels.cache.find(
+    logsChannel = newMsg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
 
     //setting the fields
-    authorUrl = await checkIfGifOrPng(newMsg.author);
-
     editEmbed = new Discord.MessageEmbed()
-      .setAuthor(newMsg.author.tag, authorUrl)
+      .setAuthor(newMsg.author.tag, await checkIfGifOrPng(newMsg.author))
       .setTitle(`Message edited in #${newMsg.channel.name}`)
       .setColor(3447003)
       .addField('Before:', oldMsg.content)
@@ -24,7 +22,7 @@ const editMessageLog = async (oldMsg, newMsg) => {
       .setFooter(new Date());
 
     //sending message to logs
-    modChannel.send(editEmbed).catch(console.log);
+    logsChannel.send(editEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

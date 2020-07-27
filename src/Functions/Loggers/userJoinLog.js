@@ -3,7 +3,7 @@ const Discord = require('discord.js');
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs when user joins the server
-const userJoinLog = async (mem, modChannel) => {
+const userJoinLog = async (mem, logsChannel) => {
   try {
     let joinEmbed, authorUrl;
 
@@ -21,7 +21,7 @@ const userJoinLog = async (mem, modChannel) => {
       .setFooter(new Date());
 
     //logging
-    modChannel.send(joinEmbed).catch(console.log);
+    logsChannel.send(joinEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

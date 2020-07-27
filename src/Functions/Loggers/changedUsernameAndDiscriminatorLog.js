@@ -5,18 +5,17 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //logs username changes
 const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
   try {
-    let modChannel, changedUsernameAndDiscriminatorEmbed, authorUrl;
+    let logsChannel, changedUsernameAndDiscriminatorEmbed;
 
     //selecting logs channel
-    modChannel = newMem.guild.channels.cache.find(
+    logsChannel = newMem.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
 
     //setting relevant fields
-    authorUrl = await checkIfGifOrPng(newMem.user);
 
     changedUsernameAndDiscriminatorEmbed = new Discord.MessageEmbed()
-      .setAuthor(newMem.user.tag, authorUrl)
+      .setAuthor(newMem.user.tag, await checkIfGifOrPng(newMem.user))
       .setColor(3447003)
       .setFooter(new Date());
 
@@ -36,7 +35,7 @@ const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
     }
 
     //sending to logs channel
-    modChannel.send(changedUsernameAndDiscriminatorEmbed).catch(console.log);
+    logsChannel.send(changedUsernameAndDiscriminatorEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

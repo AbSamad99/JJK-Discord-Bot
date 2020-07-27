@@ -1,36 +1,33 @@
-const fs = require('fs');
-
 const { channelCheck } = require('../Checks/helperChecks');
 
 const UserSchema = require('../../Schemas/UserSchema');
 
 const weebResponse = (msg) => {
   try {
-    let papaWat = msg.guild.emojis.cache
-      .array()
-      .find((emote) => emote.name === 'JJKPapawat');
     if (
       !channelCheck(msg, 'memes-and-shitposting') &&
       !channelCheck(msg, 'general') &&
       !channelCheck(msg, 'syed-bot-practice')
     )
       return;
-    let chance = Math.random() * 100;
-    if (chance < 20) {
-      msg.channel.send('Weeb');
-    }
-    if (chance > 20 && chance < 40) {
-      msg.channel.send(`<:JJKPapawat:${papaWat.id}>`);
-    }
-    if (chance > 40 && chance < 60) {
-      msg.channel.send('L');
-    }
-    if (chance > 60 && chance < 80) {
-      msg.channel.send('Why are you like this');
-    }
-    if (chance > 80) {
-      msg.channel.send('I wish we still had the cringe role');
-    }
+
+    let responseArray, papaWat, index;
+
+    papaWat = msg.guild.emojis.cache
+      .array()
+      .find((emote) => emote.name === 'JJKPapawat');
+
+    responseArray = [
+      'Weeb',
+      `<:JJKPapawat:${papaWat.id}>`,
+      'L',
+      'Why are you like this',
+      'I wish we still had the cringe role',
+    ];
+
+    index = Math.floor(Math.random() * responseArray.length);
+
+    msg.channel.send(responseArray[index]).catch(console.log);
   } catch (err) {
     console.log(err);
   }
@@ -38,33 +35,33 @@ const weebResponse = (msg) => {
 
 const nfufuResponse = async (msg) => {
   try {
-    let honoredOne = await UserSchema.findOne({ id: '730109162616389644' });
-    if (honoredOne.id === msg.author.id) return;
-    let papaWat = msg.guild.emojis.cache
-      .array()
-      .find((emote) => emote.name === 'JJKPapawat');
     if (
       !channelCheck(msg, 'general') &&
       !channelCheck(msg, 'memes-and-shitposting') &&
       !channelCheck(msg, 'syed-bot-practice')
     )
       return;
-    let chance = Math.random() * 100;
-    if (chance < 20) {
-      msg.channel.send('Cringe');
-    }
-    if (chance > 20 && chance < 40) {
-      msg.channel.send('Kokokoko');
-    }
-    if (chance > 40 && chance < 60) {
-      msg.channel.send('L');
-    }
-    if (chance > 60 && chance < 80) {
-      msg.channel.send(`<:JJKPapawat:${papaWat.id}>`);
-    }
-    if (chance > 80) {
-      msg.channel.send('nfufufu');
-    }
+
+    let honoredOne, papaWat, index, responseArray;
+
+    honoredOne = await UserSchema.findOne({ id: '730109162616389644' });
+    if (honoredOne.id === msg.author.id) return;
+
+    papaWat = msg.guild.emojis.cache
+      .array()
+      .find((emote) => emote.name === 'JJKPapawat');
+
+    responseArray = [
+      'Cringe',
+      'Kokokoko',
+      'L',
+      `<:JJKPapawat:${papaWat.id}>`,
+      'nfufufu',
+    ];
+
+    index = Math.floor(Math.random() * responseArray.length);
+
+    msg.channel.send(responseArray[index]);
   } catch (err) {
     console.log(err);
   }
@@ -73,22 +70,13 @@ const nfufuResponse = async (msg) => {
 const bestModResponse = (msg, temp) => {
   try {
     if (temp === 'best mod?') {
-      let chance = Math.random() * 100;
-      if (chance < 20) {
-        msg.channel.send('Syed').catch(console.log);
-      }
-      if (chance > 20 && chance < 40) {
-        msg.channel.send('Kenny').catch(console.log);
-      }
-      if (chance > 40 && chance < 60) {
-        msg.channel.send('Ao').catch(console.log);
-      }
-      if (chance > 60 && chance < 80) {
-        msg.channel.send('Anco').catch(console.log);
-      }
-      if (chance > 80) {
-        msg.channel.send('Shinya').catch(console.log);
-      }
+      let responseArray, index;
+
+      responseArray = ['Syed', 'Kenny', 'Ao', 'Anco', 'Shinya'];
+
+      index = Math.floor(Math.random() * responseArray.length);
+
+      msg.channel.send(responseArray[index]).catch(console.log);
     }
     if (temp === 'syed is best mod' || temp === 'syed best mod') {
       msg.channel.send('True').catch(console.log);
@@ -100,17 +88,18 @@ const bestModResponse = (msg, temp) => {
 
 const otherSeriesTalkResponse = (msg) => {
   try {
-    let otherSeriesChannel = msg.guild.channels.cache
+    let otherSeriesChannel, papaWat, chance;
+    otherSeriesChannel = msg.guild.channels.cache
       .array()
       .find((ch) => ch.name === 'other-series');
-    let papaEmote = msg.guild.emojis.cache
+    papaWat = msg.guild.emojis.cache
       .array()
       .find((emote) => emote.name === 'JJKPapaGameOver');
-    let chance = Math.random() * 100;
+    chance = Math.random() * 100;
     if (chance > 30) {
       msg.channel
         .send(
-          `Please go to <#${otherSeriesChannel.id}> <:JJKPapaGameOver:${papaEmote.id}>`
+          `Please go to <#${otherSeriesChannel.id}> <:JJKPapaGameOver:${papaWat.id}>`
         )
         .catch(console.log);
     }
@@ -121,22 +110,18 @@ const otherSeriesTalkResponse = (msg) => {
 
 const xSeriesSucksResponse = (msg) => {
   try {
-    let chance = Math.random() * 100;
-    if (chance < 25) {
-      msg.channel.send('Facts bro').catch(console.log);
-    }
-    if (chance > 25 && chance < 50) {
-      msg.channel.send('You said it bro').catch(console.log);
-    }
-    if (chance > 50 && chance < 75) {
-      msg.channel.send('This dude spitting').catch(console.log);
-    }
-    if (chance > 75 && chance < 95) {
-      msg.channel.send('I agree <:100:730318095821963357>').catch(console.log);
-    }
-    if (chance > 95) {
-      msg.channel.send('Nah').catch(console.log);
-    }
+    let responseArray, index;
+
+    responseArray = [
+      'Facts bro',
+      'You said it bro',
+      'This dude spitting',
+      'I agree <:100:730318095821963357>',
+    ];
+
+    index = Math.floor(Math.random() * responseArray.length);
+
+    msg.channel.send(responseArray[index]).catch(console.log);
   } catch (err) {
     console.log(err);
   }

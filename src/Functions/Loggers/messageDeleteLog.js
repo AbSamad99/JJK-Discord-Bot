@@ -5,10 +5,10 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //Logs deleted messages or attachments and who deleted them
 const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
   try {
-    let deleteEmbed, authorUrl, thumbnail, attachments, modChannel;
+    let deleteEmbed, authorUrl, attachments, logsChannel;
 
     //selecting logs channel
-    modChannel = msg.guild.channels.cache.find(
+    logsChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
 
@@ -28,11 +28,9 @@ const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
         .addField('Author:', `<@${msg.author.id}>`);
     } else {
       //mod delete
-      authorUrl = await checkIfGifOrPng(executor);
-      thumbnail = await checkIfGifOrPng(target);
       deleteEmbed
-        .setAuthor(executor.tag, authorUrl)
-        .setThumbnail(thumbnail)
+        .setAuthor(executor.tag, await checkIfGifOrPng(executor))
+        .setThumbnail(await checkIfGifOrPng(target))
         .addField('Author:', `<@${target.id}>`);
     }
 
@@ -50,7 +48,7 @@ ${msg.attachments.array()[i].name}`;
     }
 
     //sending the embeded message
-    modChannel.send(deleteEmbed).catch(console.log);
+    logsChannel.send(deleteEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

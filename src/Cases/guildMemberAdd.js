@@ -11,14 +11,14 @@ const guildMemberAddCaseHandler = async (mem) => {
 
     let welcomeChannel,
       user,
-      modChannel,
+      logsChannel,
       rulesChannel,
       infoChannel,
       message,
       messageEmbed;
 
     welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
-    modChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
+    logsChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
     rulesChannel = channelArray.find((ch) => ch.name === 'rules');
     infoChannel = channelArray.find((ch) => ch.name === 'information');
 
@@ -33,12 +33,12 @@ const guildMemberAddCaseHandler = async (mem) => {
         'https://images-ext-2.discordapp.net/external/J_QQ3j5Q70yAN5B9ovsyqCasjsSKZvpTkwmJaWyrduk/%3Fv%3D1/https/cdn.discordapp.com/emojis/586696010978557953.png?width=80&height=80'
       );
 
-    modChannel
+    welcomeChannel
       .send(message)
-      .then(() => modChannel.send(messageEmbed))
+      .then(() => welcomeChannel.send(messageEmbed))
       .catch(console.log);
 
-    userJoinLog(mem, modChannel);
+    userJoinLog(mem, logsChannel);
 
     user = await UserSchema.findOne({ id: mem.user.id });
 

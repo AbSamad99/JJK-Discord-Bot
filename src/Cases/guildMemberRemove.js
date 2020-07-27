@@ -12,9 +12,9 @@ const userLeaveLog = require('../Functions/Loggers/userLeaveLog.js');
 
 const guildMemberRemoveCaseHandler = async (mem) => {
   try {
-    let theHonoredOne, banAuditLog, kickAuditLog, modChannel;
+    let theHonoredOne, banAuditLog, kickAuditLog, logsChannel;
 
-    modChannel = mem.guild.channels.cache
+    logsChannel = mem.guild.channels.cache
       .array()
       .find((ch) => ch.name === 'syed-bot-practice');
 
@@ -36,13 +36,13 @@ const guildMemberRemoveCaseHandler = async (mem) => {
       if (theHonoredOne.id === kickAuditLog.executor.id) {
         return;
       } else {
-        await userKickLog(kickAuditLog, null, modChannel);
+        await userKickLog(kickAuditLog, null, logsChannel);
       }
       previousMemberKickLogId[0] = kickAuditLog.id;
     } else if (previousMemberBanLogId[0] !== banAuditLog.id) {
       return;
     } else {
-      await userLeaveLog(mem, modChannel);
+      await userLeaveLog(mem, logsChannel);
     }
   } catch (err) {
     console.log(err);

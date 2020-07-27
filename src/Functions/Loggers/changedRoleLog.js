@@ -5,18 +5,20 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //logs role addition/removal
 const changedRoleLog = async (newMem, roleLogs, roleId) => {
   try {
-    let roleEmbed, authorUrl;
+    let roleEmbed, logsChannel;
 
     //selcting the log channel
-    let modChannel = newMem.guild.channels.cache.find(
+    logsChannel = newMem.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
 
     //getting url
-    authorUrl = await checkIfGifOrPng(roleLogs.executor);
 
     roleEmbed = new Discord.MessageEmbed()
-      .setAuthor(roleLogs.executor.tag, authorUrl)
+      .setAuthor(
+        roleLogs.executor.tag,
+        await checkIfGifOrPng(roleLogs.executor)
+      )
       .setColor(3447003)
       .setFooter(new Date());
 
@@ -32,7 +34,7 @@ const changedRoleLog = async (newMem, roleLogs, roleId) => {
     }
 
     //sending the messages
-    modChannel.send(roleEmbed).catch(console.log);
+    logsChannel.send(roleEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

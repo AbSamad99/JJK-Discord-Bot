@@ -3,9 +3,9 @@ const Discord = require('discord.js');
 const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 
 //logs when user is kicked from the server
-const userKickLog = async (kickAuditLog, msg, modChannel, toKick, reason) => {
+const userKickLog = async (kickAuditLog, msg, logsChannel, toKick, reason) => {
   try {
-    let kickEmbed, authorUrl, thumbnail;
+    let kickEmbed;
 
     //setting relevant fields
 
@@ -15,11 +15,12 @@ const userKickLog = async (kickAuditLog, msg, modChannel, toKick, reason) => {
       .setFooter(new Date());
 
     if (!msg) {
-      authorUrl = await checkIfGifOrPng(kickAuditLog.executor);
-      thumbnail = await checkIfGifOrPng(kickAuditLog.target);
       kickEmbed
-        .setAuthor(kickAuditLog.executor.tag, authorUrl)
-        .setThumbnail(thumbnail)
+        .setAuthor(
+          kickAuditLog.executor.tag,
+          await checkIfGifOrPng(kickAuditLog.executor)
+        )
+        .setThumbnail(await checkIfGifOrPng(kickAuditLog.target))
         .setDescription(
           `<@${kickAuditLog.target.id}> has been kicked from the server.`
         );
@@ -27,17 +28,15 @@ const userKickLog = async (kickAuditLog, msg, modChannel, toKick, reason) => {
         kickEmbed.addField('Reason:', 'No reason was provided');
       else kickEmbed.addField('Reason', kickAuditLog.reason);
     } else {
-      authorUrl = await checkIfGifOrPng(msg.author);
-      thumbnail = await checkIfGifOrPng(toKick.user);
       kickEmbed
-        .setAuthor(msg.author.tag, authorUrl)
-        .setThumbnail(thumbnail)
+        .setAuthor(msg.author.tag, await checkIfGifOrPng(msg.author))
+        .setThumbnail(await checkIfGifOrPng(toKick.user))
         .setDescription(`<@${toKick.user.id}> has been kicked from the server.`)
         .addField('Reason:', reason);
     }
 
     //logging
-    modChannel.send(kickEmbed).catch(console.log);
+    logsChannel.send(kickEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

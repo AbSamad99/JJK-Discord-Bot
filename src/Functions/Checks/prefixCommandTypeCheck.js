@@ -6,12 +6,13 @@ const {
 const {
   chapterAnnouncement,
   pollAnnouncement,
-  anonMessageCommand,
+  botMessageCommand,
   muteCommand,
   kickCommand,
   banCommand,
   purgeCommand,
   strikeCommand,
+  botEmbedMessageCommand,
 } = require('../Commands/modCommands.js');
 
 const {
@@ -55,13 +56,22 @@ const prefixCommandFunction = (msg, temp) => {
     seedUsers(msg);
   }
 
-  //anon
+  //bot message
   else if (
     keyword === 'message' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
-    anonMessageCommand(msg);
+    botMessageCommand(msg);
+  }
+
+  //bot embed message
+  else if (
+    keyword === 'embedmessage' &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
+    botEmbedMessageCommand(msg);
   }
 
   //purge

@@ -2,10 +2,7 @@ const deleteMessageAndAttachmentLog = require('../Functions/Loggers/messageDelet
 
 const messageBulkDeleteCaseHandler = async (msgs) => {
   try {
-    let modChannel, messageArray, bulkDeleteAuditLog;
-    modChannel = msgs
-      .array()[0]
-      .guild.channels.cache.find((ch) => ch.name === 'syed-bot-practice');
+    let messageArray, bulkDeleteAuditLog;
 
     messageArray = msgs.array();
 

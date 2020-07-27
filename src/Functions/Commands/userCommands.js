@@ -68,9 +68,8 @@ const suggestionCommand = async (msg) => {
     for (index = 2; index < temp.length; index++) {
       message = `${message} ${temp[index]}`;
     }
-    authorUrl = await checkIfGifOrPng(msg.author);
     suggestEmbed = new Discord.MessageEmbed()
-      .setAuthor(msg.author.tag, authorUrl)
+      .setAuthor(msg.author.tag, await checkIfGifOrPng(msg.author))
       .setTitle('Suggestion')
       .setColor(3447003)
       .setDescription(

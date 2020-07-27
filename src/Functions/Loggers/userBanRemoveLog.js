@@ -5,17 +5,18 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //logs when user is banned from the server
 const userBanRemoveLog = async (banRemovalAuditLog, modChannel) => {
   try {
-    let banRemovalEmbed, authorUrl, thumbnail;
+    let banRemovalEmbed;
 
     //setting relevant fields
-    authorUrl = await checkIfGifOrPng(banRemovalAuditLog.executor);
-    thumbnail = await checkIfGifOrPng(banRemovalAuditLog.target);
 
     banRemovalEmbed = new Discord.MessageEmbed()
-      .setAuthor(banRemovalAuditLog.executor.tag, authorUrl)
+      .setAuthor(
+        banRemovalAuditLog.executor.tag,
+        await checkIfGifOrPng(banRemovalAuditLog.executor)
+      )
       .setTitle('Member Unbanned')
       .setColor(3447003)
-      .setThumbnail(thumbnail)
+      .setThumbnail(await checkIfGifOrPng(banRemovalAuditLog.target))
       .setDescription(`<@${banRemovalAuditLog.target.id}> has been Unbanned.`)
       .setFooter(new Date());
 

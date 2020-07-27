@@ -43,7 +43,7 @@ const removeRole = (msg, role) => {
 };
 
 //mutes/unmutes the user
-const assignMuteRole = (msg, toMute, muteRole, time, testChannel, reason) => {
+const assignMuteRole = (msg, toMute, muteRole, time, logsChannel, reason) => {
   try {
     let addEmbedResponse = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
@@ -64,14 +64,14 @@ const assignMuteRole = (msg, toMute, muteRole, time, testChannel, reason) => {
         msg.channel.send(addEmbedResponse);
       })
       .then(() => {
-        testChannel.send(addEmbedResponse);
+        logsChannel.send(addEmbedResponse);
       })
       .catch(console.log);
     setTimeout(() => {
       toMute.roles
         .remove(muteRole.id)
         .then(() => {
-          testChannel.send(removeEmbedResponse);
+          logsChannel.send(removeEmbedResponse);
         })
         .catch(console.log);
     }, ms(time));

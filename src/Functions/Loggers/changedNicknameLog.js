@@ -5,10 +5,10 @@ const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
 //logs nickname addition, change and removal
 const changedNicknameLog = async (newMem, nick, mod) => {
   try {
-    let changedNicknameEmbed, authorUrl, thumbnail;
+    let changedNicknameEmbed, authorUrl, logsChannel;
 
     //selcting the log channel
-    let modChannel = newMem.guild.channels.cache.find(
+    logsChannel = newMem.guild.channels.cache.find(
       (ch) => ch.name === 'syed-bot-practice'
     );
 
@@ -25,11 +25,9 @@ const changedNicknameLog = async (newMem, nick, mod) => {
         .setAuthor(newMem.user.tag, authorUrl)
         .setThumbnail(authorUrl);
     } else {
-      authorUrl = await checkIfGifOrPng(mod);
-      thumbnail = await checkIfGifOrPng(newMem.user);
       changedNicknameEmbed
-        .setAuthor(mod.tag, authorUrl)
-        .setThumbnail(thumbnail);
+        .setAuthor(mod.tag, await checkIfGifOrPng(mod))
+        .setThumbnail(await checkIfGifOrPng(newMem.user));
     }
 
     //determining type of nickname edit
@@ -51,7 +49,7 @@ const changedNicknameLog = async (newMem, nick, mod) => {
     }
 
     //sending the messages
-    modChannel.send(changedNicknameEmbed).catch(console.log);
+    logsChannel.send(changedNicknameEmbed).catch(console.log);
   } catch (err) {
     console.log(err);
   }

@@ -8,7 +8,7 @@ const chartLink = `https://docs.google.com/spreadsheets/d/1pyrdfwq-Qbj2eEJIsdD3n
 const wikiLink = 'https://jujutsu-kaisen.fandom.com/wiki/Jujutsu_Kaisen_Wiki';
 
 const prequelLink =
-  'https://mangadex.org/title/30288/tokyo-metropolitan-magic-technical-school';
+  'https://mangakakalot.com/manga/tokyo_metropolitan_magic_technical_school';
 
 const todoLink =
   'https://media.discordapp.net/attachments/447410298845003777/635705498624196608/K17.png';

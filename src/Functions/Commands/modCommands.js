@@ -222,9 +222,7 @@ const muteCommand = (msg) => {
   try {
     let toMute, muteRole, temp, reason, time, logsChannel;
     toMute = msg.mentions.members.array()[0];
-    logsChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
     if (!toMute) {
       msg.channel.send('Please mention a user to mute');
       return;
@@ -275,9 +273,7 @@ const kickCommand = (msg) => {
   try {
     let toKick, temp, reason, logsChannel;
     toKick = msg.mentions.members.array()[0];
-    logsChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
     if (!toKick) {
       msg.channel.send('Please mention a user to kick');
       return;
@@ -315,9 +311,7 @@ const banCommand = (msg) => {
   try {
     let toBan, temp, reason, logsChannel;
     toBan = msg.mentions.members.array()[0];
-    logsChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
     if (!toBan) {
       msg.channel.send('Please mention a user to ban');
       return;
@@ -357,7 +351,7 @@ const purgeCommand = (msg) => {
     let temp, number, logsChannel;
     logsChannel = msg.guild.channels.cache
       .array()
-      .find((ch) => ch.name === 'syed-bot-practice');
+      .find((ch) => ch.name === 'logs');
     temp = msg.content.slice(1);
     temp = temp.split(' ');
     number = parseInt(temp[1]);
@@ -398,9 +392,7 @@ const strikeCommand = async (msg) => {
     let toStrike, user, temp, muteRole, reason, logsChannel, strikesCount;
 
     toStrike = msg.mentions.members.array()[0];
-    logsChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
     if (!toStrike) {
       msg.channel.send('Please mention a user to ban');
       return;

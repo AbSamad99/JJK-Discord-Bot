@@ -18,7 +18,7 @@ const guildMemberAddCaseHandler = async (mem) => {
       messageEmbed;
 
     welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
-    logsChannel = channelArray.find((ch) => ch.name === 'syed-bot-practice');
+    logsChannel = channelArray.find((ch) => ch.name === 'logs');
     rulesChannel = channelArray.find((ch) => ch.name === 'rules');
     infoChannel = channelArray.find((ch) => ch.name === 'information');
 

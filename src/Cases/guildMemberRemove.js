@@ -16,7 +16,7 @@ const guildMemberRemoveCaseHandler = async (mem) => {
 
     logsChannel = mem.guild.channels.cache
       .array()
-      .find((ch) => ch.name === 'syed-bot-practice');
+      .find((ch) => ch.name === 'logs');
 
     theHonoredOne = await UserSchema.findOne({ id: '730109162616389644' });
 

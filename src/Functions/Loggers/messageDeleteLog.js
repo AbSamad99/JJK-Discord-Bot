@@ -8,9 +8,7 @@ const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
     let deleteEmbed, authorUrl, attachments, logsChannel;
 
     //selecting logs channel
-    logsChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
 
     //setting common fields for both cases
 

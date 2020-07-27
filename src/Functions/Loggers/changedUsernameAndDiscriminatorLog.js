@@ -8,9 +8,7 @@ const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
     let logsChannel, changedUsernameAndDiscriminatorEmbed;
 
     //selecting logs channel
-    logsChannel = newMem.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
 
     //setting relevant fields
 

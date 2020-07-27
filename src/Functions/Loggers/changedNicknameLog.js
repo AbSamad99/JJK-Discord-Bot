@@ -8,9 +8,7 @@ const changedNicknameLog = async (newMem, nick, mod) => {
     let changedNicknameEmbed, authorUrl, logsChannel;
 
     //selcting the log channel
-    logsChannel = newMem.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
 
     //setting necessary fields
 

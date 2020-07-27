@@ -6,9 +6,7 @@ const guildBanRemoveCaseHandler = async (guild, mem) => {
   try {
     let banRemoveAuditLog, logsChannel;
 
-    logsChannel = guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'syed-bot-practice');
+    logsChannel = guild.channels.cache.array().find((ch) => ch.name === 'logs');
 
     banRemoveAuditLog = await guild
       .fetchAuditLogs({

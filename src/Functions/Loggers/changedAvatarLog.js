@@ -8,9 +8,7 @@ const changedAvatarLog = async (newMem, user) => {
     let logsChannel, changedAvatarEmbed, authorUrl;
 
     //selecting the logs channel
-    logsChannel = newMem.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
 
     //setting relevant fields
     authorUrl = await checkIfGifOrPng(newMem.user);

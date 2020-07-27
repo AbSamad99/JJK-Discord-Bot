@@ -8,9 +8,7 @@ const changedRoleLog = async (newMem, roleLogs, roleId) => {
     let roleEmbed, logsChannel;
 
     //selcting the log channel
-    logsChannel = newMem.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
 
     //getting url
 

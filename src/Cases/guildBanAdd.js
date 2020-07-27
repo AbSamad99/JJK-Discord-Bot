@@ -9,9 +9,7 @@ const guildBanAddCaseHandler = async (guild, mem) => {
   try {
     let theHonoredOne, banAuditLog, logsChannel;
 
-    logsChannel = guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'syed-bot-practice');
+    logsChannel = guild.channels.cache.array().find((ch) => ch.name === 'logs');
 
     theHonoredOne = await UserSchema.findOne({ id: '730109162616389644' });
 

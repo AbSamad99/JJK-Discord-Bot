@@ -8,9 +8,7 @@ const editMessageLog = async (oldMsg, newMsg) => {
     let editEmbed, logsChannel;
 
     //selecting log channel
-    logsChannel = newMsg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    logsChannel = newMsg.guild.channels.cache.find((ch) => ch.name === 'logs');
 
     //setting the fields
     editEmbed = new Discord.MessageEmbed()

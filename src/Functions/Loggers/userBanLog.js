@@ -34,7 +34,7 @@ const userBanLog = async (banAuditLog, msg, logsChannel, toBan, reason) => {
     }
 
     //logging
-    logsChannel.send(banEmbed).catch(console.log);
+    logsChannel.send(banEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

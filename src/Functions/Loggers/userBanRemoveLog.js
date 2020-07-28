@@ -21,7 +21,7 @@ const userBanRemoveLog = async (banRemovalAuditLog, modChannel) => {
       .setFooter(new Date());
 
     //logging
-    modChannel.send(banRemovalEmbed).catch(console.log);
+    modChannel.send(banRemovalEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

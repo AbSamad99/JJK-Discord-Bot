@@ -27,7 +27,7 @@ const weebResponse = (msg) => {
 
     index = Math.floor(Math.random() * responseArray.length);
 
-    msg.channel.send(responseArray[index]).catch(console.log);
+    msg.channel.send(responseArray[index]).catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -76,10 +76,10 @@ const bestModResponse = (msg, temp) => {
 
       index = Math.floor(Math.random() * responseArray.length);
 
-      msg.channel.send(responseArray[index]).catch(console.log);
+      msg.channel.send(responseArray[index]).catch(console.error);
     }
     if (temp === 'syed is best mod' || temp === 'syed best mod') {
-      msg.channel.send('True').catch(console.log);
+      msg.channel.send('True').catch(console.error);
     }
   } catch (err) {
     console.log(err);
@@ -101,7 +101,7 @@ const otherSeriesTalkResponse = (msg) => {
         .send(
           `Please go to <#${otherSeriesChannel.id}> <:JJKPapaGameOver:${papaWat.id}>`
         )
-        .catch(console.log);
+        .catch(console.error);
     }
   } catch (err) {
     console.log(err);
@@ -121,7 +121,7 @@ const xSeriesSucksResponse = (msg) => {
 
     index = Math.floor(Math.random() * responseArray.length);
 
-    msg.channel.send(responseArray[index]).catch(console.log);
+    msg.channel.send(responseArray[index]).catch(console.error);
   } catch (err) {
     console.log(err);
   }

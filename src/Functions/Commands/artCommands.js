@@ -63,7 +63,7 @@ const addArtCommand = async (msg) => {
     );
 
     //sending appropriate message after links are stored
-    msg.channel.send(`Number of links added: ${count}`).catch(console.log);
+    msg.channel.send(`Number of links added: ${count}`).catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -122,7 +122,7 @@ const removeArtCommand = async (msg) => {
     );
 
     //sending back appropriate message
-    msg.channel.send('Removed').catch(console.log);
+    msg.channel.send('Removed').catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -162,7 +162,7 @@ const getArtCommand = async (msg) => {
     randomIndex = Math.floor(Math.random() * characterArray.length);
 
     //send back the link
-    msg.channel.send(characterArray[randomIndex]).catch(console.log);
+    msg.channel.send(characterArray[randomIndex]).catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -208,7 +208,7 @@ const getAllArtCommand = async (msg) => {
     msg.channel
       .send(message)
       .then((botMsg) => botMsg.suppressEmbeds())
-      .catch(console.log);
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -234,7 +234,7 @@ const removeArtCharacterCommand = async (msg) => {
     //send message
     msg.channel
       .send(`Removed Character ${temp[1].toLowerCase()}`)
-      .catch(console.log);
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -268,7 +268,7 @@ const addArtCharacterCommand = async (msg) => {
     //sending appropriate message
     msg.channel
       .send(`Added Character ${temp[1].toLowerCase()}`)
-      .catch(console.log);
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -287,7 +287,7 @@ const getArtNamesCommand = async (msg) => {
     }
 
     //sending required data
-    msg.channel.send(message).catch(console.log);
+    msg.channel.send(message).catch(console.error);
   } catch (err) {
     console.log(err);
   }

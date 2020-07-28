@@ -47,7 +47,7 @@ const changedNicknameLog = async (newMem, nick, mod) => {
     }
 
     //sending the messages
-    logsChannel.send(changedNicknameEmbed).catch(console.log);
+    logsChannel.send(changedNicknameEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

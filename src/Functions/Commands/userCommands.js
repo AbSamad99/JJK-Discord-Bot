@@ -85,10 +85,10 @@ const suggestionCommand = async (msg) => {
         botMsg.react('👍');
         botMsg.react('👎');
       })
-      .catch(console.log);
+      .catch(console.error);
 
     setTimeout(() => {
-      msg.delete().catch(console.log);
+      msg.delete().catch(console.error);
     }, ms('2s'));
   } catch (err) {
     console.log(err);

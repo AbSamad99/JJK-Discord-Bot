@@ -35,7 +35,7 @@ const guildMemberAddCaseHandler = async (mem) => {
     welcomeChannel
       .send(message)
       .then(() => welcomeChannel.send(messageEmbed))
-      .catch(console.log);
+      .catch(console.error);
 
     userJoinLog(mem, logsChannel);
 

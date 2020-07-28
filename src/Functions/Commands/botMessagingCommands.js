@@ -17,7 +17,7 @@ const botMessageCommand = (msg) => {
     let messageChannel = msg.guild.channels.cache.find(
       (ch) => ch.id === messageChannelId
     );
-    messageChannel.send(message).catch(console.log);
+    messageChannel.send(message).catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -109,7 +109,7 @@ const botEmbedMessageCommand = async (msg) => {
       embeddedMessage.setImage(msg.attachments.array()[0].url);
     }
 
-    messageChannel.send(embeddedMessage).catch(console.log);
+    messageChannel.send(embeddedMessage).catch(console.error);
   } catch (err) {
     console.log(err);
   }

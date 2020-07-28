@@ -36,6 +36,7 @@ const {
 const artCommandTypeCheck = require('./artCommandTypeCheck.js');
 const { roleCheck, channelCheck } = require('./helperChecks.js');
 const seedUsers = require('../Helpers/seeder.js');
+const { addEmote } = require('../Commands/emoteCommands.js');
 
 const prefixCommandFunction = (msg, temp) => {
   let keyword = temp.slice(1);
@@ -125,6 +126,15 @@ const prefixCommandFunction = (msg, temp) => {
     strikeCommand(msg);
   }
 
+  //addEmote
+  else if (
+    keyword === 'addemote' &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
+    addEmote(msg);
+  }
+
   //art check
   else if (keyword.includes('art')) {
     artCommandTypeCheck(msg, keyword);
@@ -142,7 +152,7 @@ const prefixCommandFunction = (msg, temp) => {
 
   //fujo
   else if (keyword === 'fujo') {
-    msg.channel.send(fujoLink).catch(console.log);
+    msg.channel.send(fujoLink).catch(console.error);
   }
 
   //todo
@@ -150,7 +160,7 @@ const prefixCommandFunction = (msg, temp) => {
     keyword === 'todo' &&
     (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
   ) {
-    msg.channel.send(todoLink).catch(console.log);
+    msg.channel.send(todoLink).catch(console.error);
   }
 
   //welcome
@@ -162,7 +172,7 @@ const prefixCommandFunction = (msg, temp) => {
 1. Are you up to date on the Jujutsu Kaisen manga?
 2. Have you read the prequel?
 3. Can Todo ask you a woke question?`;
-    msg.channel.send(message).catch(console.log);
+    msg.channel.send(message).catch(console.error);
   }
 
   //guy
@@ -170,7 +180,7 @@ const prefixCommandFunction = (msg, temp) => {
     keyword === 'guy' &&
     (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
   ) {
-    msg.channel.send(guyLink).catch(console.log);
+    msg.channel.send(guyLink).catch(console.error);
   }
 
   //shy
@@ -178,22 +188,22 @@ const prefixCommandFunction = (msg, temp) => {
     keyword === 'shy' &&
     (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
   ) {
-    msg.channel.send(shyLink).catch(console.log);
+    msg.channel.send(shyLink).catch(console.error);
   }
 
   //encyclopedia
   else if (keyword === 'encyclopedia') {
-    msg.channel.send(encyclopediaLink).catch(console.log);
+    msg.channel.send(encyclopediaLink).catch(console.error);
   }
 
   //chart
   else if (keyword === 'chart') {
-    msg.channel.send(chartLink).catch(console.log);
+    msg.channel.send(chartLink).catch(console.error);
   }
 
   //catalogue
   else if (keyword === 'catalogue') {
-    msg.channel.send(catalogueLink).catch(console.log);
+    msg.channel.send(catalogueLink).catch(console.error);
   }
 
   //prequel
@@ -203,12 +213,12 @@ const prefixCommandFunction = (msg, temp) => {
       channelCheck(msg, 'manga-discussion') ||
       channelCheck(msg, 'syed-bot-practice'))
   ) {
-    msg.channel.send(prequelLink).catch(console.log);
+    msg.channel.send(prequelLink).catch(console.error);
   }
 
   //wiki
   else if (keyword === 'wiki') {
-    msg.channel.send(wikiLink).catch(console.log);
+    msg.channel.send(wikiLink).catch(console.error);
   }
 };
 

@@ -46,7 +46,7 @@ ${msg.attachments.array()[i].name}`;
     }
 
     //sending the embeded message
-    logsChannel.send(deleteEmbed).catch(console.log);
+    logsChannel.send(deleteEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

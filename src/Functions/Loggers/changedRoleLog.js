@@ -29,7 +29,7 @@ const changedRoleLog = async (newMem, roleLogs, roleId) => {
     }
 
     //sending the messages
-    logsChannel.send(roleEmbed).catch(console.log);
+    logsChannel.send(roleEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

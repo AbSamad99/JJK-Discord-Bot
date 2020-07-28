@@ -6,7 +6,6 @@ const {
   previousMemberKickLogId,
   previousMemberBanLogId,
   previousMemberBanRemoveLogId,
-  characterArtObj,
 } = require('../../utilities');
 
 //fetches message delete log id and count

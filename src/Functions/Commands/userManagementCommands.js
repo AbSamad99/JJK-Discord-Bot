@@ -91,7 +91,7 @@ const kickCommand = (msg) => {
       .then(() => {
         userKickLog(null, msg, logsChannel, toKick, reason);
       })
-      .catch(console.log);
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -130,7 +130,7 @@ const banCommand = (msg) => {
       .then(() => {
         userBanLog(null, msg, logsChannel, toBan, reason);
       })
-      .catch(console.log);
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -200,7 +200,7 @@ const strikeCommand = async (msg) => {
       msg.channel
         .send(strikeEmbed)
         .then(() => logsChannel.send(strikeEmbed))
-        .catch(console.log);
+        .catch(console.error);
     }
     //2 strikes
     else if (user.strikes === 2) {
@@ -224,7 +224,7 @@ const strikeCommand = async (msg) => {
             `Muted for getting issued a 2nd strike for the following reason: ${reason}`
           )
         )
-        .catch(console.log);
+        .catch(console.error);
     }
     //3 strikes
     else if (user.strikes === 3) {
@@ -234,7 +234,7 @@ const strikeCommand = async (msg) => {
       msg.channel
         .send(strikeEmbed)
         .then(() => logsChannel.send(strikeEmbed))
-        .catch(console.log);
+        .catch(console.error);
 
       toStrike
         .kick(
@@ -249,7 +249,7 @@ const strikeCommand = async (msg) => {
             `Kicked for getting issued a 3rd strike for the following reason: ${reason}`
           );
         })
-        .catch(console.log);
+        .catch(console.error);
     }
     //4 strikes
     else if (user.strikes === 4) {
@@ -261,7 +261,7 @@ const strikeCommand = async (msg) => {
         .then(() => {
           logsChannel.send(strikeEmbed);
         })
-        .catch(console.log);
+        .catch(console.error);
 
       toStrike
         .ban({
@@ -276,7 +276,7 @@ const strikeCommand = async (msg) => {
             `Banned for getting issued a 4th strike for the following reason: ${reason}`
           );
         })
-        .catch(console.log);
+        .catch(console.error);
 
       await UserSchema.findOneAndUpdate(
         { id: toStrike.user.id },

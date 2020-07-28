@@ -20,7 +20,7 @@ const editMessageLog = async (oldMsg, newMsg) => {
       .setFooter(new Date());
 
     //sending message to logs
-    logsChannel.send(editEmbed).catch(console.log);
+    logsChannel.send(editEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

@@ -25,7 +25,7 @@ const changedAvatarLog = async (newMem, user) => {
       .setFooter(new Date());
 
     //sending to the logs
-    logsChannel.send(changedAvatarEmbed).catch(console.log);
+    logsChannel.send(changedAvatarEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

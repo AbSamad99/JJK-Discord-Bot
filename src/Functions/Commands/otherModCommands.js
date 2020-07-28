@@ -22,10 +22,10 @@ const chapterAnnouncement = async (msg) => {
       msg.channel.send('Both links are Invalid');
       return;
     } else if (!(await urlExist(vizLink))) {
-      msg.channel.send('Viz link is invalid').catch(console.log);
+      msg.channel.send('Viz link is invalid').catch(console.error);
       return;
     } else if (!(await urlExist(mpLink))) {
-      msg.channel.send('Manga Plus link is invalid').catch(console.log);
+      msg.channel.send('Manga Plus link is invalid').catch(console.error);
       return;
     }
 
@@ -37,14 +37,14 @@ Manga Plus: ${mpLink}`;
 
     if (temp[1] && temp[2] && temp[3]) {
       if (channelCheck(msg, 'syed-bot-practice')) {
-        msg.channel.send(replyMessage).catch(console.log);
+        msg.channel.send(replyMessage).catch(console.error);
       } else if (channelCheck(msg, 'mod-bots')) {
-        announcementChannel.send(replyMessage).catch(console.log);
+        announcementChannel.send(replyMessage).catch(console.error);
       }
     } else {
       msg.channel
         .send('Please follow the proper syntax of the command')
-        .catch(console.log);
+        .catch(console.error);
     }
   } catch (err) {
     console.log(err);
@@ -78,7 +78,7 @@ const pollAnnouncement = (msg) => {
             botMsg.react('2️⃣');
             botMsg.react('1️⃣');
           })
-          .catch(console.log);
+          .catch(console.error);
       } else if (channelCheck(msg, 'mod-bots')) {
         announcementChannel
           .send(replyMessage)
@@ -89,7 +89,7 @@ const pollAnnouncement = (msg) => {
             botMsg.react('2️⃣');
             botMsg.react('1️⃣');
           })
-          .catch(console.log);
+          .catch(console.error);
       }
     } else {
       msg.channel.send('Please provide a number');
@@ -134,7 +134,7 @@ const purgeCommand = (msg) => {
     msg.channel
       .bulkDelete(number)
       .then(() => logsChannel.send(purgeEmbed))
-      .catch(console.log);
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }

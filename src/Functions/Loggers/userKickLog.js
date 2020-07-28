@@ -36,7 +36,7 @@ const userKickLog = async (kickAuditLog, msg, logsChannel, toKick, reason) => {
     }
 
     //logging
-    logsChannel.send(kickEmbed).catch(console.log);
+    logsChannel.send(kickEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

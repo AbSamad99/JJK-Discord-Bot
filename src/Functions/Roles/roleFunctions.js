@@ -15,7 +15,7 @@ const assignRole = (msg, role) => {
       .then(() => {
         msg.channel.send(embedResponse);
       })
-      .catch(console.log);
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -36,7 +36,7 @@ const removeRole = (msg, role) => {
       .then(() => {
         msg.channel.send(embedResponse);
       })
-      .catch(console.log);
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -66,14 +66,14 @@ const assignMuteRole = (msg, toMute, muteRole, time, logsChannel, reason) => {
       .then(() => {
         logsChannel.send(addEmbedResponse);
       })
-      .catch(console.log);
+      .catch(console.error);
     setTimeout(() => {
       toMute.roles
         .remove(muteRole.id)
         .then(() => {
           logsChannel.send(removeEmbedResponse);
         })
-        .catch(console.log);
+        .catch(console.error);
     }, ms(time));
   } catch (err) {
     console.log(err);

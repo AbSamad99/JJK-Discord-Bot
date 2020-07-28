@@ -33,7 +33,7 @@ const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
     }
 
     //sending to logs channel
-    logsChannel.send(changedUsernameAndDiscriminatorEmbed).catch(console.log);
+    logsChannel.send(changedUsernameAndDiscriminatorEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

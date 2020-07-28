@@ -30,10 +30,10 @@ const messageCaseHandler = (msg) => {
     }
     //checks if it contains a forbidden link
     if (containsForbiddenLinkCheck(temp)) {
-      msg.delete().catch(console.log);
+      msg.delete().catch(console.error);
       msg
         .reply('Please refrain from posting links to NSFW sites')
-        .catch(console.log);
+        .catch(console.error);
     }
     //checks if it contains discord inv link
     if (containsDiscordLinkCheck(temp)) {
@@ -41,10 +41,10 @@ const messageCaseHandler = (msg) => {
         !roleCheck(msg.member, 'Special-Grade Shaman') &&
         !roleCheck(msg.member, 'admin')
       ) {
-        msg.delete().catch(console.log);
+        msg.delete().catch(console.error);
         msg.channel
           .reply('Please do not link invites to other servers')
-          .catch(console.log);
+          .catch(console.error);
       }
     }
     //mod response

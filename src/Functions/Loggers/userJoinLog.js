@@ -21,7 +21,7 @@ const userJoinLog = async (mem, logsChannel) => {
       .setFooter(new Date());
 
     //logging
-    logsChannel.send(joinEmbed).catch(console.log);
+    logsChannel.send(joinEmbed).catch(console.error);
   } catch (err) {
     console.log(err);
   }

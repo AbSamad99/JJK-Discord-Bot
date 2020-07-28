@@ -40,13 +40,10 @@ const chapterAnnouncement = async (msg) => {
     }
 
     setTimeout(() => {
-      console.log('Over');
-    }, ms('3s'));
-
-    chapEmbed = new Discord.MessageEmbed()
-      .setTitle(`**__Jujutsu Kaisen chapter ${chapterNumber} is out!__**`)
-      .setDescription(
-        `**Viz Link:-** [Click Here](${vizLink})
+      chapEmbed = new Discord.MessageEmbed()
+        .setTitle(`**__Jujutsu Kaisen chapter ${chapterNumber} is out!__**`)
+        .setDescription(
+          `**Viz Link:-** [Click Here](${vizLink})
     
 **Manga Plus Link:-** [Click Here](${mpLink})
 
@@ -59,34 +56,35 @@ const chapterAnnouncement = async (msg) => {
 \:one: - Awful
 
 `
-      )
-      .setColor(16711680)
-      .setImage(msg.embeds[0].thumbnail.url);
+        )
+        .setColor(16711680)
+        .setImage(msg.embeds[0].thumbnail.url);
 
-    if (!(temp[1] && temp[2] && temp[3])) {
-      msg.channel
-        .send('Please follow the proper syntax of the command')
+      if (!(temp[1] && temp[2] && temp[3])) {
+        msg.channel
+          .send('Please follow the proper syntax of the command')
+          .catch(console.error);
+        return;
+      }
+      if (channelCheck(msg, 'syed-bot-practice')) {
+        announcementChannel = msg.channel;
+      } else if (!channelCheck(msg, 'mod-bots')) {
+        return;
+      }
+      announcementChannel
+        .send(`${mangaNewsRole} chapter ${chapterNumber} is out!`)
+        .then(() => msg.channel.send(chapEmbed))
+        .then((botMsg) => {
+          botMsg.react('5️⃣');
+          botMsg.react('4️⃣');
+          botMsg.react('3️⃣');
+          botMsg.react('2️⃣');
+          botMsg.react('1️⃣');
+        })
+        .then(() => msg.suppressEmbeds())
+        // .then(() => pollAnnouncement(announcementChannel, chapterNumber))
         .catch(console.error);
-      return;
-    }
-    if (channelCheck(msg, 'syed-bot-practice')) {
-      announcementChannel = msg.channel;
-    } else if (!channelCheck(msg, 'mod-bots')) {
-      return;
-    }
-    announcementChannel
-      .send(`${mangaNewsRole} chapter ${chapterNumber} is out!`)
-      .then(() => msg.channel.send(chapEmbed))
-      .then((botMsg) => {
-        botMsg.react('5️⃣');
-        botMsg.react('4️⃣');
-        botMsg.react('3️⃣');
-        botMsg.react('2️⃣');
-        botMsg.react('1️⃣');
-      })
-      .then(() => msg.suppressEmbeds())
-      // .then(() => pollAnnouncement(announcementChannel, chapterNumber))
-      .catch(console.error);
+    }, ms('3s'));
   } catch (err) {
     console.log(err);
   }

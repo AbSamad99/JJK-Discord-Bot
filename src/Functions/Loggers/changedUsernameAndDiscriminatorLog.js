@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //logs username changes
 const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
@@ -13,7 +13,7 @@ const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
     //setting relevant fields
 
     changedUsernameAndDiscriminatorEmbed = new Discord.MessageEmbed()
-      .setAuthor(newMem.user.tag, await checkIfGifOrPng(newMem.user))
+      .setAuthor(newMem.user.tag, await gifOrPngCheck(newMem.user))
       .setColor(3447003)
       .setFooter(new Date());
 

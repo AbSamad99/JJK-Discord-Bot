@@ -1,6 +1,3 @@
-const urlExist = require('url-exist');
-const fs = require('fs');
-
 //checking the channel where message is sent
 const channelCheck = (msg, channelName) => {
   try {

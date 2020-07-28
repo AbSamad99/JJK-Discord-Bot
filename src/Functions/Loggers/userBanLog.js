@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //logs when user is banned from the server
 const userBanLog = async (banAuditLog, msg, logsChannel, toBan, reason) => {
@@ -16,9 +16,9 @@ const userBanLog = async (banAuditLog, msg, logsChannel, toBan, reason) => {
       banEmbed
         .setAuthor(
           banAuditLog.executor.tag,
-          await checkIfGifOrPng(banAuditLog.executor)
+          await gifOrPngCheck(banAuditLog.executor)
         )
-        .setThumbnail(await checkIfGifOrPng(banAuditLog.target))
+        .setThumbnail(await gifOrPngCheck(banAuditLog.target))
         .setDescription(
           `<@${banAuditLog.target.id}> has been Banned from the server.`
         );
@@ -27,8 +27,8 @@ const userBanLog = async (banAuditLog, msg, logsChannel, toBan, reason) => {
       else banEmbed.addField('Reason:', banAuditLog.reason);
     } else {
       banEmbed
-        .setAuthor(msg.author.tag, await checkIfGifOrPng(msg.author))
-        .setThumbnail(await checkIfGifOrPng(toBan.user))
+        .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
+        .setThumbnail(await gifOrPngCheck(toBan.user))
         .setDescription(`<@${toBan.user.id}> has been Banned from the server.`)
         .addField('Reason:', reason);
     }

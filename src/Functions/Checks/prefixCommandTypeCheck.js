@@ -6,14 +6,20 @@ const {
 const {
   chapterAnnouncement,
   pollAnnouncement,
-  botMessageCommand,
+  purgeCommand,
+} = require('../Commands/otherModCommands.js');
+
+const {
   muteCommand,
   kickCommand,
   banCommand,
-  purgeCommand,
   strikeCommand,
+} = require('../Commands/userManagementCommands.js');
+
+const {
   botEmbedMessageCommand,
-} = require('../Commands/modCommands.js');
+  botMessageCommand,
+} = require('../Commands/botMessagingCommands.js');
 
 const {
   encyclopediaLink,

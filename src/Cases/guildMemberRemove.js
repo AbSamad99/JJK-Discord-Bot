@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const UserSchema = require('../Schemas/UserSchema.js');
 
 const {

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //logs nickname addition, change and removal
 const changedNicknameLog = async (newMem, nick, mod) => {
@@ -18,14 +18,14 @@ const changedNicknameLog = async (newMem, nick, mod) => {
 
     //seeing if user edited nickname or a mod
     if (!mod) {
-      authorUrl = await checkIfGifOrPng(newMem.user);
+      authorUrl = await gifOrPngCheck(newMem.user);
       changedNicknameEmbed
         .setAuthor(newMem.user.tag, authorUrl)
         .setThumbnail(authorUrl);
     } else {
       changedNicknameEmbed
-        .setAuthor(mod.tag, await checkIfGifOrPng(mod))
-        .setThumbnail(await checkIfGifOrPng(newMem.user));
+        .setAuthor(mod.tag, await gifOrPngCheck(mod))
+        .setThumbnail(await gifOrPngCheck(newMem.user));
     }
 
     //determining type of nickname edit

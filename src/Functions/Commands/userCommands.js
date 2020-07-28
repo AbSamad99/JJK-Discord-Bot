@@ -1,11 +1,10 @@
 const Discord = require('discord.js');
-const fs = require('fs');
 const ms = require('ms');
 
 const { assignRole, removeRole } = require('../Roles/roleFunctions.js');
 const { lockedRolesCheck } = require('../Checks/miscChecks.js');
 const { channelCheck, roleCheck } = require('../Checks/helperChecks.js');
-const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //assigns character role to a member
 const roleAssignCommand = (msg) => {
@@ -69,7 +68,7 @@ const suggestionCommand = async (msg) => {
       message = `${message} ${temp[index]}`;
     }
     suggestEmbed = new Discord.MessageEmbed()
-      .setAuthor(msg.author.tag, await checkIfGifOrPng(msg.author))
+      .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
       .setTitle('Suggestion')
       .setColor(3447003)
       .setDescription(

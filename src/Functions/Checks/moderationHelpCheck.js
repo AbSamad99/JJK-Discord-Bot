@@ -1,4 +1,4 @@
-const fs = require('fs');
+const urlExist = require('url-exist');
 
 const containsForbiddenLinkCheck = (temp) => {
   if (temp.includes('pornhub.com') || temp.includes('nhentai.net')) {
@@ -18,7 +18,7 @@ const containsInvalidArtLinkCheck = async (link) => {
     link.includes('pixiv.net/') ||
     link.includes('instagram.com/') ||
     link.includes('tumblr.com/') ||
-    (await urlExist(temp[index]))
+    (await urlExist(link))
   )
     return 0;
   else return 1;

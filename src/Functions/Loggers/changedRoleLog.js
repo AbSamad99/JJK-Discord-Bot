@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //logs role addition/removal
 const changedRoleLog = async (newMem, roleLogs, roleId) => {
@@ -13,10 +13,7 @@ const changedRoleLog = async (newMem, roleLogs, roleId) => {
     //getting url
 
     roleEmbed = new Discord.MessageEmbed()
-      .setAuthor(
-        roleLogs.executor.tag,
-        await checkIfGifOrPng(roleLogs.executor)
-      )
+      .setAuthor(roleLogs.executor.tag, await gifOrPngCheck(roleLogs.executor))
       .setColor(3447003)
       .setFooter(new Date());
 

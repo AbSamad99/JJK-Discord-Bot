@@ -1,6 +1,3 @@
-const urlExist = require('url-exist');
-const fs = require('fs');
-
 const ArtSchema = require('../../Schemas/ArtSchema.js');
 
 const {

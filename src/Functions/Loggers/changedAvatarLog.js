@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //logs avatar updates
 const changedAvatarLog = async (newMem, user) => {
@@ -11,12 +11,12 @@ const changedAvatarLog = async (newMem, user) => {
     logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
 
     //setting relevant fields
-    authorUrl = await checkIfGifOrPng(newMem.user);
+    authorUrl = await gifOrPngCheck(newMem.user);
 
     changedAvatarEmbed = new Discord.MessageEmbed()
       .setAuthor(newMem.user.tag, authorUrl)
       .setTitle('Avatar Changed')
-      .setImage(await checkIfGifOrPng(null, user))
+      .setImage(await gifOrPngCheck(null, user))
       .setDescription(
         `<@${newMem.user.id}> has updated their avatar from the one below to the one on the right`
       )

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //logs when user joins the server
 const userJoinLog = async (mem, logsChannel) => {
@@ -8,7 +8,7 @@ const userJoinLog = async (mem, logsChannel) => {
     let joinEmbed, authorUrl;
 
     //setting relevant fields
-    authorUrl = await checkIfGifOrPng(mem.user);
+    authorUrl = await gifOrPngCheck(mem.user);
 
     joinEmbed = new Discord.MessageEmbed()
       .setAuthor(mem.user.tag, authorUrl)

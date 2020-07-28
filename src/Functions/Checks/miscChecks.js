@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const { channelCheck, roleCheck } = require('./helperChecks.js');
 
 const weebCheck = (msg, temp) => {

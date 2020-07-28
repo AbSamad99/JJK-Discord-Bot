@@ -1,5 +1,3 @@
-const fs = require('fs');
-
 const { previousMemberBanLogId } = require('../utilities.js');
 const userBanLog = require('../Functions/Loggers/userBanLog.js');
 

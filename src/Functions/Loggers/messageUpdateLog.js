@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const checkIfGifOrPng = require('../Helpers/checkIfGifOrPng.js');
+const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //logs edited messages
 const editMessageLog = async (oldMsg, newMsg) => {
@@ -12,7 +12,7 @@ const editMessageLog = async (oldMsg, newMsg) => {
 
     //setting the fields
     editEmbed = new Discord.MessageEmbed()
-      .setAuthor(newMsg.author.tag, await checkIfGifOrPng(newMsg.author))
+      .setAuthor(newMsg.author.tag, await gifOrPngCheck(newMsg.author))
       .setTitle(`Message edited in #${newMsg.channel.name}`)
       .setColor(3447003)
       .addField('Before:', oldMsg.content)

@@ -14,7 +14,7 @@ const editMessageLog = async (oldMsg, newMsg) => {
     editEmbed = new Discord.MessageEmbed()
       .setAuthor(newMsg.author.tag, await gifOrPngCheck(newMsg.author))
       .setTitle(`Message edited in #${newMsg.channel.name}`)
-      .setColor(3447003)
+      .setColor(15854089)
       .addField('Before:', oldMsg.content)
       .addField('After:', newMsg.content)
       .setFooter(new Date());

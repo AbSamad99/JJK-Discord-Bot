@@ -9,7 +9,7 @@ const userBanLog = async (banAuditLog, msg, logsChannel, toBan, reason) => {
 
     banEmbed = new Discord.MessageEmbed()
       .setTitle('Member Banned')
-      .setColor(3447003)
+      .setColor(10038562)
       .setFooter(new Date());
 
     if (!msg) {

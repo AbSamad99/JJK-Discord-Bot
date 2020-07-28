@@ -5,16 +5,18 @@ const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 //logs role addition/removal
 const changedRoleLog = async (newMem, roleLogs, roleId) => {
   try {
-    let roleEmbed, logsChannel;
+    let roleEmbed, logsChannel, roleColor;
 
     //selcting the log channel
     logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
 
-    //getting url
+    roleColor = newMem.guild.roles.cache
+      .array()
+      .find((role) => role.id === roleId).color;
 
     roleEmbed = new Discord.MessageEmbed()
       .setAuthor(roleLogs.executor.tag, await gifOrPngCheck(roleLogs.executor))
-      .setColor(3447003)
+      .setColor(roleColor)
       .setFooter(new Date());
 
     //adding fields based on type

@@ -1,7 +1,7 @@
 const urlExist = require('url-exist');
 
 const containsForbiddenLinkCheck = (temp) => {
-  if (temp.includes('pornhub.com') || temp.includes('nhentai.net')) {
+  if (temp.includes('pornhub.com/') || temp.includes('nhentai.net/')) {
     return 1;
   } else return 0;
 };

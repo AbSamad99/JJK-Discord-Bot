@@ -13,7 +13,7 @@ const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
     //setting common fields for both cases
 
     deleteEmbed = new Discord.MessageEmbed()
-      .setColor(3447003)
+      .setColor(15158332)
       .setFooter(new Date())
       .setTitle(`Message deleted in #${msg.channel.name}`);
 

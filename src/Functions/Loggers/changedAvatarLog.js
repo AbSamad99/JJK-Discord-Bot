@@ -20,7 +20,7 @@ const changedAvatarLog = async (newMem, user) => {
       .setDescription(
         `<@${newMem.user.id}> has updated their avatar from the one below to the one on the right`
       )
-      .setColor(3447003)
+      .setColor(15854089)
       .setThumbnail(authorUrl)
       .setFooter(new Date());
 

@@ -19,7 +19,7 @@ const weebResponse = (msg) => {
 
     responseArray = [
       'Weeb',
-      `<:JJKPapawat:${papaWat.id}>`,
+      `${papaWat}`,
       'L',
       'Why are you like this',
       'I wish we still had the cringe role',
@@ -51,13 +51,7 @@ const nfufuResponse = async (msg) => {
       .array()
       .find((emote) => emote.name === 'JJKPapawat');
 
-    responseArray = [
-      'Cringe',
-      'Kokokoko',
-      'L',
-      `<:JJKPapawat:${papaWat.id}>`,
-      'nfufufu',
-    ];
+    responseArray = ['Cringe', 'Kokokoko', 'L', `${papaWat}`, 'nfufufu'];
 
     index = Math.floor(Math.random() * responseArray.length);
 
@@ -88,19 +82,17 @@ const bestModResponse = (msg, temp) => {
 
 const otherSeriesTalkResponse = (msg) => {
   try {
-    let otherSeriesChannel, papaWat, chance;
+    let otherSeriesChannel, papaGameOver, chance;
     otherSeriesChannel = msg.guild.channels.cache
       .array()
       .find((ch) => ch.name === 'other-series');
-    papaWat = msg.guild.emojis.cache
+    papaGameOver = msg.guild.emojis.cache
       .array()
       .find((emote) => emote.name === 'JJKPapaGameOver');
     chance = Math.random() * 100;
     if (chance > 30) {
       msg.channel
-        .send(
-          `Please go to <#${otherSeriesChannel.id}> <:JJKPapaGameOver:${papaWat.id}>`
-        )
+        .send(`Please go to <#${otherSeriesChannel.id}> ${papaGameOver}`)
         .catch(console.error);
     }
   } catch (err) {

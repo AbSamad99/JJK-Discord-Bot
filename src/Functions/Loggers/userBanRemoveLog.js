@@ -15,7 +15,7 @@ const userBanRemoveLog = async (banRemovalAuditLog, modChannel) => {
         await gifOrPngCheck(banRemovalAuditLog.executor)
       )
       .setTitle('Member Unbanned')
-      .setColor(3447003)
+      .setColor(3066993)
       .setThumbnail(await gifOrPngCheck(banRemovalAuditLog.target))
       .setDescription(`<@${banRemovalAuditLog.target.id}> has been Unbanned.`)
       .setFooter(new Date());

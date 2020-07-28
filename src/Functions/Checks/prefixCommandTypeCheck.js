@@ -5,7 +5,6 @@ const {
 
 const {
   chapterAnnouncement,
-  pollAnnouncement,
   purgeCommand,
 } = require('../Commands/otherModCommands.js');
 
@@ -36,30 +35,24 @@ const {
 const artCommandTypeCheck = require('./artCommandTypeCheck.js');
 const { roleCheck, channelCheck } = require('./helperChecks.js');
 const seedUsers = require('../Helpers/seeder.js');
-const { addEmote } = require('../Commands/emoteCommands.js');
+const emoteCommandTypeCheck = require('./emoteCommandTypeCheck.js');
 
 const prefixCommandFunction = (msg, temp) => {
   let keyword = temp.slice(1);
   keyword = keyword.split(' ');
   keyword = keyword[0];
 
-  //poll
-  if (
-    keyword === 'poll' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    pollAnnouncement(msg);
-  }
-
   //chap
-  else if (
+  if (
     keyword === 'chapter' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
     chapterAnnouncement(msg);
-  } else if (keyword === 'seed' && msg.author.id === '390450196711997440') {
+  }
+
+  //seeding the database
+  else if (keyword === 'seed' && msg.author.id === '390450196711997440') {
     seedUsers(msg);
   }
 
@@ -126,13 +119,9 @@ const prefixCommandFunction = (msg, temp) => {
     strikeCommand(msg);
   }
 
-  //addEmote
-  else if (
-    keyword === 'addemote' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    addEmote(msg);
+  //emote check
+  else if (keyword.includes('emote')) {
+    emoteCommandTypeCheck(msg, keyword);
   }
 
   //art check
@@ -141,7 +130,7 @@ const prefixCommandFunction = (msg, temp) => {
   }
 
   // //suggestion command
-  if (keyword.startsWith('suggest')) {
+  else if (keyword.startsWith('suggest')) {
     suggestionCommand(msg);
   }
 

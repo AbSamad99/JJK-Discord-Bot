@@ -189,7 +189,7 @@ const strikeCommand = async (msg) => {
     let strikeEmbed = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
       .setTitle('Strike Issued')
-      .setColor(3447003)
+      .setColor(10038562)
       .setThumbnail(await gifOrPngCheck(toStrike.user))
       .setFooter(new Date());
     //1 strike

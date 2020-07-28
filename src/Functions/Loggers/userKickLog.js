@@ -11,7 +11,7 @@ const userKickLog = async (kickAuditLog, msg, logsChannel, toKick, reason) => {
 
     kickEmbed = new Discord.MessageEmbed()
       .setTitle('Member Kicked')
-      .setColor(3447003)
+      .setColor(10038562)
       .setFooter(new Date());
 
     if (!msg) {

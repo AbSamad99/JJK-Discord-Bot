@@ -14,7 +14,7 @@ const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
 
     changedUsernameAndDiscriminatorEmbed = new Discord.MessageEmbed()
       .setAuthor(newMem.user.tag, await gifOrPngCheck(newMem.user))
-      .setColor(3447003)
+      .setColor(15854089)
       .setFooter(new Date());
 
     //deciding between Username and discriminator logs

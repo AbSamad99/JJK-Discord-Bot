@@ -1,4 +1,6 @@
 const Discord = require('discord.js');
+const ms = require('ms');
+
 const urlExist = require('url-exist');
 
 const { channelCheck } = require('../Checks/helperChecks.js');
@@ -6,17 +8,25 @@ const { channelCheck } = require('../Checks/helperChecks.js');
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
   try {
-    let mangaNewsRole = msg.guild.roles.cache
+    let mangaNewsRole,
+      announcementChannel,
+      temp,
+      chapterNumber,
+      vizLink,
+      mpLink,
+      chapEmbed;
+
+    mangaNewsRole = msg.guild.roles.cache
       .array()
       .find((role) => role.name === 'Manga News');
-    let announcementChannel = msg.guild.channels.cache.find(
+    announcementChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'announcements'
     );
-    let temp = msg.content.slice(1);
+    temp = msg.content.slice(1);
     temp = temp.split(' ');
-    let chapterNumber = temp[1];
-    let vizLink = temp[2];
-    let mpLink = temp[3];
+    chapterNumber = temp[1];
+    vizLink = temp[2];
+    mpLink = temp[3];
 
     if (!(await urlExist(vizLink)) && !(await urlExist(mpLink))) {
       msg.channel.send('Both links are Invalid');
@@ -29,71 +39,54 @@ const chapterAnnouncement = async (msg) => {
       return;
     }
 
-    let replyMessage = `<@&${mangaNewsRole.id}> Chapter ${chapterNumber} is out!
-      
-Viz: ${vizLink}
-          
-Manga Plus: ${mpLink}`;
+    setTimeout(() => {
+      console.log('Over');
+    }, ms('3s'));
 
-    if (temp[1] && temp[2] && temp[3]) {
-      if (channelCheck(msg, 'syed-bot-practice')) {
-        msg.channel.send(replyMessage).catch(console.error);
-      } else if (channelCheck(msg, 'mod-bots')) {
-        announcementChannel.send(replyMessage).catch(console.error);
-      }
-    } else {
+    chapEmbed = new Discord.MessageEmbed()
+      .setTitle(`**__Jujutsu Kaisen chapter ${chapterNumber} is out!__**`)
+      .setDescription(
+        `**Viz Link:-** [Click Here](${vizLink})
+    
+**Manga Plus Link:-** [Click Here](${mpLink})
+
+**__Rate The Chapter:-__**
+
+\:five: - Great
+\:four: - Good
+\:three: - Okay 
+\:two: - Bad
+\:one: - Awful
+
+`
+      )
+      .setColor(16711680)
+      .setImage(msg.embeds[0].thumbnail.url);
+
+    if (!(temp[1] && temp[2] && temp[3])) {
       msg.channel
         .send('Please follow the proper syntax of the command')
         .catch(console.error);
+      return;
     }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
-//command to help with poll announcement
-const pollAnnouncement = (msg) => {
-  try {
-    let announcementChannel = msg.guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'announcements');
-    let temp = msg.content.slice(1);
-    temp = temp.split(' ');
-    let pollNumber = Number(temp[1]);
-    let replyMessage = `<:globe_with_meridians:729386644259471390> Chapter ${pollNumber} rating. <:globe_with_meridians:729386644259471390>
-            
-\:five: Great
-\:four: Good
-\:three: Okay 
-\:two: Bad
-\:one: Awful`;
-    if (pollNumber) {
-      if (channelCheck(msg, 'syed-bot-practice')) {
-        msg.channel
-          .send(replyMessage)
-          .then((botMsg) => {
-            botMsg.react('5️⃣');
-            botMsg.react('4️⃣');
-            botMsg.react('3️⃣');
-            botMsg.react('2️⃣');
-            botMsg.react('1️⃣');
-          })
-          .catch(console.error);
-      } else if (channelCheck(msg, 'mod-bots')) {
-        announcementChannel
-          .send(replyMessage)
-          .then((botMsg) => {
-            botMsg.react('5️⃣');
-            botMsg.react('4️⃣');
-            botMsg.react('3️⃣');
-            botMsg.react('2️⃣');
-            botMsg.react('1️⃣');
-          })
-          .catch(console.error);
-      }
-    } else {
-      msg.channel.send('Please provide a number');
+    if (channelCheck(msg, 'syed-bot-practice')) {
+      announcementChannel = msg.channel;
+    } else if (!channelCheck(msg, 'mod-bots')) {
+      return;
     }
+    announcementChannel
+      .send(`${mangaNewsRole} chapter ${chapterNumber} is out!`)
+      .then(() => msg.channel.send(chapEmbed))
+      .then((botMsg) => {
+        botMsg.react('5️⃣');
+        botMsg.react('4️⃣');
+        botMsg.react('3️⃣');
+        botMsg.react('2️⃣');
+        botMsg.react('1️⃣');
+      })
+      .then(() => msg.suppressEmbeds())
+      // .then(() => pollAnnouncement(announcementChannel, chapterNumber))
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }
@@ -129,7 +122,7 @@ const purgeCommand = (msg) => {
           msg.channel.id
         }>`
       )
-      .setColor(3447003)
+      .setColor(15158332)
       .setFooter(new Date());
     msg.channel
       .bulkDelete(number)
@@ -142,6 +135,5 @@ const purgeCommand = (msg) => {
 
 module.exports = {
   chapterAnnouncement: chapterAnnouncement,
-  pollAnnouncement: pollAnnouncement,
   purgeCommand: purgeCommand,
 };

@@ -10,7 +10,7 @@ const userLeaveLog = async (mem, logsChannel) => {
     leaveEmbed = new Discord.MessageEmbed()
       .setAuthor(mem.user.tag, await gifOrPngCheck(mem.user))
       .setTitle('Member Left')
-      .setColor(3447003)
+      .setColor(10038562)
       .setDescription(`<@${mem.user.id}> has left the server`)
       .setFooter(new Date());
 

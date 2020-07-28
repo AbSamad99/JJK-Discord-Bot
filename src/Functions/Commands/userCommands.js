@@ -70,7 +70,7 @@ const suggestionCommand = async (msg) => {
     suggestEmbed = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
       .setTitle('Suggestion')
-      .setColor(3447003)
+      .setColor(msg.member.displayColor())
       .setDescription(
         `<@${msg.author.id}> has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively`
       )

@@ -13,7 +13,7 @@ const userJoinLog = async (mem, logsChannel) => {
     joinEmbed = new Discord.MessageEmbed()
       .setAuthor(mem.user.tag, authorUrl)
       .setTitle('Member Joined')
-      .setColor(3447003)
+      .setColor(3066993)
       .setThumbnail(authorUrl)
       .setDescription(
         `<@${mem.user.id}> has joined the server. The total number of users is now at ${mem.guild.memberCount}`

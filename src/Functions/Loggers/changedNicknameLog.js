@@ -13,7 +13,7 @@ const changedNicknameLog = async (newMem, nick, mod) => {
     //setting necessary fields
 
     changedNicknameEmbed = new Discord.MessageEmbed()
-      .setColor(3447003)
+      .setColor(15854089)
       .setFooter(new Date());
 
     //seeing if user edited nickname or a mod

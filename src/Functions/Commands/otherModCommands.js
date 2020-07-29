@@ -72,8 +72,9 @@ const chapterAnnouncement = async (msg) => {
         return;
       }
       announcementChannel
-        .send(`${mangaNewsRole} chapter ${chapterNumber} is out!`)
-        .then(() => msg.channel.send(chapEmbed))
+        .send(`${mangaNewsRole}`, {
+          embed: chapEmbed,
+        })
         .then((botMsg) => {
           botMsg.react('5️⃣');
           botMsg.react('4️⃣');
@@ -84,7 +85,7 @@ const chapterAnnouncement = async (msg) => {
         .then(() => msg.suppressEmbeds())
         // .then(() => pollAnnouncement(announcementChannel, chapterNumber))
         .catch(console.error);
-    }, ms('3s'));
+    }, ms('2s'));
   } catch (err) {
     console.log(err);
   }

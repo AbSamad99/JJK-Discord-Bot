@@ -13,10 +13,21 @@ const botMessageCommand = (msg) => {
     temp = temp.split(' ');
     let temp1 = temp.slice(2);
     let message = temp1.join(' ');
-    let messageChannelId = temp[1].slice(2, temp[1].length - 1);
+    let messageChannelId = temp[1].slice(
+      temp[1].indexOf('#') + 1,
+      temp[1].indexOf('>')
+    );
     let messageChannel = msg.guild.channels.cache.find(
       (ch) => ch.id === messageChannelId
     );
+    if (!messageChannel) {
+      msg.channel.send('Please provide a valid channel');
+      return;
+    }
+    if (!message) {
+      msg.channel.send('Please provide message to be sent');
+      return;
+    }
     messageChannel.send(message).catch(console.error);
   } catch (err) {
     console.log(err);
@@ -32,15 +43,20 @@ const botEmbedMessageCommand = async (msg) => {
       messageChannelId,
       messageChannel,
       tempArray,
+      serverEventsRole,
+      type,
       title,
       desc,
       thumbnail,
-      field1,
-      field2,
+      fields,
       image;
 
     modBotChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'mod-bots'
+    );
+
+    serverEventsRole = msg.guild.roles.cache.find(
+      (role) => role.name === 'Server Events'
     );
 
     embeddedMessage = new Discord.MessageEmbed();
@@ -48,7 +64,10 @@ const botEmbedMessageCommand = async (msg) => {
     if (msg.channel.id !== modBotChannel.id) return;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
-    messageChannelId = temp[1].slice(2, temp[1].length - 1);
+    messageChannelId = temp[1].slice(
+      temp[1].indexOf('#') + 1,
+      temp[1].indexOf('>')
+    );
 
     messageChannel = msg.guild.channels.cache.find(
       (ch) => ch.id === messageChannelId
@@ -57,27 +76,28 @@ const botEmbedMessageCommand = async (msg) => {
       msg.channel.send('Invalid Channel');
       return;
     }
-    tempArray = msg.content.split('>');
+    tempArray = msg.content.split('[');
     tempArray.splice(0, 1);
-    for (let i = 1; i < tempArray.length - 1; i++) {
-      tempArray[i] = tempArray[i].slice(0, tempArray[i].length - 2);
+    for (let i = 0; i < tempArray.length; i++) {
+      tempArray[i] = tempArray[i].slice(0, tempArray[i].indexOf(']'));
     }
+
+    type = tempArray[0].split('::');
     title = tempArray[1].split('::');
     desc = tempArray[2].split('::');
     thumbnail = tempArray[3].split('::');
-    field1 = tempArray[4].split('::');
-    field2 = tempArray[5].split('::');
-    image = tempArray[6].split('::');
+    fields = tempArray[4].split('::');
+    image = tempArray[5].split('::');
 
     if (
+      type[0].toLowerCase() !== 'type' ||
       title[0].toLowerCase() !== 'title' ||
       desc[0].toLowerCase() !== 'description' ||
       thumbnail[0].toLowerCase() !== 'thumbnail' ||
-      field1[0].toLowerCase() !== 'field1' ||
-      field2[0].toLowerCase() !== 'field2' ||
+      fields[0].toLowerCase() !== 'fields' ||
       image[0].toLowerCase() !== 'image'
     ) {
-      console.log(
+      msg.channel.send(
         'Invalid format, please follow the proper syntax of the command'
       );
       return;
@@ -93,14 +113,15 @@ const botEmbedMessageCommand = async (msg) => {
       embeddedMessage.setThumbnail(thumbnail[1]);
     }
 
-    if (field1[1].toLowerCase() !== 'null') {
-      field1 = field1[1].split(',,');
-      embeddedMessage.addField(field1[0], field1[1]);
-    }
-
-    if (field2[1].toLowerCase() !== 'null') {
-      field2 = field2[1].split(',,');
-      embeddedMessage.addField(field2[0], field2[1]);
+    if (fields[1].toLowerCase() !== 'null') {
+      fields = fields[1].split('{');
+      fields.splice(0, 1);
+      fields.forEach((field) => {
+        field = field.slice(0, field.indexOf('}'));
+        field = field.split('--');
+        embeddedMessage.addField(field[0], field[1]);
+      });
+      console.log(fields);
     }
 
     if (image[1].toLowerCase() !== 'null') {
@@ -109,7 +130,13 @@ const botEmbedMessageCommand = async (msg) => {
       embeddedMessage.setImage(msg.attachments.array()[0].url);
     }
 
-    messageChannel.send(embeddedMessage).catch(console.error);
+    if (type[1].toLowerCase() === 'general') {
+      messageChannel.send(embeddedMessage).catch(console.error);
+    } else if (type[1].toLowerCase() === 'announcement') {
+      messageChannel.send(`@everyone`, { embed: embeddedMessage });
+    } else if (type[1].toLowerCase() === 'server event') {
+      messageChannel.send(`${serverEventsRole}`, { embed: embeddedMessage });
+    }
   } catch (err) {
     console.log(err);
   }

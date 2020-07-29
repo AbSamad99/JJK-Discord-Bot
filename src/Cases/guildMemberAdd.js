@@ -21,7 +21,7 @@ const guildMemberAddCaseHandler = async (mem) => {
     rulesChannel = channelArray.find((ch) => ch.name === 'rules');
     infoChannel = channelArray.find((ch) => ch.name === 'information');
 
-    message = `<@${mem.user.id}> has joined the server! Please read the <#${rulesChannel.id}> and check out <#${infoChannel.id}> to receive roles to access certain channels.`;
+    message = `<@${mem.user.id}> has joined the server!`;
 
     messageEmbed = new Discord.MessageEmbed()
       .setTitle('Welcome to the Jujutsu Kaisen Discord server!')
@@ -32,10 +32,7 @@ const guildMemberAddCaseHandler = async (mem) => {
         'https://images-ext-2.discordapp.net/external/J_QQ3j5Q70yAN5B9ovsyqCasjsSKZvpTkwmJaWyrduk/%3Fv%3D1/https/cdn.discordapp.com/emojis/586696010978557953.png?width=80&height=80'
       );
 
-    welcomeChannel
-      .send(message)
-      .then(() => welcomeChannel.send(messageEmbed))
-      .catch(console.error);
+    welcomeChannel.send(message, { embed: messageEmbed }).catch(console.error);
 
     userJoinLog(mem, logsChannel);
 

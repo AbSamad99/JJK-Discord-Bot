@@ -121,7 +121,6 @@ const botEmbedMessageCommand = async (msg) => {
         field = field.split('--');
         embeddedMessage.addField(field[0], field[1]);
       });
-      console.log(fields);
     }
 
     if (image[1].toLowerCase() !== 'null') {

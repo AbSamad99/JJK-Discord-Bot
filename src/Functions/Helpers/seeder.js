@@ -15,6 +15,7 @@ const seedUsers = async (msg) => {
       });
     });
     await UserSchema.create(tempArray).catch(console.error);
+    console.log('complete');
   } catch (err) {
     console.log(err);
   }

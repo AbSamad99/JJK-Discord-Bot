@@ -45,7 +45,7 @@ const roleAssignCommand = (msg) => {
 //makes a suggestion embed-user
 const suggestionCommand = async (msg) => {
   try {
-    let suggestEmbed, temp, message, index, authorUrl;
+    let suggestEmbed, temp, message, index;
 
     if (
       !channelCheck(msg, 'server-suggestions') &&
@@ -53,9 +53,10 @@ const suggestionCommand = async (msg) => {
       !roleCheck(msg.member, 'admin')
     )
       return;
+
     temp = msg.content.slice(1);
     temp = temp.split(' ');
-    if (!temp[1]) {
+    if (temp.length < 2) {
       msg.channel.send(`Provide an input`);
       return;
     }
@@ -70,7 +71,7 @@ const suggestionCommand = async (msg) => {
     suggestEmbed = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
       .setTitle('Suggestion')
-      .setColor(msg.member.displayColor())
+      .setColor(msg.member.displayColor)
       .setDescription(
         `<@${msg.author.id}> has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively`
       )

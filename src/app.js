@@ -65,6 +65,25 @@ client.on('guildMemberRemove', (mem) => {
 
 client.on('guildBanRemove', (guild, mem) => {
   guildBanRemoveCaseHandler(guild, mem);
+  // let x = await guild
+  //   .fetchAuditLogs({
+  //     type: 'CHANNEL_OVERWRITE_UPDATE',
+  //   })
+  //   .then((audit) => audit.entries.first());
+  // x.changes;
 });
+
+// client.on('channelUpdate', async (oldChannel, newChannel) => {
+//   let x = await newChannel.guild
+//     .fetchAuditLogs({
+//       type: 'CHANNEL_OVERWRITE_UPDATE',
+//       limit: 1,
+//     })
+//     .then((audit) => audit.entries.first());
+
+//   console.log(x.changes);
+//   console.log(oldChannel.permissionOverwrites.array()[3].deny.toArray());
+//   console.log(newChannel.permissionOverwrites.array()[3].deny.toArray());
+// });
 
 client.login(process.env.token);

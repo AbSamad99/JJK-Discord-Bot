@@ -26,8 +26,8 @@ const { roleCheck } = require('../Functions/Checks/helperChecks.js');
 const messageCaseHandler = (msg) => {
   try {
     let temp = msg.content.toLowerCase();
-    //checks from commannd
-    if (msg.content.startsWith(prefix)) {
+    //checks from command
+    if (temp.startsWith(prefix)) {
       prefixCommandFunction(msg, temp);
     }
     //checks if the image or link provided contains nsfw content

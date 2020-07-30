@@ -7,6 +7,7 @@ const {
 
 const userKickLog = require('../Functions/Loggers/userKickLog.js');
 const userLeaveLog = require('../Functions/Loggers/userLeaveLog.js');
+const userBanLog = require('../Functions/Loggers/userBanLog.js');
 
 const guildMemberRemoveCaseHandler = async (mem) => {
   try {
@@ -34,11 +35,16 @@ const guildMemberRemoveCaseHandler = async (mem) => {
       if (theHonoredOne.id === kickAuditLog.executor.id) {
         return;
       } else {
-        await userKickLog(kickAuditLog, null, logsChannel);
+        await userKickLog(kickAuditLog, mem, null, logsChannel);
       }
       previousMemberKickLogId[0] = kickAuditLog.id;
     } else if (previousMemberBanLogId[0] !== banAuditLog.id) {
-      return;
+      if (theHonoredOne.id === banAuditLog.executor.id) {
+        return;
+      } else {
+        await userBanLog(banAuditLog, mem, null, logsChannel);
+      }
+      previousMemberBanLogId[0] = banAuditLog.id;
     } else {
       await userLeaveLog(mem, logsChannel);
     }

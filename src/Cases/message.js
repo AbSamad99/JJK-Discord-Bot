@@ -1,3 +1,4 @@
+// const urlExist = require('url-exist');
 const { prefix } = require('../utilities.js');
 
 const {
@@ -20,6 +21,7 @@ const {
   otherSeriesTalkCheck,
 } = require('../Functions/Checks/miscChecks.js');
 const { roleCheck } = require('../Functions/Checks/helperChecks.js');
+// const nsfwCheck = require('../Functions/Checks/nsfwCheck.js');
 
 const messageCaseHandler = (msg) => {
   try {
@@ -28,6 +30,31 @@ const messageCaseHandler = (msg) => {
     if (msg.content.startsWith(prefix)) {
       prefixCommandFunction(msg, temp);
     }
+    //checks if the image or link provided contains nsfw content
+    // if (
+    //   (await urlExist(msg.content)) &&
+    //   (msg.content.includes('png') ||
+    //     msg.content.includes('jpg') ||
+    //     msg.content.includes('jpeg') ||
+    //     msg.content.includes('gif'))
+    // ) {
+    //   try {
+    //     console.log('1');
+    //     if (await nsfwCheck(msg.content)) {
+    //       msg.delete();
+    //     }
+    //   } catch (err) {
+    //     console.error(err);
+    //   }
+    // } else if (msg.attachments.array().length) {
+    //   console.log('2');
+    //   msg.attachments.array().forEach(async (attch) => {
+    //     if (await nsfwCheck(attch.url)) {
+    //       msg.delete();
+    //     }
+    //   });
+    // }
+
     //checks if it contains a forbidden link
     if (containsForbiddenLinkCheck(temp)) {
       msg.delete().catch(console.error);

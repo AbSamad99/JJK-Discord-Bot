@@ -6,7 +6,7 @@ const userJoinLog = require('../Functions//Loggers/userJoinLog.js');
 
 const guildMemberAddCaseHandler = async (mem) => {
   try {
-    const channelArray = mem.guild.channels.cache.array();
+    const channelArray = mem.guild.channels.cache;
 
     let welcomeChannel,
       user,

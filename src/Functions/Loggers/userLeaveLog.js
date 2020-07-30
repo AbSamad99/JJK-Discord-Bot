@@ -14,10 +14,10 @@ const userLeaveLog = async (mem, logsChannel) => {
       .setDescription(`<@${mem.user.id}> has left the server`)
       .setFooter(new Date());
 
-    if (mem.roles.cache.array().length) {
+    if (mem._roles.length) {
       roles = ``;
-      mem.roles.cache.array().forEach((role) => {
-        roles = `${roles} <@&${role.id}>`;
+      mem._roles.forEach((roleId) => {
+        roles = `${roles} <@&${roleId}>`;
       });
       leaveEmbed.addField('Roles', roles);
     }

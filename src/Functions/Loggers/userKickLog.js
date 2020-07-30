@@ -3,9 +3,16 @@ const Discord = require('discord.js');
 const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
 //logs when user is kicked from the server
-const userKickLog = async (kickAuditLog, msg, logsChannel, toKick, reason) => {
+const userKickLog = async (
+  kickAuditLog,
+  mem,
+  msg,
+  logsChannel,
+  toKick,
+  reason
+) => {
   try {
-    let kickEmbed;
+    let kickEmbed, roles, temp;
 
     //setting relevant fields
 
@@ -13,6 +20,8 @@ const userKickLog = async (kickAuditLog, msg, logsChannel, toKick, reason) => {
       .setTitle('Member Kicked')
       .setColor(10038562)
       .setFooter(new Date());
+
+    roles = ``;
 
     if (!msg) {
       kickEmbed
@@ -24,15 +33,31 @@ const userKickLog = async (kickAuditLog, msg, logsChannel, toKick, reason) => {
         .setDescription(
           `<@${kickAuditLog.target.id}> has been kicked from the server.`
         );
+
       if (!kickAuditLog.reason)
         kickEmbed.addField('Reason:', 'No reason was provided');
       else kickEmbed.addField('Reason', kickAuditLog.reason);
+
+      if (mem._roles.length) {
+        console.log(mem._roles);
+        mem._roles.forEach((roleId) => {
+          roles = `${roles} <@&${roleId}>`;
+        });
+        kickEmbed.addField('Roles', roles);
+      }
     } else {
       kickEmbed
         .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
         .setThumbnail(await gifOrPngCheck(toKick.user))
         .setDescription(`<@${toKick.user.id}> has been kicked from the server.`)
         .addField('Reason:', reason);
+
+      if (toKick._roles.length) {
+        toKick._roles.forEach((roleId) => {
+          roles = `${roles} <@&${roleId}>`;
+        });
+        kickEmbed.addField('Roles', roles);
+      }
     }
 
     //logging

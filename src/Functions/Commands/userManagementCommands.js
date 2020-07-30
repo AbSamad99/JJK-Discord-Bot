@@ -89,7 +89,7 @@ const kickCommand = (msg) => {
     toKick
       .kick(reason)
       .then(() => {
-        userKickLog(null, msg, logsChannel, toKick, reason);
+        userKickLog(null, null, msg, logsChannel, toKick, reason);
       })
       .catch(console.error);
   } catch (err) {
@@ -128,7 +128,7 @@ const banCommand = (msg) => {
     toBan
       .ban({ reason: reason })
       .then(() => {
-        userBanLog(null, msg, logsChannel, toBan, reason);
+        userBanLog(null, null, msg, logsChannel, toBan, reason);
       })
       .catch(console.error);
   } catch (err) {

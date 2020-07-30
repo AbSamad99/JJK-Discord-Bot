@@ -66,7 +66,7 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         return;
       }
       //manual mute case
-      await changedRoleLog(newMem, roleLogs, role.new[0].id);
+      await changedRoleLog(newMem, roleLogs);
       previousMemberRoleUpdateLogId[0] = roleLogs.id;
     }
     //checking if username was changed

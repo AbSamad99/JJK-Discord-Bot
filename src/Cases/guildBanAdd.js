@@ -7,7 +7,7 @@ const guildBanAddCaseHandler = async (guild, mem) => {
   try {
     let theHonoredOne, banAuditLog, logsChannel;
 
-    logsChannel = guild.channels.cache.array().find((ch) => ch.name === 'logs');
+    logsChannel = guild.channels.cache.find((ch) => ch.name === 'logs');
 
     theHonoredOne = await UserSchema.findOne({ id: '730109162616389644' });
 
@@ -17,11 +17,13 @@ const guildBanAddCaseHandler = async (guild, mem) => {
       })
       .then((audit) => audit.entries.first());
 
+    console.log(banAuditLog.target);
+
     if (previousMemberBanLogId[0] !== banAuditLog.id) {
       if (theHonoredOne.id === banAuditLog.executor.id) {
         return;
       } else {
-        await userBanLog(banAuditLog, null, logsChannel);
+        await userBanLog(banAuditLog, mem, null, logsChannel);
       }
       previousMemberBanLogId[0] = banAuditLog.id;
     }

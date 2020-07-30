@@ -1,5 +1,7 @@
 const Discord = require('discord.js');
 const dotenv = require('dotenv');
+
+//config the env variables
 dotenv.config();
 
 const connectDB = require('./config/db.js');
@@ -57,9 +59,9 @@ client.on('guildMemberRemove', (mem) => {
   guildMemberRemoveCaseHandler(mem);
 });
 
-client.on('guildBanAdd', (guild, mem) => {
-  guildBanAddCaseHandler(guild, mem);
-});
+// client.on('guildBanAdd', (guild, mem) => {
+//   guildBanAddCaseHandler(guild, mem);
+// });
 
 client.on('guildBanRemove', (guild, mem) => {
   guildBanRemoveCaseHandler(guild, mem);

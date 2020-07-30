@@ -4,7 +4,7 @@ const seedUsers = async (msg) => {
   try {
     await UserSchema.deleteMany();
     let tempArray = [];
-    msg.guild.members.cache.array().forEach((member) => {
+    msg.guild.members.cache.forEach((member) => {
       tempArray.push({
         name: member.user.username,
         id: member.user.id,

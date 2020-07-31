@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 //logs avatar updates
 const changedAvatarLog = async (newMem, user) => {
@@ -15,10 +15,10 @@ const changedAvatarLog = async (newMem, user) => {
 
     changedAvatarEmbed = new Discord.MessageEmbed()
       .setAuthor(newMem.user.tag, authorUrl)
-      .setTitle('Avatar Changed')
+      .setTitle('Avatar changed')
       .setImage(await gifOrPngCheck(null, user))
       .setDescription(
-        `<@${newMem.user.id}> has updated their avatar from the one below to the one on the right`
+        `${newMem.user} has updated their avatar from the one below to the one on the right`
       )
       .setColor(15854089)
       .setThumbnail(authorUrl)

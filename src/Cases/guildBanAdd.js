@@ -1,5 +1,5 @@
 const { previousMemberBanLogId } = require('../utilities.js');
-const userBanLog = require('../Functions/Loggers/userBanLog.js');
+const userBanLog = require('../Functions/Loggers/User_logs/userBanLog.js');
 
 const UserSchema = require('../Schemas/UserSchema.js');
 

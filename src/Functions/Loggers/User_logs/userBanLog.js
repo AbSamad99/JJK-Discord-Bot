@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 //logs when user is banned from the server
 const userBanLog = async (
@@ -15,7 +15,7 @@ const userBanLog = async (
     let banEmbed, roles;
 
     banEmbed = new Discord.MessageEmbed()
-      .setTitle('Member Banned')
+      .setTitle('Member banned')
       .setColor(10038562)
       .setFooter(new Date());
 
@@ -29,7 +29,7 @@ const userBanLog = async (
         )
         .setThumbnail(await gifOrPngCheck(banAuditLog.target))
         .setDescription(
-          `<@${banAuditLog.target.id}> has been Banned from the server.`
+          `${banAuditLog.target} has been Banned from the server.`
         );
 
       if (!banAuditLog.reason)
@@ -47,7 +47,7 @@ const userBanLog = async (
       banEmbed
         .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
         .setThumbnail(await gifOrPngCheck(toBan.user))
-        .setDescription(`<@${toBan.user.id}> has been Banned from the server.`)
+        .setDescription(`${toBan.user} has been Banned from the server.`)
         .addField('Reason:', reason);
 
       if (toBan._roles.length) {

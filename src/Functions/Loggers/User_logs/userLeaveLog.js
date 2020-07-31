@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 const userLeaveLog = async (mem, logsChannel) => {
   try {
@@ -9,9 +9,9 @@ const userLeaveLog = async (mem, logsChannel) => {
     //setting relevant fields
     leaveEmbed = new Discord.MessageEmbed()
       .setAuthor(mem.user.tag, await gifOrPngCheck(mem.user))
-      .setTitle('Member Left')
+      .setTitle('Member left')
       .setColor(10038562)
-      .setDescription(`<@${mem.user.id}> has left the server`)
+      .setDescription(`${mem.user} has left the server`)
       .setFooter(new Date());
 
     if (mem._roles.length) {

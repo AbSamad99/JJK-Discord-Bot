@@ -21,9 +21,9 @@ const roleAssignCommand = (msg) => {
       msg.channel.send('Please specify a character name');
       return;
     }
-    desiredRole = msg.guild.roles.cache
-      .array()
-      .find((role) => role.name.toLowerCase() === temp[1].toLowerCase());
+    desiredRole = msg.guild.roles.cache.find(
+      (role) => role.name.toLowerCase() === temp[1].toLowerCase()
+    );
     if (!desiredRole) {
       msg.channel.send('Please specify a valid character name');
       return;
@@ -73,7 +73,7 @@ const suggestionCommand = async (msg) => {
       .setTitle('Suggestion')
       .setColor(msg.member.displayColor)
       .setDescription(
-        `<@${msg.author.id}> has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively`
+        `${msg.author} has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively`
       )
       .addField('Suggestion', message)
       .setFooter(new Date());

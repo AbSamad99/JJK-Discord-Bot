@@ -1,4 +1,4 @@
-const deleteMessageAndAttachmentLog = require('../Functions/Loggers/messageDeleteLog');
+const deleteMessageAndAttachmentLog = require('../Functions/Loggers/Message_logs/messageDeleteLog');
 
 const messageBulkDeleteCaseHandler = async (msgs) => {
   try {

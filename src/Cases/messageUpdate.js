@@ -1,6 +1,6 @@
 const UserSchema = require('../Schemas/UserSchema.js');
 
-const editMessageLog = require('../Functions//Loggers/messageUpdateLog.js');
+const messageUpdatedLog = require('../Functions/Loggers/Message_logs/messageUpdateLog.js');
 
 const messageUpdateCaseHandler = async (oldMsg, newMsg) => {
   try {
@@ -10,7 +10,7 @@ const messageUpdateCaseHandler = async (oldMsg, newMsg) => {
       newMsg.author.id !== honoredOne.id &&
       oldMsg.content !== newMsg.content
     ) {
-      await editMessageLog(oldMsg, newMsg);
+      await messageUpdatedLog(oldMsg, newMsg);
     }
   } catch (err) {
     console.log(err);

@@ -1,9 +1,9 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 //logs edited messages
-const editMessageLog = async (oldMsg, newMsg) => {
+const messageUpdatedLog = async (oldMsg, newMsg) => {
   try {
     let editEmbed, logsChannel;
 
@@ -26,4 +26,4 @@ const editMessageLog = async (oldMsg, newMsg) => {
   }
 };
 
-module.exports = editMessageLog;
+module.exports = messageUpdatedLog;

@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 //logs when user joins the server
 const userJoinLog = async (mem, logsChannel) => {
@@ -12,11 +12,11 @@ const userJoinLog = async (mem, logsChannel) => {
 
     joinEmbed = new Discord.MessageEmbed()
       .setAuthor(mem.user.tag, authorUrl)
-      .setTitle('Member Joined')
+      .setTitle('Member joined')
       .setColor(3066993)
       .setThumbnail(authorUrl)
       .setDescription(
-        `<@${mem.user.id}> has joined the server. The total number of users is now at ${mem.guild.memberCount}`
+        `${mem.user} has joined the server. The total number of users is now at ${mem.guild.memberCount}`
       )
       .setFooter(new Date());
 

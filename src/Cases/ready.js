@@ -1,21 +1,11 @@
 const {
-  fetchMemberRoleUpdateLogId,
-  fetchMemberUpdateLogId,
-  fetchMessageDeleteLogIdAndCount,
-  fetchMemberKickLogId,
-  fetchMemberBanLogId,
-  fetchMemberBanRemoveLogId,
+  fetchAuditLogIdAndCount,
 } = require('../Functions/Helpers/fetchFunctions.js');
 
 const readyCaseHandler = async (client) => {
   try {
     console.log(`Logged in as The Honored One`);
-    fetchMemberRoleUpdateLogId(client);
-    fetchMemberUpdateLogId(client);
-    fetchMessageDeleteLogIdAndCount(client);
-    fetchMemberKickLogId(client);
-    fetchMemberBanLogId(client);
-    fetchMemberBanRemoveLogId(client);
+    fetchAuditLogIdAndCount(client);
   } catch (err) {
     console.log(err);
   }

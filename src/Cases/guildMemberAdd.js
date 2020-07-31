@@ -2,7 +2,7 @@ const Discord = require('discord.js');
 
 const UserSchema = require('../Schemas/UserSchema.js');
 
-const userJoinLog = require('../Functions//Loggers/userJoinLog.js');
+const userJoinLog = require('../Functions/Loggers/User_logs/userJoinLog.js');
 
 const guildMemberAddCaseHandler = async (mem) => {
   try {
@@ -21,10 +21,10 @@ const guildMemberAddCaseHandler = async (mem) => {
     rulesChannel = channelArray.find((ch) => ch.name === 'rules');
     infoChannel = channelArray.find((ch) => ch.name === 'information');
 
-    message = `<@${mem.user.id}> has joined the server!`;
+    message = `${mem.user} has joined the server!`;
 
     messageEmbed = new Discord.MessageEmbed()
-      .setTitle('Welcome to the Jujutsu Kaisen Discord server!')
+      .setTitle('Welcome to the Jujutsu Kaisen discord server!')
       .setDescription(
         `Please read the <#${rulesChannel.id}> and check out <#${infoChannel.id}> to receive roles to access certain channels.`
       )

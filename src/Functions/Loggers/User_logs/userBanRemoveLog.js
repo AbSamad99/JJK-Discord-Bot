@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 //logs when user is banned from the server
 const userBanRemoveLog = async (banRemovalAuditLog, modChannel) => {
@@ -14,10 +14,10 @@ const userBanRemoveLog = async (banRemovalAuditLog, modChannel) => {
         banRemovalAuditLog.executor.tag,
         await gifOrPngCheck(banRemovalAuditLog.executor)
       )
-      .setTitle('Member Unbanned')
+      .setTitle('Member unbanned')
       .setColor(3066993)
       .setThumbnail(await gifOrPngCheck(banRemovalAuditLog.target))
-      .setDescription(`<@${banRemovalAuditLog.target.id}> has been Unbanned.`)
+      .setDescription(`${banRemovalAuditLog.target} has been unbanned.`)
       .setFooter(new Date());
 
     //logging

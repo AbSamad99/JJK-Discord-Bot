@@ -17,9 +17,9 @@ const channelCheck = (msg, channelName) => {
 //checking if user has a role
 const roleCheck = (user, roleName) => {
   try {
-    const requiredRole = user.guild.roles.cache
-      .array()
-      .find((role) => role.name === roleName);
+    const requiredRole = user.guild.roles.cache.find(
+      (role) => role.name === roleName
+    );
     if (!requiredRole) return 0;
     if (user.roles.cache.has(requiredRole.id)) return 1;
     else return 0;

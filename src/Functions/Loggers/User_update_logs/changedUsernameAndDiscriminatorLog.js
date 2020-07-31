@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 //logs username changes
 const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
@@ -20,14 +20,14 @@ const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
     //deciding between Username and discriminator logs
     if (type === 'username') {
       changedUsernameAndDiscriminatorEmbed
-        .setTitle('Username Changed')
-        .setDescription(`<@${newMem.user.id}> has changed their username`)
+        .setTitle('Username changed')
+        .setDescription(`${newMem.user} has changed their username`)
         .addField('Before:', user.name)
         .addField('After:', newMem.user.username);
     } else if (type === 'discriminator') {
       changedUsernameAndDiscriminatorEmbed
-        .setTitle('Discriminator Changed')
-        .setDescription(`<@${newMem.user.id}> has changed their discriminator`)
+        .setTitle('Discriminator changed')
+        .setDescription(`${newMem.user} has changed their discriminator`)
         .addField('Before:', user.discriminator)
         .addField('After:', newMem.user.discriminator);
     }

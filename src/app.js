@@ -22,6 +22,7 @@ const guildMemberRemoveCaseHandler = require('./Cases/guildMemberRemove.js');
 const guildBanAddCaseHandler = require('./Cases/guildBanAdd.js');
 const guildBanRemoveCaseHandler = require('./Cases/guildBanRemove.js');
 const messageBulkDeleteCaseHandler = require('./Cases/messageBulkDelete.js');
+const channelUpdateCaseHandler = require('./Cases/channelUpdate.js');
 
 client.on('ready', async () => {
   await client.user.setStatus('online');
@@ -65,25 +66,10 @@ client.on('guildMemberRemove', (mem) => {
 
 client.on('guildBanRemove', (guild, mem) => {
   guildBanRemoveCaseHandler(guild, mem);
-  // let x = await guild
-  //   .fetchAuditLogs({
-  //     type: 'CHANNEL_OVERWRITE_UPDATE',
-  //   })
-  //   .then((audit) => audit.entries.first());
-  // x.changes;
 });
 
-// client.on('channelUpdate', async (oldChannel, newChannel) => {
-//   let x = await newChannel.guild
-//     .fetchAuditLogs({
-//       type: 'CHANNEL_OVERWRITE_UPDATE',
-//       limit: 1,
-//     })
-//     .then((audit) => audit.entries.first());
-
-//   console.log(x.changes);
-//   console.log(oldChannel.permissionOverwrites.array()[3].deny.toArray());
-//   console.log(newChannel.permissionOverwrites.array()[3].deny.toArray());
-// });
+client.on('channelUpdate', async (oldChannel, newChannel) => {
+  channelUpdateCaseHandler(oldChannel, newChannel);
+});
 
 client.login(process.env.token);

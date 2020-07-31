@@ -13,9 +13,9 @@ const weebResponse = (msg) => {
 
     let responseArray, papaWat, index;
 
-    papaWat = msg.guild.emojis.cache
-      .array()
-      .find((emote) => emote.name === 'JJKPapawat');
+    papaWat = msg.guild.emojis.cache.find(
+      (emote) => emote.name === 'JJKPapawat'
+    );
 
     responseArray = [
       'Weeb',
@@ -47,9 +47,9 @@ const nfufuResponse = async (msg) => {
     honoredOne = await UserSchema.findOne({ id: '730109162616389644' });
     if (honoredOne.id === msg.author.id) return;
 
-    papaWat = msg.guild.emojis.cache
-      .array()
-      .find((emote) => emote.name === 'JJKPapawat');
+    papaWat = msg.guild.emojis.cache.find(
+      (emote) => emote.name === 'JJKPapawat'
+    );
 
     responseArray = ['Cringe', 'Kokokoko', 'L', `${papaWat}`, 'nfufufu'];
 
@@ -83,12 +83,12 @@ const bestModResponse = (msg, temp) => {
 const otherSeriesTalkResponse = (msg) => {
   try {
     let otherSeriesChannel, papaGameOver, chance;
-    otherSeriesChannel = msg.guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'other-series');
-    papaGameOver = msg.guild.emojis.cache
-      .array()
-      .find((emote) => emote.name === 'JJKPapaGameOver');
+    otherSeriesChannel = msg.guild.channels.cache.find(
+      (ch) => ch.name === 'other-series'
+    );
+    papaGameOver = msg.guild.emojis.cache.find(
+      (emote) => emote.name === 'JJKPapaGameOver'
+    );
     chance = Math.random() * 100;
     if (chance > 30) {
       msg.channel

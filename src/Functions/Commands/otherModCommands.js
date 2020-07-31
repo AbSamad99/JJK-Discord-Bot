@@ -16,9 +16,9 @@ const chapterAnnouncement = async (msg) => {
       mpLink,
       chapEmbed;
 
-    mangaNewsRole = msg.guild.roles.cache
-      .array()
-      .find((role) => role.name === 'Manga News');
+    mangaNewsRole = msg.guild.roles.cache.find(
+      (role) => role.name === 'Manga News'
+    );
     announcementChannel = msg.guild.channels.cache.find(
       (ch) => ch.name === 'announcements'
     );
@@ -95,9 +95,7 @@ const chapterAnnouncement = async (msg) => {
 const purgeCommand = (msg) => {
   try {
     let temp, number, logsChannel;
-    logsChannel = msg.guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'logs');
+    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
     temp = msg.content.slice(1);
     temp = temp.split(' ');
     number = parseInt(temp[1]);
@@ -117,7 +115,7 @@ const purgeCommand = (msg) => {
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
       .setTitle('Messages purged')
       .setDescription(
-        `<@${msg.author.id}> has purged ${number - 1} messages in <#${
+        `${msg.author} has purged ${number - 1} messages in <#${
           msg.channel.id
         }>`
       )

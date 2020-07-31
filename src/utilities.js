@@ -14,6 +14,8 @@ const previousMemberBanLogId = [];
 
 const previousMemberBanRemoveLogId = [];
 
+const previousChannelUpdateLogId = [];
+
 module.exports = {
   prefix: prefix,
   previousDeleteLogId: previousDeleteLogId,
@@ -23,4 +25,5 @@ module.exports = {
   previousMemberKickLogId: previousMemberKickLogId,
   previousMemberBanLogId: previousMemberBanLogId,
   previousMemberBanRemoveLogId: previousMemberBanRemoveLogId,
+  previousChannelUpdateLogId: previousChannelUpdateLogId,
 };

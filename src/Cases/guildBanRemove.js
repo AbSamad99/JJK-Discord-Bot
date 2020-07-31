@@ -1,6 +1,6 @@
 const { previousMemberBanRemoveLogId } = require('../utilities.js');
 
-const userBanRemoveLog = require('../Functions/Loggers/userBanRemoveLog.js');
+const userBanRemoveLog = require('../Functions/Loggers/User_logs/userBanRemoveLog.js');
 
 const guildBanRemoveCaseHandler = async (guild, mem) => {
   try {

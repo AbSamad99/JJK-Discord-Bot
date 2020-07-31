@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 //logs role addition/removal
 const changedRoleLog = async (newMem, roleLogs) => {
@@ -10,9 +10,9 @@ const changedRoleLog = async (newMem, roleLogs) => {
     //selcting the log channel
     logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
 
-    roleColor = newMem.guild.roles.cache
-      .array()
-      .find((role) => role.id === roleLogs.changes[0].new[0].id).color;
+    roleColor = newMem.guild.roles.cache.find(
+      (role) => role.id === roleLogs.changes[0].new[0].id
+    ).color;
 
     roles = ``;
 
@@ -28,12 +28,12 @@ const changedRoleLog = async (newMem, roleLogs) => {
     //adding fields based on type
     if (roleLogs.changes[0].key === '$add') {
       roleEmbed
-        .setTitle('Role Added')
-        .setDescription(`Added ${roles} to <@${roleLogs.target.id}>`);
+        .setTitle('Role added')
+        .setDescription(`Added ${roles} to ${roleLogs.target}`);
     } else if (roleLogs.changes[0].key === '$remove') {
       roleEmbed
-        .setTitle('Role Removed')
-        .setDescription(`Removed ${roles} from <@${roleLogs.target.id}>`);
+        .setTitle('Role removed')
+        .setDescription(`Removed ${roles} from ${roleLogs.target}`);
     }
 
     //sending the messages

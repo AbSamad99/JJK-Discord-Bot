@@ -41,7 +41,8 @@ const xSeriesSucksCheck = (temp) => {
     temp === 'd gray man sucks' ||
     temp === 'kubera sucks' ||
     temp === 'dgm sucks' ||
-    temp === 'd. gray-man sucks'
+    temp === 'd. gray-man sucks' ||
+    temp === 'pandora hearts sucks'
   ) {
     return 1;
   } else return 0;

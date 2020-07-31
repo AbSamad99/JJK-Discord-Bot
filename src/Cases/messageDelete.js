@@ -3,7 +3,7 @@ const {
   previousDeleteLogId,
 } = require('../utilities.js');
 
-const deleteMessageAndAttachmentLog = require('../Functions/Loggers/messageDeleteLog.js');
+const deleteMessageAndAttachmentLog = require('../Functions/Loggers/Message_logs/messageDeleteLog.js');
 
 const messageDeleteCaseHandler = async (msg) => {
   try {

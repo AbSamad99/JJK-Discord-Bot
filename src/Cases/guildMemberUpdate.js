@@ -5,10 +5,10 @@ const {
   previousMemberRoleUpdateLogId,
 } = require('../utilities');
 
-const changedNicknameLog = require('../Functions/Loggers/changedNicknameLog.js');
-const changedRoleLog = require('../Functions/Loggers/changedRoleLog.js');
-const changedUsernameAndDiscriminatorLog = require('../Functions/Loggers/changedUsernameAndDiscriminatorLog.js');
-const changedAvatarLog = require('../Functions/Loggers/changedAvatarLog.js');
+const changedNicknameLog = require('../Functions/Loggers/User_update_logs/changedNicknameLog.js');
+const changedRoleLog = require('../Functions/Loggers/User_update_logs/changedRoleLog.js');
+const changedUsernameAndDiscriminatorLog = require('../Functions/Loggers/User_update_logs/changedUsernameAndDiscriminatorLog.js');
+const changedAvatarLog = require('../Functions/Loggers/User_update_logs/changedAvatarLog.js');
 
 const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   try {
@@ -56,19 +56,6 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
       }
       previousMemberUpdateLogId[0] = userLogs.id;
     }
-    //checking to see if role was updated
-    if (previousMemberRoleUpdateLogId[0] !== roleLogs.id) {
-      //if user was muted through the command
-      if (
-        role.new[0].name.toLowerCase() === 'muted' &&
-        roleLogs.executor.username === 'The Honored One'
-      ) {
-        return;
-      }
-      //manual mute case
-      await changedRoleLog(newMem, roleLogs);
-      previousMemberRoleUpdateLogId[0] = roleLogs.id;
-    }
     //checking if username was changed
     if (user.name !== newMem.user.username) {
       await changedUsernameAndDiscriminatorLog(newMem, user, 'username');
@@ -102,6 +89,19 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         },
         { useFindAndModify: false }
       );
+    }
+    //checking to see if role was updated
+    if (previousMemberRoleUpdateLogId[0] !== roleLogs.id) {
+      //if user was muted through the command
+      if (
+        role.new[0].name.toLowerCase() === 'muted' &&
+        roleLogs.executor.username === 'The Honored One'
+      ) {
+        return;
+      }
+      //manual mute case
+      await changedRoleLog(newMem, roleLogs);
+      previousMemberRoleUpdateLogId[0] = roleLogs.id;
     }
   } catch (err) {
     console.log(err);

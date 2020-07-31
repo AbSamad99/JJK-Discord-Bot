@@ -3,8 +3,8 @@ const Discord = require('discord.js');
 const UserSchema = require('../../Schemas/UserSchema.js');
 
 const { assignMuteRole } = require('../Roles/roleFunctions.js');
-const userKickLog = require('../Loggers/userKickLog.js');
-const userBanLog = require('../Loggers/userBanLog.js');
+const userKickLog = require('../Loggers/User_logs/userKickLog.js');
+const userBanLog = require('../Loggers/User_logs/userBanLog.js');
 const { roleCheck } = require('../Checks/helperChecks.js');
 const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
 
@@ -25,9 +25,7 @@ const muteCommand = (msg) => {
       msg.channel.send('You cannot mute this user');
       return;
     }
-    muteRole = msg.guild.roles.cache
-      .array()
-      .find((role) => role.name === 'Muted');
+    muteRole = msg.guild.roles.cache.find((role) => role.name === 'Muted');
     toMute = msg.guild.member(toMute);
     temp = msg.content.slice(1);
     temp = temp.split(' ');
@@ -188,13 +186,13 @@ const strikeCommand = async (msg) => {
 
     let strikeEmbed = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
-      .setTitle('Strike Issued')
+      .setTitle('Strike issued')
       .setColor(10038562)
       .setThumbnail(await gifOrPngCheck(toStrike.user))
       .setFooter(new Date());
     //1 strike
     if (user.strikes === 1) {
-      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
+      strikeEmbed.setDescription(`${toStrike.user} has been issued a strike for the following reason: ${reason}. 
   This is their first strike, therefore they are only being warned. The next strike will result in them being muted for 24 hours`);
 
       msg.channel
@@ -204,11 +202,9 @@ const strikeCommand = async (msg) => {
     }
     //2 strikes
     else if (user.strikes === 2) {
-      muteRole = msg.guild.roles.cache
-        .array()
-        .find((role) => role.name === 'Muted');
+      muteRole = msg.guild.roles.cache.find((role) => role.name === 'Muted');
 
-      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
+      strikeEmbed.setDescription(`${toStrike.user} has been issued a strike for the following reason: ${reason}. 
   This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`);
 
       msg.channel
@@ -228,7 +224,7 @@ const strikeCommand = async (msg) => {
     }
     //3 strikes
     else if (user.strikes === 3) {
-      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
+      strikeEmbed.setDescription(`${toStrike.user} has been issued a strike for the following reason: ${reason}. 
   This is their third strike, therefore they shall be kicked from the server. The next strike will result in them being permanentally banned from the server`);
 
       msg.channel
@@ -253,7 +249,7 @@ const strikeCommand = async (msg) => {
     }
     //4 strikes
     else if (user.strikes === 4) {
-      strikeEmbed.setDescription(`<@${toStrike.user.id}> has been issued a strike for the following reason: ${reason}. 
+      strikeEmbed.setDescription(`${toStrike.user} has been issued a strike for the following reason: ${reason}. 
   This is their fourth strike, therefore they shall be permanentally banned from the server.`);
 
       msg.channel

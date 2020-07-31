@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
 
 //Logs deleted messages or attachments and who deleted them
 const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
@@ -23,13 +23,13 @@ const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
       deleteEmbed
         .setAuthor(msg.author.tag, authorUrl)
         .setThumbnail(authorUrl)
-        .addField('Author:', `<@${msg.author.id}>`);
+        .addField('Author:', `${msg.author}`);
     } else {
       //mod delete
       deleteEmbed
         .setAuthor(executor.tag, await gifOrPngCheck(executor))
         .setThumbnail(await gifOrPngCheck(target))
-        .addField('Author:', `<@${target.id}>`);
+        .addField('Author:', `${target.id}`);
     }
 
     if (msg.content.length) {

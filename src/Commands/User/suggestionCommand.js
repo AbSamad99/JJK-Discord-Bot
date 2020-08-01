@@ -68,7 +68,7 @@ const suggestionCommand = async (msg) => {
 
     setTimeout(() => {
       msg.delete().catch(console.error);
-    }, ms('2s'));
+    }, ms('3s'));
   } catch (err) {
     console.log(err);
   }

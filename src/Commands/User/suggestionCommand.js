@@ -64,12 +64,11 @@ const suggestionCommand = async (msg) => {
         botMsg.react('👍');
         botMsg.react('👎');
       })
-      .then(() => msg.delete())
       .catch(console.error);
 
-    // setTimeout(() => {
-    //   msg.delete().catch(console.error);
-    // }, ms('2s'));
+    setTimeout(() => {
+      msg.delete().catch(console.error);
+    }, ms('2s'));
   } catch (err) {
     console.log(err);
   }

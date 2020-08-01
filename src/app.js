@@ -4,7 +4,7 @@ const dotenv = require('dotenv');
 //config the env variables
 dotenv.config();
 
-const connectDB = require('./Config/db.js');
+const connectDB = require('./config/db.js');
 
 //starting up our client
 const client = new Discord.Client();

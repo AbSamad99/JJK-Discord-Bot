@@ -1,3 +1,5 @@
+/*Schema for the art document*/
+
 const mongoose = require('mongoose');
 
 const ArtSchema = new mongoose.Schema({

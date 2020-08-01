@@ -1,29 +1,13 @@
-const prefix = '-';
-
-const previousDeleteLogId = [];
-
-const previousMemberUpdateLogId = [];
-
-const previousMemberRoleUpdateLogId = [];
-
-const previousDeleteLogCount = [];
-
-const previousMemberKickLogId = [];
-
-const previousMemberBanLogId = [];
-
-const previousMemberBanRemoveLogId = [];
-
-const previousChannelUpdateLogId = [];
-
-module.exports = {
-  prefix: prefix,
-  previousDeleteLogId: previousDeleteLogId,
-  previousMemberUpdateLogId: previousMemberUpdateLogId,
-  previousMemberRoleUpdateLogId: previousMemberRoleUpdateLogId,
-  previousDeleteLogCount: previousDeleteLogCount,
-  previousMemberKickLogId: previousMemberKickLogId,
-  previousMemberBanLogId: previousMemberBanLogId,
-  previousMemberBanRemoveLogId: previousMemberBanRemoveLogId,
-  previousChannelUpdateLogId: previousChannelUpdateLogId,
+let utilities = {
+  prefix: '-',
+  previousDeleteLogId: null,
+  previousMemberUpdateLogId: null,
+  previousMemberRoleUpdateLogId: null,
+  previousDeleteLogCount: null,
+  previousMemberKickLogId: null,
+  previousMemberBanLogId: null,
+  previousMemberBanRemoveLogId: null,
+  previousChannelUpdateLogId: null,
 };
+
+module.exports = utilities;

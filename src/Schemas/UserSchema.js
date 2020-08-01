@@ -1,3 +1,5 @@
+/*Schema for the user document*/
+
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({

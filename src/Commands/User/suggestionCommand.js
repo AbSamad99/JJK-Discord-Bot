@@ -60,9 +60,9 @@ const suggestionCommand = async (msg) => {
     //sending the embed
     msg.channel
       .send(suggestEmbed)
-      .then((botMsg) => {
-        botMsg.react('👍');
-        botMsg.react('👎');
+      .then(async (botMsg) => {
+        await botMsg.react('👍');
+        await botMsg.react('👎');
       })
       .catch(console.error);
 

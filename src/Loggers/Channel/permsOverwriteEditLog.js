@@ -1,6 +1,8 @@
 /*Function to log change in overwrite perms*/
 
 const Discord = require('discord.js');
+const { sentenceCase } = require('change-case');
+
 const gifOrPngCheck = require('../../Checks/gifOrPngCheck');
 
 const permsOverwriteEditLog = async (
@@ -33,16 +35,16 @@ const permsOverwriteEditLog = async (
       newAllowedPermsFilter.forEach((perm) => {
         if (oldDeniedPermsFilter.includes(perm)) {
           changes = `${changes}
-${perm}: ❌ ➜ ✅`;
+${sentenceCase(perm)}: ❌ ➜ ✅`;
         } else {
           changes = `${changes}
-${perm}: ⬜ ➜ ✅`;
+${sentenceCase(perm)}: ⬜ ➜ ✅`;
         }
       });
       oldDeniedPermsFilter.forEach((perm) => {
         if (!newAllowedPermsFilter.includes(perm)) {
           changes = `${changes}
-${perm}: ❌ ➜ ⬜`;
+${sentenceCase(perm)}: ❌ ➜ ⬜`;
         }
       });
 
@@ -62,16 +64,16 @@ ${changes}`
       oldAllowedPermsFilter.forEach((perm) => {
         if (newDeniedPermsFilter.includes(perm)) {
           changes = `${changes}
-${perm}: ✅ ➜ ❌`;
+${sentenceCase(perm)}: ✅ ➜ ❌`;
         } else {
           changes = `${changes}
-${perm}: ✅ ➜ ⬜`;
+${sentenceCase(perm)}: ✅ ➜ ⬜`;
         }
       });
       newDeniedPermsFilter.forEach((perm) => {
         if (!oldAllowedPermsFilter.includes(perm)) {
           changes = `${changes}
-${perm}: ⬜ ➜ ❌`;
+${sentenceCase(perm)}: ⬜ ➜ ❌`;
         }
       });
 

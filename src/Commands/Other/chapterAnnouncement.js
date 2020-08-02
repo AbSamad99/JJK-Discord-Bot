@@ -101,16 +101,16 @@ const chapterAnnouncement = async (msg) => {
         .send(`${mangaNewsRole}`, {
           embed: chapEmbed,
         })
-        .then((botMsg) => {
-          botMsg.react('5️⃣');
-          botMsg.react('4️⃣');
-          botMsg.react('3️⃣');
-          botMsg.react('2️⃣');
-          botMsg.react('1️⃣');
+        .then(async (botMsg) => {
+          await botMsg.react('5️⃣');
+          await botMsg.react('4️⃣');
+          await botMsg.react('3️⃣');
+          await botMsg.react('2️⃣');
+          await botMsg.react('1️⃣');
         })
         .then(() => msg.suppressEmbeds())
         .catch(console.error);
-    }, ms('2s'));
+    }, ms('3s'));
   } catch (err) {
     console.log(err);
   }

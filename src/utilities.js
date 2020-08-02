@@ -8,6 +8,7 @@ let utilities = {
   previousMemberBanLogId: null,
   previousMemberBanRemoveLogId: null,
   previousChannelUpdateLogId: null,
+  previousRoleUpdateAuditLog: null,
 };
 
 module.exports = utilities;

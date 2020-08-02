@@ -71,6 +71,16 @@ const fetchAuditLogIdAndCount = async (client) => {
       })
       .then((audit) => audit.entries.first());
     utilities.previousChannelUpdateLogId = temp.id;
+
+    //getting role update audit log and setting required value
+    temp = await client.guilds.cache
+      .first()
+      .fetchAuditLogs({
+        type: 'ROLE_UPDATE',
+      })
+      .then((audit) => audit.entries.first());
+
+    utilities.previousRoleUpdateAuditLog = temp.id;
   } catch (err) {
     console.log(err);
   }

@@ -26,6 +26,7 @@ const purgeCommand = require('../Commands/Moderation/purgeCommand.js');
 const roleAssignCommand = require('../Commands/User/roleAssignCommand.js');
 const suggestionCommand = require('../Commands/User/suggestionCommand.js');
 const chapterAnnouncement = require('../Commands/Other/chapterAnnouncement.js');
+const debateCommandTypeCheck = require('./debateCommandTypeCheck.js');
 
 const prefixCommandFunction = (msg, temp) => {
   let keyword = temp.slice(1);
@@ -117,6 +118,11 @@ const prefixCommandFunction = (msg, temp) => {
   //art command check
   else if (keyword.includes('art')) {
     artCommandTypeCheck(msg, keyword);
+  }
+
+  //art command check
+  else if (keyword.includes('debate')) {
+    debateCommandTypeCheck(msg, keyword);
   }
 
   // //suggestion command

@@ -60,7 +60,7 @@ const removeArtCommand = async (msg) => {
     msg.channel.send('Removed').catch(console.error);
 
     //Suppressing embeds from links
-    msg.suppressEmbeds();
+    await msg.suppressEmbeds();
   } catch (err) {
     console.log(err);
   }

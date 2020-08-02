@@ -1,6 +1,7 @@
 /*Function to handle the get art names command*/
 
 const Discord = require('discord.js');
+const capitalize = require('capitalize-the-first-letter');
 
 const ArtSchema = require('../../Schemas/ArtSchema.js');
 
@@ -12,10 +13,14 @@ const getArtNamesCommand = async (msg) => {
     characterArtArray = await ArtSchema.find({});
 
     //constructing the return message
-    message = `${characterArtArray[0].name}: ${characterArtArray[0].links.length}`;
+    message = `${capitalize(characterArtArray[0].name)}: ${
+      characterArtArray[0].links.length
+    }`;
     for (index = 1; index < characterArtArray.length; index++) {
       message = `${message}
-${characterArtArray[index].name}: ${characterArtArray[index].links.length}`;
+${capitalize(characterArtArray[index].name)}: ${
+        characterArtArray[index].links.length
+      }`;
     }
 
     artNamesEmbed = new Discord.MessageEmbed().setTitle('Art database info')

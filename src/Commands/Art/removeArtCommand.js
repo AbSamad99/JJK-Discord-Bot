@@ -11,9 +11,6 @@ const {
 const removeArtCommand = async (msg) => {
   let temp, characterArray, index;
   try {
-    //Suppressing embeds from links
-    msg.suppressEmbeds();
-
     //checking if the command was issued in appropriate channel
     if (
       !channelCheck(msg, 'music-and-art') &&
@@ -61,6 +58,9 @@ const removeArtCommand = async (msg) => {
 
     //sending back appropriate message
     msg.channel.send('Removed').catch(console.error);
+
+    //Suppressing embeds from links
+    msg.suppressEmbeds();
   } catch (err) {
     console.log(err);
   }

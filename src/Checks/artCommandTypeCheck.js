@@ -51,7 +51,8 @@ const artCommandTypeCheck = (msg, keyword) => {
   else if (
     keyword === 'removeart' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
+      roleCheck(msg.member, 'admin') ||
+      roleCheck(msg.member, 'Community Service Shaman'))
   ) {
     removeArtCommand(msg);
   }

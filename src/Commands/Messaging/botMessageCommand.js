@@ -3,9 +3,7 @@
 const botMessageCommand = (msg) => {
   try {
     //getting #mod-bots channel
-    let modBotChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'mod-bots'
-    );
+    let modBotChannel = msg.guild.channels.cache.get('460890234788249600');
 
     //checking if command was made in #mod-bots
     if (msg.channel.id !== modBotChannel.id) return;
@@ -23,9 +21,7 @@ const botMessageCommand = (msg) => {
     );
 
     //getting destination channel
-    let messageChannel = msg.guild.channels.cache.find(
-      (ch) => ch.id === messageChannelId
-    );
+    let messageChannel = msg.guild.channels.cache.get(messageChannelId);
 
     //check to see if channel exists
     if (!messageChannel) {

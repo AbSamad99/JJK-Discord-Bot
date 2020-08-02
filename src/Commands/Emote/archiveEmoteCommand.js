@@ -2,7 +2,7 @@
 
 const archiveEmoteCommand = (msg) => {
   try {
-    let temp, toDelete, archiveChannel;
+    let temp, toArchive, archiveChannel;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
     if (!temp[1]) {
@@ -10,18 +10,16 @@ const archiveEmoteCommand = (msg) => {
       return;
     }
     temp = temp[1].split(':')[1];
-    toDelete = msg.guild.emojis.cache.find((emote) => emote.name === temp);
-    if (!toDelete) {
+    toArchive = msg.guild.emojis.cache.find((emote) => emote.name === temp);
+    if (!toArchive) {
       msg.channel.send('No such emote exists in the server');
       return;
     }
-    archiveChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'syed-bot-practice'
-    );
+    archiveChannel = msg.guild.channels.cache.get('698059512409751612');
     archiveChannel
-      .send(toDelete.url)
+      .send(toArchive.url)
       .then(() =>
-        toDelete.delete().then(() => msg.channel.send('Emote archived'))
+        toArchive.delete().then(() => msg.channel.send('Emote archived'))
       )
       .catch(console.error);
   } catch (err) {

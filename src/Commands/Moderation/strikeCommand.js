@@ -19,7 +19,7 @@ const strikeCommand = async (msg) => {
     toStrike = msg.mentions.members.array()[0];
 
     //getting logs channel
-    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = msg.guild.channels.cache.get('447513266395283476');
 
     //checking if user given is valid
     if (!toStrike) {
@@ -99,7 +99,7 @@ This is their first strike, therefore they are only being warned. The next strik
 
     //2 strikes
     else if (user.strikes === 2) {
-      muteRole = msg.guild.roles.cache.find((role) => role.name === 'Muted');
+      muteRole = msg.guild.roles.cache.get('647424506507296788');
 
       strikeEmbed.setDescription(`${toStrike.user} has been issued a strike for the following reason: ${reason}. 
 This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`);

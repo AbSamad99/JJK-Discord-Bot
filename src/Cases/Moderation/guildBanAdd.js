@@ -12,7 +12,7 @@ const guildBanAddCaseHandler = async (guild, mem) => {
     let theHonoredOne, banAuditLog, logsChannel;
 
     //getting the logs channel
-    logsChannel = guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = guild.channels.cache.get('447513266395283476');
 
     //getting the honored one user
     theHonoredOne = await UserSchema.findOne({ id: '730109162616389644' });

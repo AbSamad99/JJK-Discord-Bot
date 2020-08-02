@@ -12,7 +12,7 @@ const banCommand = (msg) => {
     toBan = msg.mentions.members.array()[0];
 
     //getting logs channel
-    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = msg.guild.channels.cache.get('447513266395283476');
 
     //checking to see if user was provided or not
     if (!toBan) {

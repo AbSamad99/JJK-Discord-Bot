@@ -10,7 +10,7 @@ const messageUpdatedLog = async (oldMsg, newMsg) => {
     let editEmbed, logsChannel;
 
     //selecting log channel
-    logsChannel = newMsg.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = newMsg.guild.channels.cache.get('447513266395283476');
 
     //setting the fields
     editEmbed = new Discord.MessageEmbed()

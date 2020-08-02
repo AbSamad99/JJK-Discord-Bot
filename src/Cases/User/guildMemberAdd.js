@@ -20,10 +20,10 @@ const guildMemberAddCaseHandler = async (mem) => {
       messageEmbed;
 
     //getting all the required channels
-    welcomeChannel = channelArray.find((ch) => ch.name === 'welcome');
-    logsChannel = channelArray.find((ch) => ch.name === 'logs');
-    rulesChannel = channelArray.find((ch) => ch.name === 'rules');
-    infoChannel = channelArray.find((ch) => ch.name === 'information');
+    welcomeChannel = channelArray.get('704934870622797904');
+    logsChannel = channelArray.get('447513266395283476');
+    rulesChannel = channelArray.get('600429976092803082');
+    infoChannel = channelArray.get('648126071534911508');
 
     //constructing the message
     message = `${mem.user} has joined the server!`;

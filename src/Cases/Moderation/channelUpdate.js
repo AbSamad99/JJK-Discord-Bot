@@ -48,20 +48,14 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
       })
       .then((audit) => audit.entries.first());
 
-    logsChannel = newChannel.guild.channels.cache.find(
-      (ch) => ch.name === 'logs'
-    );
+    logsChannel = newChannel.guild.channels.cache.get('447513266395283476');
 
     //getting all the various users/roles and their perms - old
     oldChannel.permissionOverwrites.forEach((ov) => {
       if (ov.type === 'role') {
-        roleOrUser = newChannel.guild.roles.cache.find(
-          (role) => role.id === ov.id
-        );
+        roleOrUser = newChannel.guild.roles.cache.get(ov.id);
       } else if (ov.type === 'member') {
-        roleOrUser = newChannel.guild.members.cache.find(
-          (mem) => mem.id === ov.id
-        );
+        roleOrUser = newChannel.guild.members.cache.get(ov.id);
       }
       let name = roleOrUser.name || roleOrUser.user.username;
 
@@ -76,13 +70,9 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
     //getting all the various users/roles and their perms - new
     newChannel.permissionOverwrites.forEach((ov) => {
       if (ov.type === 'role') {
-        roleOrUser = newChannel.guild.roles.cache.find(
-          (role) => role.id === ov.id
-        );
+        roleOrUser = newChannel.guild.roles.cache.get(ov.id);
       } else if (ov.type === 'member') {
-        roleOrUser = newChannel.guild.members.cache.find(
-          (mem) => mem.id === ov.id
-        );
+        roleOrUser = newChannel.guild.members.cache.get(ov.id);
       }
       let name = roleOrUser.name || roleOrUser.user.username;
 

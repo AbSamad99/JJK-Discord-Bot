@@ -10,7 +10,7 @@ const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {
     let logsChannel, changedUsernameAndDiscriminatorEmbed;
 
     //selecting logs channel
-    logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = newMem.guild.channels.cache.get('447513266395283476');
 
     //setting relevant fields
     changedUsernameAndDiscriminatorEmbed = new Discord.MessageEmbed()

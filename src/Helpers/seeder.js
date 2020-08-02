@@ -6,10 +6,13 @@ const seedUsers = async (msg) => {
   try {
     //deleting all users already present in database
     await UserSchema.deleteMany();
-    let tempArray = [];
+    let tempArray = [],
+      userArray;
+
+    userArray = await msg.guild.members.fetch();
 
     //looping through cache and pushing each user info to tempArray
-    msg.guild.members.cache.forEach((member) => {
+    userArray.array().forEach((member) => {
       tempArray.push({
         name: member.user.username,
         id: member.user.id,

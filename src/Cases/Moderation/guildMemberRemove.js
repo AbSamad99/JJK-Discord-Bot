@@ -14,9 +14,7 @@ const guildMemberRemoveCaseHandler = async (mem) => {
     let theHonoredOne, banAuditLog, kickAuditLog, logsChannel;
 
     //getting the logs channel
-    logsChannel = mem.guild.channels.cache
-      .array()
-      .find((ch) => ch.name === 'logs');
+    logsChannel = mem.guild.channels.cache.get('447513266395283476');
 
     //getting the honored one role
     theHonoredOne = await UserSchema.findOne({ id: '730109162616389644' });

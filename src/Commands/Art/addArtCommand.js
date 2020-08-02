@@ -14,9 +14,6 @@ const {
 const addArtCommand = async (msg) => {
   let characterArtObj, temp, characterArray, index, count;
   try {
-    //Suppressing embeds from links
-    msg.suppressEmbeds();
-
     //checking if the command was issued in appropriate channel
     if (
       !channelCheck(msg, 'music-and-art') &&
@@ -66,6 +63,9 @@ const addArtCommand = async (msg) => {
 
     //sending appropriate message after links are stored
     msg.channel.send(`Number of links added: ${count}`).catch(console.error);
+
+    //Suppressing embeds from links
+    await msg.suppressEmbeds();
   } catch (err) {
     console.log(err);
   }

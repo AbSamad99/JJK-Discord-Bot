@@ -10,7 +10,7 @@ const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
     let deleteEmbed, authorUrl, attachments, logsChannel;
 
     //selecting logs channel
-    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = msg.guild.channels.cache.get('447513266395283476');
 
     //setting common fields for both cases
     deleteEmbed = new Discord.MessageEmbed()

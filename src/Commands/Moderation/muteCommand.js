@@ -12,7 +12,7 @@ const muteCommand = (msg) => {
     toMute = msg.mentions.members.array()[0];
 
     //getting the logs channel
-    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = msg.guild.channels.cache.get('447513266395283476');
 
     //checking if user was provided or not
     if (!toMute) {
@@ -30,7 +30,7 @@ const muteCommand = (msg) => {
     }
 
     //getting the mute role
-    muteRole = msg.guild.roles.cache.find((role) => role.name === 'Muted');
+    muteRole = msg.guild.roles.cache.get('647424506507296788');
 
     //getting needed info
     toMute = msg.guild.member(toMute);

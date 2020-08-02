@@ -8,7 +8,7 @@ const purgeCommand = (msg) => {
     let temp, number, logsChannel;
 
     //getting the logs channel
-    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = msg.guild.channels.cache.get('447513266395283476');
 
     //getting info from the message
     temp = msg.content.slice(1);

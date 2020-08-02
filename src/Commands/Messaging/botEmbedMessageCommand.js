@@ -21,14 +21,10 @@ const botEmbedMessageCommand = async (msg) => {
       image;
 
     //getting #mod-bots channel
-    modBotChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'mod-bots'
-    );
+    modBotChannel = msg.guild.channels.cache.get('460890234788249600');
 
     //getting server events role
-    serverEventsRole = msg.guild.roles.cache.find(
-      (role) => role.name === 'Server Events'
-    );
+    serverEventsRole = msg.guild.roles.cache.get('720949881891454976');
 
     embeddedMessage = new Discord.MessageEmbed();
 
@@ -46,9 +42,7 @@ const botEmbedMessageCommand = async (msg) => {
     );
 
     //getting destination channel
-    messageChannel = msg.guild.channels.cache.find(
-      (ch) => ch.id === messageChannelId
-    );
+    messageChannel = msg.guild.channels.cache.get(messageChannelId);
 
     //check to see if channel exists
     if (!messageChannel) {

@@ -57,11 +57,7 @@ const artCommandTypeCheck = (msg, keyword) => {
   }
 
   //get art
-  else if (
-    keyword === 'getart' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
+  else if (keyword === 'getart') {
     getArtCommand(msg);
   }
 
@@ -69,7 +65,8 @@ const artCommandTypeCheck = (msg, keyword) => {
   else if (
     keyword === 'getartnames' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
+      roleCheck(msg.member, 'admin') ||
+      roleCheck(msg.member, 'Community Service Shaman'))
   ) {
     getArtNamesCommand(msg);
   }

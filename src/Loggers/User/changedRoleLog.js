@@ -9,11 +9,10 @@ const changedRoleLog = async (newMem, roleLogs) => {
     let roleEmbed, logsChannel, roleColor, roles;
 
     //selcting the log channel
-    logsChannel = newMem.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = newMem.guild.channels.cache.get('447513266395283476');
 
-    roleColor = newMem.guild.roles.cache.find(
-      (role) => role.id === roleLogs.changes[0].new[0].id
-    ).color;
+    roleColor = newMem.guild.roles.cache.get(roleLogs.changes[0].new[0].id)
+      .color;
 
     roles = ``;
 

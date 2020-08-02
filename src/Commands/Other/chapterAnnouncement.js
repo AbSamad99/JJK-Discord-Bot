@@ -19,14 +19,10 @@ const chapterAnnouncement = async (msg) => {
       chapEmbed;
 
     //getting the manga news role
-    mangaNewsRole = msg.guild.roles.cache.find(
-      (role) => role.name === 'Manga News'
-    );
+    mangaNewsRole = msg.guild.roles.cache.get('720949312984580146');
 
     //getting the announcement channel
-    announcementChannel = msg.guild.channels.cache.find(
-      (ch) => ch.name === 'announcements'
-    );
+    announcementChannel = msg.guild.channels.cache.get('447513385211396096');
 
     //getting info from the message
     temp = msg.content.slice(1);

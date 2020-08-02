@@ -3,8 +3,9 @@
 //checking the channel where message is sent
 const channelCheck = (msg, channelName) => {
   try {
-    const channelArray = msg.guild.channels.cache;
-    const requiredChannel = channelArray.find((ch) => ch.name === channelName);
+    const requiredChannel = msg.guild.channels.cache.find(
+      (ch) => ch.name === channelName
+    );
     if (!requiredChannel) {
       return 0;
     }

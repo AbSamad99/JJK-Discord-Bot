@@ -12,7 +12,7 @@ const kickCommand = (msg) => {
     toKick = msg.mentions.members.array()[0];
 
     //getting the logs channel
-    logsChannel = msg.guild.channels.cache.find((ch) => ch.name === 'logs');
+    logsChannel = msg.guild.channels.cache.get('447513266395283476');
 
     //checking if user was provided or not
     if (!toKick) {

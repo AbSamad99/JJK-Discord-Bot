@@ -29,10 +29,6 @@ const roleCreateCaseHandler = require('./Cases/Roles/roleCreate.js');
 const roleDeleteCaseHandler = require('./Cases/Roles/roleDelete.js');
 
 client.on('ready', async () => {
-  await client.user.setStatus('online');
-  await client.user.setActivity('You All', {
-    type: 'WATCHING',
-  });
   readyCaseHandler(client);
 });
 

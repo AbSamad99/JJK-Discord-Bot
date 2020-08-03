@@ -1,13 +1,13 @@
 /*Checks to see which type of art command was input by the user*/
 
-const { roleCheck } = require('./helperChecks.js');
-const addArtCommand = require('../Commands/Art/addArtCommand.js');
-const removeArtCommand = require('../Commands/Art/removeArtCommand.js');
-const getArtCommand = require('../Commands/Art/getArtCommand.js');
-const getAllArtCommand = require('../Commands/Art/getAllArtCommand.js');
-const removeArtCharacterCommand = require('../Commands/Art/removeArtCharacterCommand.js');
-const addArtCharacterCommand = require('../Commands/Art/addArtCharacterCommand.js');
-const getArtNamesCommand = require('../Commands/Art/getArtNamesCommand.js');
+const { roleCheck } = require('../Other/helperChecks.js');
+const addArtCommand = require('../../Commands/Art/addArtCommand.js');
+const removeArtCommand = require('../../Commands/Art/removeArtCommand.js');
+const getArtCommand = require('../../Commands/Art/getArtCommand.js');
+const getAllArtCommand = require('../../Commands/Art/getAllArtCommand.js');
+const removeArtCharacterCommand = require('../../Commands/Art/removeArtCharacterCommand.js');
+const addArtCharacterCommand = require('../../Commands/Art/addArtCharacterCommand.js');
+const getArtNamesCommand = require('../../Commands/Art/getArtNamesCommand.js');
 
 const artCommandTypeCheck = (msg, keyword) => {
   //get all art

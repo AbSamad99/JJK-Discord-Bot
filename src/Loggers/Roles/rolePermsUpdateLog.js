@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/gifOrPngCheck');
+const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck');
 
 const rolePermsUpdateLog = async (
   roleUpdateAuditLog,

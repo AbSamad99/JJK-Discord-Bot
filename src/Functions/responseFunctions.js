@@ -1,4 +1,4 @@
-const { channelCheck } = require('../Checks/helperChecks');
+const { channelCheck } = require('../Checks/Other/helperChecks');
 
 const UserSchema = require('../Schemas/UserSchema');
 

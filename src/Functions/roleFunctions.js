@@ -24,7 +24,6 @@ const assignRole = (msg, role) => {
 //removes role from user
 const removeRole = (msg, role) => {
   try {
-    console.log(role);
     let embedResponse = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
       .setTitle('Role removed')

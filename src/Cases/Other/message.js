@@ -16,15 +16,14 @@ const {
 const {
   containsDiscordLinkCheck,
   containsForbiddenLinkCheck,
-} = require('../../Checks/moderationHelpCheck.js');
-const prefixCommandFunction = require('../../Checks/prefixCommandTypeCheck.js');
+} = require('../../Checks/Other/moderationHelpCheck.js');
+const prefixCommandFunction = require('../../Checks/Command/prefixCommandTypeCheck.js');
 const {
   xSeriesSucksCheck,
   weebCheck,
   otherSeriesTalkCheck,
-} = require('../../Checks/miscChecks.js');
-const { roleCheck } = require('../../Checks/helperChecks.js');
-// const nsfwCheck = require('../Functions/Checks/nsfwCheck.js');
+} = require('../../Checks/Other/miscChecks.js');
+const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 
 const messageCaseHandler = (msg) => {
   try {

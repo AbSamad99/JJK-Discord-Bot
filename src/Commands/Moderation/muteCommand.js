@@ -1,7 +1,7 @@
 /*Function to handle the user mute command*/
 
 const { assignMuteRole } = require('../../Functions/roleFunctions.js');
-const { roleCheck } = require('../../Checks/helperChecks.js');
+const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 
 //command to mute users
 const muteCommand = (msg) => {

@@ -1,10 +1,10 @@
 /*Checks to see which debate command was input*/
 
-const addDebateCharacterCommand = require('../Commands/Debate/addDebateCharacterCommand');
-const removeDebateCharacterCommand = require('../Commands/Debate/removeDebateCharacterCommand');
-const debateCommand = require('../Commands/Debate/debateCommand');
-const { channelCheck, roleCheck } = require('./helperChecks');
-const getDebateNamesCommand = require('../Commands/Debate/getDebateNamesCommand');
+const addDebateCharacterCommand = require('../../Commands/Debate/addDebateCharacterCommand');
+const removeDebateCharacterCommand = require('../../Commands/Debate/removeDebateCharacterCommand');
+const debateCommand = require('../../Commands/Debate/debateCommand');
+const { channelCheck, roleCheck } = require('../Other/helperChecks');
+const getDebateNamesCommand = require('../../Commands/Debate/getDebateNamesCommand');
 
 const debateCommandTypeCheck = (msg, keyword) => {
   //add Debate Character Command

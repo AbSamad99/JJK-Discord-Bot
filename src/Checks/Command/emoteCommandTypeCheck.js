@@ -1,10 +1,10 @@
 /*Checks to see which emote command was input*/
 
-const { roleCheck } = require('./helperChecks.js');
-const addEmoteCommand = require('../Commands/Emote/addEmoteCommand.js');
-const deleteEmoteCommand = require('../Commands/Emote/deleteEmoteCommand.js');
-const editEmoteCommand = require('../Commands/Emote/editEmoteCommand.js');
-const archiveEmoteCommand = require('../Commands/Emote/archiveEmoteCommand.js');
+const { roleCheck } = require('../Other/helperChecks.js');
+const addEmoteCommand = require('../../Commands/Emote/addEmoteCommand.js');
+const deleteEmoteCommand = require('../../Commands/Emote/deleteEmoteCommand.js');
+const editEmoteCommand = require('../../Commands/Emote/editEmoteCommand.js');
+const archiveEmoteCommand = require('../../Commands/Emote/archiveEmoteCommand.js');
 
 const emoteCommandTypeCheck = (msg, keyword) => {
   //addEmoteCommand

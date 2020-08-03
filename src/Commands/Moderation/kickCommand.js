@@ -1,7 +1,7 @@
 /*Function to handle the user kick command*/
 
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
-const { roleCheck } = require('../../Checks/helperChecks.js');
+const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 
 //command to kick users
 const kickCommand = (msg) => {

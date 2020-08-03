@@ -1,7 +1,7 @@
 /*Function to handle the user ban command*/
 
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
-const { roleCheck } = require('../../Checks/helperChecks.js');
+const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 
 //command to ban users
 const banCommand = (msg) => {

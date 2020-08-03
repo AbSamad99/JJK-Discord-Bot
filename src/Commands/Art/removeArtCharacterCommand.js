@@ -2,7 +2,9 @@
 
 const ArtSchema = require('../../Schemas/ArtSchema.js');
 
-const { artCommandParametersCheck } = require('../../Checks/helperChecks.js');
+const {
+  artCommandParametersCheck,
+} = require('../../Checks/Other/helperChecks.js');
 
 //removes a new character
 const removeArtCharacterCommand = async (msg) => {

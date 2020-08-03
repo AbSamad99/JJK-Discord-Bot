@@ -5,7 +5,7 @@ const ArtSchema = require('../../Schemas/ArtSchema.js');
 const {
   channelCheck,
   artCommandParametersCheck,
-} = require('../../Checks/helperChecks.js');
+} = require('../../Checks/Other/helperChecks.js');
 
 //removes an art
 const removeArtCommand = async (msg) => {

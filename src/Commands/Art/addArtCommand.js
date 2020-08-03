@@ -5,10 +5,10 @@ const ArtSchema = require('../../Schemas/ArtSchema.js');
 const {
   channelCheck,
   artCommandParametersCheck,
-} = require('../../Checks/helperChecks.js');
+} = require('../../Checks/Other/helperChecks.js');
 const {
   containsInvalidArtLinkCheck,
-} = require('../../Checks/moderationHelpCheck.js');
+} = require('../../Checks/Other/moderationHelpCheck.js');
 
 //adds an art
 const addArtCommand = async (msg) => {

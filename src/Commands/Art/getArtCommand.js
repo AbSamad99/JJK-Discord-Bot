@@ -5,7 +5,7 @@ const ArtSchema = require('../../Schemas/ArtSchema.js');
 const {
   channelCheck,
   artCommandParametersCheck,
-} = require('../../Checks/helperChecks.js');
+} = require('../../Checks/Other/helperChecks.js');
 
 //gets an art
 const getArtCommand = async (msg) => {

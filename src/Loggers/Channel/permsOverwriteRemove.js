@@ -3,7 +3,7 @@
 const Discord = require('discord.js');
 const { sentenceCase } = require('change-case');
 
-const gifOrPngCheck = require('../../Checks/gifOrPngCheck');
+const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck');
 
 const permsOverwriteRemoveLog = async (
   executor,

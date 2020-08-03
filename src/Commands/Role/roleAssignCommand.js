@@ -1,11 +1,13 @@
 /*functions to handle the various user commands*/
 
 const Discord = require('discord.js');
-const ms = require('ms');
 
 const { assignRole, removeRole } = require('../../Functions/roleFunctions.js');
-const { lockedRolesCheck } = require('../../Checks/miscChecks.js');
-const { channelCheck, roleCheck } = require('../../Checks/helperChecks.js');
+const { lockedRolesCheck } = require('../../Checks/Other/miscChecks.js');
+const {
+  channelCheck,
+  roleCheck,
+} = require('../../Checks/Other/helperChecks.js');
 
 //assigns character role to a member
 const roleAssignCommand = (msg) => {
@@ -41,7 +43,7 @@ const roleAssignCommand = (msg) => {
     }
 
     //checking if desired role was a locked role
-    if (lockedRolesCheck(desiredRole)) {
+    if (lockedRolesCheck(desiredRole.name)) {
       msg.channel.send('Cannot Assign that role');
       return;
     }

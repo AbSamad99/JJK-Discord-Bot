@@ -2,7 +2,7 @@
 
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 //logs edited messages
 const messageUpdatedLog = async (oldMsg, newMsg) => {

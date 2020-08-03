@@ -5,7 +5,7 @@ const ms = require('ms');
 
 const urlExist = require('url-exist');
 
-const { channelCheck } = require('../../Checks/helperChecks.js');
+const { channelCheck } = require('../../Checks/Other/helperChecks.js');
 
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {

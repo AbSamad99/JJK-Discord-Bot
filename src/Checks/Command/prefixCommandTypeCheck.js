@@ -10,23 +10,19 @@ const {
   shyLink,
   guyLink,
   fujoLink,
-} = require('../links.js');
+} = require('../../links.js');
 
 const artCommandTypeCheck = require('./artCommandTypeCheck.js');
-const { roleCheck, channelCheck } = require('./helperChecks.js');
-const seedUsers = require('../Helpers/seeder.js');
-const emoteCommandTypeCheck = require('./emoteCommandTypeCheck.js');
-const botMessageCommand = require('../Commands/Messaging/botMessageCommand.js');
-const botEmbedMessageCommand = require('../Commands/Messaging/botEmbedMessageCommand.js');
-const muteCommand = require('../Commands/Moderation/muteCommand.js');
-const kickCommand = require('../Commands/Moderation/kickCommand.js');
-const banCommand = require('../Commands/Moderation/banCommand.js');
-const strikeCommand = require('../Commands/Moderation/strikeCommand.js');
-const purgeCommand = require('../Commands/Moderation/purgeCommand.js');
-const roleAssignCommand = require('../Commands/User/roleAssignCommand.js');
-const suggestionCommand = require('../Commands/User/suggestionCommand.js');
-const chapterAnnouncement = require('../Commands/Other/chapterAnnouncement.js');
 const debateCommandTypeCheck = require('./debateCommandTypeCheck.js');
+const emoteCommandTypeCheck = require('./emoteCommandTypeCheck.js');
+const { roleCheck, channelCheck } = require('../Other/helperChecks.js');
+const seedUsers = require('../../Helpers/seeder.js');
+const purgeCommand = require('../../Commands/Moderation/purgeCommand.js');
+const suggestionCommand = require('../../Commands/Other/suggestionCommand.js');
+const chapterAnnouncement = require('../../Commands/Other/chapterAnnouncement.js');
+const messageCommandTypeCheck = require('./messageCommandTypeCheck.js');
+const moderationCommandTypeCheck = require('./moderationCommandTypeCheck.js');
+const roleCommandTypeCheck = require('./roleCommandTypeCheck.js');
 
 const prefixCommandFunction = (msg, temp) => {
   let keyword = temp.slice(1);
@@ -47,22 +43,9 @@ const prefixCommandFunction = (msg, temp) => {
     seedUsers(msg);
   }
 
-  //bot message command
-  else if (
-    keyword === 'message' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    botMessageCommand(msg);
-  }
-
-  //bot embed message command
-  else if (
-    keyword === 'embedmessage' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    botEmbedMessageCommand(msg);
+  //bot message command check
+  else if (keyword.includes('message')) {
+    messageCommandTypeCheck(msg, keyword);
   }
 
   //purge command
@@ -74,40 +57,9 @@ const prefixCommandFunction = (msg, temp) => {
     purgeCommand(msg);
   }
 
-  //mute command
-  else if (
-    keyword === 'mute' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    muteCommand(msg);
-  }
-
-  //ban command
-  else if (
-    keyword === 'ban' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    banCommand(msg);
-  }
-
-  //kick command
-  else if (
-    keyword === 'kick' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    kickCommand(msg);
-  }
-
-  //strike command
-  else if (
-    keyword === 'strike' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    strikeCommand(msg);
+  //moderation command check
+  else if (msg.mentions.members.array().length) {
+    moderationCommandTypeCheck(msg, keyword);
   }
 
   //emote command check
@@ -125,14 +77,14 @@ const prefixCommandFunction = (msg, temp) => {
     debateCommandTypeCheck(msg, keyword);
   }
 
-  // //suggestion command
-  else if (keyword.startsWith('suggest')) {
+  //suggestion command
+  else if (keyword === 'suggest') {
     suggestionCommand(msg);
   }
 
-  //role command
-  else if (keyword === 'role') {
-    roleAssignCommand(msg);
+  //role command check
+  else if (keyword.includes('role')) {
+    roleCommandTypeCheck(msg, keyword);
   }
 
   //fujo command

@@ -7,8 +7,8 @@ const UserSchema = require('../../Schemas/UserSchema.js');
 const { assignMuteRole } = require('../../Functions/roleFunctions.js');
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
-const { roleCheck } = require('../../Checks/helperChecks.js');
-const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
+const { roleCheck } = require('../../Checks/Other/helperChecks.js');
+const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 //command to issue strikes
 const strikeCommand = async (msg) => {

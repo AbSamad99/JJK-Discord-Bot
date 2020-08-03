@@ -1,6 +1,6 @@
 const Discord = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 //logs when user is kicked from the server
 const userKickLog = async (

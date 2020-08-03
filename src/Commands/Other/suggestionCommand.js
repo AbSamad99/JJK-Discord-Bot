@@ -3,8 +3,11 @@
 const Discord = require('discord.js');
 const ms = require('ms');
 
-const { channelCheck, roleCheck } = require('../../Checks/helperChecks.js');
-const gifOrPngCheck = require('../../Checks/gifOrPngCheck.js');
+const {
+  channelCheck,
+  roleCheck,
+} = require('../../Checks/Other/helperChecks.js');
+const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 //makes a suggestion embed-user
 const suggestionCommand = async (msg) => {

@@ -7,8 +7,7 @@ const utilities = require('../../utilities.js');
 const permsOverwriteCreateLog = require('../../Loggers/Channel/permsOverwriteCreateLog.js');
 const permsOverwriteRemoveLog = require('../../Loggers/Channel/permsOverwriteRemove.js');
 const permsOverwriteEditLog = require('../../Loggers/Channel/permsOverwriteEditLog.js');
-const channelNameUpdateLog = require('../../Loggers/Channel/channelNameUpdateLog.js');
-const channelSlowmodeUpdateLog = require('../../Loggers/Channel/channelSlowmodeUpdateLog.js');
+const channelUpdateLog = require('../../Loggers/Channel/channelUpdateLog.js');
 
 const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
   try {
@@ -98,24 +97,15 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
         (change) => change.key === 'name'
       );
 
-      //logging channel name change
-      if (channelNameChange) {
-        channelNameUpdateLog(
-          channelUpdateAuditLog.executor,
-          channelNameChange,
-          logsChannel,
-          newChannel
-        );
-      }
-
       channelSlowmodeChange = channelUpdateAuditLog.changes.find(
         (change) => change.key === 'rate_limit_per_user'
       );
 
-      //logging channel slowdown change
-      if (channelSlowmodeChange) {
-        channelSlowmodeUpdateLog(
+      //logging channel name change
+      if (channelNameChange || channelSlowmodeChange) {
+        channelUpdateLog(
           channelUpdateAuditLog.executor,
+          channelNameChange,
           channelSlowmodeChange,
           logsChannel,
           newChannel

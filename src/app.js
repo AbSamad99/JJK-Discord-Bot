@@ -25,6 +25,8 @@ const guildBanRemoveCaseHandler = require('./Cases/Moderation/guildBanRemove.js'
 const messageBulkDeleteCaseHandler = require('./Cases/Moderation/messageBulkDelete.js');
 const channelUpdateCaseHandler = require('./Cases/Moderation/channelUpdate.js');
 const roleUpdateCaseHandler = require('./Cases/Roles/roleUpdate.js');
+const roleCreateCaseHandler = require('./Cases/Roles/roleCreate.js');
+const roleDeleteCaseHandler = require('./Cases/Roles/roleDelete.js');
 
 client.on('ready', async () => {
   await client.user.setStatus('online');
@@ -76,6 +78,14 @@ client.on('channelUpdate', async (oldChannel, newChannel) => {
 
 client.on('roleUpdate', async (oldRole, newRole) => {
   roleUpdateCaseHandler(oldRole, newRole);
+});
+
+client.on('roleCreate', (role) => {
+  roleCreateCaseHandler(role);
+});
+
+client.on('roleDelete', (role) => {
+  roleDeleteCaseHandler(role);
 });
 
 client.login(process.env.token);

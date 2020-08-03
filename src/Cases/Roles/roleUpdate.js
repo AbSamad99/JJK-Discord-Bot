@@ -2,8 +2,7 @@
 
 const { sentenceCase } = require('change-case');
 const rolePermsUpdateLog = require('../../Loggers/Roles/rolePermsUpdateLog');
-const roleNameUpdateLog = require('../../Loggers/Roles/roleNameUpdateLog');
-const roleColorUpdateLog = require('../../Loggers/Roles/roleColorUpdateLog');
+const roleUpdateLog = require('../../Loggers/Roles/roleUpdateLog');
 const utilities = require('../../utilities.js');
 
 const roleUpdateCaseHandler = async (oldRole, newRole) => {
@@ -15,7 +14,9 @@ const roleUpdateCaseHandler = async (oldRole, newRole) => {
       added,
       removed,
       colorChange,
-      nameChange;
+      nameChange,
+      hoistChange,
+      mentionableChange;
 
     //getting old and new perms
     oldPermsArray = oldRole.permissions.toArray();
@@ -38,38 +39,48 @@ const roleUpdateCaseHandler = async (oldRole, newRole) => {
     nameChange = roleUpdateAuditLog.changes.find(
       (change) => change.key === 'name'
     );
+    mentionableChange = roleUpdateAuditLog.changes.find(
+      (change) => change.key === 'mentionable'
+    );
+    hoistChange = roleUpdateAuditLog.changes.find(
+      (change) => change.key === 'hoist'
+    );
 
     //checking if new perms were added
     for (i = 0; i < newPermsArray.length; i++) {
       if (!oldPermsArray.includes(newPermsArray[i])) {
-        added = `${added}, ${sentenceCase(newPermsArray[i])}`;
+        added = `${added}
+${sentenceCase(newPermsArray[i])}`;
       }
     }
 
     //checking if perms were removed
     for (i = 0; i < oldPermsArray.length; i++) {
       if (!newPermsArray.includes(oldPermsArray[i])) {
-        removed = `${removed}, ${sentenceCase(newPermsArray[i])}`;
+        removed = `${removed}
+${sentenceCase(newPermsArray[i])}`;
       }
     }
 
     //calling the logging function if perms were changed
     if (added || removed) {
-      rolePermsUpdateLog(roleUpdateAuditLog, added, removed, newRole);
       utilities.previousRoleUpdateAuditLog = roleUpdateAuditLog.id;
+      await rolePermsUpdateLog(roleUpdateAuditLog, added, removed, newRole);
     }
 
     if (utilities.previousRoleUpdateAuditLog !== roleUpdateAuditLog.id) {
       utilities.previousRoleUpdateAuditLog = roleUpdateAuditLog.id;
 
-      //checking if role name was changed
-      if (nameChange) {
-        roleNameUpdateLog(roleUpdateAuditLog, nameChange, newRole);
-      }
-
-      //checking if role color was changed
-      if (colorChange) {
-        roleColorUpdateLog(roleUpdateAuditLog, colorChange, newRole);
+      //checking if role name, color, etc was changed
+      if (nameChange || colorChange || mentionableChange || hoistChange) {
+        await roleUpdateLog(
+          roleUpdateAuditLog,
+          nameChange,
+          mentionableChange,
+          hoistChange,
+          colorChange,
+          newRole
+        );
       }
     }
   } catch (err) {

@@ -24,7 +24,7 @@ const roleUpdateLog = async (
         roleUpdateAuditLog.executor.tag,
         await gifOrPngCheck(roleUpdateAuditLog.executor)
       )
-      .setDescription(`Name for ${newRole} has been changed`)
+      .setDescription(`The ${newRole} role has been edited`)
       .setColor(15854089);
 
     if (nameChange) {

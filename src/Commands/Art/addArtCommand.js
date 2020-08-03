@@ -61,11 +61,11 @@ const addArtCommand = async (msg) => {
       { useFindAndModify: false }
     );
 
-    //sending appropriate message after links are stored
-    msg.channel.send(`Number of links added: ${count}`).catch(console.error);
-
-    //Suppressing embeds from links
-    await msg.suppressEmbeds();
+    //sending appropriate message after links are stored and Suppressing embeds from links
+    msg.channel
+      .send(`Number of links added: ${count}`)
+      .then(() => msg.suppressEmbeds())
+      .catch(console.error);
   } catch (err) {
     console.log(err);
   }

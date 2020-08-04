@@ -12,7 +12,13 @@ const {
 
 //adds an art
 const addArtCommand = async (msg) => {
-  let characterArtObj, temp, characterArray, index, count;
+  let characterArtObj,
+    temp,
+    characterArray,
+    index,
+    count,
+    alreadyPresent,
+    invalid;
   try {
     //checking if the command was issued in appropriate channel
     if (
@@ -25,6 +31,9 @@ const addArtCommand = async (msg) => {
     count = 0;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
+
+    alreadyPresent = ``;
+    invalid = ``;
 
     //getting required object
     characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
@@ -44,11 +53,19 @@ const addArtCommand = async (msg) => {
     //storing the links in json file
     for (index = 2; index < temp.length; index++) {
       if (await containsInvalidArtLinkCheck(temp[index])) {
-        msg.channel.send(`Link ${index - 1} is invalid`);
+        if (!invalid.length) {
+          invalid = `${index - 1}`;
+          continue;
+        }
+        invalid = `${invalid}, ${index - 1}`;
         continue;
       }
       if (characterArray.includes(temp[index])) {
-        msg.channel.send(`Link ${index - 1} is already present`);
+        if (!alreadyPresent.length) {
+          alreadyPresent = `${index - 1}`;
+          continue;
+        }
+        alreadyPresent = `${alreadyPresent}, ${index - 1}`;
         continue;
       }
       characterArray.push(temp[index]);
@@ -60,6 +77,16 @@ const addArtCommand = async (msg) => {
       { links: characterArray },
       { useFindAndModify: false }
     );
+
+    if (alreadyPresent.length) {
+      msg.channel
+        .send(`Already present link(s): ${alreadyPresent}`)
+        .catch(console.log);
+    }
+
+    if (invalid.length) {
+      msg.channel.send(`Invalid link(s): ${invalid}`).catch(console.log);
+    }
 
     //sending appropriate message after links are stored and Suppressing embeds from links
     msg.channel

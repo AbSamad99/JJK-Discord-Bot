@@ -1,7 +1,7 @@
 /*Function to handle the get debate names command*/
 
 const Discord = require('discord.js');
-const capitalize = require('capitalize-the-first-letter');
+const { capitalCase } = require('change-case');
 
 const DebateSchema = require('../../Schemas/DebateSchema.js');
 
@@ -14,10 +14,10 @@ const getDebateNamesCommand = async (msg) => {
     charArray = charArray.names;
 
     //constructing the return message
-    message = `${capitalize(charArray[0])}`;
+    message = `${capitalCase(charArray[0])}`;
     for (index = 1; index < charArray.length; index++) {
       message = `${message}
-${capitalize(charArray[index])}`;
+${capitalCase(charArray[index])}`;
     }
 
     debateNamesEmbed = new Discord.MessageEmbed().setTitle(

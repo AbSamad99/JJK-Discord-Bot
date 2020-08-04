@@ -5,11 +5,12 @@ const removeDebateCharacterCommand = require('../../Commands/Debate/removeDebate
 const debateCommand = require('../../Commands/Debate/debateCommand');
 const { channelCheck, roleCheck } = require('../Other/helperChecks');
 const getDebateNamesCommand = require('../../Commands/Debate/getDebateNamesCommand');
+const editDebateCharacterCommand = require('../../Commands/Debate/editDebateCharacterCommand');
 
 const debateCommandTypeCheck = (msg, keyword) => {
   //add Debate Character Command
   if (
-    keyword === 'adddebatecharacter' &&
+    keyword === 'adddebchar' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
@@ -18,11 +19,20 @@ const debateCommandTypeCheck = (msg, keyword) => {
 
   //remove Debate Character Command
   else if (
-    keyword === 'removedebatecharacter' &&
+    keyword === 'remdebchar' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
     removeDebateCharacterCommand(msg);
+  }
+
+  //edit Debate Character Command
+  else if (
+    keyword === 'editdebchar' &&
+    (roleCheck(msg.member, 'Special-Grade Shaman') ||
+      roleCheck(msg.member, 'admin'))
+  ) {
+    editDebateCharacterCommand(msg);
   }
 
   //debate Command
@@ -36,7 +46,7 @@ const debateCommandTypeCheck = (msg, keyword) => {
 
   //get debate names Command
   else if (
-    keyword === 'getdebatenames' &&
+    keyword === 'getdebnames' &&
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {

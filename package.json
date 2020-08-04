@@ -10,7 +10,6 @@
   "author": "Abdussamad Syed",
   "license": "ISC",
   "dependencies": {
-    "capitalize-the-first-letter": "^1.0.8",
     "change-case": "^4.1.1",
     "discord.js": "^12.2.0",
     "dotenv": "^8.2.0",

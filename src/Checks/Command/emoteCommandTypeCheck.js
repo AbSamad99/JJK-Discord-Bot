@@ -2,9 +2,8 @@
 
 const { roleCheck } = require('../Other/helperChecks.js');
 const addEmoteCommand = require('../../Commands/Emote/addEmoteCommand.js');
-const deleteEmoteCommand = require('../../Commands/Emote/deleteEmoteCommand.js');
 const editEmoteCommand = require('../../Commands/Emote/editEmoteCommand.js');
-const archiveEmoteCommand = require('../../Commands/Emote/archiveEmoteCommand.js');
+const archiveOrDeleteEmoteCommand = require('../../Commands/Emote/archiveOrDeleteEmoteCommand.js');
 
 const emoteCommandTypeCheck = (msg, keyword) => {
   //addEmoteCommand
@@ -22,7 +21,7 @@ const emoteCommandTypeCheck = (msg, keyword) => {
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
-    deleteEmoteCommand(msg);
+    archiveOrDeleteEmoteCommand(msg, 'delete');
   }
 
   //editEmoteCommand
@@ -40,7 +39,7 @@ const emoteCommandTypeCheck = (msg, keyword) => {
     (roleCheck(msg.member, 'Special-Grade Shaman') ||
       roleCheck(msg.member, 'admin'))
   ) {
-    archiveEmoteCommand(msg);
+    archiveOrDeleteEmoteCommand(msg, 'archive');
   }
 };
 

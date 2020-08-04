@@ -1,14 +1,13 @@
-/*Function to handle the remove art character commands*/
+/*Function to handle the edit art character command*/
 
 const ArtSchema = require('../../Schemas/ArtSchema.js');
-
 const {
   artCommandParametersCheck,
   channelCheck,
 } = require('../../Checks/Other/helperChecks.js');
 
-//removes a new character
-const removeArtCharacterCommand = async (msg) => {
+//adds a character
+const editArtCharacterCommand = async (msg) => {
   let temp, characterArtObj;
   try {
     //checking if the command was issued in appropriate channel
@@ -22,22 +21,33 @@ const removeArtCharacterCommand = async (msg) => {
     temp = msg.content.slice(1);
     temp = temp.split(' ');
 
+    if (!temp[1].toLowerCase()) {
+      msg.channel.send('Please specify a character name');
+      return;
+    }
+
+    if (!temp[1].toLowerCase()) {
+      msg.channel.send('Please specify a new name');
+      return;
+    }
+
     //getting required object
     characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
     //checking the parameters given
     if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
 
-    //deleting the category
-    await ArtSchema.findOneAndDelete({ name: temp[1].toLowerCase() });
+    //adding the new category
+    await ArtSchema.findOneAndUpdate(
+      { name: temp[1].toLowerCase() },
+      { name: temp[2].toLowerCase() }
+    );
 
-    //send message
-    msg.channel
-      .send(`Removed Character ${temp[1].toLowerCase()}`)
-      .catch(console.error);
+    //sending appropriate message
+    msg.channel.send(`Character name updated`).catch(console.error);
   } catch (err) {
     console.log(err);
   }
 };
 
-module.exports = removeArtCharacterCommand;
+module.exports = editArtCharacterCommand;

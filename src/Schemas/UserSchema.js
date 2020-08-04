@@ -1,4 +1,4 @@
-/*Schema for the user document*/
+/*Schema for the user collection*/
 
 const mongoose = require('mongoose');
 

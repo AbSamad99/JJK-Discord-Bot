@@ -1,24 +1,32 @@
 /*Function to handle the get art names command*/
 
 const Discord = require('discord.js');
-const capitalize = require('capitalize-the-first-letter');
+const { capitalCase } = require('change-case');
 
 const ArtSchema = require('../../Schemas/ArtSchema.js');
+const { channelCheck } = require('../../Checks/Other/helperChecks.js');
 
 const getArtNamesCommand = async (msg) => {
   try {
+    //checking if the command was issued in appropriate channel
+    if (
+      !channelCheck(msg, 'music-and-art') &&
+      !channelCheck(msg, 'syed-bot-practice')
+    )
+      return;
+
     let message, index, characterArtArray, artNamesEmbed;
 
     //getting required object
     characterArtArray = await ArtSchema.find({});
 
     //constructing the return message
-    message = `${capitalize(characterArtArray[0].name)}: ${
+    message = `${capitalCase(characterArtArray[0].name)}: ${
       characterArtArray[0].links.length
     }`;
     for (index = 1; index < characterArtArray.length; index++) {
       message = `${message}
-${capitalize(characterArtArray[index].name)}: ${
+${capitalCase(characterArtArray[index].name)}: ${
         characterArtArray[index].links.length
       }`;
     }

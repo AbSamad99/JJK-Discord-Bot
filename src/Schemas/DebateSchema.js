@@ -1,4 +1,4 @@
-/*Schema for the debate document*/
+/*Schema for the debate collection*/
 
 const mongoose = require('mongoose');
 

@@ -19,10 +19,10 @@ const containsDiscordLinkCheck = (temp) => {
 //art link check
 const containsInvalidArtLinkCheck = async (link) => {
   if (
-    link.includes('twitter.com/') ||
-    link.includes('pixiv.net/') ||
-    link.includes('instagram.com/') ||
-    link.includes('tumblr.com/') ||
+    (link.includes('twitter.com/') ||
+      link.includes('pixiv.net/') ||
+      link.includes('instagram.com/') ||
+      link.includes('tumblr.com/')) &&
     (await urlExist(link))
   )
     return 0;

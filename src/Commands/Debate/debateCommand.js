@@ -1,7 +1,7 @@
 /*Function to handle the debate command*/
 
 const Discord = require('discord.js');
-const capitalize = require('capitalize-the-first-letter');
+const { capitalCase } = require('change-case');
 
 const DebateSchema = require('../../Schemas/DebateSchema.js');
 
@@ -25,8 +25,8 @@ const debateCommand = async (msg) => {
       'Debate between who emerges victorious when these two characters face off!'
     )
     .setColor(10181046)
-    .addField('Contestant 1:', capitalize(char1), true)
-    .addField('Contestant 2:', capitalize(char2), true);
+    .addField('Contestant 1:', capitalCase(char1), true)
+    .addField('Contestant 2:', capitalCase(char2), true);
 
   //sending the embed
   msg.channel.send(debateEmbed).catch(console.log);

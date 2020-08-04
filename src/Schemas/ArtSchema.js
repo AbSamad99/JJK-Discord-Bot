@@ -1,4 +1,4 @@
-/*Schema for the art document*/
+/*Schema for the art collection*/
 
 const mongoose = require('mongoose');
 

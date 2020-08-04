@@ -73,7 +73,7 @@ const prefixCommandFunction = (msg, temp) => {
   }
 
   //art command check
-  else if (keyword.includes('debate')) {
+  else if (keyword.includes('deb')) {
     debateCommandTypeCheck(msg, keyword);
   }
 

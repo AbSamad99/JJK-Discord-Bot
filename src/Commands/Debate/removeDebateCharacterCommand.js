@@ -15,18 +15,18 @@ const removeDebateCharacterCommand = async (msg) => {
 
   //checking if name was given
   if (!temp[1]) {
-    msg.channel.send('Please provide a character');
+    msg.channel.send('Please provide a character name');
     return;
   }
 
   //checking if name is already present
-  if (!charArray.includes(temp[1])) {
+  if (!charArray.includes(temp[1].toLowerCase())) {
     msg.channel.send('No such character exists');
     return;
   }
 
   //removing from the database
-  index = charArray.findIndex((char) => char === temp[1]);
+  index = charArray.findIndex((char) => char === temp[1].toLowerCase());
   charArray.splice(index, 1);
   await DebateSchema.findOneAndUpdate({ id: 1 }, { names: charArray });
 

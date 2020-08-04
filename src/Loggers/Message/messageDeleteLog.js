@@ -32,7 +32,7 @@ const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
       deleteEmbed
         .setAuthor(executor.tag, await gifOrPngCheck(executor))
         .setThumbnail(await gifOrPngCheck(target))
-        .addField('Author:', `${target.id}`);
+        .addField('Author:', `${target}`);
     }
 
     if (msg.content.length) {

@@ -12,7 +12,7 @@ const userKickLog = async (
   reason
 ) => {
   try {
-    let kickEmbed, roles, temp;
+    let kickEmbed, roles;
 
     //setting relevant fields
 
@@ -39,7 +39,6 @@ const userKickLog = async (
       else kickEmbed.addField('Reason', kickAuditLog.reason);
 
       if (mem._roles.length) {
-        console.log(mem._roles);
         mem._roles.forEach((roleId) => {
           roles = `${roles} <@&${roleId}>`;
         });
@@ -51,6 +50,8 @@ const userKickLog = async (
         .setThumbnail(await gifOrPngCheck(toKick.user))
         .setDescription(`${toKick.user} has been kicked from the server.`)
         .addField('Reason:', reason);
+
+      msg.channel.send(kickEmbed).catch(console.log);
 
       if (toKick._roles.length) {
         toKick._roles.forEach((roleId) => {

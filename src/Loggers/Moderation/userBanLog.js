@@ -55,6 +55,8 @@ const userBanLog = async (
         .setDescription(`${toBan.user} has been Banned from the server.`)
         .addField('Reason:', reason);
 
+      msg.channel.send(banEmbed).catch(console.log);
+
       if (toBan._roles.length) {
         toBan._roles.forEach((roleId) => {
           roles = `${roles} <@&${roleId}>`;

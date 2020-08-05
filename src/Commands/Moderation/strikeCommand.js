@@ -138,6 +138,7 @@ This is their third strike, therefore they shall be kicked from the server. The 
             .then(() => {
               userKickLog(
                 null,
+                null,
                 msg,
                 logsChannel,
                 toStrike,
@@ -166,6 +167,7 @@ This is their fourth strike, therefore they shall be permanentally banned from t
             })
             .then(() => {
               userBanLog(
+                null,
                 null,
                 msg,
                 logsChannel,

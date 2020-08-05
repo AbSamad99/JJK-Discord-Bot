@@ -12,7 +12,9 @@ const changedAvatarLog = require('../../Loggers/User/changedAvatarLog.js');
 
 const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   try {
-    let user;
+    let user, testChannel;
+
+    testChannel = newMem.guild.channels.cache.get('720958791432011789');
 
     user = await UserSchema.findOne({ id: newMem.user.id });
 
@@ -106,6 +108,11 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         return;
       }
       await changedRoleLog(newMem, roleLogs);
+    }
+
+    //checking if user boosted the server
+    if (!oldMem.premiumSince && newMem.premiumSince) {
+      testChannel.send(`${newMem} has boosted the server`);
     }
   } catch (err) {
     console.log(err);

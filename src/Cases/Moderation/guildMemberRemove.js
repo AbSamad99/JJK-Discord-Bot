@@ -2,16 +2,14 @@
 
 const UserSchema = require('../../Schemas/UserSchema.js');
 
-const utilities = require('../../utilities.js');
-
 //getting the required logging functions
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 const userLeaveLog = require('../../Loggers/Moderation/userLeaveLog.js');
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
 
-const guildMemberRemoveCaseHandler = async (mem) => {
+const guildMemberRemoveCaseHandler = async (mem, myCache) => {
   try {
-    let theHonoredOne, banAuditLog, kickAuditLog, logsChannel;
+    let theHonoredOne, banAuditLog, kickAuditLog, logsChannel, temp1, temp2;
 
     //getting the logs channel
     logsChannel = mem.guild.channels.cache.get('447513266395283476');
@@ -33,18 +31,24 @@ const guildMemberRemoveCaseHandler = async (mem) => {
       })
       .then((audit) => audit.entries.first());
 
+    temp1 = myCache.get('previousMemberKickLogId');
+    temp2 = myCache.get('previousMemberBanLogId');
+
     //checking if the user was kicked and then logging
-    if (utilities.previousMemberKickLogId !== kickAuditLog.id) {
-      utilities.previousMemberKickLogId = kickAuditLog.id;
+    if (kickAuditLog.id !== temp1) {
+      myCache.del('previousMemberKickLogId');
+      myCache.set('previousMemberKickLogId', kickAuditLog.id);
       if (theHonoredOne.id === kickAuditLog.executor.id) {
         return;
       } else {
         await userKickLog(kickAuditLog, mem, null, logsChannel);
       }
     }
+
     //checking if user was banned and then logging
-    else if (utilities.previousMemberBanLogId !== banAuditLog.id) {
-      utilities.previousMemberBanLogId = banAuditLog.id;
+    else if (banAuditLog.id !== temp2) {
+      myCache.del('previousMemberKickLogId');
+      myCache.set('previousMemberKickLogId', banAuditLog.id);
       if (theHonoredOne.id === banAuditLog.executor.id) {
         return;
       } else {

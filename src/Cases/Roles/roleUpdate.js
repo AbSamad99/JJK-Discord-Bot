@@ -3,9 +3,8 @@
 const { sentenceCase } = require('change-case');
 const rolePermsUpdateLog = require('../../Loggers/Roles/rolePermsUpdateLog');
 const roleUpdateLog = require('../../Loggers/Roles/roleUpdateLog');
-const utilities = require('../../utilities.js');
 
-const roleUpdateCaseHandler = async (oldRole, newRole) => {
+const roleUpdateCaseHandler = async (oldRole, newRole, myCache) => {
   try {
     let roleUpdateAuditLog,
       oldPermsArray,
@@ -16,7 +15,8 @@ const roleUpdateCaseHandler = async (oldRole, newRole) => {
       colorChange,
       nameChange,
       hoistChange,
-      mentionableChange;
+      mentionableChange,
+      temp;
 
     //getting old and new perms
     oldPermsArray = oldRole.permissions.toArray();
@@ -46,6 +46,8 @@ const roleUpdateCaseHandler = async (oldRole, newRole) => {
       (change) => change.key === 'hoist'
     );
 
+    temp = myCache.get('previousRoleUpdateAuditLog');
+
     //checking if new perms were added
     for (i = 0; i < newPermsArray.length; i++) {
       if (!oldPermsArray.includes(newPermsArray[i])) {
@@ -64,12 +66,14 @@ ${sentenceCase(newPermsArray[i])}`;
 
     //calling the logging function if perms were changed
     if (added || removed) {
-      utilities.previousRoleUpdateAuditLog = roleUpdateAuditLog.id;
+      myCache.del('previousRoleUpdateAuditLog');
+      myCache.set('previousRoleUpdateAuditLog', roleUpdateAuditLog.id);
       await rolePermsUpdateLog(roleUpdateAuditLog, added, removed, newRole);
     }
 
-    if (utilities.previousRoleUpdateAuditLog !== roleUpdateAuditLog.id) {
-      utilities.previousRoleUpdateAuditLog = roleUpdateAuditLog.id;
+    if (roleUpdateAuditLog.id !== temp) {
+      myCache.del('previousRoleUpdateAuditLog');
+      myCache.set('previousRoleUpdateAuditLog', roleUpdateAuditLog.id);
 
       //checking if role name, color, etc was changed
       if (nameChange || colorChange || mentionableChange || hoistChange) {

@@ -1,15 +1,13 @@
 /*Handles Logging of whenever a user is banned from the server*/
 
-const utilities = require('../../utilities.js');
-
 //getting the required logging function
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
 
 const UserSchema = require('../../Schemas/UserSchema.js');
 
-const guildBanAddCaseHandler = async (guild, mem) => {
+const guildBanAddCaseHandler = async (guild, mem, myCache) => {
   try {
-    let theHonoredOne, banAuditLog, logsChannel;
+    let theHonoredOne, banAuditLog, logsChannel, temp;
 
     //getting the logs channel
     logsChannel = guild.channels.cache.get('447513266395283476');
@@ -24,9 +22,12 @@ const guildBanAddCaseHandler = async (guild, mem) => {
       })
       .then((audit) => audit.entries.first());
 
+    temp = myCache.get('previousMemberBanLogId');
+
     //checking if a new ban was added
-    if (utilities.previousMemberBanLogId !== banAuditLog.id) {
-      utilities.previousMemberBanLogId = banAuditLog.id;
+    if (banAuditLog.id !== temp) {
+      myCache.del('previousMemberBanLogId');
+      myCache.set('previousMemberBanLogId', banAuditLog.id);
       if (theHonoredOne.id === banAuditLog.executor.id) {
         return;
       } else {

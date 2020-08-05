@@ -2,17 +2,15 @@
 
 const UserSchema = require('../../Schemas/UserSchema.js');
 
-const utilities = require('../../utilities');
-
 //getting the required logging functions
 const changedNicknameLog = require('../../Loggers/User/changedNicknameLog.js');
 const changedRoleLog = require('../../Loggers/User/changedRoleLog.js');
 const changedUsernameAndDiscriminatorLog = require('../../Loggers/User/changedUsernameAndDiscriminatorLog.js');
 const changedAvatarLog = require('../../Loggers/User/changedAvatarLog.js');
 
-const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
+const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
   try {
-    let user, testChannel;
+    let user, testChannel, temp;
 
     testChannel = newMem.guild.channels.cache.get('720958791432011789');
 
@@ -49,9 +47,12 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
     let nick = userLogs.changes[0];
     let role = roleLogs.changes[0];
 
+    temp = myCache.get('previousMemberUpdateLogId');
+
     //checking to see if nickname was updated
-    if (utilities.previousMemberUpdateLogId !== userLogs.id) {
-      utilities.previousMemberUpdateLogId = userLogs.id;
+    if (userLogs.id !== temp) {
+      myCache.del('previousMemberUpdateLogId');
+      myCache.set('previousMemberUpdateLogId', userLogs.id);
       if (userLogs.target.tag !== userLogs.executor.tag) {
         //Mod made the changes
         await changedNicknameLog(newMem, nick, userLogs.executor);
@@ -98,9 +99,12 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
       );
     }
 
+    temp = myCache.get('previousMemberRoleUpdateLogId');
+
     //checking to see if role was updated
-    if (utilities.previousMemberRoleUpdateLogId !== roleLogs.id) {
-      utilities.previousMemberRoleUpdateLogId = roleLogs.id;
+    if (roleLogs.id !== temp) {
+      myCache.del('previousMemberUpdateLogId');
+      myCache.set('previousMemberUpdateLogId', roleLogs.id);
       if (
         role.new[0].name.toLowerCase() === 'muted' &&
         roleLogs.executor.username === 'The Honored One'

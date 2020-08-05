@@ -1,8 +1,12 @@
 const Discord = require('discord.js');
 const dotenv = require('dotenv');
+const nodeCache = require('node-cache');
 
 //config the env variables
 dotenv.config();
+
+//starting the local cache
+const myCache = new nodeCache();
 
 const connectDB = require('./config/db.js');
 
@@ -29,11 +33,11 @@ const roleCreateCaseHandler = require('./Cases/Roles/roleCreate.js');
 const roleDeleteCaseHandler = require('./Cases/Roles/roleDelete.js');
 
 client.on('ready', async () => {
-  readyCaseHandler(client);
+  readyCaseHandler(client, myCache);
 });
 
 client.on('messageDelete', async (msg) => {
-  messageDeleteCaseHandler(msg);
+  messageDeleteCaseHandler(msg, myCache);
 });
 
 client.on('messageDeleteBulk', (msgs) => {
@@ -49,7 +53,7 @@ client.on('messageUpdate', async (oldMsg, newMsg) => {
 });
 
 client.on('guildMemberUpdate', async (oldMem, newMem) => {
-  guildMemberUpdateCaseHandler(oldMem, newMem);
+  guildMemberUpdateCaseHandler(oldMem, newMem, myCache);
 });
 
 client.on('guildMemberAdd', (mem) => {
@@ -57,7 +61,7 @@ client.on('guildMemberAdd', (mem) => {
 });
 
 client.on('guildMemberRemove', (mem) => {
-  guildMemberRemoveCaseHandler(mem);
+  guildMemberRemoveCaseHandler(mem, myCache);
 });
 
 // client.on('guildBanAdd', (guild, mem) => {
@@ -65,15 +69,15 @@ client.on('guildMemberRemove', (mem) => {
 // });
 
 client.on('guildBanRemove', (guild, mem) => {
-  guildBanRemoveCaseHandler(guild, mem);
+  guildBanRemoveCaseHandler(guild, mem, myCache);
 });
 
 client.on('channelUpdate', async (oldChannel, newChannel) => {
-  channelUpdateCaseHandler(oldChannel, newChannel);
+  channelUpdateCaseHandler(oldChannel, newChannel, myCache);
 });
 
 client.on('roleUpdate', async (oldRole, newRole) => {
-  roleUpdateCaseHandler(oldRole, newRole);
+  roleUpdateCaseHandler(oldRole, newRole, myCache);
 });
 
 client.on('roleCreate', (role) => {

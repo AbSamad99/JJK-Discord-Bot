@@ -1,15 +1,13 @@
 /*Handles the logging of whenever changes are made to the channels name and slowmode. Also logs whenever
 the perms for a role or a user are created, removed or edited*/
 
-const utilities = require('../../utilities.js');
-
 //getting the required logging functions
 const permsOverwriteCreateLog = require('../../Loggers/Channel/permsOverwriteCreateLog.js');
 const permsOverwriteRemoveLog = require('../../Loggers/Channel/permsOverwriteRemove.js');
 const permsOverwriteEditLog = require('../../Loggers/Channel/permsOverwriteEditLog.js');
 const channelUpdateLog = require('../../Loggers/Channel/channelUpdateLog.js');
 
-const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
+const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
   try {
     let channelOverwriteUpdateAuditLogs,
       channelOverwriteDeleteAuditLogs,
@@ -17,7 +15,8 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
       channelUpdateAuditLog,
       logsChannel,
       oldObj = {},
-      newObj = {};
+      newObj = {},
+      temp;
 
     //fetching the audit logs - channel overwrite update
     channelOverwriteUpdateAuditLogs = await newChannel.guild
@@ -87,9 +86,12 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
     let oldKeys = Object.keys(oldObj);
     let newKeys = Object.keys(newObj);
 
+    temp = myCache.get('previousChannelUpdateLogId');
+
     //checking if the channel was updated
-    if (channelUpdateAuditLog.id !== utilities.previousChannelUpdateLogId) {
-      utilities.previousChannelUpdateLogId = channelUpdateAuditLog.id;
+    if (channelUpdateAuditLog.id !== temp) {
+      myCache.del('previousChannelUpdateLogId');
+      myCache.set('previousChannelUpdateLogId', channelUpdateAuditLog.id);
 
       let channelNameChange, channelSlowmodeChange;
 

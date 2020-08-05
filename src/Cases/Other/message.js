@@ -2,7 +2,6 @@
 links to nsfw sites, etc*/
 
 // const urlExist = require('url-exist');
-const { prefix } = require('../../utilities');
 
 const {
   weebResponse,
@@ -29,7 +28,7 @@ const messageCaseHandler = (msg) => {
   try {
     let temp = msg.content.toLowerCase();
     //checks from command
-    if (temp.startsWith(prefix)) {
+    if (temp.startsWith('-')) {
       prefixCommandFunction(msg, temp);
     }
     //checks if the image or link provided contains nsfw content
@@ -111,6 +110,10 @@ const messageCaseHandler = (msg) => {
     // else if (otherSeriesTalkCheck(msg, temp)) {
     //   otherSeriesTalkResponse(msg);
     // }
+
+    if (temp.includes('tuturu') && msg.author.id === '434443106847424513') {
+      msg.channel.send('tuTUru');
+    }
   } catch (err) {
     console.log(err);
   }

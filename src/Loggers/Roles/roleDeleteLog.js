@@ -24,7 +24,7 @@ const roleDeleteLog = async (roleDeletAuditLog, role, perms) => {
       .addField(
         'Details:',
         `Name: ${role.name}
-Color: #${role.color.toString(16).toUpperCase()}
+Color: #${role.color.toString(16).toUpperCase().padStart(6, '0')}
 Displayed separately: ${role.hoist}
 Mentionable: ${role.mentionable}`
       );

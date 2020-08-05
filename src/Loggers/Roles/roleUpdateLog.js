@@ -54,8 +54,8 @@ After: ${hoistChange.new}`
     if (colorChange) {
       roleUpdateEmbed.addField(
         'Color:',
-        `Before: #${colorChange.old.toString(16).toUpperCase()}
-After: #${colorChange.new.toString(16).toUpperCase()}`
+        `Before: #${colorChange.old.toString(16).toUpperCase().padStart(6, '0')}
+After: #${colorChange.new.toString(16).toUpperCase().padStart(6, '0')}`
       );
     }
 

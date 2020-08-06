@@ -103,8 +103,8 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
 
     //checking to see if role was updated
     if (roleLogs.id !== temp) {
-      myCache.del('previousMemberUpdateLogId');
-      myCache.set('previousMemberUpdateLogId', roleLogs.id);
+      myCache.del('previousMemberRoleUpdateLogId');
+      myCache.set('previousMemberRoleUpdateLogId', roleLogs.id);
       if (
         role.new[0].name.toLowerCase() === 'muted' &&
         roleLogs.executor.username === 'The Honored One'

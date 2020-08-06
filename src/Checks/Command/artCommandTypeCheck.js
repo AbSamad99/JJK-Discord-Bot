@@ -11,70 +11,74 @@ const getArtNamesCommand = require('../../Commands/Art/getArtNamesCommand.js');
 const editArtCharacterCommand = require('../../Commands/Art/editArtCharacterCommand.js');
 
 const artCommandTypeCheck = (msg, keyword) => {
-  //get all art
-  if (
-    keyword === 'getallart' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    getAllArtCommand(msg);
-  }
+  try {
+    //get all art
+    if (
+      keyword === 'getallart' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      getAllArtCommand(msg);
+    }
 
-  //add art
-  else if (
-    keyword === 'addart' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin') ||
-      roleCheck(msg.member, 'Community Service Shaman'))
-  ) {
-    addArtCommand(msg);
-  }
+    //add art
+    else if (
+      keyword === 'addart' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin') ||
+        roleCheck(msg.member, 'Community Service Shaman'))
+    ) {
+      addArtCommand(msg);
+    }
 
-  //add character
-  else if (
-    keyword === 'addartchar' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    addArtCharacterCommand(msg);
-  }
+    //add character
+    else if (
+      keyword === 'addartchar' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      addArtCharacterCommand(msg);
+    }
 
-  //removes character
-  else if (
-    keyword === 'remartchar' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    removeArtCharacterCommand(msg);
-  }
+    //removes character
+    else if (
+      keyword === 'remartchar' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      removeArtCharacterCommand(msg);
+    }
 
-  //edits character name
-  else if (
-    keyword === 'editartchar' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    editArtCharacterCommand(msg);
-  }
+    //edits character name
+    else if (
+      keyword === 'editartchar' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      editArtCharacterCommand(msg);
+    }
 
-  //removes art
-  else if (
-    keyword === 'remart' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin') ||
-      roleCheck(msg.member, 'Community Service Shaman'))
-  ) {
-    removeArtCommand(msg);
-  }
+    //removes art
+    else if (
+      keyword === 'remart' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin') ||
+        roleCheck(msg.member, 'Community Service Shaman'))
+    ) {
+      removeArtCommand(msg);
+    }
 
-  //get art
-  else if (keyword === 'getart') {
-    getArtCommand(msg);
-  }
+    //get art
+    else if (keyword === 'getart') {
+      getArtCommand(msg);
+    }
 
-  //get art names
-  else if (keyword === 'getartnames') {
-    getArtNamesCommand(msg);
+    //get art names
+    else if (keyword === 'getartnames') {
+      getArtNamesCommand(msg);
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 

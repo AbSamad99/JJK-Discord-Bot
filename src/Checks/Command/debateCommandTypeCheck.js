@@ -8,49 +8,53 @@ const getDebateNamesCommand = require('../../Commands/Debate/getDebateNamesComma
 const editDebateCharacterCommand = require('../../Commands/Debate/editDebateCharacterCommand');
 
 const debateCommandTypeCheck = (msg, keyword) => {
-  //add Debate Character Command
-  if (
-    keyword === 'adddebchar' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    addDebateCharacterCommand(msg);
-  }
+  try {
+    //add Debate Character Command
+    if (
+      keyword === 'adddebchar' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      addDebateCharacterCommand(msg);
+    }
 
-  //remove Debate Character Command
-  else if (
-    keyword === 'remdebchar' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    removeDebateCharacterCommand(msg);
-  }
+    //remove Debate Character Command
+    else if (
+      keyword === 'remdebchar' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      removeDebateCharacterCommand(msg);
+    }
 
-  //edit Debate Character Command
-  else if (
-    keyword === 'editdebchar' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    editDebateCharacterCommand(msg);
-  }
+    //edit Debate Character Command
+    else if (
+      keyword === 'editdebchar' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      editDebateCharacterCommand(msg);
+    }
 
-  //debate Command
-  else if (
-    keyword === 'debate' &&
-    (channelCheck(msg, 'syed-bot-practice') ||
-      channelCheck(msg, 'debates-and-powerscaling'))
-  ) {
-    debateCommand(msg);
-  }
+    //debate Command
+    else if (
+      keyword === 'debate' &&
+      (channelCheck(msg, 'syed-bot-practice') ||
+        channelCheck(msg, 'debates-and-powerscaling'))
+    ) {
+      debateCommand(msg);
+    }
 
-  //get debate names Command
-  else if (
-    keyword === 'getdebnames' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    getDebateNamesCommand(msg);
+    //get debate names Command
+    else if (
+      keyword === 'getdebnames' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      getDebateNamesCommand(msg);
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 

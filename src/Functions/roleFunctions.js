@@ -45,19 +45,26 @@ const removeRole = (msg, role) => {
 //mutes/unmutes the user
 const assignMuteRole = (msg, toMute, muteRole, time, logsChannel, reason) => {
   try {
-    let addEmbedResponse = new Discord.MessageEmbed()
+    let addEmbedResponse, removeEmbedResponse;
+
+    //creating the mute embed
+    addEmbedResponse = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
       .setTitle('User muted')
       .setColor(muteRole.color)
       .setDescription(`${toMute} has been <@&${muteRole.id}> for ${time}`)
       .addField('Reason:', reason)
       .setFooter(new Date());
-    let removeEmbedResponse = new Discord.MessageEmbed()
+
+    //creating the unmute embed
+    removeEmbedResponse = new Discord.MessageEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
       .setTitle('User unmuted')
       .setColor(muteRole.color)
       .setDescription(`${toMute} is no longer <@&${muteRole.id}>`)
       .setFooter(new Date());
+
+    //assigning the mute role
     toMute.roles
       .add(muteRole.id)
       .then(() => {
@@ -67,7 +74,15 @@ const assignMuteRole = (msg, toMute, muteRole, time, logsChannel, reason) => {
         logsChannel.send(addEmbedResponse);
       })
       .catch(console.error);
+
+    //unmuting
     setTimeout(() => {
+      toMute = msg.guild.member(toMute);
+
+      if (!toMute.roles.cache.has(muteRole.id)) {
+        return;
+      }
+
       toMute.roles
         .remove(muteRole.id)
         .then(() => {

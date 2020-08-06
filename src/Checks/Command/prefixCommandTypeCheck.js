@@ -23,139 +23,149 @@ const chapterAnnouncement = require('../../Commands/Other/chapterAnnouncement.js
 const messageCommandTypeCheck = require('./messageCommandTypeCheck.js');
 const moderationCommandTypeCheck = require('./moderationCommandTypeCheck.js');
 const roleCommandTypeCheck = require('./roleCommandTypeCheck.js');
+const strikeCountCommand = require('../../Commands/Other/strikeCountCommand.js');
 
 const prefixCommandFunction = (msg, temp) => {
-  let keyword = temp.slice(1);
-  keyword = keyword.split(' ');
-  keyword = keyword[0];
+  try {
+    let keyword = temp.slice(1);
+    keyword = keyword.split(' ');
+    keyword = keyword[0];
 
-  //chap command
-  if (
-    keyword === 'chapter' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    chapterAnnouncement(msg);
-  }
+    //chap command
+    if (
+      keyword === 'chapter' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      chapterAnnouncement(msg);
+    }
 
-  //database seed command
-  else if (keyword === 'seed' && msg.author.id === '390450196711997440') {
-    seedUsers(msg);
-  }
+    //database seed command
+    if (keyword === 'seed' && msg.author.id === '390450196711997440') {
+      seedUsers(msg);
+    }
 
-  //bot message command check
-  else if (keyword.includes('message')) {
-    messageCommandTypeCheck(msg, keyword);
-  }
+    //bot message command check
+    if (keyword.includes('message')) {
+      messageCommandTypeCheck(msg, keyword);
+    }
 
-  //purge command
-  else if (
-    keyword === 'purge' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    purgeCommand(msg);
-  }
+    //purge command
+    if (
+      keyword === 'purge' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      purgeCommand(msg);
+    }
 
-  //moderation command check
-  else if (msg.mentions.members.array().length) {
-    moderationCommandTypeCheck(msg, keyword);
-  }
+    //moderation command check
+    if (msg.mentions.members.array().length) {
+      moderationCommandTypeCheck(msg, keyword);
+    }
 
-  //emote command check
-  else if (keyword.includes('emote')) {
-    emoteCommandTypeCheck(msg, keyword);
-  }
+    //emote command check
+    if (keyword.includes('emote')) {
+      emoteCommandTypeCheck(msg, keyword);
+    }
 
-  //art command check
-  else if (keyword.includes('art')) {
-    artCommandTypeCheck(msg, keyword);
-  }
+    //art command check
+    if (keyword.includes('art')) {
+      artCommandTypeCheck(msg, keyword);
+    }
 
-  //art command check
-  else if (keyword.includes('deb')) {
-    debateCommandTypeCheck(msg, keyword);
-  }
+    //art command check
+    if (keyword.includes('deb')) {
+      debateCommandTypeCheck(msg, keyword);
+    }
 
-  //suggestion command
-  else if (keyword === 'suggest') {
-    suggestionCommand(msg);
-  }
+    //suggestion command
+    if (keyword === 'suggest') {
+      suggestionCommand(msg);
+    }
 
-  //role command check
-  else if (keyword.includes('role')) {
-    roleCommandTypeCheck(msg, keyword);
-  }
+    //strike count command check
+    if (keyword === 'strikecount') {
+      strikeCountCommand(msg);
+    }
 
-  //fujo command
-  else if (keyword === 'fujo') {
-    msg.channel.send(fujoLink).catch(console.error);
-  }
+    //role command check
+    if (keyword.includes('role')) {
+      roleCommandTypeCheck(msg, keyword);
+    }
 
-  //todo command
-  else if (
-    keyword === 'todo' &&
-    (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
-  ) {
-    msg.channel.send(todoLink).catch(console.error);
-  }
+    //fujo command
+    if (keyword === 'fujo') {
+      msg.channel.send(fujoLink).catch(console.error);
+    }
 
-  //welcome command
-  else if (
-    keyword === 'welcome' &&
-    (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
-  ) {
-    let message = `Welcome newbie, we have three questions for you:
+    //todo command
+    if (
+      keyword === 'todo' &&
+      (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+    ) {
+      msg.channel.send(todoLink).catch(console.error);
+    }
+
+    //welcome command
+    if (
+      keyword === 'welcome' &&
+      (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+    ) {
+      let message = `Welcome newbie, we have three questions for you:
 1. Are you up to date on the Jujutsu Kaisen manga?
 2. Have you read the prequel?
 3. Can Todo ask you a woke question?`;
-    msg.channel.send(message).catch(console.error);
-  }
+      msg.channel.send(message).catch(console.error);
+    }
 
-  //guy command
-  else if (
-    keyword === 'guy' &&
-    (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
-  ) {
-    msg.channel.send(guyLink).catch(console.error);
-  }
+    //guy command
+    if (
+      keyword === 'guy' &&
+      (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+    ) {
+      msg.channel.send(guyLink).catch(console.error);
+    }
 
-  //shy command
-  else if (
-    keyword === 'shy' &&
-    (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
-  ) {
-    msg.channel.send(shyLink).catch(console.error);
-  }
+    //shy command
+    if (
+      keyword === 'shy' &&
+      (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+    ) {
+      msg.channel.send(shyLink).catch(console.error);
+    }
 
-  //encyclopedia command
-  else if (keyword === 'encyclopedia') {
-    msg.channel.send(encyclopediaLink).catch(console.error);
-  }
+    //encyclopedia command
+    if (keyword === 'encyclopedia') {
+      msg.channel.send(encyclopediaLink).catch(console.error);
+    }
 
-  //chart command
-  else if (keyword === 'chart') {
-    msg.channel.send(chartLink).catch(console.error);
-  }
+    //chart command
+    if (keyword === 'chart') {
+      msg.channel.send(chartLink).catch(console.error);
+    }
 
-  //catalogue command
-  else if (keyword === 'catalogue') {
-    msg.channel.send(catalogueLink).catch(console.error);
-  }
+    //catalogue command
+    if (keyword === 'catalogue') {
+      msg.channel.send(catalogueLink).catch(console.error);
+    }
 
-  //prequel command
-  else if (
-    keyword === 'prequel' &&
-    (channelCheck(msg, 'welcome') ||
-      channelCheck(msg, 'manga-discussion') ||
-      channelCheck(msg, 'syed-bot-practice'))
-  ) {
-    msg.channel.send(prequelLink).catch(console.error);
-  }
+    //prequel command
+    if (
+      keyword === 'prequel' &&
+      (channelCheck(msg, 'welcome') ||
+        channelCheck(msg, 'manga-discussion') ||
+        channelCheck(msg, 'syed-bot-practice'))
+    ) {
+      msg.channel.send(prequelLink).catch(console.error);
+    }
 
-  //wiki command
-  else if (keyword === 'wiki') {
-    msg.channel.send(wikiLink).catch(console.error);
+    //wiki command
+    if (keyword === 'wiki') {
+      msg.channel.send(wikiLink).catch(console.error);
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 

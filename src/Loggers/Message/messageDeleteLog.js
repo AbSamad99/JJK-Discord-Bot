@@ -36,8 +36,7 @@ const deleteMessageAndAttachmentLog = async (msg, executor, target) => {
     }
 
     if (msg.content.length) {
-      deleteEmbed.setDescription(`Message:
-${msg.content}`);
+      deleteEmbed.setDescription(`${msg.content}`);
     }
 
     if (msg.attachments.array().length) {

@@ -6,40 +6,44 @@ const editEmoteCommand = require('../../Commands/Emote/editEmoteCommand.js');
 const archiveOrDeleteEmoteCommand = require('../../Commands/Emote/archiveOrDeleteEmoteCommand.js');
 
 const emoteCommandTypeCheck = (msg, keyword) => {
-  //addEmoteCommand
-  if (
-    keyword === 'addemote' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    addEmoteCommand(msg);
-  }
+  try {
+    //addEmoteCommand
+    if (
+      keyword === 'addemote' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      addEmoteCommand(msg);
+    }
 
-  //deleteEmoteCommand
-  else if (
-    keyword === 'deleteemote' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    archiveOrDeleteEmoteCommand(msg, 'delete');
-  }
+    //deleteEmoteCommand
+    else if (
+      keyword === 'deleteemote' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      archiveOrDeleteEmoteCommand(msg, 'delete');
+    }
 
-  //editEmoteCommand
-  else if (
-    keyword === 'editemote' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    editEmoteCommand(msg);
-  }
+    //editEmoteCommand
+    else if (
+      keyword === 'editemote' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      editEmoteCommand(msg);
+    }
 
-  //archiveEmoteCommand
-  else if (
-    keyword === 'archiveemote' &&
-    (roleCheck(msg.member, 'Special-Grade Shaman') ||
-      roleCheck(msg.member, 'admin'))
-  ) {
-    archiveOrDeleteEmoteCommand(msg, 'archive');
+    //archiveEmoteCommand
+    else if (
+      keyword === 'archiveemote' &&
+      (roleCheck(msg.member, 'Special-Grade Shaman') ||
+        roleCheck(msg.member, 'admin'))
+    ) {
+      archiveOrDeleteEmoteCommand(msg, 'archive');
+    }
+  } catch (err) {
+    console.log(err);
   }
 };
 

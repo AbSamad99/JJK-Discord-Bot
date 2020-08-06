@@ -1,6 +1,7 @@
 /*Function to handle the archive emote command*/
 
 const ms = require('ms');
+const emoteDeleteLog = require('../../Loggers/Emotes/emoteDeleteLog');
 
 const archiveOrDeleteEmoteCommand = (msg, type) => {
   try {
@@ -30,7 +31,10 @@ const archiveOrDeleteEmoteCommand = (msg, type) => {
     setTimeout(() => {
       toArchive
         .delete()
-        .then(() => msg.channel.send(`Emote ${type}d`))
+        .then(() => msg.channel.send(`${toArchive.name} ${type}d`))
+        .then(() => {
+          emoteDeleteLog(null, toArchive, msg);
+        })
         .catch(console.log);
     }, ms('2s'));
   } catch (err) {

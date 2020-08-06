@@ -18,7 +18,7 @@ const permsOverwriteRemoveLog = async (
       .setColor(10038562)
       .setTitle('Permission overwrite removed')
       .setDescription(
-        `The permission overwrite for ${permsObject.roleOrUser} has been removed in ${channel}`
+        `Permission overwrites for ${permsObject.roleOrUser} removed in ${channel}`
       )
       .setFooter(new Date());
 

@@ -49,7 +49,7 @@ ${sentenceCase(perm)}: ❌ ➜ ⬜`;
       });
 
       overwriteEmbed.setDescription(
-        `A permission overwrite for ${newPermsObject1.roleOrUser} has been edited in ${channel}:
+        `Permission overwrites for ${newPermsObject1.roleOrUser} edited in ${channel}:
 ${changes}`
       );
     } else {
@@ -78,7 +78,7 @@ ${sentenceCase(perm)}: ⬜ ➜ ❌`;
       });
 
       overwriteEmbed.setDescription(
-        `A permission overwrite for ${newPermsObject2.roleOrUser} has been edited in ${channel}:
+        `Permission overwrites for ${newPermsObject2.roleOrUser} edited in ${channel}:
 ${changes}`
       );
     }

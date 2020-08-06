@@ -1,6 +1,7 @@
 /*Function to handle the add emote command*/
 
 const urlExist = require('url-exist');
+const emoteCreateLog = require('../../Loggers/Emotes/emoteCreateLog');
 
 //command to add a new emote
 const addEmoteCommand = async (msg) => {
@@ -38,7 +39,11 @@ const addEmoteCommand = async (msg) => {
     //adding the new emote
     msg.guild.emojis
       .create(emoteUrl, emoteName)
-      .then((emote) => msg.channel.send(`${emote} added`))
+      .then((emote) =>
+        msg.channel.send(`${emote} added`).then(() => {
+          emoteCreateLog(null, emote, msg).catch(console.log);
+        })
+      )
       .catch((err) => {
         console.error(err);
         msg.channel.send(

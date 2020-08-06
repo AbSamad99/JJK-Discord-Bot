@@ -112,7 +112,9 @@ const messageCaseHandler = (msg) => {
     // }
 
     if (temp.includes('tuturu') && msg.author.id === '434443106847424513') {
-      msg.channel.send('tuTUru');
+      msg.channel.send(
+        'https://cdn.discordapp.com/attachments/720958791432011789/740882166694543421/Studio_Project.jpeg'
+      );
     }
   } catch (err) {
     console.log(err);

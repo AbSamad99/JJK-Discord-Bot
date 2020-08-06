@@ -1,5 +1,7 @@
 /*Function to handle the edit emote command*/
 
+const emoteUpdateLog = require('../../Loggers/Emotes/emoteUpdateLog');
+
 const editEmoteCommand = (msg) => {
   try {
     let temp1, temp2, toEdit;
@@ -15,6 +17,7 @@ const editEmoteCommand = (msg) => {
     }
     temp2 = temp1[1].split(':')[1];
     toEdit = msg.guild.emojis.cache.find((emote) => emote.name === temp2);
+    temp2 = { name: toEdit.name };
     if (!toEdit) {
       msg.channel.send('No such emote exists in the server');
       return;
@@ -23,7 +26,11 @@ const editEmoteCommand = (msg) => {
       .edit({
         name: temp1[2],
       })
-      .then(() => msg.channel.send('Name changed'))
+      .then((emote) =>
+        msg.channel.send('Name changed').then(() => {
+          emoteUpdateLog(null, temp2, emote, msg);
+        })
+      )
       .catch(console.error);
   } catch (err) {
     console.log(err);

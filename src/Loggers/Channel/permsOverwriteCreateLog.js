@@ -18,7 +18,7 @@ const permsOverwriteCreateLog = async (
       .setColor(3066993)
       .setTitle('Permission overwrite created')
       .setDescription(
-        `A permission overwrite for ${permsObject.roleOrUser} has been created in ${channel}`
+        `Permission overwrites for ${permsObject.roleOrUser} created in ${channel}`
       )
       .setFooter(new Date());
 

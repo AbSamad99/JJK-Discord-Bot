@@ -16,7 +16,9 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
       logsChannel,
       oldObj = {},
       newObj = {},
-      temp;
+      temp,
+      roleOrUser,
+      name;
 
     //fetching the audit logs - channel overwrite update
     channelOverwriteUpdateAuditLogs = await newChannel.guild
@@ -55,7 +57,7 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
       } else if (ov.type === 'member') {
         roleOrUser = newChannel.guild.members.cache.get(ov.id);
       }
-      let name = roleOrUser.name || roleOrUser.user.username;
+      name = roleOrUser.name || roleOrUser.user.username;
 
       oldObj[name] = {
         roleOrUser: roleOrUser,
@@ -72,7 +74,7 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
       } else if (ov.type === 'member') {
         roleOrUser = newChannel.guild.members.cache.get(ov.id);
       }
-      let name = roleOrUser.name || roleOrUser.user.username;
+      name = roleOrUser.name || roleOrUser.user.username;
 
       newObj[name] = {
         roleOrUser: roleOrUser,

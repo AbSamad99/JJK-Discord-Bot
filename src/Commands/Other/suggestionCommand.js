@@ -49,10 +49,11 @@ const suggestionCommand = async (msg) => {
       .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
       .setTitle('Suggestion')
       .setColor(msg.member.displayColor)
-      .setDescription(
-        `${msg.author} has provided a suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively. Feel free to discuss for and against this suggestion here.`
+      .setDescription(message)
+      .addField(
+        'Info',
+        `${msg.author} has provided this suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively. Feel free to discuss for and against this suggestion here.`
       )
-      .addField('Suggestion', message)
       .setFooter(new Date());
 
     //checking to see if any image was given

@@ -27,16 +27,21 @@ const guildMemberRemoveCaseHandler = require('./Cases/Moderation/guildMemberRemo
 const guildBanAddCaseHandler = require('./Cases/Moderation/guildBanAdd.js');
 const guildBanRemoveCaseHandler = require('./Cases/Moderation/guildBanRemove.js');
 const messageBulkDeleteCaseHandler = require('./Cases/Moderation/messageBulkDelete.js');
-const channelUpdateCaseHandler = require('./Cases/Moderation/channelUpdate.js');
+const channelUpdateCaseHandler = require('./Cases/Channels/channelUpdate.js');
 const roleUpdateCaseHandler = require('./Cases/Roles/roleUpdate.js');
 const roleCreateCaseHandler = require('./Cases/Roles/roleCreate.js');
 const roleDeleteCaseHandler = require('./Cases/Roles/roleDelete.js');
+const channelCreateCaseHandler = require('./Cases/Channels/channelCreate.js');
+const emoteCreateCaseHandler = require('./Cases/Emotes/emoteCreate.js');
+const emoteDeleteCaseHandler = require('./Cases/Emotes/emoteDelete.js');
+const emoteUpdateCaseHandler = require('./Cases/Emotes/emoteUpdate.js');
+const channelDeleteCaseHandler = require('./Cases/Channels/channelDelete.js');
 
-client.on('ready', async () => {
+client.on('ready', () => {
   readyCaseHandler(client, myCache);
 });
 
-client.on('messageDelete', async (msg) => {
+client.on('messageDelete', (msg) => {
   messageDeleteCaseHandler(msg, myCache);
 });
 
@@ -48,11 +53,11 @@ client.on('message', (msg) => {
   messageCaseHandler(msg);
 });
 
-client.on('messageUpdate', async (oldMsg, newMsg) => {
+client.on('messageUpdate', (oldMsg, newMsg) => {
   messageUpdateCaseHandler(oldMsg, newMsg);
 });
 
-client.on('guildMemberUpdate', async (oldMem, newMem) => {
+client.on('guildMemberUpdate', (oldMem, newMem) => {
   guildMemberUpdateCaseHandler(oldMem, newMem, myCache);
 });
 
@@ -72,11 +77,19 @@ client.on('guildBanRemove', (guild, mem) => {
   guildBanRemoveCaseHandler(guild, mem, myCache);
 });
 
-client.on('channelUpdate', async (oldChannel, newChannel) => {
+client.on('channelCreate', (channel) => {
+  channelCreateCaseHandler(channel);
+});
+
+client.on('channelUpdate', (oldChannel, newChannel) => {
   channelUpdateCaseHandler(oldChannel, newChannel, myCache);
 });
 
-client.on('roleUpdate', async (oldRole, newRole) => {
+client.on('channelDelete', (channel) => {
+  channelDeleteCaseHandler(channel);
+});
+
+client.on('roleUpdate', (oldRole, newRole) => {
   roleUpdateCaseHandler(oldRole, newRole, myCache);
 });
 
@@ -86,6 +99,18 @@ client.on('roleCreate', (role) => {
 
 client.on('roleDelete', (role) => {
   roleDeleteCaseHandler(role);
+});
+
+client.on('emojiCreate', (emote) => {
+  emoteCreateCaseHandler(emote);
+});
+
+client.on('emojiDelete', (emote) => {
+  emoteDeleteCaseHandler(emote);
+});
+
+client.on('emojiUpdate', (oldEmote, newEmote) => {
+  emoteUpdateCaseHandler(oldEmote, newEmote);
 });
 
 client.login(process.env.token);

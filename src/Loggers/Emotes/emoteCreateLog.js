@@ -13,7 +13,7 @@ const emoteCreateLog = async (emoteCreateAuditLog, emote, msg) => {
   //creating the rmbed
   emoteCreateEmbed = new MessageEmbed()
     .setTitle('Emote added')
-    .setDescription(`${emote} has been added`)
+    .setDescription(`${emote} ${emote.name} has been added`)
     .setColor(3066993)
     .setFooter(new Date());
 

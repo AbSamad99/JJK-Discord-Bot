@@ -95,6 +95,4 @@ const fetchAuditLogIdAndCount = async (client, myCache) => {
   myCache.set('previousRoleUpdateAuditLog', temp.id);
 };
 
-module.exports = {
-  fetchAuditLogIdAndCount: fetchAuditLogIdAndCount,
-};
+module.exports = fetchAuditLogIdAndCount;

@@ -23,6 +23,7 @@ const {
   otherSeriesTalkCheck,
 } = require('../../Checks/Other/miscChecks.js');
 const { roleCheck } = require('../../Checks/Other/helperChecks.js');
+const discordLinkPostedLog = require('../../Loggers/Others/discordLinkPostedLog');
 
 const messageCaseHandler = async (msg, client, myCache) => {
   let temp = msg.content.toLowerCase();
@@ -71,18 +72,11 @@ const messageCaseHandler = async (msg, client, myCache) => {
       !roleCheck(msg.member, 'admin')
     ) {
       msg.delete().catch(console.error);
-      // console.log(msg.content);
-      // temp = await client.fetchInvite(msg.content);
-      // console.log({
-      //   owner: temp.guild.owner ? temp.guild.owner.user.tag : null,
-      //   name: temp.guild.name,
-      //   memberCount: temp.memberCount,
-      //   code: temp.code,
-      // });
       msg.channel
         .reply('Please do not link invites to other servers')
         .catch(console.error);
     }
+    discordLinkPostedLog(msg, client).catch(console.log);
   }
 
   //mod response

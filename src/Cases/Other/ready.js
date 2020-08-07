@@ -1,6 +1,6 @@
 /*Handles the fetching of the various audit log ids and counts whenever the bot logs in*/
 
-const { fetchAuditLogIdAndCount } = require('../../Helpers/fetchFunctions.js');
+const fetchAuditLogIdAndCount = require('../../Helpers/fetchFunctions');
 
 const readyCaseHandler = async (client, myCache) => {
   await client.user.setStatus('online').catch(console.log);

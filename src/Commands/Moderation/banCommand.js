@@ -16,13 +16,13 @@ const banCommand = (msg) => {
 
     //checking to see if user was provided or not
     if (!toBan) {
-      msg.channel.send('Please mention a user to ban');
+      msg.channel.send('Please mention a user to ban').catch(console.log);
       return;
     }
 
     //checking to see if user has mod perms
     if (roleCheck(toBan, 'Special-Grade Shaman') || roleCheck(toBan, 'admin')) {
-      msg.channel.send('You cannot ban this user');
+      msg.channel.send('You cannot ban this user').catch(console.log);
       return;
     }
 
@@ -36,16 +36,14 @@ const banCommand = (msg) => {
       reason = temp.slice(2);
       reason = reason.join(' ');
     } else {
-      msg.channel.send('Please provide a reason for ban');
+      msg.channel.send('Please provide a reason for ban').catch(console.log);
       return;
     }
 
     //banning the user and logging
     toBan
       .ban({ reason: reason })
-      .then(() => {
-        userBanLog(null, null, msg, logsChannel, toBan, reason);
-      })
+      .then(() => userBanLog(null, null, msg, logsChannel, toBan, reason))
       .catch(console.error);
   } catch (err) {
     console.log(err);

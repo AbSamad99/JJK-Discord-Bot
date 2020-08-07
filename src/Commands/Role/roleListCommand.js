@@ -1,6 +1,6 @@
 /*Command to list the various roles available for users to self assign */
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 const { lockedRolesCheck } = require('../../Checks/Other/miscChecks');
 const { channelCheck } = require('../../Checks/Other/helperChecks');
@@ -27,7 +27,7 @@ ${role}`;
       }
     });
 
-    rolesEmbed = new Discord.MessageEmbed().setTitle('Role List')
+    rolesEmbed = new MessageEmbed().setTitle('Role List')
       .setDescription(`Following is the list of all self assignable roles:
   ${roles}`);
 

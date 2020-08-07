@@ -25,13 +25,13 @@ const botMessageCommand = (msg) => {
 
     //check to see if channel exists
     if (!messageChannel) {
-      msg.channel.send('Please provide a valid channel');
+      msg.channel.send('Please provide a valid channel').catch(console.log);
       return;
     }
 
     //check to see if message was provided
     if (!message) {
-      msg.channel.send('Please provide message to be sent');
+      msg.channel.send('Please provide message to be sent').catch(console.log);
       return;
     }
 

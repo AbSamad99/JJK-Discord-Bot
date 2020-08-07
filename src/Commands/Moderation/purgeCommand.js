@@ -1,6 +1,6 @@
 /*Function to handle the purge of messages*/
 
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 //command to purge messages
 const purgeCommand = (msg) => {
@@ -17,20 +17,20 @@ const purgeCommand = (msg) => {
 
     //checking if proper number was provided
     if (isNaN(number)) {
-      msg.channel.send('Please provide a valid number');
+      msg.channel.send('Please provide a valid number').catch(console.log);
       return;
     }
     if (number > 300) {
-      msg.channel.send('Please input a lower number');
+      msg.channel.send('Please input a lower number').catch(console.log);
       return;
     }
     if (msg.channel.id === logsChannel.id) {
-      msg.channel.send('Cannot purge messages here');
+      msg.channel.send('Cannot purge messages here').catch(console.log);
       return;
     }
 
     //constructing the embed
-    let purgeEmbed = new Discord.MessageEmbed()
+    let purgeEmbed = new MessageEmbed()
       .setAuthor(msg.author.tag, msg.author.displayAvatarURL())
       .setTitle('Messages purged')
       .setDescription(

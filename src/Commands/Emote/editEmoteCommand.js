@@ -8,18 +8,22 @@ const editEmoteCommand = (msg) => {
     temp1 = msg.content.slice(1);
     temp1 = temp1.split(' ');
     if (!temp1[1]) {
-      msg.channel.send(`Please provide the emote who's name is to be changed`);
+      msg.channel
+        .send(`Please provide the emote who's name is to be changed`)
+        .catch(console.log);
       return;
     }
     if (!temp1[2]) {
-      msg.channel.send(`Please provide the new name for the emote`);
+      msg.channel
+        .send(`Please provide the new name for the emote`)
+        .catch(console.log);
       return;
     }
     temp2 = temp1[1].split(':')[1];
     toEdit = msg.guild.emojis.cache.find((emote) => emote.name === temp2);
     temp2 = { name: toEdit.name };
     if (!toEdit) {
-      msg.channel.send('No such emote exists in the server');
+      msg.channel.send('No such emote exists in the server').catch(console.log);
       return;
     }
     toEdit
@@ -27,9 +31,9 @@ const editEmoteCommand = (msg) => {
         name: temp1[2],
       })
       .then((emote) =>
-        msg.channel.send('Name changed').then(() => {
-          emoteUpdateLog(null, temp2, emote, msg);
-        })
+        msg.channel
+          .send('Name changed')
+          .then(() => emoteUpdateLog(null, temp2, emote, msg))
       )
       .catch(console.error);
   } catch (err) {

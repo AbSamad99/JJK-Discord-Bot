@@ -1,7 +1,5 @@
 const { channelCheck } = require('../Checks/Other/helperChecks');
 
-const UserSchema = require('../Schemas/UserSchema');
-
 const weebResponse = (msg) => {
   try {
     if (
@@ -31,7 +29,7 @@ const weebResponse = (msg) => {
   }
 };
 
-const nfufuResponse = async (msg) => {
+const nfufuResponse = (msg) => {
   try {
     if (
       !channelCheck(msg, 'general') &&
@@ -42,7 +40,7 @@ const nfufuResponse = async (msg) => {
 
     let honoredOne, papaWat, index, responseArray;
 
-    honoredOne = await UserSchema.findOne({ id: '730109162616389644' });
+    honoredOne = msg.guild.members.cache.get('730109162616389644');
     if (honoredOne.id === msg.author.id) return;
 
     papaWat = msg.guild.emojis.cache.get('665376679967064109');
@@ -51,7 +49,7 @@ const nfufuResponse = async (msg) => {
 
     index = Math.floor(Math.random() * responseArray.length);
 
-    msg.channel.send(responseArray[index]);
+    msg.channel.send(responseArray[index]).catch(console.log);
   } catch (err) {
     console.log(err);
   }

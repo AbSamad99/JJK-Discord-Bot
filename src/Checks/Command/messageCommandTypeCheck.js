@@ -21,7 +21,7 @@ const messageCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      botEmbedMessageCommand(msg);
+      botEmbedMessageCommand(msg).catch(console.log);
     }
   } catch (err) {
     console.log(err);

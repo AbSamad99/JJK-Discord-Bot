@@ -13,35 +13,31 @@ const addArtCharacterCommand = async (msg) => {
     return;
 
   let temp, characterArtObj;
-  try {
-    //getting params
-    temp = msg.content.slice(1);
-    temp = temp.split(' ');
+  //getting params
+  temp = msg.content.slice(1);
+  temp = temp.split(' ');
 
-    if (!temp[1].toLowerCase()) {
-      msg.channel.send('Please specify a character name');
-      return;
-    }
-
-    //getting required object
-    characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
-
-    //checking the parameters given
-    if (characterArtObj) {
-      msg.channel.send('Character already exists');
-      return;
-    }
-
-    //adding the new category
-    await ArtSchema.create({ name: temp[1].toLowerCase(), links: [] });
-
-    //sending appropriate message
-    msg.channel
-      .send(`Added Character ${temp[1].toLowerCase()}`)
-      .catch(console.error);
-  } catch (err) {
-    console.log(err);
+  if (!temp[1].toLowerCase()) {
+    msg.channel.send('Please specify a character name').catch(console.error);
+    return;
   }
+
+  //getting required object
+  characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
+
+  //checking the parameters given
+  if (characterArtObj) {
+    msg.channel.send('Character already exists').catch(console.error);
+    return;
+  }
+
+  //adding the new category
+  await ArtSchema.create({ name: temp[1].toLowerCase(), links: [] });
+
+  //sending appropriate message
+  msg.channel
+    .send(`Added Character ${temp[1].toLowerCase()}`)
+    .catch(console.error);
 };
 
 module.exports = addArtCharacterCommand;

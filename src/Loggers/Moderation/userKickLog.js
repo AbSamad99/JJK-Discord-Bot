@@ -1,4 +1,4 @@
-const Discord = require('discord.js');
+const { MessageEmbed } = require('discord.js');
 
 const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
@@ -11,61 +11,57 @@ const userKickLog = async (
   toKick,
   reason
 ) => {
-  try {
-    let kickEmbed, roles;
+  let kickEmbed, roles;
 
-    //setting relevant fields
+  //setting relevant fields
 
-    kickEmbed = new Discord.MessageEmbed()
-      .setTitle('Member kicked')
-      .setColor(10038562)
-      .setFooter(new Date());
+  kickEmbed = new MessageEmbed()
+    .setTitle('Member kicked')
+    .setColor(10038562)
+    .setFooter(new Date());
 
-    roles = ``;
+  roles = ``;
 
-    if (!msg) {
-      kickEmbed
-        .setAuthor(
-          kickAuditLog.executor.tag,
-          await gifOrPngCheck(kickAuditLog.executor)
-        )
-        .setThumbnail(await gifOrPngCheck(kickAuditLog.target))
-        .setDescription(
-          `${kickAuditLog.target} has been kicked from the server.`
-        );
+  if (!msg) {
+    kickEmbed
+      .setAuthor(
+        kickAuditLog.executor.tag,
+        await gifOrPngCheck(kickAuditLog.executor)
+      )
+      .setThumbnail(await gifOrPngCheck(kickAuditLog.target))
+      .setDescription(
+        `${kickAuditLog.target} has been kicked from the server.`
+      );
 
-      if (!kickAuditLog.reason)
-        kickEmbed.addField('Reason:', 'No reason was provided');
-      else kickEmbed.addField('Reason', kickAuditLog.reason);
+    if (!kickAuditLog.reason)
+      kickEmbed.addField('Reason:', 'No reason was provided');
+    else kickEmbed.addField('Reason', kickAuditLog.reason);
 
-      if (mem._roles.length) {
-        mem._roles.forEach((roleId) => {
-          roles = `${roles} <@&${roleId}>`;
-        });
-        kickEmbed.addField('Roles', roles);
-      }
-    } else {
-      kickEmbed
-        .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
-        .setThumbnail(await gifOrPngCheck(toKick.user))
-        .setDescription(`${toKick.user} has been kicked from the server.`)
-        .addField('Reason:', reason);
-
-      msg.channel.send(kickEmbed).catch(console.log);
-
-      if (toKick._roles.length) {
-        toKick._roles.forEach((roleId) => {
-          roles = `${roles} <@&${roleId}>`;
-        });
-        kickEmbed.addField('Roles', roles);
-      }
+    if (mem._roles.length) {
+      mem._roles.forEach((roleId) => {
+        roles = `${roles} <@&${roleId}>`;
+      });
+      kickEmbed.addField('Roles', roles);
     }
+  } else {
+    kickEmbed
+      .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
+      .setThumbnail(await gifOrPngCheck(toKick.user))
+      .setDescription(`${toKick.user} has been kicked from the server.`)
+      .addField('Reason:', reason);
 
-    //logging
-    logsChannel.send(kickEmbed).catch(console.error);
-  } catch (err) {
-    console.log(err);
+    msg.channel.send(kickEmbed).catch(console.log);
+
+    if (toKick._roles.length) {
+      toKick._roles.forEach((roleId) => {
+        roles = `${roles} <@&${roleId}>`;
+      });
+      kickEmbed.addField('Roles', roles);
+    }
   }
+
+  //logging
+  logsChannel.send(kickEmbed).catch(console.error);
 };
 
 module.exports = userKickLog;

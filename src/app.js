@@ -38,35 +38,35 @@ const emoteUpdateCaseHandler = require('./Cases/Emotes/emoteUpdate.js');
 const channelDeleteCaseHandler = require('./Cases/Channels/channelDelete.js');
 
 client.on('ready', () => {
-  readyCaseHandler(client, myCache);
+  readyCaseHandler(client, myCache).catch(console.log);
 });
 
 client.on('messageDelete', (msg) => {
-  messageDeleteCaseHandler(msg, myCache);
+  messageDeleteCaseHandler(msg, myCache).catch(console.log);
 });
 
 client.on('messageDeleteBulk', (msgs) => {
-  messageBulkDeleteCaseHandler(msgs);
+  messageBulkDeleteCaseHandler(msgs).catch(console.log);
 });
 
 client.on('message', (msg) => {
-  messageCaseHandler(msg);
+  messageCaseHandler(msg, client, myCache).catch(console.log);
 });
 
 client.on('messageUpdate', (oldMsg, newMsg) => {
-  messageUpdateCaseHandler(oldMsg, newMsg);
+  messageUpdateCaseHandler(oldMsg, newMsg).catch(console.log);
 });
 
 client.on('guildMemberUpdate', (oldMem, newMem) => {
-  guildMemberUpdateCaseHandler(oldMem, newMem, myCache);
+  guildMemberUpdateCaseHandler(oldMem, newMem, myCache).catch(console.log);
 });
 
 client.on('guildMemberAdd', (mem) => {
-  guildMemberAddCaseHandler(mem);
+  guildMemberAddCaseHandler(mem).catch(console.log);
 });
 
 client.on('guildMemberRemove', (mem) => {
-  guildMemberRemoveCaseHandler(mem, myCache);
+  guildMemberRemoveCaseHandler(mem, myCache).catch(console.log);
 });
 
 // client.on('guildBanAdd', (guild, mem) => {
@@ -74,43 +74,43 @@ client.on('guildMemberRemove', (mem) => {
 // });
 
 client.on('guildBanRemove', (guild, mem) => {
-  guildBanRemoveCaseHandler(guild, mem, myCache);
+  guildBanRemoveCaseHandler(guild, mem, myCache).catch(console.log);
 });
 
 client.on('channelCreate', (channel) => {
-  channelCreateCaseHandler(channel);
+  channelCreateCaseHandler(channel).catch(console.log);
 });
 
 client.on('channelUpdate', (oldChannel, newChannel) => {
-  channelUpdateCaseHandler(oldChannel, newChannel, myCache);
+  channelUpdateCaseHandler(oldChannel, newChannel, myCache).catch(console.log);
 });
 
 client.on('channelDelete', (channel) => {
-  channelDeleteCaseHandler(channel);
+  channelDeleteCaseHandler(channel).catch(console.log);
 });
 
 client.on('roleUpdate', (oldRole, newRole) => {
-  roleUpdateCaseHandler(oldRole, newRole, myCache);
+  roleUpdateCaseHandler(oldRole, newRole, myCache).catch(console.log);
 });
 
 client.on('roleCreate', (role) => {
-  roleCreateCaseHandler(role);
+  roleCreateCaseHandler(role).catch(console.log);
 });
 
 client.on('roleDelete', (role) => {
-  roleDeleteCaseHandler(role);
+  roleDeleteCaseHandler(role).catch(console.log);
 });
 
 client.on('emojiCreate', (emote) => {
-  emoteCreateCaseHandler(emote);
+  emoteCreateCaseHandler(emote).catch(console.log);
 });
 
 client.on('emojiDelete', (emote) => {
-  emoteDeleteCaseHandler(emote);
+  emoteDeleteCaseHandler(emote).catch(console.log);
 });
 
 client.on('emojiUpdate', (oldEmote, newEmote) => {
-  emoteUpdateCaseHandler(oldEmote, newEmote);
+  emoteUpdateCaseHandler(oldEmote, newEmote).catch(console.log);
 });
 
 client.login(process.env.token);

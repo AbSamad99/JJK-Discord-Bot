@@ -10,34 +10,30 @@ const {
 //removes a new character
 const removeArtCharacterCommand = async (msg) => {
   let temp, characterArtObj;
-  try {
-    //checking if the command was issued in appropriate channel
-    if (
-      !channelCheck(msg, 'music-and-art') &&
-      !channelCheck(msg, 'syed-bot-practice')
-    )
-      return;
+  //checking if the command was issued in appropriate channel
+  if (
+    !channelCheck(msg, 'music-and-art') &&
+    !channelCheck(msg, 'syed-bot-practice')
+  )
+    return;
 
-    //getting params
-    temp = msg.content.slice(1);
-    temp = temp.split(' ');
+  //getting params
+  temp = msg.content.slice(1);
+  temp = temp.split(' ');
 
-    //getting required object
-    characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
+  //getting required object
+  characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
-    //checking the parameters given
-    if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
+  //checking the parameters given
+  if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
 
-    //deleting the category
-    await ArtSchema.findOneAndDelete({ name: temp[1].toLowerCase() });
+  //deleting the category
+  await ArtSchema.findOneAndDelete({ name: temp[1].toLowerCase() });
 
-    //send message
-    msg.channel
-      .send(`Removed Character ${temp[1].toLowerCase()}`)
-      .catch(console.error);
-  } catch (err) {
-    console.log(err);
-  }
+  //send message
+  msg.channel
+    .send(`Removed Character ${temp[1].toLowerCase()}`)
+    .catch(console.error);
 };
 
 module.exports = removeArtCharacterCommand;

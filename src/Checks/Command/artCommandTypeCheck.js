@@ -18,7 +18,7 @@ const artCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      getAllArtCommand(msg);
+      getAllArtCommand(msg).catch(console.log);
     }
 
     //add art
@@ -28,7 +28,7 @@ const artCommandTypeCheck = (msg, keyword) => {
         roleCheck(msg.member, 'admin') ||
         roleCheck(msg.member, 'Community Service Shaman'))
     ) {
-      addArtCommand(msg);
+      addArtCommand(msg).catch(console.log);
     }
 
     //add character
@@ -37,7 +37,7 @@ const artCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      addArtCharacterCommand(msg);
+      addArtCharacterCommand(msg).catch(console.log);
     }
 
     //removes character
@@ -46,7 +46,7 @@ const artCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      removeArtCharacterCommand(msg);
+      removeArtCharacterCommand(msg).catch(console.log);
     }
 
     //edits character name
@@ -55,7 +55,7 @@ const artCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      editArtCharacterCommand(msg);
+      editArtCharacterCommand(msg).catch(console.log);
     }
 
     //removes art
@@ -65,17 +65,17 @@ const artCommandTypeCheck = (msg, keyword) => {
         roleCheck(msg.member, 'admin') ||
         roleCheck(msg.member, 'Community Service Shaman'))
     ) {
-      removeArtCommand(msg);
+      removeArtCommand(msg).catch(console.log);
     }
 
     //get art
     else if (keyword === 'getart') {
-      getArtCommand(msg);
+      getArtCommand(msg).catch(console.log);
     }
 
     //get art names
     else if (keyword === 'getartnames') {
-      getArtNamesCommand(msg);
+      getArtNamesCommand(msg).catch(console.log);
     }
   } catch (err) {
     console.log(err);

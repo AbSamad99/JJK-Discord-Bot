@@ -1,8 +1,7 @@
 /*functions to handle the various user commands*/
 
-const Discord = require('discord.js');
+const changedRoleLog = require('../../Loggers/User/changedRoleLog.js');
 
-const { assignRole, removeRole } = require('../../Functions/roleFunctions.js');
 const { lockedRolesCheck } = require('../../Checks/Other/miscChecks.js');
 const {
   channelCheck,
@@ -27,7 +26,7 @@ const roleAssignCommand = (msg) => {
 
     //checking if character name was given or not
     if (!temp[1]) {
-      msg.channel.send('Please specify a character name');
+      msg.channel.send('Please specify a character name').catch(console.log);
       return;
     }
 
@@ -38,21 +37,29 @@ const roleAssignCommand = (msg) => {
 
     //checking if a valid name was provided or not
     if (!desiredRole) {
-      msg.channel.send('Please specify a valid character name');
+      msg.channel
+        .send('Please specify a valid character name')
+        .catch(console.log);
       return;
     }
 
     //checking if desired role was a locked role
     if (lockedRolesCheck(desiredRole.name)) {
-      msg.channel.send('Cannot Assign that role');
+      msg.channel.send('Cannot Assign that role').catch(console.log);
       return;
     }
 
     //assign role to user if they dont have it and vice versa
     if (!roleCheck(msg.member, desiredRole.name)) {
-      assignRole(msg, desiredRole);
+      msg.member.roles.add(desiredRole.id).then(() => {
+        changedRoleLog(null, null, msg, desiredRole, 'add').catch(console.log);
+      });
     } else {
-      removeRole(msg, desiredRole);
+      msg.member.roles.remove(desiredRole.id).then(() => {
+        changedRoleLog(null, null, msg, desiredRole, 'remove').catch(
+          console.log
+        );
+      });
     }
   } catch (err) {
     console.log(err);

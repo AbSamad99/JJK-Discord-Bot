@@ -16,7 +16,7 @@ const kickCommand = (msg) => {
 
     //checking if user was provided or not
     if (!toKick) {
-      msg.channel.send('Please mention a user to kick');
+      msg.channel.send('Please mention a user to kick').catch(console.log);
       return;
     }
 
@@ -25,7 +25,7 @@ const kickCommand = (msg) => {
       roleCheck(toKick, 'Special-Grade Shaman') ||
       roleCheck(toKick, 'admin')
     ) {
-      msg.channel.send('You cannot kick this user');
+      msg.channel.send('You cannot kick this user').catch(console.log);
       return;
     }
 
@@ -39,16 +39,14 @@ const kickCommand = (msg) => {
       reason = temp.slice(2);
       reason = reason.join(' ');
     } else {
-      msg.channel.send('Please provide a reason for kick');
+      msg.channel.send('Please provide a reason for kick').catch(console.log);
       return;
     }
 
     //kicking the user and logging
     toKick
       .kick(reason)
-      .then(() => {
-        userKickLog(null, null, msg, logsChannel, toKick, reason);
-      })
+      .then(() => userKickLog(null, null, msg, logsChannel, toKick, reason))
       .catch(console.error);
   } catch (err) {
     console.log(err);

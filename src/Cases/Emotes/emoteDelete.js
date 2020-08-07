@@ -3,22 +3,18 @@
 const emoteDeleteLog = require('../../Loggers/Emotes/emoteDeleteLog');
 
 const emoteDeleteCaseHandler = async (emote) => {
-  try {
-    let emoteDeleteAuditLog;
+  let emoteDeleteAuditLog;
 
-    //getting required audit log
-    emoteDeleteAuditLog = await emote.guild
-      .fetchAuditLogs({
-        type: 'EMOJI_DELETE',
-      })
-      .then((audit) => audit.entries.first());
+  //getting required audit log
+  emoteDeleteAuditLog = await emote.guild
+    .fetchAuditLogs({
+      type: 'EMOJI_DELETE',
+    })
+    .then((audit) => audit.entries.first());
 
-    if (emoteDeleteAuditLog.executor.id === '730109162616389644') return;
+  if (emoteDeleteAuditLog.executor.id === '730109162616389644') return;
 
-    emoteDeleteLog(emoteDeleteAuditLog, emote);
-  } catch (err) {
-    console.log(err);
-  }
+  emoteDeleteLog(emoteDeleteAuditLog, emote).catch(console.log);
 };
 
 module.exports = emoteDeleteCaseHandler;

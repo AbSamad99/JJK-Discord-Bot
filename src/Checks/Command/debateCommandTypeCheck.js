@@ -15,7 +15,7 @@ const debateCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      addDebateCharacterCommand(msg);
+      addDebateCharacterCommand(msg).catch(console.log);
     }
 
     //remove Debate Character Command
@@ -24,7 +24,7 @@ const debateCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      removeDebateCharacterCommand(msg);
+      removeDebateCharacterCommand(msg).catch(console.log);
     }
 
     //edit Debate Character Command
@@ -33,7 +33,7 @@ const debateCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      editDebateCharacterCommand(msg);
+      editDebateCharacterCommand(msg).catch(console.log);
     }
 
     //debate Command
@@ -42,7 +42,7 @@ const debateCommandTypeCheck = (msg, keyword) => {
       (channelCheck(msg, 'syed-bot-practice') ||
         channelCheck(msg, 'debates-and-powerscaling'))
     ) {
-      debateCommand(msg);
+      debateCommand(msg).catch(console.log);
     }
 
     //get debate names Command
@@ -51,7 +51,7 @@ const debateCommandTypeCheck = (msg, keyword) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      getDebateNamesCommand(msg);
+      getDebateNamesCommand(msg).catch(console.log);
     }
   } catch (err) {
     console.log(err);

@@ -25,7 +25,7 @@ const moderationCommandTypeCheck = require('./moderationCommandTypeCheck.js');
 const roleCommandTypeCheck = require('./roleCommandTypeCheck.js');
 const strikeCountCommand = require('../../Commands/Other/strikeCountCommand.js');
 
-const prefixCommandFunction = (msg, temp) => {
+const prefixCommandFunction = (msg, temp, myCache) => {
   try {
     let keyword = temp.slice(1);
     keyword = keyword.split(' ');
@@ -37,12 +37,12 @@ const prefixCommandFunction = (msg, temp) => {
       (roleCheck(msg.member, 'Special-Grade Shaman') ||
         roleCheck(msg.member, 'admin'))
     ) {
-      chapterAnnouncement(msg);
+      chapterAnnouncement(msg).catch(console.log);
     }
 
     //database seed command
     if (keyword === 'seed' && msg.author.id === '390450196711997440') {
-      seedUsers(msg);
+      seedUsers(msg).catch(console.log);
     }
 
     //bot message command check
@@ -61,7 +61,7 @@ const prefixCommandFunction = (msg, temp) => {
 
     //moderation command check
     if (msg.mentions.members.array().length) {
-      moderationCommandTypeCheck(msg, keyword);
+      moderationCommandTypeCheck(msg, keyword, myCache);
     }
 
     //emote command check
@@ -81,12 +81,12 @@ const prefixCommandFunction = (msg, temp) => {
 
     //suggestion command
     if (keyword === 'suggest') {
-      suggestionCommand(msg);
+      suggestionCommand(msg).catch(console.log);
     }
 
     //strike count command check
     if (keyword === 'strikecount') {
-      strikeCountCommand(msg);
+      strikeCountCommand(msg).catch(console.log);
     }
 
     //role command check

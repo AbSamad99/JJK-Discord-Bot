@@ -9,9 +9,9 @@ const changedUsernameAndDiscriminatorLog = require('../../Loggers/User/changedUs
 const changedAvatarLog = require('../../Loggers/User/changedAvatarLog.js');
 
 const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
-  let user, testChannel, temp, timeOutObj;
+  let user, announcementChannel, chuuDo, temp, timeOutObj;
 
-  testChannel = newMem.guild.channels.cache.get('720958791432011789');
+  announcementChannel = newMem.guild.channels.cache.get('447513385211396096');
 
   user = await UserSchema.findOne({ id: newMem.user.id }).catch(console.log);
 
@@ -112,10 +112,7 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
   if (roleLogs.id !== temp) {
     myCache.del('previousMemberRoleUpdateLogId');
     myCache.set('previousMemberRoleUpdateLogId', roleLogs.id);
-    if (
-      role.new[0].name.toLowerCase() === 'muted' &&
-      roleLogs.executor.username === 'The Honored One'
-    ) {
+    if (roleLogs.executor.username === 'The Honored One') {
       return;
     }
     if (role.new[0].name.toLowerCase() === 'muted' && role.key === '$remove') {
@@ -131,7 +128,10 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
 
   //checking if user boosted the server
   if (!oldMem.premiumSince && newMem.premiumSince) {
-    testChannel.send(`${newMem} has boosted the server`);
+    chuuDo = newMem.guild.emojis.cache.get('578526612421738526');
+    announcementChannel.send(
+      `Thank you for boosting the server ${newMem} ${chuuDo}`
+    );
   }
 };
 

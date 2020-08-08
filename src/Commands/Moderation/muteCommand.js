@@ -92,6 +92,7 @@ const muteCommand = (msg, myCache) => {
           userMuteLog(msg, toMute, muteRole, null, null, 'remove');
         })
         .catch(console.error);
+      console.log('Timeout Cleared');
     }, ms(time));
     myCache.set(toMute.user.id, timeOutObj);
     console.log('Timeout Set');

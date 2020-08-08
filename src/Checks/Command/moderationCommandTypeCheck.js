@@ -1,6 +1,5 @@
 /*Checks to see which type of moderation command was input by the mod*/
 
-const { roleCheck } = require('../Other/helperChecks.js');
 const muteCommand = require('../../Commands/Moderation/muteCommand.js');
 const unMuteCommand = require('../../Commands/Moderation/unmuteCommand.js');
 const banCommand = require('../../Commands/Moderation/banCommand.js');
@@ -13,8 +12,10 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     //mute command
     if (
       keyword === 'mute' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       muteCommand(msg, myCache);
     }
@@ -22,8 +23,10 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     //unmute command
     if (
       keyword === 'unmute' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       unMuteCommand(msg, myCache);
     }
@@ -31,8 +34,10 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     //ban command
     else if (
       keyword === 'ban' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       banCommand(msg);
     }
@@ -40,8 +45,10 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     //kick command
     else if (
       keyword === 'kick' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       kickCommand(msg);
     }
@@ -49,16 +56,20 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     //strike command
     else if (
       keyword === 'strike' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       strikeCommand(msg).catch(console.log);
     }
     //unstrike command
     else if (
       keyword === 'unstrike' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       unstrikeCommand(msg).catch(console.log);
     }

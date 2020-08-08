@@ -1,11 +1,9 @@
-const { channelCheck } = require('../Checks/Other/helperChecks');
-
 const weebResponse = (msg) => {
   try {
     if (
-      !channelCheck(msg, 'memes-and-shitposting') &&
-      !channelCheck(msg, 'general') &&
-      !channelCheck(msg, 'syed-bot-practice')
+      !(msg.channel.id === '447410298845003777') /*generalchannel*/ &&
+      !(msg.channel.id === '458840286966185984') /*memes channel*/ &&
+      !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
     )
       return;
 
@@ -32,9 +30,9 @@ const weebResponse = (msg) => {
 const nfufuResponse = (msg) => {
   try {
     if (
-      !channelCheck(msg, 'general') &&
-      !channelCheck(msg, 'memes-and-shitposting') &&
-      !channelCheck(msg, 'syed-bot-practice')
+      !(msg.channel.id === '447410298845003777') /*generalchannel*/ &&
+      !(msg.channel.id === '458840286966185984') /*memes channel*/ &&
+      !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
     )
       return;
 

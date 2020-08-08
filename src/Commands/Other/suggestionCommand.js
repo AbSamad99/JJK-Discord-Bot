@@ -4,10 +4,6 @@ const { MessageEmbed } = require('discord.js');
 
 const ms = require('ms');
 
-const {
-  channelCheck,
-  roleCheck,
-} = require('../../Checks/Other/helperChecks.js');
 const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 //makes a suggestion embed-user
@@ -16,9 +12,9 @@ const suggestionCommand = async (msg) => {
 
   //checking is the command was made in channels apart from the permitted channels
   if (
-    !channelCheck(msg, 'server-suggestions') &&
-    !roleCheck(msg.member, 'Special-Grade Shaman') &&
-    !roleCheck(msg.member, 'admin')
+    !(msg.channel.id === '491422518955999263') /*Server suggestions channel*/ &&
+    !msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ &&
+    !msg.member.roles.cache.has('447512449248395267') /*admin role*/
   )
     return;
 

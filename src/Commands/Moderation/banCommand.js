@@ -1,7 +1,6 @@
 /*Function to handle the user ban command*/
 
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
-const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 
 //command to ban users
 const banCommand = (msg) => {
@@ -21,7 +20,10 @@ const banCommand = (msg) => {
     }
 
     //checking to see if user has mod perms
-    if (roleCheck(toBan, 'Special-Grade Shaman') || roleCheck(toBan, 'admin')) {
+    if (
+      toBan.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+      toBan.roles.cache.has('447512449248395267') /*admin role*/
+    ) {
       msg.channel.send('You cannot ban this user').catch(console.log);
       return;
     }

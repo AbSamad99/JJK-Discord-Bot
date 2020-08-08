@@ -1,7 +1,6 @@
 /*Function to handle the user kick command*/
 
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
-const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 
 //command to kick users
 const kickCommand = (msg) => {
@@ -22,8 +21,8 @@ const kickCommand = (msg) => {
 
     //checking if user has mod perms or not
     if (
-      roleCheck(toKick, 'Special-Grade Shaman') ||
-      roleCheck(toKick, 'admin')
+      toKick.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+      toKick.roles.cache.has('447512449248395267') /*admin role*/
     ) {
       msg.channel.send('You cannot kick this user').catch(console.log);
       return;

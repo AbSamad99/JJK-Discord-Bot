@@ -1,14 +1,13 @@
 /*Function to handle the add art character command*/
 
 const ArtSchema = require('../../Schemas/ArtSchema.js');
-const { channelCheck } = require('../../Checks/Other/helperChecks.js');
 
 //adds a character
 const addArtCharacterCommand = async (msg) => {
   //checking if the command was issued in appropriate channel
   if (
-    !channelCheck(msg, 'music-and-art') &&
-    !channelCheck(msg, 'syed-bot-practice')
+    !(msg.channel.id === '458840312094261270') /*Art channel*/ &&
+    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
   )
     return;
 
@@ -17,7 +16,7 @@ const addArtCharacterCommand = async (msg) => {
   temp = msg.content.slice(1);
   temp = temp.split(' ');
 
-  if (!temp[1].toLowerCase()) {
+  if (!temp[1]) {
     msg.channel.send('Please specify a character name').catch(console.error);
     return;
   }

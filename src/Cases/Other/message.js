@@ -12,18 +12,16 @@ const {
 } = require('../../Functions/responseFunctions');
 
 //importing required Check functions
-const {
-  containsDiscordLinkCheck,
-  containsForbiddenLinkCheck,
-} = require('../../Checks/Other/moderationHelpCheck.js');
 const prefixCommandFunction = require('../../Checks/Command/prefixCommandTypeCheck.js');
-const {
-  xSeriesSucksCheck,
-  weebCheck,
-  otherSeriesTalkCheck,
-} = require('../../Checks/Other/miscChecks.js');
-const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 const discordLinkPostedLog = require('../../Loggers/Others/discordLinkPostedLog');
+const {
+  weebArray,
+  sukunaArray,
+  sucksArray,
+  otherSeriesArray,
+  discorLinksArray,
+  forbiddenLinksArray,
+} = require('../../checkArrays');
 
 const messageCaseHandler = async (msg, client, myCache) => {
   let temp = msg.content.toLowerCase();
@@ -57,7 +55,7 @@ const messageCaseHandler = async (msg, client, myCache) => {
   // }
 
   //checks if it contains a forbidden link
-  if (containsForbiddenLinkCheck(temp)) {
+  if (forbiddenLinksArray.some((l) => temp.includes(l))) {
     msg.delete().catch(console.error);
     msg
       .reply('Please refrain from posting links to NSFW sites')
@@ -65,11 +63,13 @@ const messageCaseHandler = async (msg, client, myCache) => {
   }
 
   //checks if it contains discord inv link
-  if (containsDiscordLinkCheck(temp)) {
+  if (discorLinksArray.some((l) => temp.includes(l))) {
     // let temp;
     if (
-      !roleCheck(msg.member, 'Special-Grade Shaman') &&
-      !roleCheck(msg.member, 'admin')
+      !msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ &&
+      !msg.member.roles.cache.has('447512449248395267') /*admin role*/
     ) {
       msg.delete().catch(console.error);
       msg.channel
@@ -90,26 +90,22 @@ const messageCaseHandler = async (msg, client, myCache) => {
   }
 
   //weeb response
-  else if (weebCheck(msg, temp)) {
+  else if (weebArray.some((w) => temp.includes(w))) {
     weebResponse(msg);
   }
 
   //sakuna response
-  if (
-    temp.includes('sakuna') ||
-    temp.includes('sukana') ||
-    temp.includes('sakana')
-  ) {
+  if (sukunaArray.some((s) => temp.includes(s))) {
     msg.channel.send(`It's Sukuna`).catch(console.log);
   }
 
   //series sucks response
-  if (xSeriesSucksCheck(temp)) {
+  if (sucksArray.some((s) => temp === s)) {
     xSeriesSucksResponse(msg);
   }
 
   // //tells people to go to other series
-  // else if (otherSeriesTalkCheck(msg, temp)) {
+  // else if (otherSeriesArray.some((s) => temp.includes(s))) {
   //   otherSeriesTalkResponse(msg);
   // }
 

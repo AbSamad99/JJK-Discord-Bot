@@ -1,14 +1,8 @@
 /*Function to handle the add art command*/
 
 const ArtSchema = require('../../Schemas/ArtSchema.js');
-
-const {
-  channelCheck,
-  artCommandParametersCheck,
-} = require('../../Checks/Other/helperChecks.js');
-const {
-  containsInvalidArtLinkCheck,
-} = require('../../Checks/Other/moderationHelpCheck.js');
+const { artLinksArray } = require('../../checkArrays.js');
+const urlExist = require('url-exist');
 
 //adds an art
 const addArtCommand = async (msg) => {
@@ -21,8 +15,8 @@ const addArtCommand = async (msg) => {
     invalid;
   //checking if the command was issued in appropriate channel
   if (
-    !channelCheck(msg, 'music-and-art') &&
-    !channelCheck(msg, 'syed-bot-practice')
+    !(msg.channel.id === '458840312094261270') /*Art channel*/ &&
+    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
   )
     return;
 
@@ -34,11 +28,19 @@ const addArtCommand = async (msg) => {
   alreadyPresent = ``;
   invalid = ``;
 
+  //checking the parameters given
+  if (!temp[1]) {
+    msg.channel.send('Please specify a character name');
+    return;
+  }
+
   //getting required object
   characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
-  //checking the parameters given
-  if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
+  if (!characterArtObj) {
+    msg.channel.send('Invalid character');
+    return;
+  }
 
   //getting required array
   characterArray = characterArtObj.links;
@@ -51,20 +53,23 @@ const addArtCommand = async (msg) => {
 
   //storing the links in json file
   for (index = 2; index < temp.length; index++) {
-    if (await containsInvalidArtLinkCheck(temp[index])) {
+    if (
+      !artLinksArray.some((l) => temp[index].includes(l)) &&
+      !(await urlExist(temp[index]))
+    ) {
       if (!invalid.length) {
-        invalid = `${index - 1}`;
+        invalid = `Link ${index - 1}`;
         continue;
       }
-      invalid = `${invalid}, ${index - 1}`;
+      invalid = `${invalid}, Link ${index - 1}`;
       continue;
     }
     if (characterArray.includes(temp[index])) {
       if (!alreadyPresent.length) {
-        alreadyPresent = `${index - 1}`;
+        alreadyPresent = `Link ${index - 1}`;
         continue;
       }
-      alreadyPresent = `${alreadyPresent}, ${index - 1}`;
+      alreadyPresent = `${alreadyPresent}, Link ${index - 1}`;
       continue;
     }
     characterArray.push(temp[index]);

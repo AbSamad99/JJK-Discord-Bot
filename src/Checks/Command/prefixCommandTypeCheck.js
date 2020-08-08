@@ -15,7 +15,6 @@ const {
 const artCommandTypeCheck = require('./artCommandTypeCheck.js');
 const debateCommandTypeCheck = require('./debateCommandTypeCheck.js');
 const emoteCommandTypeCheck = require('./emoteCommandTypeCheck.js');
-const { roleCheck, channelCheck } = require('../Other/helperChecks.js');
 const seedUsers = require('../../Helpers/seeder.js');
 const purgeCommand = require('../../Commands/Moderation/purgeCommand.js');
 const suggestionCommand = require('../../Commands/Other/suggestionCommand.js');
@@ -34,8 +33,10 @@ const prefixCommandFunction = (msg, temp, myCache) => {
     //chap command
     if (
       keyword === 'chapter' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       chapterAnnouncement(msg).catch(console.log);
     }
@@ -53,8 +54,10 @@ const prefixCommandFunction = (msg, temp, myCache) => {
     //purge command
     if (
       keyword === 'purge' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       purgeCommand(msg);
     }
@@ -102,7 +105,8 @@ const prefixCommandFunction = (msg, temp, myCache) => {
     //todo command
     if (
       keyword === 'todo' &&
-      (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+      (msg.channel.id === '704934870622797904' /*Welcome channel*/ ||
+        msg.channel.id === '720958791432011789') /*Syed bot channel*/
     ) {
       msg.channel.send(todoLink).catch(console.error);
     }
@@ -110,7 +114,8 @@ const prefixCommandFunction = (msg, temp, myCache) => {
     //welcome command
     if (
       keyword === 'welcome' &&
-      (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+      (msg.channel.id === '704934870622797904' /*Welcome channel*/ ||
+        msg.channel.id === '720958791432011789') /*Syed bot channel*/
     ) {
       let message = `Welcome newbie, we have three questions for you:
 1. Are you up to date on the Jujutsu Kaisen manga?
@@ -122,7 +127,8 @@ const prefixCommandFunction = (msg, temp, myCache) => {
     //guy command
     if (
       keyword === 'guy' &&
-      (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+      (msg.channel.id === '704934870622797904' /*Welcome channel*/ ||
+        msg.channel.id === '720958791432011789') /*Syed bot channel*/
     ) {
       msg.channel.send(guyLink).catch(console.error);
     }
@@ -130,7 +136,8 @@ const prefixCommandFunction = (msg, temp, myCache) => {
     //shy command
     if (
       keyword === 'shy' &&
-      (channelCheck(msg, 'welcome') || channelCheck(msg, 'syed-bot-practice'))
+      (msg.channel.id === '704934870622797904' /*Welcome channel*/ ||
+        msg.channel.id === '720958791432011789') /*Syed bot channel*/
     ) {
       msg.channel.send(shyLink).catch(console.error);
     }
@@ -153,9 +160,9 @@ const prefixCommandFunction = (msg, temp, myCache) => {
     //prequel command
     if (
       keyword === 'prequel' &&
-      (channelCheck(msg, 'welcome') ||
-        channelCheck(msg, 'manga-discussion') ||
-        channelCheck(msg, 'syed-bot-practice'))
+      (msg.channel.id === '704934870622797904' /*Welcome channel*/ ||
+      msg.channel.id === '720958791432011789' /*Syed bot channel*/ ||
+        msg.channel.id === '447514061769277450') /*Manga channel*/
     ) {
       msg.channel.send(prequelLink).catch(console.error);
     }

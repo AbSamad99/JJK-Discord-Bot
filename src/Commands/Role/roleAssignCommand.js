@@ -1,12 +1,7 @@
 /*functions to handle the various user commands*/
 
 const changedRoleLog = require('../../Loggers/User/changedRoleLog.js');
-
-const { lockedRolesCheck } = require('../../Checks/Other/miscChecks.js');
-const {
-  channelCheck,
-  roleCheck,
-} = require('../../Checks/Other/helperChecks.js');
+const { lockedRolesArray } = require('../../checkArrays.js');
 
 //assigns character role to a member
 const roleAssignCommand = (msg) => {
@@ -15,8 +10,8 @@ const roleAssignCommand = (msg) => {
 
     //checking is the command was made in channels apart from the permitted channels
     if (
-      !channelCheck(msg, 'bot-commands') &&
-      !channelCheck(msg, 'syed-bot-practice')
+      !(msg.channel.id === '447513472427622410') /*bot commands channel*/ &&
+      !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
     )
       return;
 
@@ -44,13 +39,13 @@ const roleAssignCommand = (msg) => {
     }
 
     //checking if desired role was a locked role
-    if (lockedRolesCheck(desiredRole.name)) {
+    if (lockedRolesArray.includes(desiredRole.name)) {
       msg.channel.send('Cannot Assign that role').catch(console.log);
       return;
     }
 
     //assign role to user if they dont have it and vice versa
-    if (!roleCheck(msg.member, desiredRole.name)) {
+    if (!msg.member.roles.cache.has(desiredRole.id)) {
       msg.member.roles.add(desiredRole.id).then(() => {
         changedRoleLog(null, null, msg, desiredRole, 'add').catch(console.log);
       });

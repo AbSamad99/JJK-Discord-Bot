@@ -2,8 +2,7 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const { lockedRolesCheck } = require('../../Checks/Other/miscChecks');
-const { channelCheck } = require('../../Checks/Other/helperChecks');
+const { lockedRolesArray } = require('../../checkArrays');
 
 const roleListCommand = (msg) => {
   try {
@@ -11,8 +10,8 @@ const roleListCommand = (msg) => {
 
     //checking if command was issued in proper channels
     if (
-      !channelCheck(msg, 'bot-commands') &&
-      !channelCheck(msg, 'syed-bot-practice')
+      !(msg.channel.id === '447513472427622410') /*bot commands channel*/ &&
+      !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
     )
       return;
 
@@ -21,7 +20,7 @@ const roleListCommand = (msg) => {
     roles = ``;
 
     allRolesArray.forEach((role) => {
-      if (!lockedRolesCheck(role.name)) {
+      if (!lockedRolesArray.includes(role.name)) {
         roles = `${roles}
 ${role}`;
       }

@@ -2,7 +2,6 @@
 
 const ms = require('ms');
 
-const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 const userMuteLog = require('../../Loggers/Moderation/userMuteLog.js');
 
 //command to mute users
@@ -21,8 +20,8 @@ const muteCommand = (msg, myCache) => {
 
     //checking if user has mod perms or not
     if (
-      roleCheck(toMute, 'Special-Grade Shaman') ||
-      roleCheck(toMute, 'admin')
+      toMute.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+      toMute.roles.cache.has('447512449248395267') /*admin role*/
     ) {
       msg.channel.send('You cannot mute this user').catch(console.log);
       return;

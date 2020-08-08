@@ -1,18 +1,14 @@
 /*Function to handle the edit art character command*/
 
 const ArtSchema = require('../../Schemas/ArtSchema.js');
-const {
-  artCommandParametersCheck,
-  channelCheck,
-} = require('../../Checks/Other/helperChecks.js');
 
 //adds a character
 const editArtCharacterCommand = async (msg) => {
   let temp, characterArtObj;
   //checking if the command was issued in appropriate channel
   if (
-    !channelCheck(msg, 'music-and-art') &&
-    !channelCheck(msg, 'syed-bot-practice')
+    !(msg.channel.id === '458840312094261270') /*Art channel*/ &&
+    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
   )
     return;
 
@@ -20,12 +16,12 @@ const editArtCharacterCommand = async (msg) => {
   temp = msg.content.slice(1);
   temp = temp.split(' ');
 
-  if (!temp[1].toLowerCase()) {
+  if (!temp[1]) {
     msg.channel.send('Please specify a character name').catch(console.error);
     return;
   }
 
-  if (!temp[1].toLowerCase()) {
+  if (!temp[2]) {
     msg.channel.send('Please specify a new name').catch(console.error);
     return;
   }
@@ -33,8 +29,10 @@ const editArtCharacterCommand = async (msg) => {
   //getting required object
   characterArtObj = await ArtSchema.findOne({ name: temp[1].toLowerCase() });
 
-  //checking the parameters given
-  if (!artCommandParametersCheck(temp, msg, characterArtObj)) return;
+  if (!characterArtObj) {
+    msg.channel.send('Invalid character');
+    return;
+  }
 
   //adding the new category
   await ArtSchema.findOneAndUpdate(

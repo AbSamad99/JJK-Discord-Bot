@@ -4,13 +4,12 @@ const { MessageEmbed } = require('discord.js');
 const { capitalCase } = require('change-case');
 
 const ArtSchema = require('../../Schemas/ArtSchema.js');
-const { channelCheck } = require('../../Checks/Other/helperChecks.js');
 
 const getArtNamesCommand = async (msg) => {
   //checking if the command was issued in appropriate channel
   if (
-    !channelCheck(msg, 'music-and-art') &&
-    !channelCheck(msg, 'syed-bot-practice')
+    !(msg.channel.id === '458840312094261270') /*Art channel*/ &&
+    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
   )
     return;
 

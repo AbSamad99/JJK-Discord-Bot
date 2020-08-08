@@ -1,6 +1,5 @@
 /*Checks to see which type of art command was input by the user*/
 
-const { roleCheck } = require('../Other/helperChecks.js');
 const addArtCommand = require('../../Commands/Art/addArtCommand.js');
 const removeArtCommand = require('../../Commands/Art/removeArtCommand.js');
 const getArtCommand = require('../../Commands/Art/getArtCommand.js');
@@ -15,8 +14,10 @@ const artCommandTypeCheck = (msg, keyword) => {
     //get all art
     if (
       keyword === 'getallart' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       getAllArtCommand(msg).catch(console.log);
     }
@@ -24,9 +25,11 @@ const artCommandTypeCheck = (msg, keyword) => {
     //add art
     else if (
       keyword === 'addart' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin') ||
-        roleCheck(msg.member, 'Community Service Shaman'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+      msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+        msg.member.roles.cache.has('449481558559031296')) /*Community role*/
     ) {
       addArtCommand(msg).catch(console.log);
     }
@@ -34,8 +37,10 @@ const artCommandTypeCheck = (msg, keyword) => {
     //add character
     else if (
       keyword === 'addartchar' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       addArtCharacterCommand(msg).catch(console.log);
     }
@@ -43,8 +48,10 @@ const artCommandTypeCheck = (msg, keyword) => {
     //removes character
     else if (
       keyword === 'remartchar' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       removeArtCharacterCommand(msg).catch(console.log);
     }
@@ -52,8 +59,10 @@ const artCommandTypeCheck = (msg, keyword) => {
     //edits character name
     else if (
       keyword === 'editartchar' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       editArtCharacterCommand(msg).catch(console.log);
     }
@@ -61,9 +70,11 @@ const artCommandTypeCheck = (msg, keyword) => {
     //removes art
     else if (
       keyword === 'remart' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin') ||
-        roleCheck(msg.member, 'Community Service Shaman'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+      msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+        msg.member.roles.cache.has('449481558559031296')) /*Community role*/
     ) {
       removeArtCommand(msg).catch(console.log);
     }

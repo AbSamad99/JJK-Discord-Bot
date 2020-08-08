@@ -6,8 +6,6 @@ const ms = require('ms');
 
 const urlExist = require('url-exist');
 
-const { channelCheck } = require('../../Checks/Other/helperChecks.js');
-
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
   let mangaNewsRole,
@@ -88,11 +86,11 @@ const chapterAnnouncement = async (msg) => {
       .setImage(msg.embeds[0].thumbnail.url);
 
     //setting announcement channel to #syed-bot-practice if it was the msg channel
-    if (channelCheck(msg, 'syed-bot-practice')) {
+    if (msg.channel.id === '720958791432011789' /*Syed bot channel*/) {
       announcementChannel = msg.channel;
     }
     //returning if the command was not issued in #mod-bots
-    else if (!channelCheck(msg, 'mod-bots')) {
+    else if (!(msg.channel.id === '460890234788249600') /*mod bot channel*/) {
       return;
     }
 

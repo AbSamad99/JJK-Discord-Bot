@@ -1,6 +1,5 @@
 /*Checks to see which emote command was input*/
 
-const { roleCheck } = require('../Other/helperChecks.js');
 const addEmoteCommand = require('../../Commands/Emote/addEmoteCommand.js');
 const editEmoteCommand = require('../../Commands/Emote/editEmoteCommand.js');
 const archiveOrDeleteEmoteCommand = require('../../Commands/Emote/archiveOrDeleteEmoteCommand.js');
@@ -10,8 +9,10 @@ const emoteCommandTypeCheck = (msg, keyword) => {
     //addEmoteCommand
     if (
       keyword === 'addemote' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       addEmoteCommand(msg);
     }
@@ -19,8 +20,10 @@ const emoteCommandTypeCheck = (msg, keyword) => {
     //deleteEmoteCommand
     else if (
       keyword === 'deleteemote' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       archiveOrDeleteEmoteCommand(msg, 'delete');
     }
@@ -28,8 +31,10 @@ const emoteCommandTypeCheck = (msg, keyword) => {
     //editEmoteCommand
     else if (
       keyword === 'editemote' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       editEmoteCommand(msg);
     }
@@ -37,8 +42,10 @@ const emoteCommandTypeCheck = (msg, keyword) => {
     //archiveEmoteCommand
     else if (
       keyword === 'archiveemote' &&
-      (roleCheck(msg.member, 'Special-Grade Shaman') ||
-        roleCheck(msg.member, 'admin'))
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       archiveOrDeleteEmoteCommand(msg, 'archive');
     }

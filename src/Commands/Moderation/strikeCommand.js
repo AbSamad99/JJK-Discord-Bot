@@ -8,7 +8,6 @@ const UserSchema = require('../../Schemas/UserSchema.js');
 const userMuteLog = require('../../Loggers/Moderation/userMuteLog.js');
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
-const { roleCheck } = require('../../Checks/Other/helperChecks.js');
 const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 //command to issue strikes
@@ -44,8 +43,8 @@ const strikeCommand = async (msg) => {
 
   //checking to see if user has mod perms
   if (
-    roleCheck(toStrike, 'Special-Grade Shaman') ||
-    roleCheck(toStrike, 'admin')
+    toStrike.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+    toStrike.roles.cache.has('447512449248395267') /*admin role*/
   ) {
     msg.channel.send('You cannot issue strikes to this user');
     return;

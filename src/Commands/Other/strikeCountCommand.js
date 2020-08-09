@@ -3,13 +3,15 @@
 const UserSchema = require('../../Schemas/UserSchema.js');
 
 const strikeCountCommand = async (msg) => {
-  let mentioned, user, strikesCount;
+  let mentioned, user, temp;
+
+  temp = msg.content.split(' ');
 
   //getting user to issue strikes to
   mentioned = msg.mentions.members.array()[0];
 
   //checking if user is mentioned
-  if (!mentioned) {
+  if (!mentioned && !temp[1]) {
     user = await UserSchema.findOne({ id: msg.author.id });
     //adding user to the database if they dont exist
     if (!user) {
@@ -20,13 +22,31 @@ const strikeCountCommand = async (msg) => {
         avatar: msg.author.user.avatar,
         discriminator: msg.author.user.discriminator,
         strikes: 0,
-      });
-      msg.channel.send(`0 strikes`).catch(console.log);
+      }).catch(console.log);
+      msg.channel.send(`${msg.author.username}: 0 strikes`).catch(console.log);
       return;
     }
-    strikesCount = user.strikes;
     msg.channel
-      .send(`${strikesCount} ${strikesCount === 1 ? 'strike' : 'strikes'}`)
+      .send(
+        `${user.name}: ${user.strikes} ${
+          user.strikes === 1 ? 'strike' : 'strikes'
+        }`
+      )
+      .catch(console.log);
+    return;
+  } else if (!mentioned && temp[1]) {
+    user = await UserSchema.findOne({ id: temp[1] });
+    //adding user to the database if they dont exist
+    if (!user) {
+      msg.channel.send(`No such user present`).catch(console.log);
+      return;
+    }
+    msg.channel
+      .send(
+        `${user.name}: ${user.strikes} ${
+          user.strikes === 1 ? 'strike' : 'strikes'
+        }`
+      )
       .catch(console.log);
     return;
   } else {
@@ -44,9 +64,12 @@ const strikeCountCommand = async (msg) => {
       msg.channel.send(`0 strikes`).catch(console.log);
       return;
     }
-    strikesCount = user.strikes;
     msg.channel
-      .send(`${strikesCount} ${strikesCount === 1 ? 'strike' : 'strikes'}`)
+      .send(
+        `${user.name}: ${user.strikes} ${
+          user.strikes === 1 ? 'strike' : 'strikes'
+        }`
+      )
       .catch(console.log);
     return;
   }

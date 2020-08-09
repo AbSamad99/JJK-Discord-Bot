@@ -4,7 +4,15 @@ const { MessageEmbed } = require('discord.js');
 
 const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
-const changedRoleLog = async (newMem, roleLogs, msg, role, type) => {
+const changedRoleLog = async (
+  newMem,
+  executor,
+  target,
+  roleChanges,
+  msg,
+  role,
+  type
+) => {
   let roleEmbed, logsChannel, roleColor, roles;
 
   if (!msg) {
@@ -12,31 +20,30 @@ const changedRoleLog = async (newMem, roleLogs, msg, role, type) => {
     logsChannel = newMem.guild.channels.cache.get('447513266395283476');
 
     //getting role color
-    roleColor = newMem.guild.roles.cache.get(roleLogs.changes[0].new[0].id)
-      .color;
+    roleColor = newMem.guild.roles.cache.get(roleChanges.new[0].id).color;
 
     roles = ``;
 
     //getting all the roles
-    roleLogs.changes[0].new.forEach((role) => {
+    roleChanges.new.forEach((role) => {
       roles = `${roles} <@&${role.id}>`;
     });
 
     //creating the embed
     roleEmbed = new MessageEmbed()
-      .setAuthor(roleLogs.executor.tag, await gifOrPngCheck(roleLogs.executor))
+      .setAuthor(executor.tag, await gifOrPngCheck(executor))
       .setColor(roleColor)
       .setFooter(new Date());
 
     //adding fields based on type
-    if (roleLogs.changes[0].key === '$add') {
+    if (roleChanges.key === '$add') {
       roleEmbed
         .setTitle('Role added')
-        .setDescription(`Added ${roles} to ${roleLogs.target}`);
-    } else if (roleLogs.changes[0].key === '$remove') {
+        .setDescription(`Added ${roles} to ${target}`);
+    } else if (roleChanges.key === '$remove') {
       roleEmbed
         .setTitle('Role removed')
-        .setDescription(`Removed ${roles} from ${roleLogs.target}`);
+        .setDescription(`Removed ${roles} from ${target}`);
     }
   } else {
     //getting logs channel

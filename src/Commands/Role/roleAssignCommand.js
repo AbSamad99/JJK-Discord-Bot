@@ -47,13 +47,21 @@ const roleAssignCommand = (msg) => {
     //assign role to user if they dont have it and vice versa
     if (!msg.member.roles.cache.has(desiredRole.id)) {
       msg.member.roles.add(desiredRole.id).then(() => {
-        changedRoleLog(null, null, msg, desiredRole, 'add').catch(console.log);
+        changedRoleLog(null, null, null, null, msg, desiredRole, 'add').catch(
+          console.log
+        );
       });
     } else {
       msg.member.roles.remove(desiredRole.id).then(() => {
-        changedRoleLog(null, null, msg, desiredRole, 'remove').catch(
-          console.log
-        );
+        changedRoleLog(
+          null,
+          null,
+          null,
+          null,
+          msg,
+          desiredRole,
+          'remove'
+        ).catch(console.log);
       });
     }
   } catch (err) {

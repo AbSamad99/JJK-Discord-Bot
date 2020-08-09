@@ -167,7 +167,9 @@ Note: tagging user is optional, not providing it will get the strikes of the per
 > -suggest <your suggestion body>
 Note: A single image can also be provided but it must be attached to the message in which the command is issued. The body of the suggestion must have at least 10 words`
       );
-  } else {
+  } else if (
+    !(msg.channel.id === '447513472427622410') /*bot commands channel*/
+  ) {
     helpEmbed
       .setTitle('**List of commands for users**')
       .setDescription(

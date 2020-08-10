@@ -17,7 +17,7 @@ const chapterAnnouncement = async (msg) => {
     chapEmbed;
 
   //getting the chapter release role
-  chapterRelease = msg.guild.roles.cache.get('742296504643092582');
+  chapterRelease = msg.guild.roles.cache.get('720949557420359680');
 
   //getting the announcement channel
   announcementChannel = msg.guild.channels.cache.get('447513385211396096');

@@ -56,9 +56,9 @@ const messageCaseHandler = async (msg, client, myCache) => {
 
   //checks if it contains a forbidden link
   if (forbiddenLinksArray.some((l) => temp.includes(l))) {
-    msg.delete().catch(console.error);
     msg
-      .reply('Please refrain from posting links to NSFW sites')
+      .reply('Please do not post links to NSFW sites')
+      .then(() => msg.delete())
       .catch(console.error);
   }
 
@@ -71,9 +71,9 @@ const messageCaseHandler = async (msg, client, myCache) => {
       ) /*Special Grade role*/ &&
       !msg.member.roles.cache.has('447512449248395267') /*admin role*/
     ) {
-      msg.delete().catch(console.error);
-      msg.channel
-        .reply('Please do not link invites to other servers')
+      msg
+        .reply('Please do not post invites')
+        .then(() => msg.delete())
         .catch(console.error);
     }
     discordLinkPostedLog(msg, client).catch(console.log);

@@ -32,7 +32,12 @@ const prefixCommandFunction = (msg, temp, myCache) => {
     keyword = keyword[0];
 
     //help command
-    if (keyword === 'help') {
+    if (
+      keyword === 'help' &&
+      (msg.channel.id === '742257053954736260' /*Bot Art channel*/ ||
+      msg.channel.id === '720958791432011789' /*Syed bot channel*/ ||
+        msg.channel.id === '447513472427622410') /*bot commands channel*/
+    ) {
       helpCommand(msg);
     }
 

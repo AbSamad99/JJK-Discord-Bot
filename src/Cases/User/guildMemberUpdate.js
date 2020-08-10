@@ -125,19 +125,9 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
         console.log('Timeout Cleared');
       }
     }
-    await changedRoleLog(
-      newMem,
-      roleLogs.executor,
-      roleLogs.target,
-      roleLogs.changes[0]
-    ).catch(console.log);
+    await changedRoleLog(newMem, roleLogs, 0).catch(console.log);
     if (roleLogs.changes[1]) {
-      await changedRoleLog(
-        newMem,
-        roleLogs.executor,
-        roleLogs.target,
-        roleLogs.changes[1]
-      ).catch(console.log);
+      await changedRoleLog(newMem, roleLogs, 1).catch(console.log);
     }
   }
 

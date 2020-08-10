@@ -66,14 +66,12 @@ const roleAssignCommand = (msg) => {
     //assign role to user if they dont have it and vice versa
     if (toAdd.length) {
       msg.member.roles.add(toAdd).then(() => {
-        changedRoleLog(null, null, null, null, msg, toAdd, 'add').catch(
-          console.log
-        );
+        changedRoleLog(null, null, null, msg, toAdd, 'add').catch(console.log);
       });
     }
     if (toRemove.length) {
       msg.member.roles.remove(toRemove).then(() => {
-        changedRoleLog(null, null, null, null, msg, toRemove, 'remove').catch(
+        changedRoleLog(null, null, null, msg, toRemove, 'remove').catch(
           console.log
         );
       });

@@ -6,9 +6,8 @@ const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 const changedRoleLog = async (
   newMem,
-  executor,
-  target,
-  roleChanges,
+  roleLogs,
+  changeIndex,
   msg,
   role,
   type
@@ -20,30 +19,34 @@ const changedRoleLog = async (
     logsChannel = newMem.guild.channels.cache.get('447513266395283476');
 
     //getting role color
-    roleColor = newMem.guild.roles.cache.get(roleChanges.new[0].id).color;
+    roleColor = newMem.guild.roles.cache.get(
+      roleLogs.changes[changeIndex].new[0].id
+    ).color;
+
+    console.log(roleLogs.changes[changeIndex].new);
 
     roles = ``;
 
     //getting all the roles
-    roleChanges.new.forEach((role) => {
+    roleLogs.changes[changeIndex].new.forEach((role) => {
       roles = `${roles} <@&${role.id}>`;
     });
 
     //creating the embed
     roleEmbed = new MessageEmbed()
-      .setAuthor(executor.tag, await gifOrPngCheck(executor))
+      .setAuthor(roleLogs.executor.tag, await gifOrPngCheck(roleLogs.executor))
       .setColor(roleColor)
       .setFooter(new Date());
 
     //adding fields based on type
-    if (roleChanges.key === '$add') {
+    if (roleLogs.changes[changeIndex].key === '$add') {
       roleEmbed
         .setTitle('Role added')
-        .setDescription(`Added ${roles} to ${target}`);
-    } else if (roleChanges.key === '$remove') {
+        .setDescription(`Added ${roles} to ${roleLogs.target}`);
+    } else if (roleLogs.changes[changeIndex].key === '$remove') {
       roleEmbed
         .setTitle('Role removed')
-        .setDescription(`Removed ${roles} from ${target}`);
+        .setDescription(`Removed ${roles} from ${roleLogs.target}`);
     }
   } else {
     //getting logs channel

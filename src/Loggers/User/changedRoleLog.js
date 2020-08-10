@@ -49,6 +49,13 @@ const changedRoleLog = async (
     //getting logs channel
     logsChannel = msg.guild.channels.cache.get('447513266395283476');
 
+    roles = ``;
+
+    //getting all the roles
+    role.forEach((role) => {
+      roles = `${roles} ${role}`;
+    });
+
     //creating the embed
     roleEmbed = new MessageEmbed()
       .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
@@ -58,12 +65,12 @@ const changedRoleLog = async (
     if (type === 'add') {
       roleEmbed
         .setTitle('Role added')
-        .setDescription(`Added <@&${role.id}> to ${msg.author}`);
+        .setDescription(`Added ${roles} to ${msg.author}`);
     } else if (type === 'remove') {
       roleEmbed
         .setTitle('Role removed')
         .setColor(role.color)
-        .setDescription(`Removed <@&${role.id}> from ${msg.author}`);
+        .setDescription(`Removed ${roles} from ${msg.author}`);
     }
   }
 

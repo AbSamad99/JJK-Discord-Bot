@@ -133,7 +133,7 @@ Command to purge messages:
         `The role commands are as follows:
       
 Command to assign a character role:
-> -role <CharName>
+> -role <CharName1> <CharName2> <CharName3>.....
 
 Command to list all assignable roles:
 > -rolelist`
@@ -214,7 +214,7 @@ Command to get list of all the characters:
         `The role commands are as follows:
   
 Command to assign a character role:
-> -role <CharName>
+> -role <CharName1> <CharName2> <CharName3>.....
 
 Command to list all assignable roles:
 > -rolelist`

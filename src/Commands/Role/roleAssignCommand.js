@@ -6,7 +6,11 @@ const { lockedRolesArray } = require('../../checkArrays.js');
 //assigns character role to a member
 const roleAssignCommand = (msg) => {
   try {
-    let temp, desiredRole;
+    let temp,
+      role,
+      desiredRoles = [],
+      toAdd = [],
+      toRemove = [];
 
     //checking is the command was made in channels apart from the permitted channels
     if (
@@ -20,48 +24,58 @@ const roleAssignCommand = (msg) => {
     temp = temp.split(' ');
 
     //checking if character name was given or not
-    if (!temp[1]) {
-      msg.channel.send('Please specify a character name').catch(console.log);
-      return;
-    }
-
-    //finding the desired role
-    desiredRole = msg.guild.roles.cache.find(
-      (role) => role.name.toLowerCase() === temp[1].toLowerCase()
-    );
-
-    //checking if a valid name was provided or not
-    if (!desiredRole) {
+    if (temp.length < 2) {
       msg.channel
-        .send('Please specify a valid character name')
+        .send('Please specify at least one character name')
         .catch(console.log);
       return;
     }
 
-    //checking if desired role was a locked role
-    if (lockedRolesArray.includes(desiredRole.name)) {
-      msg.channel.send('Cannot Assign that role').catch(console.log);
+    for (let i = 1; i < temp.length; i++) {
+      role = msg.guild.roles.cache.find(
+        (role) => role.name.toLowerCase() === temp[i].toLowerCase()
+      );
+      if (role) desiredRoles.push(role);
+    }
+
+    //checking if a valid name was provided or not
+    if (!desiredRoles.length) {
+      msg.channel
+        .send('Please specify valid character names')
+        .catch(console.log);
       return;
     }
 
+    for (i = 0; i < desiredRoles.length; i++) {
+      if (lockedRolesArray.includes(desiredRoles[i].name)) {
+        msg.channel
+          .send(`Cannot Assign ${desiredRoles[i].name} role`)
+          .catch(console.log);
+        desiredRoles.splice(i, 1);
+      }
+    }
+
+    for (i = 0; i < desiredRoles.length; i++) {
+      if (!msg.member.roles.cache.has(desiredRoles[i].id)) {
+        toAdd.push(desiredRoles[i]);
+      } else {
+        toRemove.push(desiredRoles[i]);
+      }
+    }
+
     //assign role to user if they dont have it and vice versa
-    if (!msg.member.roles.cache.has(desiredRole.id)) {
-      msg.member.roles.add(desiredRole.id).then(() => {
-        changedRoleLog(null, null, null, null, msg, desiredRole, 'add').catch(
+    if (toAdd.length) {
+      msg.member.roles.add(toAdd).then(() => {
+        changedRoleLog(null, null, null, null, msg, toAdd, 'add').catch(
           console.log
         );
       });
-    } else {
-      msg.member.roles.remove(desiredRole.id).then(() => {
-        changedRoleLog(
-          null,
-          null,
-          null,
-          null,
-          msg,
-          desiredRole,
-          'remove'
-        ).catch(console.log);
+    }
+    if (toRemove.length) {
+      msg.member.roles.remove(toRemove).then(() => {
+        changedRoleLog(null, null, null, null, msg, toRemove, 'remove').catch(
+          console.log
+        );
       });
     }
   } catch (err) {

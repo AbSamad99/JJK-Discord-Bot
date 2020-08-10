@@ -17,7 +17,8 @@ const botEmbedMessageCommand = async (msg) => {
     desc,
     thumbnail,
     fields,
-    image;
+    image,
+    displayAuthor;
 
   //getting #mod-bots channel
   modBotChannel = msg.guild.channels.cache.get('460890234788249600');
@@ -50,12 +51,12 @@ const botEmbedMessageCommand = async (msg) => {
   }
 
   //getting required fields
-  tempArray = msg.content.split('[');
+  tempArray = msg.content.split('{');
   tempArray.splice(0, 1);
 
   //removing the [ and ] brackets
   for (let i = 0; i < tempArray.length; i++) {
-    tempArray[i] = tempArray[i].slice(0, tempArray[i].indexOf(']'));
+    tempArray[i] = tempArray[i].slice(0, tempArray[i].indexOf('}'));
   }
 
   //seperating into different fields
@@ -65,6 +66,7 @@ const botEmbedMessageCommand = async (msg) => {
   thumbnail = tempArray[3].split('::');
   fields = tempArray[4].split('::');
   image = tempArray[5].split('::');
+  displayAuthor = tempArray[6].split('::');
 
   //check to see if the user followed proper syntax of the command
   if (
@@ -73,7 +75,8 @@ const botEmbedMessageCommand = async (msg) => {
     desc[0].toLowerCase() !== 'description' ||
     thumbnail[0].toLowerCase() !== 'thumbnail' ||
     fields[0].toLowerCase() !== 'fields' ||
-    image[0].toLowerCase() !== 'image'
+    image[0].toLowerCase() !== 'image' ||
+    displayAuthor[0].toLowerCase() !== 'displayauthor'
   ) {
     msg.channel
       .send('Invalid format, please follow the proper syntax of the command')
@@ -82,9 +85,19 @@ const botEmbedMessageCommand = async (msg) => {
   }
 
   //setting the author, title and description fields
-  embeddedMessage.setAuthor(msg.author.tag, await gifOrPngCheck(msg.author));
-  embeddedMessage.setTitle(title[1]);
-  embeddedMessage.setDescription(desc[1]);
+  if (displayAuthor[1].toLowerCase() !== 'no') {
+    embeddedMessage.setAuthor(msg.author.tag, await gifOrPngCheck(msg.author));
+  }
+
+  //check to see if description was provided
+  if (desc[1].toLowerCase() !== 'null') {
+    embeddedMessage.setDescription(desc[1]);
+  }
+
+  //check to see if title was provided
+  if (title[1].toLowerCase() !== 'null') {
+    embeddedMessage.setTitle(title[1]);
+  }
 
   //check to see if thumbnail link was provided
   if (thumbnail[1].toLowerCase() !== 'null') {
@@ -93,10 +106,10 @@ const botEmbedMessageCommand = async (msg) => {
 
   //check to see if any fields were provided, and looping through each field and adding it to the embed
   if (fields[1].toLowerCase() !== 'null') {
-    fields = fields[1].split('{');
+    fields = fields[1].split('<');
     fields.splice(0, 1);
     fields.forEach((field) => {
-      field = field.slice(0, field.indexOf('}'));
+      field = field.slice(0, field.indexOf('>'));
       field = field.split('--');
       embeddedMessage.addField(field[0], field[1]);
     });

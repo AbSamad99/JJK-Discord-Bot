@@ -11,7 +11,7 @@ const messageUpdateCaseHandler = async (oldMsg, newMsg) => {
 
   ///checking if the message updated doesnt belong to the honored one
   if (newMsg.author.id !== honoredOne.id && oldMsg.content !== newMsg.content) {
-    messageUpdatedLog(oldMsg, newMsg).catch(console.log);
+    await messageUpdatedLog(oldMsg, newMsg).catch(console.log);
   }
 };
 

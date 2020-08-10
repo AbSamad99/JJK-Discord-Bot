@@ -74,7 +74,7 @@ client.on('guildMemberRemove', (mem) => {
 // });
 
 client.on('guildBanRemove', (guild, mem) => {
-  guildBanRemoveCaseHandler(guild, mem, myCache).catch(console.log);
+  guildBanRemoveCaseHandler(guild, mem).catch(console.log);
 });
 
 client.on('channelCreate', (channel) => {
@@ -90,7 +90,7 @@ client.on('channelDelete', (channel) => {
 });
 
 client.on('roleUpdate', (oldRole, newRole) => {
-  roleUpdateCaseHandler(oldRole, newRole, myCache).catch(console.log);
+  roleUpdateCaseHandler(oldRole, newRole).catch(console.log);
 });
 
 client.on('roleCreate', (role) => {

@@ -53,10 +53,11 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
   oldChannel.permissionOverwrites.forEach((ov) => {
     if (ov.type === 'role') {
       roleOrUser = newChannel.guild.roles.cache.get(ov.id);
+      name = roleOrUser.name;
     } else if (ov.type === 'member') {
       roleOrUser = newChannel.guild.members.cache.get(ov.id);
+      name = roleOrUser.user.username;
     }
-    name = roleOrUser.name || roleOrUser.user.username;
 
     oldObj[name] = {
       roleOrUser: roleOrUser,
@@ -70,10 +71,11 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
   newChannel.permissionOverwrites.forEach((ov) => {
     if (ov.type === 'role') {
       roleOrUser = newChannel.guild.roles.cache.get(ov.id);
+      name = roleOrUser.name;
     } else if (ov.type === 'member') {
       roleOrUser = newChannel.guild.members.cache.get(ov.id);
+      name = roleOrUser.user.username;
     }
-    name = roleOrUser.name || roleOrUser.user.username;
 
     newObj[name] = {
       roleOrUser: roleOrUser,
@@ -106,7 +108,7 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
 
     //logging channel name change
     if (channelNameChange || channelSlowmodeChange) {
-      channelUpdateLog(
+      await channelUpdateLog(
         channelUpdateAuditLog.executor,
         channelNameChange,
         channelSlowmodeChange,
@@ -119,7 +121,7 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
   //checking if a new overwrite was created
   for (let i = 0; i < newKeys.length; i++) {
     if (!oldKeys.includes(newKeys[i])) {
-      permsOverwriteCreateLog(
+      await permsOverwriteCreateLog(
         channelOverwriteCreateAuditLogs.executor,
         newObj[newKeys[i]],
         logsChannel,
@@ -132,7 +134,7 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
   //checking if a overwrite was deleted
   for (i = 0; i < oldKeys.length; i++) {
     if (!newKeys.includes(oldKeys[i])) {
-      permsOverwriteRemoveLog(
+      await permsOverwriteRemoveLog(
         channelOverwriteDeleteAuditLogs.executor,
         oldObj[oldKeys[i]],
         logsChannel,
@@ -148,7 +150,7 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
       oldObj[oldKeys[i]].allow.length < newObj[oldKeys[i]].allow.length ||
       oldObj[oldKeys[i]].deny.length > newObj[oldKeys[i]].deny.length
     ) {
-      permsOverwriteEditLog(
+      await permsOverwriteEditLog(
         channelOverwriteUpdateAuditLogs.executor,
         oldObj[oldKeys[i]],
         newObj[oldKeys[i]],
@@ -161,7 +163,7 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
       oldObj[oldKeys[i]].allow.length > newObj[oldKeys[i]].allow.length ||
       oldObj[oldKeys[i]].deny.length < newObj[oldKeys[i]].deny.length
     ) {
-      permsOverwriteEditLog(
+      await permsOverwriteEditLog(
         channelOverwriteUpdateAuditLogs.executor,
         null,
         null,

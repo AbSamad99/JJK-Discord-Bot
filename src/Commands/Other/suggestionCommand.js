@@ -12,7 +12,7 @@ const suggestionCommand = async (msg) => {
 
   //checking is the command was made in channels apart from the permitted channels
   if (
-    !(msg.channel.id === '491422518955999263') /*Server suggestions channel*/ &&
+    !(msg.channel.id === '491422518955999263') /*Server management channel*/ &&
     !msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ &&
     !msg.member.roles.cache.has('447512449248395267') /*admin role*/
   )

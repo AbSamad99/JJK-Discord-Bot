@@ -56,16 +56,18 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
     myCache.set('previousMemberUpdateLogId', userLogs.id);
     if (userLogs.target.tag !== userLogs.executor.tag) {
       //Mod made the changes
-      changedNicknameLog(newMem, nick, userLogs.executor).catch(console.log);
+      await changedNicknameLog(newMem, nick, userLogs.executor).catch(
+        console.log
+      );
     } else {
       //User made changes
-      changedNicknameLog(newMem, nick).catch(console.log);
+      await changedNicknameLog(newMem, nick).catch(console.log);
     }
   }
 
   //checking if username was changed
   if (user.name !== newMem.user.username) {
-    changedUsernameAndDiscriminatorLog(newMem, user, 'username').catch(
+    await changedUsernameAndDiscriminatorLog(newMem, user, 'username').catch(
       console.log
     );
     await UserSchema.findOneAndUpdate(

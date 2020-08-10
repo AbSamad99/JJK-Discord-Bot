@@ -60,18 +60,6 @@ const fetchAuditLogIdAndCount = async (client, myCache) => {
 
   myCache.set('previousMemberBanLogId', temp.id);
 
-  //getting member ban remove audit log and setting required value
-  temp = await client.guilds.cache
-    .first()
-    .fetchAuditLogs({
-      type: 'MEMBER_BAN_REMOVE',
-    })
-    .then((audit) => audit.entries.first())
-    .catch(console.log);
-  if (!temp) temp = { id: null };
-
-  myCache.set('previousMemberBanRemoveLogId', temp.id);
-
   //getting channel update audit log and setting required value
   temp = await client.guilds.cache
     .first()
@@ -82,17 +70,6 @@ const fetchAuditLogIdAndCount = async (client, myCache) => {
     .catch(console.log);
 
   myCache.set('previousChannelUpdateLogId', temp.id);
-
-  //getting role update audit log and setting required value
-  temp = await client.guilds.cache
-    .first()
-    .fetchAuditLogs({
-      type: 'ROLE_UPDATE',
-    })
-    .then((audit) => audit.entries.first())
-    .catch(console.log);
-
-  myCache.set('previousRoleUpdateAuditLog', temp.id);
 };
 
 module.exports = fetchAuditLogIdAndCount;

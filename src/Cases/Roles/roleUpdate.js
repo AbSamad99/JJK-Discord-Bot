@@ -4,7 +4,7 @@ const { sentenceCase } = require('change-case');
 const rolePermsUpdateLog = require('../../Loggers/Roles/rolePermsUpdateLog');
 const roleUpdateLog = require('../../Loggers/Roles/roleUpdateLog');
 
-const roleUpdateCaseHandler = async (oldRole, newRole, myCache) => {
+const roleUpdateCaseHandler = async (oldRole, newRole) => {
   let roleUpdateAuditLog,
     oldPermsArray,
     newPermsArray,
@@ -14,8 +14,7 @@ const roleUpdateCaseHandler = async (oldRole, newRole, myCache) => {
     colorChange,
     nameChange,
     hoistChange,
-    mentionableChange,
-    temp;
+    mentionableChange;
 
   //getting old and new perms
   oldPermsArray = oldRole.permissions.toArray();
@@ -46,8 +45,6 @@ const roleUpdateCaseHandler = async (oldRole, newRole, myCache) => {
     (change) => change.key === 'hoist'
   );
 
-  temp = myCache.get('previousRoleUpdateAuditLog');
-
   //checking if new perms were added
   for (i = 0; i < newPermsArray.length; i++) {
     if (!oldPermsArray.includes(newPermsArray[i])) {
@@ -66,28 +63,21 @@ ${sentenceCase(oldPermsArray[i])}`;
 
   //calling the logging function if perms were changed
   if (added || removed) {
-    myCache.del('previousRoleUpdateAuditLog');
-    myCache.set('previousRoleUpdateAuditLog', roleUpdateAuditLog.id);
-    rolePermsUpdateLog(roleUpdateAuditLog, added, removed, newRole).catch(
+    await rolePermsUpdateLog(roleUpdateAuditLog, added, removed, newRole).catch(
       console.log
     );
   }
 
-  if (roleUpdateAuditLog.id !== temp) {
-    myCache.del('previousRoleUpdateAuditLog');
-    myCache.set('previousRoleUpdateAuditLog', roleUpdateAuditLog.id);
-
-    //checking if role name, color, etc was changed
-    if (nameChange || colorChange || mentionableChange || hoistChange) {
-      roleUpdateLog(
-        roleUpdateAuditLog,
-        nameChange,
-        mentionableChange,
-        hoistChange,
-        colorChange,
-        newRole
-      ).catch(console.log);
-    }
+  //checking if role name, color, etc was changed
+  if (nameChange || colorChange || mentionableChange || hoistChange) {
+    await roleUpdateLog(
+      roleUpdateAuditLog,
+      nameChange,
+      mentionableChange,
+      hoistChange,
+      colorChange,
+      newRole
+    ).catch(console.log);
   }
 };
 

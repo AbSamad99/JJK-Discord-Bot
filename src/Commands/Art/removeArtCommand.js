@@ -7,7 +7,7 @@ const removeArtCommand = async (msg) => {
   let temp, characterArray, index;
   //checking if the command was issued in appropriate channel
   if (
-    !(msg.channel.id === '458840312094261270') /*Art channel*/ &&
+    !(msg.channel.id === '742257053954736260') /*Bot Art channel*/ &&
     !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
   )
     return;

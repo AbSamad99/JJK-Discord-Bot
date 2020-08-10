@@ -8,7 +8,7 @@ const urlExist = require('url-exist');
 
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
-  let mangaNewsRole,
+  let chapterRelease,
     announcementChannel,
     temp,
     chapterNumber,
@@ -16,8 +16,8 @@ const chapterAnnouncement = async (msg) => {
     mpLink,
     chapEmbed;
 
-  //getting the manga news role
-  mangaNewsRole = msg.guild.roles.cache.get('720949312984580146');
+  //getting the chapter release role
+  chapterRelease = msg.guild.roles.cache.get('742296504643092582');
 
   //getting the announcement channel
   announcementChannel = msg.guild.channels.cache.get('447513385211396096');
@@ -96,7 +96,7 @@ const chapterAnnouncement = async (msg) => {
 
     //sending the required channel
     announcementChannel
-      .send(`${mangaNewsRole}`, {
+      .send(`${chapterRelease}`, {
         embed: chapEmbed,
       })
       .then(async (botMsg) => {

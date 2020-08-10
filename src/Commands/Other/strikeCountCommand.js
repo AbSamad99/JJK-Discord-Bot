@@ -5,6 +5,13 @@ const UserSchema = require('../../Schemas/UserSchema.js');
 const strikeCountCommand = async (msg) => {
   let mentioned, user, temp;
 
+  //checking is the command was made in channels apart from the permitted channels
+  if (
+    !(msg.channel.id === '447513472427622410') /*bot commands channel*/ &&
+    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
+  )
+    return;
+
   temp = msg.content.split(' ');
 
   //getting user to issue strikes to

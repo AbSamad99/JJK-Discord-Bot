@@ -3,8 +3,8 @@
 //getting the required logging function
 const userBanRemoveLog = require('../../Loggers/Moderation/userBanRemoveLog.js');
 
-const guildBanRemoveCaseHandler = async (guild, mem, myCache) => {
-  let banRemoveAuditLog, logsChannel, temp;
+const guildBanRemoveCaseHandler = async (guild, mem) => {
+  let banRemoveAuditLog, logsChannel;
 
   //getting the logs channel
   logsChannel = guild.channels.cache.get('447513266395283476');
@@ -16,14 +16,7 @@ const guildBanRemoveCaseHandler = async (guild, mem, myCache) => {
     })
     .then((audit) => audit.entries.first());
 
-  temp = myCache.get('previousMemberBanRemoveLogId');
-
-  //checking if a ban was removed
-  if (banRemoveAuditLog.id !== temp) {
-    myCache.del('previousMemberBanRemoveLogId');
-    myCache.set('previousMemberBanRemoveLogId', banRemoveAuditLog.id);
-    userBanRemoveLog(banRemoveAuditLog, logsChannel).catch(console.log);
-  }
+  userBanRemoveLog(banRemoveAuditLog, logsChannel).catch(console.log);
 };
 
 module.exports = guildBanRemoveCaseHandler;

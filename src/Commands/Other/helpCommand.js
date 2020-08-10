@@ -95,18 +95,19 @@ Bot message command:
 
 Bot Embedded Message:
 > -embedmessage <channel>
-> [type::<type of message>]
-> [title::<title>]
-> [description::<Body of the message>]
-> [thumbnail::<link>]
-> [fields::{fieldTitle1--abc1}{fieldTitle2--abc2}{fieldTitle3--abc3}]
-> [image::<link>]
+> {type::type of message}
+> {title::some title}
+> {description::<Body of the message>}
+> {thumbnail::<link>}
+> {fields::<fieldTitle1--abc1><fieldTitle2--abc2><fieldTitle3--abc3>}
+> {image::link}
+> {displayauthor::yes/no}
 **Important! Don't ignore the following points:**
 1. The various types are: general, announcement(pings everyone), server event(pings server events role)
 2. Thumbnail must be a link. If you do not have any link to provide, just put null.
 3. We can have upto 25 fields. If fields are unneeded, just say null
 4. Image must be a link. If you do not have any link to provide, just say null. Alternatively you can upload a picture and put in null in the image field
-5. Make sure you dont have any '{' or '[' or '--'(includes the message striking syntax) or '::' and '--' in your fields or description. this will result in command failing`
+5. Make sure you dont have any '{' or '}' '<' or '>' or '--'(includes the message striking syntax) or '::' in your fields or description. this will result in command failing`
       )
       .addField(
         '**__Moderation Commands__**',
@@ -138,7 +139,7 @@ Command to list all assignable roles:
 > -rolelist`
       )
       .addField(
-        '**__Welcome Commands',
+        '**__Welcome Commands__**',
         `The welcome commands are as follows:
 Command for the welcome questions:
 > -welcome

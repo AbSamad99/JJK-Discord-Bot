@@ -72,6 +72,7 @@ const lockedRolesArray = [
   `Muted`,
   `Pokecord`,
   `"Mod"`,
+  '@everyone',
 ];
 
 const artLinksArray = [

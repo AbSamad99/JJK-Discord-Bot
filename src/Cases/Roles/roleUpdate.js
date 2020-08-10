@@ -60,7 +60,7 @@ ${sentenceCase(newPermsArray[i])}`;
   for (i = 0; i < oldPermsArray.length; i++) {
     if (!newPermsArray.includes(oldPermsArray[i])) {
       removed = `${removed}
-${sentenceCase(newPermsArray[i])}`;
+${sentenceCase(oldPermsArray[i])}`;
     }
   }
 

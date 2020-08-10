@@ -17,7 +17,7 @@ const unstrikeCommand = async (msg) => {
   //checking if user given is valid
   if (!toUnStrike) {
     msg.channel
-      .send('Please mention a user to remove strike from')
+      .send('Please mention a user to remove a strike from')
       .catch(console.log);
     return;
   }

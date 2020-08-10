@@ -55,23 +55,18 @@ const lockedRolesArray = [
   '2nd-Grade Shaman',
   '3rd-Grade Shaman',
   '4th-Grade Shaman',
-  `Mechamaru's Doll`,
   'Community Service Shaman',
-  'King of Toji Goons',
-  `👻🖖`,
-  `Manga News`,
-  `Leaks News`,
-  `Anime News`,
-  `Server Events`,
-  `Leaks Reader`,
-  `Manga Reader`,
-  `Anime Viewer`,
-  `Debater`,
-  `DJ`,
-  `The Mob`,
   `Muted`,
+  `👻🖖`,
+  '20 Fingers',
+  `Mechamaru's Doll`,
+  'Tokyo Subreddit Goon',
+  'Art',
+  'News',
+  'Chapter Releases',
+  `Anime Viewer`,
+  `DJ`,
   `Pokecord`,
-  `"Mod"`,
   '@everyone',
 ];
 
@@ -86,6 +81,32 @@ const forbiddenLinksArray = ['nhentai.net/', 'pornhub.com/'];
 
 const discorLinksArray = ['discord.gg/', 'discordapp.com/invite/'];
 
+const moderationArray = [
+  'kick',
+  'ban',
+  'strike',
+  'unstrike',
+  'mute',
+  'unmute',
+  'purge',
+];
+
+const welcomeArray = ['todo', 'shy', 'guy', 'welcome'];
+
+const miscArray = [
+  'help',
+  'seed',
+  'strikecount',
+  'encyclopedia',
+  'chart',
+  'catalogue',
+  'prequel',
+  'wiki',
+  'chapter',
+  'fujo',
+  'suggest',
+];
+
 module.exports = {
   weebArray: weebArray,
   otherSeriesArray: otherSeriesArray,
@@ -95,4 +116,7 @@ module.exports = {
   artLinksArray: artLinksArray,
   forbiddenLinksArray: forbiddenLinksArray,
   discorLinksArray: discorLinksArray,
+  moderationArray: moderationArray,
+  welcomeArray: welcomeArray,
+  miscArray: miscArray,
 };

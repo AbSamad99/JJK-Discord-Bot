@@ -22,7 +22,7 @@ const strikeCommand = async (msg) => {
 
   //checking if user given is valid
   if (!toStrike) {
-    msg.channel.send('Please mention a user to issue strike to');
+    msg.channel.send('Please mention a user to issue a strike to');
     return;
   }
 

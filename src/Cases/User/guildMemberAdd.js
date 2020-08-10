@@ -13,8 +13,6 @@ const guildMemberAddCaseHandler = async (mem) => {
   let welcomeChannel,
     user,
     logsChannel,
-    rulesChannel,
-    infoChannel,
     message,
     messageEmbed,
     rulesAndInfoChannel;
@@ -22,9 +20,7 @@ const guildMemberAddCaseHandler = async (mem) => {
   //getting all the required channels
   welcomeChannel = channelArray.get('704934870622797904');
   logsChannel = channelArray.get('447513266395283476');
-  rulesChannel = channelArray.get('600429976092803082');
-  infoChannel = channelArray.get('648126071534911508');
-  // rulesAndInfoChannel=channelArray.get('742115447717232722')
+  rulesAndInfoChannel = channelArray.get('742115447717232722');
 
   //constructing the message
   message = `${mem.user} has joined the server!`;
@@ -33,7 +29,7 @@ const guildMemberAddCaseHandler = async (mem) => {
   messageEmbed = new MessageEmbed()
     .setTitle('Welcome to the Jujutsu Kaisen discord server!')
     .setDescription(
-      `Please read the <#${rulesChannel.id}> and check out <#${infoChannel.id}> to receive roles to access certain channels.`
+      `Please check the <#${rulesAndInfoChannel.id}> to know the rules and receive roles to access certain channels.`
     )
     .setThumbnail(
       'https://images-ext-2.discordapp.net/external/J_QQ3j5Q70yAN5B9ovsyqCasjsSKZvpTkwmJaWyrduk/%3Fv%3D1/https/cdn.discordapp.com/emojis/586696010978557953.png?width=80&height=80'

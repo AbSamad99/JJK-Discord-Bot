@@ -6,6 +6,7 @@ const banCommand = require('../../Commands/Moderation/banCommand.js');
 const kickCommand = require('../../Commands/Moderation/kickCommand.js');
 const strikeCommand = require('../../Commands/Moderation/strikeCommand.js');
 const unstrikeCommand = require('../../Commands/Moderation/unStrikeCommand.js');
+const purgeCommand = require('../../Commands/Moderation/purgeCommand.js');
 
 const moderationCommandTypeCheck = (msg, keyword, myCache) => {
   try {
@@ -32,7 +33,7 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     }
 
     //ban command
-    else if (
+    if (
       keyword === 'ban' &&
       (msg.member.roles.cache.has(
         '447512454810042369'
@@ -43,7 +44,7 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     }
 
     //kick command
-    else if (
+    if (
       keyword === 'kick' &&
       (msg.member.roles.cache.has(
         '447512454810042369'
@@ -54,7 +55,7 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     }
 
     //strike command
-    else if (
+    if (
       keyword === 'strike' &&
       (msg.member.roles.cache.has(
         '447512454810042369'
@@ -63,8 +64,9 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
     ) {
       strikeCommand(msg).catch(console.log);
     }
+
     //unstrike command
-    else if (
+    if (
       keyword === 'unstrike' &&
       (msg.member.roles.cache.has(
         '447512454810042369'
@@ -72,6 +74,17 @@ const moderationCommandTypeCheck = (msg, keyword, myCache) => {
         msg.member.roles.cache.has('447512449248395267')) /*admin role*/
     ) {
       unstrikeCommand(msg).catch(console.log);
+    }
+
+    //purge command
+    if (
+      keyword === 'purge' &&
+      (msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')) /*admin role*/
+    ) {
+      purgeCommand(msg);
     }
   } catch (err) {
     console.log(err);

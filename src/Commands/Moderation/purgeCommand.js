@@ -13,11 +13,17 @@ const purgeCommand = (msg) => {
     //getting info from the message
     temp = msg.content.slice(1);
     temp = temp.split(' ');
+
+    if (!temp[1]) {
+      msg.channel.send('Please provide a number');
+      return;
+    }
+
     number = parseInt(temp[1]);
 
     //checking if proper number was provided
     if (isNaN(number)) {
-      msg.channel.send('Please provide a valid number').catch(console.log);
+      msg.channel.send('Please provide a valid input').catch(console.log);
       return;
     }
     if (number > 300) {

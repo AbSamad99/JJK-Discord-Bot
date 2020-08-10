@@ -23,8 +23,6 @@ const changedRoleLog = async (
       roleLogs.changes[changeIndex].new[0].id
     ).color;
 
-    console.log(roleLogs.changes[changeIndex].new);
-
     roles = ``;
 
     //getting all the roles

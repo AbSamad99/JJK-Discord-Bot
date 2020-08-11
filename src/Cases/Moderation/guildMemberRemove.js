@@ -35,7 +35,7 @@ const guildMemberRemoveCaseHandler = async (mem, myCache) => {
     myCache.del('previousMemberKickLogId');
     myCache.set('previousMemberKickLogId', kickAuditLog.id);
 
-    if (kickAuditLog.executor.bot) return;
+    if (kickAuditLog.executor.id === '730109162616389644') return;
 
     userKickLog(kickAuditLog, mem, null, logsChannel).catch(console.log);
   }
@@ -45,7 +45,7 @@ const guildMemberRemoveCaseHandler = async (mem, myCache) => {
     myCache.del('previousMemberKickLogId');
     myCache.set('previousMemberKickLogId', banAuditLog.id);
 
-    if (kickAuditLog.executor.bot) return;
+    if (kickAuditLog.executor.id === '730109162616389644') return;
 
     userBanLog(banAuditLog, mem, null, logsChannel).catch(console.log);
   }

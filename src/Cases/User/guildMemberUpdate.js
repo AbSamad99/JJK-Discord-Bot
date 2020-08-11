@@ -115,7 +115,7 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
     myCache.del('previousMemberRoleUpdateLogId');
     myCache.set('previousMemberRoleUpdateLogId', roleLogs.id);
 
-    if (roleLogs.executor.bot) return;
+    if (roleLogs.executor.id === '730109162616389644') return;
 
     if (role.new[0].name.toLowerCase() === 'muted' && role.key === '$remove') {
       timeOutObj = myCache.get(roleLogs.target.id);

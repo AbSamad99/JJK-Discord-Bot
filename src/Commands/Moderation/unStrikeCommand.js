@@ -6,7 +6,7 @@ const UserSchema = require('../../Schemas/UserSchema.js');
 const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 const unstrikeCommand = async (msg) => {
-  let toUnStrike, user, logsChannel, strikesCount, unStrikeEmbed;
+  let toUnStrike, user, logsChannel, unStrikeEmbed;
 
   //getting user to issue strikes to
   toUnStrike = msg.mentions.members.array()[0];
@@ -39,19 +39,19 @@ const unstrikeCommand = async (msg) => {
     return;
   }
 
-  strikesCount = user.strikes;
-
-  if (strikesCount === 0) {
+  if (user.strikes === 0) {
     msg.channel.send('User has no strikes').catch(console.log);
     return;
   }
 
-  strikesCount--;
-
-  await UserSchema.findOneAndUpdate(
+  user = await UserSchema.findOneAndUpdate(
     { id: toUnStrike.user.id },
-    { strikes: strikesCount },
-    { useFindAndModify: false }
+    {
+      $inc: {
+        strikes: -1,
+      },
+    },
+    { useFindAndModify: false, new: true }
   );
 
   //making the embed
@@ -61,8 +61,8 @@ const unstrikeCommand = async (msg) => {
     .setColor(10038562)
     .setThumbnail(await gifOrPngCheck(toUnStrike.user))
     .setDescription(
-      `${toUnStrike} now have ${strikesCount} ${
-        strikesCount === 1 ? 'strike' : 'strikes'
+      `${toUnStrike} now have ${user.strikes} ${
+        user.strikes === 1 ? 'strike' : 'strikes'
       }`
     )
     .setFooter(new Date());

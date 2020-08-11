@@ -12,7 +12,7 @@ const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
 
 //command to issue strikes
 const strikeCommand = async (msg) => {
-  let toStrike, user, temp, muteRole, reason, logsChannel, strikesCount;
+  let toStrike, user, temp, muteRole, reason, logsChannel;
 
   //getting user to issue strikes to
   toStrike = msg.mentions.members.array()[0];
@@ -64,17 +64,15 @@ const strikeCommand = async (msg) => {
     return;
   }
 
-  //increasing the strikes by one
-  strikesCount = user.strikes;
-  strikesCount++;
-
-  await UserSchema.findOneAndUpdate(
+  user = await UserSchema.findOneAndUpdate(
     { id: toStrike.user.id },
-    { strikes: strikesCount },
-    { useFindAndModify: false }
+    {
+      $inc: {
+        strikes: 1,
+      },
+    },
+    { useFindAndModify: false, new: true }
   );
-
-  user = await UserSchema.findOne({ id: toStrike.user.id });
 
   //making the embed
   let strikeEmbed = new MessageEmbed()

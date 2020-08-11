@@ -19,9 +19,10 @@ const changedRoleLog = async (
     logsChannel = newMem.guild.channels.cache.get('447513266395283476');
 
     //getting role color
-    roleColor = newMem.guild.roles.cache.get(
-      roleLogs.changes[changeIndex].new[0].id
-    ).color;
+    roleColor = roleLogs.changes[changeIndex].new[0]
+      ? newMem.guild.roles.cache.get(roleLogs.changes[changeIndex].new[0].id)
+          .color
+      : 0;
 
     roles = ``;
 

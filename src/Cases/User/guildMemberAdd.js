@@ -29,7 +29,7 @@ const guildMemberAddCaseHandler = async (mem) => {
   messageEmbed = new MessageEmbed()
     .setTitle('Welcome to the Jujutsu Kaisen discord server!')
     .setDescription(
-      `Please check the <#${rulesAndInfoChannel.id}> to know the rules and receive roles to access certain channels.`
+      `Please check the <#${rulesAndInfoChannel.id}> channel to know the rules and general info about the server. You can also assign yourself roles to access certain channels.`
     )
     .setThumbnail(
       'https://images-ext-2.discordapp.net/external/J_QQ3j5Q70yAN5B9ovsyqCasjsSKZvpTkwmJaWyrduk/%3Fv%3D1/https/cdn.discordapp.com/emojis/586696010978557953.png?width=80&height=80'

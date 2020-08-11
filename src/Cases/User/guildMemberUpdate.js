@@ -126,9 +126,10 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
       }
     }
     await changedRoleLog(newMem, roleLogs, 0).catch(console.log);
-    if (roleLogs.changes[1]) {
-      await changedRoleLog(newMem, roleLogs, 1).catch(console.log);
-    }
+
+    if (roleLogs.changes[1])
+      if (roleLogs.changes[1].new.length)
+        await changedRoleLog(newMem, roleLogs, 1).catch(console.log);
   }
 
   //checking if user boosted the server

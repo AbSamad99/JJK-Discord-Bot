@@ -2,7 +2,7 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 const userMuteLog = async (msg, toMute, muteRole, reason, time, type) => {
   let logsChannel, muteEmbed;

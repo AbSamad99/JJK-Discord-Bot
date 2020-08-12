@@ -6,12 +6,12 @@ const nodeCache = require('node-cache');
 dotenv.config();
 
 //starting the local cache
-const myCache = new nodeCache();
+export const myCache = new nodeCache();
 
 const connectDB = require('./config/db.js');
 
 //starting up our client
-const client = new Discord.Client();
+export const client = new Discord.Client();
 
 //connecting to DB
 connectDB();
@@ -37,36 +37,39 @@ const emoteDeleteCaseHandler = require('./Cases/Emotes/emoteDelete.js');
 const emoteUpdateCaseHandler = require('./Cases/Emotes/emoteUpdate.js');
 const channelDeleteCaseHandler = require('./Cases/Channels/channelDelete.js');
 
+//when client is ready
 client.on('ready', () => {
-  readyCaseHandler(client, myCache).catch(console.log);
+  readyCaseHandler().catch(console.log);
 });
 
-client.on('messageDelete', (msg) => {
-  messageDeleteCaseHandler(msg, myCache).catch(console.log);
-});
-
-client.on('messageDeleteBulk', (msgs) => {
-  messageBulkDeleteCaseHandler(msgs).catch(console.log);
-});
-
+//all message cases
 client.on('message', (msg) => {
-  messageCaseHandler(msg, client, myCache).catch(console.log);
+  messageCaseHandler(msg);
 });
 
 client.on('messageUpdate', (oldMsg, newMsg) => {
   messageUpdateCaseHandler(oldMsg, newMsg).catch(console.log);
 });
 
-client.on('guildMemberUpdate', (oldMem, newMem) => {
-  guildMemberUpdateCaseHandler(oldMem, newMem, myCache).catch(console.log);
+client.on('messageDelete', (msg) => {
+  messageDeleteCaseHandler(msg).catch(console.log);
 });
 
+client.on('messageDeleteBulk', (msgs) => {
+  messageBulkDeleteCaseHandler(msgs).catch(console.log);
+});
+
+//all member case
 client.on('guildMemberAdd', (mem) => {
   guildMemberAddCaseHandler(mem).catch(console.log);
 });
 
+client.on('guildMemberUpdate', (oldMem, newMem) => {
+  guildMemberUpdateCaseHandler(oldMem, newMem).catch(console.log);
+});
+
 client.on('guildMemberRemove', (mem) => {
-  guildMemberRemoveCaseHandler(mem, myCache).catch(console.log);
+  guildMemberRemoveCaseHandler(mem).catch(console.log);
 });
 
 // client.on('guildBanAdd', (guild, mem) => {
@@ -77,18 +80,20 @@ client.on('guildBanRemove', (guild, mem) => {
   guildBanRemoveCaseHandler(guild, mem).catch(console.log);
 });
 
+//all channel cases
 client.on('channelCreate', (channel) => {
   channelCreateCaseHandler(channel).catch(console.log);
 });
 
 client.on('channelUpdate', (oldChannel, newChannel) => {
-  channelUpdateCaseHandler(oldChannel, newChannel, myCache).catch(console.log);
+  channelUpdateCaseHandler(oldChannel, newChannel).catch(console.log);
 });
 
 client.on('channelDelete', (channel) => {
   channelDeleteCaseHandler(channel).catch(console.log);
 });
 
+//all role cases
 client.on('roleUpdate', (oldRole, newRole) => {
   roleUpdateCaseHandler(oldRole, newRole).catch(console.log);
 });
@@ -101,6 +106,7 @@ client.on('roleDelete', (role) => {
   roleDeleteCaseHandler(role).catch(console.log);
 });
 
+//all emoji cases
 client.on('emojiCreate', (emote) => {
   emoteCreateCaseHandler(emote).catch(console.log);
 });

@@ -4,13 +4,17 @@ const ArtSchema = require('../../Schemas/ArtSchema.js');
 
 //gets all art for a character
 const getAllArtCommand = async (msg) => {
-  let temp, characterArray, index, message, characterArtObj;
-  //checking the channel
   if (
-    !(msg.channel.id === '742257053954736260') /*Bot Art channel*/ &&
-    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
+    (!(
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)) ||
+    (!(msg.channel.id === '742257053954736260') /*Bot Art channel*/ &&
+      !(msg.channel.id === '720958791432011789')) /*Syed bot channel*/
   )
     return;
+
+  let temp, characterArray, index, message, characterArtObj;
 
   //getting params
   temp = msg.content.slice(1);

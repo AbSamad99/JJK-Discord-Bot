@@ -1,5 +1,7 @@
 /*Handles Logging of whenever a user leaves, is kicked, or is banned*/
 
+import { myCache } from '../../app';
+
 const UserSchema = require('../../Schemas/UserSchema.js');
 
 //getting the required logging functions
@@ -7,7 +9,7 @@ const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 const userLeaveLog = require('../../Loggers/Moderation/userLeaveLog.js');
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
 
-const guildMemberRemoveCaseHandler = async (mem, myCache) => {
+const guildMemberRemoveCaseHandler = async (mem) => {
   let banAuditLog, kickAuditLog, logsChannel, temp1, temp2;
 
   //getting the logs channel

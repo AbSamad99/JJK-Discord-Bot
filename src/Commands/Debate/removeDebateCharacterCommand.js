@@ -3,6 +3,14 @@
 const DebateSchema = require('../../Schemas/DebateSchema.js');
 
 const removeDebateCharacterCommand = async (msg) => {
+  if (
+    !(
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    ) &&
+    !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+  )
+    return;
+
   let charArray, temp, index;
 
   //getting the array from db

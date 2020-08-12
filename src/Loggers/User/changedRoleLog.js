@@ -2,7 +2,7 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 const changedRoleLog = async (
   newMem,

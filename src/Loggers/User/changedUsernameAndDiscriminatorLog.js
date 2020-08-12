@@ -2,7 +2,7 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 //logs username changes
 const changedUsernameAndDiscriminatorLog = async (newMem, user, type) => {

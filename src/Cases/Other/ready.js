@@ -1,8 +1,10 @@
 /*Handles the fetching of the various audit log ids and counts whenever the bot logs in*/
 
-const fetchAuditLogIdAndCount = require('../../Helpers/fetchFunctions');
+import { client } from '../../app';
 
-const readyCaseHandler = async (client, myCache) => {
+const fetchFunction = require('../../Helpers/fetchFunction');
+
+const readyCaseHandler = async () => {
   await client.user.setStatus('online').catch(console.log);
   await client.user
     .setActivity('You All', {
@@ -10,7 +12,7 @@ const readyCaseHandler = async (client, myCache) => {
     })
     .catch(console.log);
   console.log(`Logged in as The Honored One`);
-  fetchAuditLogIdAndCount(client, myCache).catch(console.log);
+  fetchFunction().catch(console.log);
 };
 
 module.exports = readyCaseHandler;

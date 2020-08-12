@@ -1,22 +1,43 @@
 /*Function to handle the user mute command*/
 
+import { myCache } from '../../app';
 const ms = require('ms');
 
 const userMuteLog = require('../../Loggers/Moderation/userMuteLog.js');
 
 //command to mute users
-const muteCommand = (msg, myCache) => {
+const muteCommand = (msg) => {
   try {
+    if (
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+    )
+      return;
+
     let toMute, muteRole, temp, reason, time, timeOutObj;
+
+    //getting needed info
+    temp = msg.content.slice(1);
+    temp = temp.split(' ');
 
     //getting the user to mute
     toMute = msg.mentions.members.array()[0];
 
     //checking if user was provided or not
     if (!toMute) {
-      msg.channel.send('Please mention a user to mute').catch(console.log);
+      toMute = msg.guild.members.cache.get(temp[1]);
+    }
+
+    if (!toMute) {
+      msg.channel
+        .send('Please mention a user to mute or provide their id')
+        .catch(console.log);
       return;
     }
+
+    toMute = msg.guild.member(toMute);
 
     //checking if user has mod perms or not
     if (
@@ -30,13 +51,8 @@ const muteCommand = (msg, myCache) => {
     //getting the mute role
     muteRole = msg.guild.roles.cache.get('647424506507296788');
 
-    //getting needed info
-    toMute = msg.guild.member(toMute);
-    temp = msg.content.slice(1);
-    temp = temp.split(' ');
-
     //check to see if duration was provided
-    if (!temp[2] || !temp[3]) {
+    if (!temp[2]) {
       msg.channel
         .send('Please mention duration of the mute')
         .catch(console.log);
@@ -44,10 +60,7 @@ const muteCommand = (msg, myCache) => {
     }
 
     //check if time provided follows proper format
-    if (
-      isNaN(temp[2]) ||
-      (temp[3] !== 'm' && temp[3] !== 's' && temp[3] !== 'd' && temp[3] !== 'h')
-    ) {
+    if (ms(temp[2]) === undefined) {
       msg.channel.send('Please specify valid time format').catch(console.log);
       return;
     }
@@ -61,8 +74,8 @@ const muteCommand = (msg, myCache) => {
     }
 
     //check to see if reason was given or not
-    if (temp.length > 4) {
-      reason = temp.slice(4);
+    if (temp.length > 3) {
+      reason = temp.slice(3);
       reason = reason.join(' ');
     } else {
       msg.channel.send('Please provide a reason for mute').catch(console.log);
@@ -70,7 +83,7 @@ const muteCommand = (msg, myCache) => {
     }
 
     //getting the time
-    time = temp[2].concat(temp[3]);
+    time = temp[2];
 
     //assigning mute role
     toMute.roles

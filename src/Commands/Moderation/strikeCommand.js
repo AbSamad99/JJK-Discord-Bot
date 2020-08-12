@@ -8,11 +8,23 @@ const UserSchema = require('../../Schemas/UserSchema.js');
 const userMuteLog = require('../../Loggers/Moderation/userMuteLog.js');
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 //command to issue strikes
 const strikeCommand = async (msg) => {
+  if (
+    !(
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    ) &&
+    !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+  )
+    return;
+
   let toStrike, user, temp, muteRole, reason, logsChannel;
+
+  //getting needed info
+  temp = msg.content.slice(1);
+  temp = temp.split(' ');
 
   //getting user to issue strikes to
   toStrike = msg.mentions.members.array()[0];
@@ -22,9 +34,18 @@ const strikeCommand = async (msg) => {
 
   //checking if user given is valid
   if (!toStrike) {
-    msg.channel.send('Please mention a user to issue a strike to');
+    toStrike = msg.guild.members.cache.get(temp[1]);
+  }
+
+  //2nd check
+  if (!toStrike) {
+    msg.channel
+      .send('Please mention a user to issue a strike to or provide their id')
+      .catch(console.log);
     return;
   }
+
+  toStrike = msg.guild.member(toStrike);
 
   //getting user from the database
   user = await UserSchema.findOne({ id: toStrike.user.id });
@@ -50,17 +71,12 @@ const strikeCommand = async (msg) => {
     return;
   }
 
-  //getting required info
-  temp = msg.content.slice(1);
-  temp = temp.split(' ');
-  toStrike = msg.guild.member(toStrike);
-
   //checking to see if reason was provided
   if (temp.length > 2) {
     reason = temp.slice(2);
     reason = reason.join(' ');
   } else {
-    msg.channel.send('Please provide a reason for strike');
+    msg.channel.send('Please provide a reason for the strike');
     return;
   }
 

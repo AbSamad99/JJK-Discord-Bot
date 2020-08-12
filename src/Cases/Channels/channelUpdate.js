@@ -1,13 +1,15 @@
 /*Handles the logging of whenever changes are made to the channels name and slowmode. Also logs whenever
 the perms for a role or a user are created, removed or edited*/
 
+import { myCache } from '../../app';
+
 //getting the required logging functions
 const permsOverwriteCreateLog = require('../../Loggers/Channel/permsOverwriteCreateLog.js');
 const permsOverwriteRemoveLog = require('../../Loggers/Channel/permsOverwriteRemove.js');
 const permsOverwriteEditLog = require('../../Loggers/Channel/permsOverwriteEditLog.js');
 const channelUpdateLog = require('../../Loggers/Channel/channelUpdateLog.js');
 
-const channelUpdateCaseHandler = async (oldChannel, newChannel, myCache) => {
+const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
   let channelOverwriteUpdateAuditLogs,
     channelOverwriteDeleteAuditLogs,
     channelOverwriteCreateAuditLogs,

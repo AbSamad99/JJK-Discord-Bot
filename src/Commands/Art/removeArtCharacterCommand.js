@@ -4,13 +4,17 @@ const ArtSchema = require('../../Schemas/ArtSchema.js');
 
 //removes a new character
 const removeArtCharacterCommand = async (msg) => {
-  let temp, characterArtObj;
-  //checking if the command was issued in appropriate channel
   if (
-    !(msg.channel.id === '742257053954736260') /*Bot Art channel*/ &&
-    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
+    (!(
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)) ||
+    (!(msg.channel.id === '742257053954736260') /*Bot Art channel*/ &&
+      !(msg.channel.id === '720958791432011789')) /*Syed bot channel*/
   )
     return;
+
+  let temp, characterArtObj;
 
   //getting params
   temp = msg.content.slice(1);

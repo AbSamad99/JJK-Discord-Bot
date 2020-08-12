@@ -1,6 +1,8 @@
 /*Function to fetch audit log id and count*/
 
-const fetchAuditLogIdAndCount = async (client, myCache) => {
+import { myCache, client } from '../app';
+
+const fetchFunction = async () => {
   let temp;
 
   //getting message delete audit log and setting required values
@@ -72,4 +74,4 @@ const fetchAuditLogIdAndCount = async (client, myCache) => {
   myCache.set('previousChannelUpdateLogId', temp.id);
 };
 
-module.exports = fetchAuditLogIdAndCount;
+module.exports = fetchFunction;

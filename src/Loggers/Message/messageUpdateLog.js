@@ -2,7 +2,7 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 //logs edited messages
 const messageUpdatedLog = async (oldMsg, newMsg) => {

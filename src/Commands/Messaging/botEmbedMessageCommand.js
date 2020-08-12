@@ -2,11 +2,19 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 const botEmbedMessageCommand = async (msg) => {
-  let modBotChannel,
-    embeddedMessage,
+  if (
+    (!(
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)) ||
+    msg.channel.id !== '460890234788249600'
+  )
+    return;
+
+  let embeddedMessage,
     temp,
     messageChannelId,
     messageChannel,
@@ -20,16 +28,10 @@ const botEmbedMessageCommand = async (msg) => {
     image,
     displayAuthor;
 
-  //getting #mod-bots channel
-  modBotChannel = msg.guild.channels.cache.get('460890234788249600');
-
   //getting server events role
   serverEventsRole = msg.guild.roles.cache.get('720949881891454976');
 
   embeddedMessage = new MessageEmbed();
-
-  //checking if command was made in #mod-bots
-  if (msg.channel.id !== modBotChannel.id) return;
 
   //getting required info from the msg
   temp = msg.content.slice(1);

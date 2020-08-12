@@ -4,6 +4,14 @@ const emoteUpdateLog = require('../../Loggers/Emotes/emoteUpdateLog');
 
 const editEmoteCommand = (msg) => {
   try {
+    if (
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+    )
+      return;
+
     let temp1, temp2, toEdit;
     temp1 = msg.content.slice(1);
     temp1 = temp1.split(' ');

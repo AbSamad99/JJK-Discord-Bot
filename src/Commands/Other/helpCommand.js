@@ -114,16 +114,16 @@ Bot Embedded Message:
         `The moderation commands are as follows:
 
 Command to ban users:
-> -ban <tag user here> <reason> 
+> -ban <tag user here or provide id> <reason> 
       
 Command to kick users:
-> -kick <tag user here> <reason>
+> -kick <tag user here or provide id> <reason>
       
 Command to mute users:
-> -mute <tag user here> <number> <time> <reason>
+> -mute <tag user here or provide id> <time(eg:12h, 1d)> <reason>
       
 Command to issue strikes to users:
-> -strike <tag user here> <reason>
+> -strike <tag user here or provide id> <reason>
       
 Command to purge messages:
 > -purge <number>`
@@ -169,7 +169,8 @@ Note: tagging user is optional, not providing it will get the strikes of the per
 Note: A single image can also be provided but it must be attached to the message in which the command is issued. The body of the suggestion must have at least 10 words`
       );
   } else if (
-    !(msg.channel.id === '447513472427622410') /*bot commands channel*/
+    msg.channel.id === '742257053954736260' /*Bot Art channel*/ ||
+    msg.channel.id === '447513472427622410' /*bot commands channel*/
   ) {
     helpEmbed
       .setTitle('**List of commands for users**')

@@ -2,7 +2,7 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck');
 
 const emoteDeleteLog = async (emoteDeleteAuditLog, emote, msg) => {
   let emoteDeleteEmbed, logsChannel;

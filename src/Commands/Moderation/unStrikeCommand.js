@@ -3,10 +3,22 @@
 const { MessageEmbed } = require('discord.js');
 
 const UserSchema = require('../../Schemas/UserSchema.js');
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 const unstrikeCommand = async (msg) => {
-  let toUnStrike, user, logsChannel, unStrikeEmbed;
+  if (
+    !(
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    ) &&
+    !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+  )
+    return;
+
+  let temp, toUnStrike, user, logsChannel, unStrikeEmbed;
+
+  //getting needed info
+  temp = msg.content.slice(1);
+  temp = temp.split(' ');
 
   //getting user to issue strikes to
   toUnStrike = msg.mentions.members.array()[0];
@@ -16,8 +28,13 @@ const unstrikeCommand = async (msg) => {
 
   //checking if user given is valid
   if (!toUnStrike) {
+    toUnStrike = msg.guild.members.cache.get(temp[1]);
+  }
+
+  //2nd check
+  if (!toUnStrike) {
     msg.channel
-      .send('Please mention a user to remove a strike from')
+      .send('Please mention a user to remove a strike from or provide their id')
       .catch(console.log);
     return;
   }

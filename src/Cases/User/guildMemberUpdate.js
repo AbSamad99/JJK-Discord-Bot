@@ -1,5 +1,7 @@
 /*Logs Whenever a users nickname, username, avatar, discriminator, etc is changed*/
 
+import { myCache } from '../../app';
+
 const UserSchema = require('../../Schemas/UserSchema.js');
 
 //getting the required logging functions
@@ -8,7 +10,7 @@ const changedRoleLog = require('../../Loggers/User/changedRoleLog.js');
 const changedUsernameAndDiscriminatorLog = require('../../Loggers/User/changedUsernameAndDiscriminatorLog.js');
 const changedAvatarLog = require('../../Loggers/User/changedAvatarLog.js');
 
-const guildMemberUpdateCaseHandler = async (oldMem, newMem, myCache) => {
+const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   let user, announcementChannel, chuuDo, temp, timeOutObj;
 
   announcementChannel = newMem.guild.channels.cache.get('447513385211396096');

@@ -3,13 +3,21 @@
 const ms = require('ms');
 const emoteDeleteLog = require('../../Loggers/Emotes/emoteDeleteLog');
 
-const archiveOrDeleteEmoteCommand = (msg, type) => {
+const archiveEmoteCommand = (msg) => {
   try {
+    if (
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+    )
+      return;
+
     let temp, toArchive, archiveChannel;
     temp = msg.content.slice(1);
     temp = temp.split(' ');
     if (!temp[1]) {
-      msg.channel.send(`Please provide an emote to ${type}`).catch(console.log);
+      msg.channel.send(`Please provide an emote to archive`).catch(console.log);
       return;
     }
     temp = temp[1].split(':')[1];
@@ -22,16 +30,13 @@ const archiveOrDeleteEmoteCommand = (msg, type) => {
     //getting archive channel
     archiveChannel = msg.guild.channels.cache.get('698059512409751612');
 
-    //archiving
-    if (type === 'archive') {
-      archiveChannel.send(toArchive.url).catch(console.error);
-    }
+    archiveChannel.send(toArchive.url).catch(console.error);
 
     //deleting
     setTimeout(() => {
       toArchive
         .delete()
-        .then(() => msg.channel.send(`${toArchive.name} ${type}d`))
+        .then(() => msg.channel.send(`${toArchive.name} archived`))
         .then(() => emoteDeleteLog(null, toArchive, msg))
         .catch(console.log);
     }, ms('2s'));
@@ -40,4 +45,4 @@ const archiveOrDeleteEmoteCommand = (msg, type) => {
   }
 };
 
-module.exports = archiveOrDeleteEmoteCommand;
+module.exports = archiveEmoteCommand;

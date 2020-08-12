@@ -6,18 +6,18 @@ const { lockedRolesArray } = require('../../checkArrays.js');
 //assigns character role to a member
 const roleAssignCommand = (msg) => {
   try {
-    let temp,
-      role,
-      desiredRoles = [],
-      toAdd = [],
-      toRemove = [];
-
-    //checking is the command was made in channels apart from the permitted channels
+    //checking if the command was made in channels apart from the permitted channels
     if (
       !(msg.channel.id === '447513472427622410') /*bot commands channel*/ &&
       !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
     )
       return;
+
+    let temp,
+      role,
+      desiredRoles = [],
+      toAdd = [],
+      toRemove = [];
 
     //getting info from the message
     temp = msg.content.slice(1);

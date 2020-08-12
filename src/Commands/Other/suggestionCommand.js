@@ -4,12 +4,10 @@ const { MessageEmbed } = require('discord.js');
 
 const ms = require('ms');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 //makes a suggestion embed-user
 const suggestionCommand = async (msg) => {
-  let suggestEmbed, temp, message, index;
-
   //checking is the command was made in channels apart from the permitted channels
   if (
     !(msg.channel.id === '491422518955999263') /*Server management channel*/ &&
@@ -17,6 +15,8 @@ const suggestionCommand = async (msg) => {
     !msg.member.roles.cache.has('447512449248395267') /*admin role*/
   )
     return;
+
+  let suggestEmbed, temp, message, index;
 
   //getting info from the message
   temp = msg.content.slice(1);

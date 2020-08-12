@@ -3,7 +3,7 @@
 const { MessageEmbed } = require('discord.js');
 const prettyMilliseconds = require('pretty-ms');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck');
 
 const channelUpdateLog = async (
   excecutor,

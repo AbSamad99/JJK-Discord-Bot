@@ -8,6 +8,14 @@ const urlExist = require('url-exist');
 
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
+  if (
+    !(
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    ) &&
+    !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+  )
+    return;
+
   let chapterRelease,
     announcementChannel,
     temp,

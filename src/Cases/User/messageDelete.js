@@ -1,9 +1,11 @@
 /*Handles logging of whenever a message is deleted*/
 
+import { myCache } from '../../app';
+
 //getting the required logging function
 const deleteMessageAndAttachmentLog = require('../../Loggers/Message/messageDeleteLog.js');
 
-const messageDeleteCaseHandler = async (msg, myCache) => {
+const messageDeleteCaseHandler = async (msg) => {
   let temp1, temp2;
 
   //getting the message delete audit log

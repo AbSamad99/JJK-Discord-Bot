@@ -2,17 +2,25 @@
 
 const botMessageCommand = (msg) => {
   try {
-    //getting #mod-bots channel
-    let modBotChannel = msg.guild.channels.cache.get('460890234788249600');
-
-    //checking if command was made in #mod-bots
-    if (msg.channel.id !== modBotChannel.id) return;
+    if (
+      (!(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+        !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)) ||
+      msg.channel.id !== '460890234788249600' //mod-bot check
+    )
+      return;
 
     //getting required info from the msg
     let temp = msg.content.slice(1);
     temp = temp.split(' ');
     let temp1 = temp.slice(2);
     let message = temp1.join(' ');
+
+    if (!temp[1]) {
+      msg.channel.send('Please provide the channel to send the message to');
+      return;
+    }
 
     //getting destination channel id
     let messageChannelId = temp[1].slice(

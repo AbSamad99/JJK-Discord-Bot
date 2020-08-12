@@ -6,6 +6,14 @@ const emoteCreateLog = require('../../Loggers/Emotes/emoteCreateLog');
 //command to add a new emote
 const addEmoteCommand = (msg) => {
   try {
+    if (
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+    )
+      return;
+
     let temp, emoteUrl, emoteName;
 
     //getting info from message

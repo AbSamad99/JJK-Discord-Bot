@@ -81,32 +81,6 @@ const forbiddenLinksArray = ['nhentai.net/', 'pornhub.com/'];
 
 const discorLinksArray = ['discord.gg/', 'discordapp.com/invite/'];
 
-const moderationArray = [
-  'kick',
-  'ban',
-  'strike',
-  'unstrike',
-  'mute',
-  'unmute',
-  'purge',
-];
-
-const welcomeArray = ['todo', 'shy', 'guy', 'welcome'];
-
-const miscArray = [
-  'help',
-  'seed',
-  'strikecount',
-  'encyclopedia',
-  'chart',
-  'catalogue',
-  'prequel',
-  'wiki',
-  'chapter',
-  'fujo',
-  'suggest',
-];
-
 module.exports = {
   weebArray: weebArray,
   otherSeriesArray: otherSeriesArray,
@@ -116,7 +90,4 @@ module.exports = {
   artLinksArray: artLinksArray,
   forbiddenLinksArray: forbiddenLinksArray,
   discorLinksArray: discorLinksArray,
-  moderationArray: moderationArray,
-  welcomeArray: welcomeArray,
-  miscArray: miscArray,
 };

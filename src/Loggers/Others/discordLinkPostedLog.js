@@ -1,9 +1,11 @@
 /*Function to log the info of the invite posted in the server*/
 
 const { MessageEmbed } = require('discord.js');
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck');
 
-const discordLinkPostedLog = async (msg, client) => {
+import { client } from '../../app';
+
+const discordLinkPostedLog = async (msg) => {
   let inviteFetch, discordLinkEmbed, temp1, temp2, logsChannel;
 
   //getting logs channel

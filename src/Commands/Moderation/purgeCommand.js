@@ -5,6 +5,14 @@ const { MessageEmbed } = require('discord.js');
 //command to purge messages
 const purgeCommand = (msg) => {
   try {
+    if (
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+    )
+      return;
+
     let temp, number, logsChannel;
 
     //getting the logs channel

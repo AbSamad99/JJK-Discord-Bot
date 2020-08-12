@@ -2,7 +2,7 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 //Logs deleted messages or attachments and who deleted them
 const deleteMessageAndAttachmentLog = async (msg, executor, target) => {

@@ -5,7 +5,19 @@ const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
 //command to ban users
 const banCommand = (msg) => {
   try {
+    if (
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+    )
+      return;
+
     let toBan, temp, reason, logsChannel;
+
+    //getting needed info
+    temp = msg.content.slice(1);
+    temp = temp.split(' ');
 
     //getting the user to ban
     toBan = msg.mentions.members.array()[0];
@@ -15,9 +27,18 @@ const banCommand = (msg) => {
 
     //checking to see if user was provided or not
     if (!toBan) {
-      msg.channel.send('Please mention a user to ban').catch(console.log);
+      toBan = msg.guild.members.cache.get(temp[1]);
+    }
+
+    //2nd check
+    if (!toBan) {
+      msg.channel
+        .send('Please mention a user to ban or provide their id')
+        .catch(console.log);
       return;
     }
+
+    toBan = msg.guild.member(toBan);
 
     //checking to see if user has mod perms
     if (
@@ -27,11 +48,6 @@ const banCommand = (msg) => {
       msg.channel.send('You cannot ban this user').catch(console.log);
       return;
     }
-
-    //getting needed info
-    temp = msg.content.slice(1);
-    temp = temp.split(' ');
-    toBan = msg.guild.member(toBan);
 
     //checking to see if reason was provided
     if (temp.length > 2) {

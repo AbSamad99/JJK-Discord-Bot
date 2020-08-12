@@ -3,6 +3,8 @@
 const UserSchema = require('../Schemas/UserSchema.js');
 
 const seedUsers = async (msg) => {
+  if (!(msg.author.id === '390450196711997440')) return;
+
   //deleting all users already present in database
   await UserSchema.deleteMany().catch(console.error);
   let tempArray = [],

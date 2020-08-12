@@ -1,6 +1,6 @@
 const { MessageEmbed } = require('discord.js');
 
-const gifOrPngCheck = require('../../Checks/Other/gifOrPngCheck.js');
+const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 const userLeaveLog = async (mem, logsChannel) => {
   let leaveEmbed, roles;

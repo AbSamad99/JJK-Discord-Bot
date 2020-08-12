@@ -5,7 +5,19 @@ const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 //command to kick users
 const kickCommand = (msg) => {
   try {
+    if (
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+    )
+      return;
+
     let toKick, temp, reason, logsChannel;
+
+    //getting needed info
+    temp = msg.content.slice(1);
+    temp = temp.split(' ');
 
     //getting the user to kick
     toKick = msg.mentions.members.array()[0];
@@ -15,9 +27,18 @@ const kickCommand = (msg) => {
 
     //checking if user was provided or not
     if (!toKick) {
-      msg.channel.send('Please mention a user to kick').catch(console.log);
+      toKick = msg.guild.members.cache.get(temp[1]);
+    }
+
+    //2nd check
+    if (!toKick) {
+      msg.channel
+        .send('Please mention a user to kick or provide their id')
+        .catch(console.log);
       return;
     }
+
+    toKick = msg.guild.member(toKick);
 
     //checking if user has mod perms or not
     if (
@@ -27,11 +48,6 @@ const kickCommand = (msg) => {
       msg.channel.send('You cannot kick this user').catch(console.log);
       return;
     }
-
-    //getting needed info
-    temp = msg.content.slice(1);
-    temp = temp.split(' ');
-    toKick = msg.guild.member(toKick);
 
     //checking to see if reason was provided
     if (temp.length > 2) {

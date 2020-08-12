@@ -1,25 +1,46 @@
 /*Function to handle the user unmute command*/
 
+import { myCache } from '../../app';
+
 const userMuteLog = require('../../Loggers/Moderation/userMuteLog.js');
 
 //command to mute users
-const unMuteCommand = (msg, myCache) => {
+const unMuteCommand = (msg) => {
   try {
-    let toUnMute, muteRole, timeOutObj;
+    if (
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      ) &&
+      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+    )
+      return;
+
+    let temp, toUnMute, muteRole, timeOutObj;
+
+    //getting needed info
+    temp = msg.content.slice(1);
+    temp = temp.split(' ');
 
     //getting the user to mute
     toUnMute = msg.mentions.members.array()[0];
 
     //checking if user was provided or not
     if (!toUnMute) {
-      msg.channel.send('Please mention a user to unmute');
+      toUnMute = msg.guild.members.cache.get(temp[1]);
+    }
+
+    //2nd check
+    if (!toUnMute) {
+      msg.channel
+        .send('Please mention a user to unmute or provide their id')
+        .catch(console.log);
       return;
     }
 
     //getting the mute role
     muteRole = msg.guild.roles.cache.get('647424506507296788');
 
-    //getting needed info
+    //getting the user
     toUnMute = msg.guild.member(toUnMute);
 
     //check to see if user was already muted

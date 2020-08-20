@@ -47,6 +47,9 @@ const roleListCommand = require('./Commands/Role/roleListCommand');
 //all welcome commands
 const welcomeCommands = require('./Commands/Other/welcomeCommands');
 
+//seed command
+const seedUsers = require('./Helpers/seeder');
+
 module.exports = {
   addart: addArtCommand,
   addartchar: addArtCharacterCommand,
@@ -89,4 +92,5 @@ module.exports = {
   prequel: miscCommands,
   fujo: miscCommands,
   encyclopedia: miscCommands,
+  seed: seedUsers,
 };

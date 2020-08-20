@@ -37,7 +37,8 @@ const addDebateCharacterCommand = async (msg) => {
   charArray.push(temp[1].toLowerCase());
   await DebateSchema.findOneAndUpdate(
     { _id: '5f26cc89a8c67f48085af72f' },
-    { names: charArray }
+    { names: charArray },
+    { useFindAndModify: false }
   );
 
   msg.channel.send(`Added character ${temp[1]}`).catch(console.log);

@@ -5,6 +5,11 @@ import { myCache, client } from '../app';
 const fetchFunction = async () => {
   let temp;
 
+  //setting timeout to true
+  myCache.set('debateTimeoutActive', {
+    status: false,
+  });
+
   //getting message delete audit log and setting required values
   temp = await client.guilds.cache
     .first()

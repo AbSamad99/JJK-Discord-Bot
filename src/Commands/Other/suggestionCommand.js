@@ -16,36 +16,33 @@ const suggestionCommand = async (msg) => {
   )
     return;
 
-  let suggestEmbed, temp, message, index;
+  let suggestEmbed, temp, suggestion;
 
-  //getting info from the message
-  temp = msg.content.slice(1);
-  temp = temp.split(' ');
+  //getting info from the suggestion
+  temp = msg.content.split(' ');
+  temp.splice(0, 1);
 
   //checking if any suggestion was given or not
-  if (temp.length < 2) {
+  if (!temp.length) {
     msg.channel.send(`Provide an input`).catch(console.log);
     return;
   }
 
   //checking if suggestion is less than 10 words
-  if (temp.length < 11) {
+  if (temp.length < 10) {
     msg.channel.send('Input must contain at least 10 words').catch(console.log);
     return;
   }
 
-  //constructing the message
-  message = temp[1];
-  for (index = 2; index < temp.length; index++) {
-    message = `${message} ${temp[index]}`;
-  }
+  //constructing the suggestion
+  suggestion = temp.join(' ');
 
   //constructing the embed
   suggestEmbed = new MessageEmbed()
     .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
     .setTitle('Suggestion')
     .setColor(msg.member.displayColor)
-    .setDescription(message)
+    .setDescription(suggestion)
     .addField(
       'Info',
       `${msg.author} has provided this suggestion, react to either 👍 or 👎 to vote in favour of the suggestion or against it respectively. Feel free to discuss for and against this suggestion here.`

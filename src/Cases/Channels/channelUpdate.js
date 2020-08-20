@@ -19,7 +19,8 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
     newObj = {},
     temp,
     roleOrUser,
-    name;
+    name,
+    i;
 
   //fetching the audit logs - channel overwrite update
   channelOverwriteUpdateAuditLogs = await newChannel.guild
@@ -98,30 +99,15 @@ const channelUpdateCaseHandler = async (oldChannel, newChannel) => {
     myCache.del('previousChannelUpdateLogId');
     myCache.set('previousChannelUpdateLogId', channelUpdateAuditLog.id);
 
-    let channelNameChange, channelSlowmodeChange;
-
-    channelNameChange = channelUpdateAuditLog.changes.find(
-      (change) => change.key === 'name'
-    );
-
-    channelSlowmodeChange = channelUpdateAuditLog.changes.find(
-      (change) => change.key === 'rate_limit_per_user'
-    );
-
-    //logging channel name change
-    if (channelNameChange || channelSlowmodeChange) {
-      await channelUpdateLog(
-        channelUpdateAuditLog.executor,
-        channelNameChange,
-        channelSlowmodeChange,
-        logsChannel,
-        newChannel
-      ).catch(console.log);
-    }
+    await channelUpdateLog(
+      channelUpdateAuditLog,
+      logsChannel,
+      newChannel
+    ).catch(console.log);
   }
 
   //checking if a new overwrite was created
-  for (let i = 0; i < newKeys.length; i++) {
+  for (i = 0; i < newKeys.length; i++) {
     if (!oldKeys.includes(newKeys[i])) {
       await permsOverwriteCreateLog(
         channelOverwriteCreateAuditLogs.executor,

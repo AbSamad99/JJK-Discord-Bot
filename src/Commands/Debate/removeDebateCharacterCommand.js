@@ -36,7 +36,11 @@ const removeDebateCharacterCommand = async (msg) => {
   //removing from the database
   index = charArray.findIndex((char) => char === temp[1].toLowerCase());
   charArray.splice(index, 1);
-  await DebateSchema.findOneAndUpdate({ id: 1 }, { names: charArray });
+  await DebateSchema.findOneAndUpdate(
+    { id: 1 },
+    { names: charArray },
+    { useFindAndModify: false }
+  );
 
   msg.channel.send(`Removed character ${temp[1]}`).catch(console.log);
 };

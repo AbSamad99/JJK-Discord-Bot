@@ -126,7 +126,7 @@ Command to issue strikes to users:
 > -strike <tag user here or provide id> <reason>
       
 Command to purge messages:
-> -purge <number>`
+> -purge <number> <tag user here or provide id(optional)>`
       )
       .addField(
         '**__Role Commands__**',

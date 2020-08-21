@@ -15,16 +15,6 @@ const weebArray = [
 
 const sukunaArray = ['sakuna', 'sukana', 'sakana'];
 
-const otherSeriesArray = [
-  'fate',
-  'nasu',
-  'd gray man',
-  'd. gray-man',
-  'd-gray man',
-  'dgm',
-  'kubera',
-];
-
 const sucksArray = [
   'fate sucks',
   'd gray man sucks',
@@ -83,7 +73,6 @@ const discorLinksArray = ['discord.gg/', 'discordapp.com/invite/'];
 
 module.exports = {
   weebArray: weebArray,
-  otherSeriesArray: otherSeriesArray,
   sucksArray: sucksArray,
   lockedRolesArray: lockedRolesArray,
   sukunaArray: sukunaArray,

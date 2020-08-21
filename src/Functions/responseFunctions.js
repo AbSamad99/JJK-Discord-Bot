@@ -72,22 +72,6 @@ const bestModResponse = (msg, temp) => {
   }
 };
 
-const otherSeriesTalkResponse = (msg) => {
-  try {
-    let otherSeriesChannel, papaGameOver, chance;
-    otherSeriesChannel = msg.guild.channels.cache.get('447513464265637918');
-    papaGameOver = msg.guild.emojis.cache.get('718128697600638976');
-    chance = Math.random() * 100;
-    if (chance > 30) {
-      msg.channel
-        .send(`Please go to <#${otherSeriesChannel.id}> ${papaGameOver}`)
-        .catch(console.error);
-    }
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const xSeriesSucksResponse = (msg) => {
   try {
     let responseArray, index;
@@ -111,6 +95,5 @@ module.exports = {
   weebResponse: weebResponse,
   nfufuResponse: nfufuResponse,
   bestModResponse: bestModResponse,
-  otherSeriesTalkResponse: otherSeriesTalkResponse,
   xSeriesSucksResponse: xSeriesSucksResponse,
 };

@@ -7,7 +7,6 @@ const {
   weebResponse,
   nfufuResponse,
   bestModResponse,
-  otherSeriesTalkResponse,
   xSeriesSucksResponse,
 } = require('../../Functions/responseFunctions');
 
@@ -18,7 +17,6 @@ const {
   weebArray,
   sukunaArray,
   sucksArray,
-  otherSeriesArray,
   discorLinksArray,
   forbiddenLinksArray,
 } = require('../../checkArrays');
@@ -113,19 +111,6 @@ const messageCaseHandler = (msg) => {
     //series sucks response
     if (sucksArray.some((s) => temp === s)) {
       xSeriesSucksResponse(msg);
-    }
-
-    // //tells people to go to other series
-    // else if (otherSeriesArray.some((s) => temp.includes(s))) {
-    //   otherSeriesTalkResponse(msg);
-    // }
-
-    if (temp.includes('tuturu') && msg.author.id === '434443106847424513') {
-      msg.channel
-        .send(
-          'https://cdn.discordapp.com/attachments/720958791432011789/740882166694543421/Studio_Project.jpeg'
-        )
-        .catch(console.log);
     }
   } catch (err) {
     console.log(err);

@@ -64,9 +64,13 @@ const addArtCommand = async (msg) => {
 
   //storing the links in json file
   for (index = 2; index < temp.length; index++) {
+    let link = temp[index];
+    if (link.includes('?')) {
+      link = link.split('?')[0];
+    }
     if (
-      !artLinksArray.some((l) => temp[index].includes(l)) &&
-      !(await urlExist(temp[index]))
+      !artLinksArray.some((l) => link.includes(l)) &&
+      !(await urlExist(link))
     ) {
       if (!invalid.length) {
         invalid = `Link ${index - 1}`;
@@ -75,7 +79,7 @@ const addArtCommand = async (msg) => {
       invalid = `${invalid}, Link ${index - 1}`;
       continue;
     }
-    if (characterArray.includes(temp[index])) {
+    if (characterArray.includes(link)) {
       if (!alreadyPresent.length) {
         alreadyPresent = `Link ${index - 1}`;
         continue;
@@ -83,7 +87,7 @@ const addArtCommand = async (msg) => {
       alreadyPresent = `${alreadyPresent}, Link ${index - 1}`;
       continue;
     }
-    characterArray.push(temp[index]);
+    characterArray.push(link);
     count++;
   }
 

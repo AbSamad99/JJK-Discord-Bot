@@ -44,6 +44,10 @@ const removeArtCommand = async (msg) => {
     return;
   }
 
+  if (temp[2].includes('?')) {
+    temp[2] = temp[2].split('?')[0];
+  }
+
   //finding location of the link
   index = characterArray.findIndex((link) => link === temp[2]);
 

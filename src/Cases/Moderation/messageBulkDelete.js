@@ -19,7 +19,7 @@ const messageBulkDeleteCaseHandler = async (msgs) => {
 
   //looping through the messages and logging
   for (let i = messageArray.length - 1; i >= 1; i--) {
-    deleteMessageAndAttachmentLog(
+    await deleteMessageAndAttachmentLog(
       messageArray[i],
       bulkDeleteAuditLog.executor,
       messageArray[i].author

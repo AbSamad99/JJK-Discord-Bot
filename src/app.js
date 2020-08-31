@@ -1,33 +1,23 @@
 const Discord = require('discord.js');
 const dotenv = require('dotenv');
 const nodeCache = require('node-cache');
-const Twitter = require('twit');
 
 //config the env variables
 dotenv.config();
-const twitterConfig = {
-  consumer_key: process.env.TWITTER_CONSUMER_KEY,
-  consumer_secret: process.env.TWITTER_CONSUMER_SECRET,
-  access_token: process.env.TWITTER_ACCESS_TOKEN_KEY,
-  access_token_secret: process.env.TWITTER_ACCESS_TOKEN_SECRET,
-};
 
 //starting the local cache
 export const myCache = new nodeCache();
 
+//importing setup functions
 const connectDB = require('./config/db.js');
+const twitSetup = require('./config/twit.js');
 
 //starting up our client
 export const client = new Discord.Client();
-const twitterClient = new Twitter(twitterConfig);
 
 //connecting to DB
 connectDB();
-
-// Create a stream to follow tweets
-const stream = twitterClient.stream('statuses/filter', {
-  follow: ['906019647132098560', '1123756683149348866'],
-});
+const stream = twitSetup();
 
 //importing required case handlers
 const messageCaseHandler = require('./Cases/Other/message.js');

@@ -8,7 +8,10 @@ const strikeCountCommand = async (msg) => {
   //checking is the command was made in channels apart from the permitted channels
   if (
     !(msg.channel.id === '447513472427622410') /*bot commands channel*/ &&
-    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
+    !(
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    ) &&
+    !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
   )
     return;
 

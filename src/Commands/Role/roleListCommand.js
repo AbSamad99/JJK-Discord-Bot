@@ -20,7 +20,7 @@ const roleListCommand = (msg) => {
     roles = ``;
 
     allRolesArray.forEach((role) => {
-      if (!lockedRolesArray.includes(role.name)) {
+      if (lockedRolesArray.includes(role.name)) {
         roles = `${roles}
 ${role}`;
       }

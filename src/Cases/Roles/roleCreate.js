@@ -24,7 +24,7 @@ const roleCreateCaseHandler = async (role) => {
 ${sentenceCase(permsArray[i])}`;
   }
 
-  roleCreateLog(roleCreateAuditLog, role, perms).catch(console.log);
+  await roleCreateLog(roleCreateAuditLog, role, perms).catch(console.log);
 };
 
 module.exports = roleCreateCaseHandler;

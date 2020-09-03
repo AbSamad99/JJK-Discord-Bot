@@ -24,7 +24,7 @@ const messageDeleteCaseHandler = async (msg) => {
     temp2++;
     myCache.del('previousDeleteLogCount');
     myCache.set('previousDeleteLogCount', temp2);
-    deleteMessageAndAttachmentLog(
+    await deleteMessageAndAttachmentLog(
       msg,
       userLogs.executor,
       userLogs.target
@@ -37,7 +37,7 @@ const messageDeleteCaseHandler = async (msg) => {
     myCache.set('previousDeleteLogId', userLogs.id);
     myCache.del('previousDeleteLogCount');
     myCache.set('previousDeleteLogCount', 1);
-    deleteMessageAndAttachmentLog(
+    await deleteMessageAndAttachmentLog(
       msg,
       userLogs.executor,
       userLogs.target

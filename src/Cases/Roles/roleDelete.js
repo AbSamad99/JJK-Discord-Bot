@@ -25,7 +25,7 @@ const roleDeleteCaseHandler = async (role) => {
 ${sentenceCase(permsArray[i])}`;
   }
 
-  roleDeleteLog(roleDeleteAuditLog, role, perms).catch(console.log);
+  await roleDeleteLog(roleDeleteAuditLog, role, perms).catch(console.log);
 };
 
 module.exports = roleDeleteCaseHandler;

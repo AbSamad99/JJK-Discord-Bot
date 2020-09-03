@@ -32,7 +32,9 @@ const channelCreateCaseHandler = async (channel) => {
     };
   });
 
-  channelCreateLog(channel, channelCreateAuditLog, obj).catch(console.log);
+  await channelCreateLog(channel, channelCreateAuditLog, obj).catch(
+    console.log
+  );
 };
 
 module.exports = channelCreateCaseHandler;

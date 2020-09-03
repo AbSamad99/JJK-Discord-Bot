@@ -39,7 +39,7 @@ const guildMemberAddCaseHandler = async (mem) => {
   welcomeChannel.send(message, { embed: messageEmbed }).catch(console.error);
 
   //logging in logs channel
-  userJoinLog(mem, logsChannel).catch(console.log);
+  await userJoinLog(mem, logsChannel).catch(console.log);
 
   //fetching user from the database
   user = await UserSchema.findOne({ id: mem.user.id });

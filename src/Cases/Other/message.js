@@ -21,7 +21,7 @@ const {
   forbiddenLinksArray,
 } = require('../../checkArrays');
 
-const messageCaseHandler = (msg) => {
+const messageCaseHandler = async (msg) => {
   try {
     let temp = msg.content.toLowerCase();
     //checks from command
@@ -85,7 +85,7 @@ const messageCaseHandler = (msg) => {
           .then(() => msg.delete())
           .catch(console.error);
       }
-      discordLinkPostedLog(msg).catch(console.log);
+      await discordLinkPostedLog(msg).catch(console.log);
     }
 
     //mod response

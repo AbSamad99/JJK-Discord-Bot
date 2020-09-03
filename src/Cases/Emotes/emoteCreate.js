@@ -14,7 +14,7 @@ const emoteCreateCaseHandler = async (emote) => {
 
   if (emoteCreateAuditLog.executor.id === '730109162616389644') return;
 
-  emoteCreateLog(emoteCreateAuditLog, emote).catch(console.log);
+  await emoteCreateLog(emoteCreateAuditLog, emote).catch(console.log);
 };
 
 module.exports = emoteCreateCaseHandler;

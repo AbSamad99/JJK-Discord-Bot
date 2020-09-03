@@ -12,7 +12,7 @@ const channelDeleteCaseHandler = async (channel) => {
     })
     .then((audit) => audit.entries.first());
 
-  channelDeleteLog(channel, channelDeleteAuditLog).catch(console.log);
+  await channelDeleteLog(channel, channelDeleteAuditLog).catch(console.log);
 };
 
 module.exports = channelDeleteCaseHandler;

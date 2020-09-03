@@ -16,7 +16,7 @@ const guildBanRemoveCaseHandler = async (guild, mem) => {
     })
     .then((audit) => audit.entries.first());
 
-  userBanRemoveLog(banRemoveAuditLog, logsChannel).catch(console.log);
+  await userBanRemoveLog(banRemoveAuditLog, logsChannel).catch(console.log);
 };
 
 module.exports = guildBanRemoveCaseHandler;

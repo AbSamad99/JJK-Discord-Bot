@@ -39,7 +39,7 @@ const guildMemberRemoveCaseHandler = async (mem) => {
 
     if (kickAuditLog.executor.id === '730109162616389644') return;
 
-    userKickLog(kickAuditLog, mem, null, logsChannel).catch(console.log);
+    await userKickLog(kickAuditLog, mem, null, logsChannel).catch(console.log);
   }
 
   //checking if user was banned and then logging
@@ -49,11 +49,11 @@ const guildMemberRemoveCaseHandler = async (mem) => {
 
     if (kickAuditLog.executor.id === '730109162616389644') return;
 
-    userBanLog(banAuditLog, mem, null, logsChannel).catch(console.log);
+    await userBanLog(banAuditLog, mem, null, logsChannel).catch(console.log);
   }
   //logging that user left themselves
   else {
-    userLeaveLog(mem, logsChannel).catch(console.log);
+    await userLeaveLog(mem, logsChannel).catch(console.log);
   }
 };
 

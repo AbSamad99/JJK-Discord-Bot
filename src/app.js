@@ -66,7 +66,7 @@ client.on('ready', () => {
 
 //all message cases
 client.on('message', (msg) => {
-  messageCaseHandler(msg);
+  messageCaseHandler(msg).catch(console.log);
 });
 
 client.on('messageUpdate', (oldMsg, newMsg) => {

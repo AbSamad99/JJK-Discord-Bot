@@ -43,7 +43,8 @@ const kickCommand = (msg) => {
     //checking if user has mod perms or not
     if (
       toKick.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
-      toKick.roles.cache.has('447512449248395267') /*admin role*/
+      toKick.roles.cache.has('447512449248395267') /*admin role*/ ||
+      toKick.roles.cache.has('665268720163225610') /*vengeful spirit role*/
     ) {
       msg.channel.send('You cannot kick this user').catch(console.log);
       return;

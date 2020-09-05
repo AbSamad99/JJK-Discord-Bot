@@ -10,9 +10,14 @@ const muteCommand = (msg) => {
   try {
     if (
       !(
-        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
-      ) &&
-      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+        (
+          msg.member.roles.cache.has(
+            '447512454810042369'
+          ) /*Special Grade role*/ ||
+          msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+          msg.member.roles.cache.has('665268720163225610')
+        ) /*vengeful spirit role*/
+      )
     )
       return;
 
@@ -42,7 +47,8 @@ const muteCommand = (msg) => {
     //checking if user has mod perms or not
     if (
       toMute.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
-      toMute.roles.cache.has('447512449248395267') /*admin role*/
+      toMute.roles.cache.has('447512449248395267') /*admin role*/ ||
+      toMute.roles.cache.has('665268720163225610') /*vengeful spirit role*/
     ) {
       msg.channel.send('You cannot mute this user').catch(console.log);
       return;

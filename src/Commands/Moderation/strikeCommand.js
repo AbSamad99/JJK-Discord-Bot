@@ -14,9 +14,14 @@ const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 const strikeCommand = async (msg) => {
   if (
     !(
-      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
-    ) &&
-    !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+      (
+        msg.member.roles.cache.has(
+          '447512454810042369'
+        ) /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+        msg.member.roles.cache.has('665268720163225610')
+      ) /*vengeful spirit role*/
+    )
   )
     return;
 
@@ -65,7 +70,8 @@ const strikeCommand = async (msg) => {
   //checking to see if user has mod perms
   if (
     toStrike.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
-    toStrike.roles.cache.has('447512449248395267') /*admin role*/
+    toStrike.roles.cache.has('447512449248395267') /*admin role*/ ||
+    toStrike.roles.cache.has('665268720163225610') /*vengeful spirit role*/
   ) {
     msg.channel.send('You cannot issue strikes to this user');
     return;

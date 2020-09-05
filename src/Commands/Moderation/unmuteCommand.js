@@ -9,9 +9,14 @@ const unMuteCommand = (msg) => {
   try {
     if (
       !(
-        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
-      ) &&
-      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+        (
+          msg.member.roles.cache.has(
+            '447512454810042369'
+          ) /*Special Grade role*/ ||
+          msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+          msg.member.roles.cache.has('665268720163225610')
+        ) /*vengeful spirit role*/
+      )
     )
       return;
 

@@ -16,6 +16,8 @@ const guildBanRemoveCaseHandler = async (guild, mem) => {
     })
     .then((audit) => audit.entries.first());
 
+  if (banRemoveAuditLog.executor.id === '730109162616389644') return;
+
   await userBanRemoveLog(banRemoveAuditLog, logsChannel).catch(console.log);
 };
 

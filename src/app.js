@@ -27,7 +27,7 @@ const messageDeleteCaseHandler = require('./Cases/User/messageDelete.js');
 const readyCaseHandler = require('./Cases/Other/ready.js');
 const guildMemberAddCaseHandler = require('./Cases/User/guildMemberAdd.js');
 const guildMemberRemoveCaseHandler = require('./Cases/Moderation/guildMemberRemove.js');
-// const guildBanAddCaseHandler = require('./Cases/Moderation/guildBanAdd.js');
+const guildBanAddCaseHandler = require('./Cases/Moderation/guildBanAdd.js');
 const guildBanRemoveCaseHandler = require('./Cases/Moderation/guildBanRemove.js');
 const messageBulkDeleteCaseHandler = require('./Cases/Moderation/messageBulkDelete.js');
 const channelUpdateCaseHandler = require('./Cases/Channels/channelUpdate.js');
@@ -94,9 +94,9 @@ client.on('guildMemberRemove', (mem) => {
   guildMemberRemoveCaseHandler(mem).catch(console.log);
 });
 
-// client.on('guildBanAdd', (guild, mem) => {
-//   guildBanAddCaseHandler(guild, mem);
-// });
+client.on('guildBanAdd', (guild, mem) => {
+  guildBanAddCaseHandler(guild, mem);
+});
 
 client.on('guildBanRemove', (guild, mem) => {
   guildBanRemoveCaseHandler(guild, mem).catch(console.log);

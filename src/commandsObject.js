@@ -49,6 +49,7 @@ const welcomeCommands = require('./Commands/Other/welcomeCommands');
 
 //seed command
 const seedUsers = require('./Helpers/seeder');
+const unBanCommand = require('./Commands/Moderation/unbanCommand');
 
 module.exports = {
   addart: addArtCommand,
@@ -71,6 +72,7 @@ module.exports = {
   message: botMessageCommand,
   embedmessage: botEmbedMessageCommand,
   ban: banCommand,
+  unban: unBanCommand,
   kick: kickCommand,
   mute: muteCommand,
   unmute: unMuteCommand,

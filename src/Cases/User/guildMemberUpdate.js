@@ -13,7 +13,7 @@ const changedAvatarLog = require('../../Loggers/User/changedAvatarLog.js');
 const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   let user, announcementChannel, chuuDo, temp, timeOutObj;
 
-  announcementChannel = newMem.guild.channels.cache.get('447513385211396096');
+  announcementChannel = newMem.guild.channels.cache.get('720958791432011789');
 
   user = await UserSchema.findOne({ id: newMem.user.id }).catch(console.log);
 
@@ -135,11 +135,14 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   }
 
   //checking if user boosted the server
-  if (!oldMem.premiumSince && newMem.premiumSince) {
-    chuuDo = newMem.guild.emojis.cache.get('578526612421738526');
-    announcementChannel.send(
-      `Thank you for boosting the server ${newMem} ${chuuDo}`
-    );
+  if ((!oldMem.premiumSince && newMem.premiumSince) || (oldMem.premiumSince != newMem.premiumSince && newMem.premiumSince)) {
+    chuuDo = newMem.guild.emojis.cache.get('578526!=612421738526');
+    // announcementChannel.send(
+    //   `Thank you for boosting the server ${newMem} ${chuuDo}`
+    // );
+    announcmentChannel.send(`${newMem}
+    old: ${oldMem.premiumSince}
+    new: ${newMem.premiumSince}`)
   }
 };
 

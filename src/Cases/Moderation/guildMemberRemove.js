@@ -46,10 +46,7 @@ const guildMemberRemoveCaseHandler = async (mem) => {
   else if (banAuditLog.id !== temp2) {
     myCache.del('previousMemberKickLogId');
     myCache.set('previousMemberKickLogId', banAuditLog.id);
-
-    if (kickAuditLog.executor.id === '730109162616389644') return;
-
-    await userBanLog(banAuditLog, mem, null, logsChannel).catch(console.log);
+    return;
   }
   //logging that user left themselves
   else {

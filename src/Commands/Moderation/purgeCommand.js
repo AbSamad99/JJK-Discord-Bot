@@ -53,7 +53,7 @@ const purgeCommand = async (msg) => {
       msg.channel.send('Please provide a valid number').catch(console.log);
       return;
     }
-    if (number > 300) {
+    if (number > 100) {
       msg.channel.send('Please input a lower number').catch(console.log);
       return;
     }

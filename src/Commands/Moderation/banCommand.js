@@ -62,7 +62,7 @@ const banCommand = (msg) => {
     //banning the user and logging
     toBan
       .ban({ reason: reason })
-      .then(() => userBanLog(null, null, msg, logsChannel, toBan, reason))
+      .then(() => userBanLog(null, null, logsChannel, msg, toBan, reason))
       .catch(console.error);
   } catch (err) {
     console.log(err);

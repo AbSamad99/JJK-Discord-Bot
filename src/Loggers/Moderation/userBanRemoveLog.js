@@ -26,8 +26,6 @@ const userBanRemoveLog = async (banRemovalAuditLog, modChannel, msg, user) => {
       .setAuthor(msg.author.tag, await gifOrPngCheck(msg.author))
       .setThumbnail(await gifOrPngCheck(user))
       .setDescription(`${user} has been unbanned.`);
-
-    msg.channel.send(banRemovalEmbed).catch(console.error);
   }
 
   //logging

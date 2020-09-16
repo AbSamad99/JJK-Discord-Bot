@@ -9,6 +9,7 @@ const userMuteLog = require('../../Loggers/Moderation/userMuteLog.js');
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
 const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
+const userBanRemoveLog = require('../../Loggers/Moderation/userBanRemoveLog.js');
 
 //command to issue strikes
 const strikeCommand = async (msg) => {
@@ -121,7 +122,7 @@ This is their first strike, therefore they are only being warned. The next strik
     muteRole = msg.guild.roles.cache.get('647424506507296788');
 
     strikeEmbed.setDescription(`${toStrike.user} has been issued a strike for the following reason: ${reason}. 
-This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being kicked from the server`);
+This is their second strike, therefore they shall be muted for 24 hours. The next strike will result in them being temporarily banned from the server`);
 
     //sending the embed to channel, muting and logging
     msg.channel
@@ -136,7 +137,7 @@ This is their second strike, therefore they shall be muted for 24 hours. The nex
               msg,
               toStrike,
               muteRole,
-              `Muted for getting issued a 2nd strike for the following reason: ${reason}`,
+              `Muted due to getting issued a 2nd strike for the following reason: ${reason}`,
               '24h',
               'add'
             );
@@ -162,7 +163,7 @@ This is their second strike, therefore they shall be muted for 24 hours. The nex
   //3 strikes
   else if (user.strikes === 3) {
     strikeEmbed.setDescription(`${toStrike.user} has been issued a strike for the following reason: ${reason}. 
-This is their third strike, therefore they shall be kicked from the server. The next strike will result in them being permanentally banned from the server`);
+This is their third strike, therefore they shall be temporarily banned from the server for a week. The next strike will result in them being permanentally banned from the server`);
 
     //sending the embed, kicking the user and logging
     msg.channel
@@ -170,27 +171,35 @@ This is their third strike, therefore they shall be kicked from the server. The 
       .then(() => logsChannel.send(strikeEmbed))
       .then(() => {
         toStrike
-          .kick(
-            `Kicked for getting issued a 3rd strike for the following reason: ${reason}`
-          )
+          .ban({
+            reason: `Temporarily banned due to getting issued a 3rd strike for the following reason: ${reason}`,
+          })
           .then(() => {
-            userKickLog(
+            userBanLog(
               null,
               null,
-              msg,
               logsChannel,
+              msg,
               toStrike,
-              `Kicked for getting issued a 3rd strike for the following reason: ${reason}`
+              `Temporarily banned due to getting issued a 3rd strike for the following reason: ${reason}`
             );
           });
       })
       .catch(console.error);
+
+    //unbanning
+    setTimeout(() => {
+      msg.guild.members
+        .unban(toStrike.id)
+        .then((user) => userBanRemoveLog(null, logsChannel, msg, user))
+        .catch(console.log);
+    }, ms('7d'));
   }
 
   //4 strikes
   else if (user.strikes === 4) {
     strikeEmbed.setDescription(`${toStrike.user} has been issued a strike for the following reason: ${reason}. 
-This is their fourth strike, therefore they shall be permanentally banned from the server.`);
+This is their fourth strike, therefore they shall be Permanently banned from the server.`);
 
     //sending embed, banning the user and logging
     msg.channel
@@ -201,7 +210,7 @@ This is their fourth strike, therefore they shall be permanentally banned from t
       .then(() => {
         toStrike
           .ban({
-            reason: `Banned for getting issued a 4th strike for the following reason: ${reason}`,
+            reason: `Permanently banned due to getting issued a 4th strike for the following reason: ${reason}`,
           })
           .then(() => {
             userBanLog(
@@ -210,7 +219,7 @@ This is their fourth strike, therefore they shall be permanentally banned from t
               msg,
               logsChannel,
               toStrike,
-              `Banned for getting issued a 4th strike for the following reason: ${reason}`
+              `Permanently banned due to getting issued a 4th strike for the following reason: ${reason}`
             );
           });
       })

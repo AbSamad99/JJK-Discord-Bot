@@ -7,7 +7,6 @@ const UserSchema = require('../../Schemas/UserSchema.js');
 //getting the required logging functions
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 const userLeaveLog = require('../../Loggers/Moderation/userLeaveLog.js');
-const userBanLog = require('../../Loggers/Moderation/userBanLog.js');
 
 const guildMemberRemoveCaseHandler = async (mem) => {
   let banAuditLog, kickAuditLog, logsChannel, temp1, temp2;

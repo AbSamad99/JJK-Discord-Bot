@@ -15,6 +15,8 @@ const guildBanAddCaseHandler = async (guild, mem) => {
       type: 'MEMBER_BAN_ADD',
     })
     .then((audit) => audit.entries.first());
+  
+  if (banAuditLog.executor.id === '730109162616389644') return;
 
   userBanLog(banAuditLog, mem, logsChannel).catch(console.log);
 };

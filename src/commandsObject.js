@@ -32,6 +32,7 @@ const unMuteCommand = require('./Commands/Moderation/unmuteCommand');
 const strikeCommand = require('./Commands/Moderation/strikeCommand');
 const unstrikeCommand = require('./Commands/Moderation/unStrikeCommand');
 const purgeCommand = require('./Commands/Moderation/purgeCommand');
+const unBanCommand = require('./Commands/Moderation/unBanCommand');
 
 //all misc commands
 const chapterAnnouncement = require('./Commands/Other/chapterAnnouncement');
@@ -49,7 +50,6 @@ const welcomeCommands = require('./Commands/Other/welcomeCommands');
 
 //seed command
 const seedUsers = require('./Helpers/seeder');
-const unBanCommand = require('./Commands/Moderation/unbanCommand');
 
 module.exports = {
   addart: addArtCommand,
@@ -85,7 +85,7 @@ module.exports = {
   role: roleAssignCommand,
   rolelist: roleListCommand,
   todo: welcomeCommands,
-  welcome: welcomeCommands,
+  questions: welcomeCommands,
   shy: welcomeCommands,
   guy: welcomeCommands,
   wiki: miscCommands,

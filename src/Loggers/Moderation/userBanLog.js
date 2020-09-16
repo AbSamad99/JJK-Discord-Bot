@@ -8,8 +8,8 @@ const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 const userBanLog = async (
   banAuditLog,
   mem,
-  msg,
   logsChannel,
+  msg,
   toBan,
   reason
 ) => {
@@ -36,7 +36,7 @@ const userBanLog = async (
       banEmbed.addField('Reason:', 'No Reason was provided');
     else banEmbed.addField('Reason:', banAuditLog.reason);
 
-    if (mem._roles.length) {
+    if (mem._roles&&mem._roles.length) {
       console.log(mem._roles);
       mem._roles.forEach((roleId) => {
         roles = `${roles} <@&${roleId}>`;

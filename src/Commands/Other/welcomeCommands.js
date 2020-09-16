@@ -14,6 +14,7 @@ const welcomeCommands = (msg) => {
   //getting required keyword
   temp = msg.content.slice(1);
   temp = temp.split(' ');
+  temp[0]=temp[0].toLowerCase();
 
   if (temp[0] === 'todo') msg.channel.send(todoLink).catch(console.error);
 

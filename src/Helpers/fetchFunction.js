@@ -78,7 +78,8 @@ const fetchFunction = async () => {
 
   myCache.set('previousChannelUpdateLogId', temp.id);
 
-  roleUpdateAuditLog = await newRole.guild
+  roleUpdateAuditLog = await client.guilds.cache
+    .first()
     .fetchAuditLogs({
       type: 'ROLE_UPDATE',
     })

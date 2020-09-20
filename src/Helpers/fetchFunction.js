@@ -78,7 +78,7 @@ const fetchFunction = async () => {
 
   myCache.set('previousChannelUpdateLogId', temp.id);
 
-  roleUpdateAuditLog = await client.guilds.cache
+  temp = await client.guilds.cache
     .first()
     .fetchAuditLogs({
       type: 'ROLE_UPDATE',

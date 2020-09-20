@@ -7,7 +7,6 @@ const en = require('javascript-time-ago/locale/en');
 const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 TimeAgo.addLocale(en);
-
 const timeAgo = new TimeAgo('en-US');
 
 //logs when user joins the server

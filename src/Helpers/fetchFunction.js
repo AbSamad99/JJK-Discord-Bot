@@ -77,6 +77,15 @@ const fetchFunction = async () => {
     .catch(console.log);
 
   myCache.set('previousChannelUpdateLogId', temp.id);
+
+  roleUpdateAuditLog = await newRole.guild
+    .fetchAuditLogs({
+      type: 'ROLE_UPDATE',
+    })
+    .then((audit) => audit.entries.first())
+    .catch(console.log);
+
+  myCache.set('previousRoleUpdateLogId', temp.id);
 };
 
 module.exports = fetchFunction;

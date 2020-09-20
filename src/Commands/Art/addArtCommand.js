@@ -69,7 +69,7 @@ const addArtCommand = async (msg) => {
       link = link.split('?')[0];
     }
     if (
-      !artLinksArray.some((l) => link.includes(l)) &&
+      !artLinksArray.some((l) => link.includes(l)) ||
       !(await urlExist(link))
     ) {
       if (!invalid.length) {

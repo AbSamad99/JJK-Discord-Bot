@@ -1,6 +1,7 @@
 /*Handles the logging of whenever changes are made to the role name permissions*/
 
 const { sentenceCase } = require('change-case');
+const { myCache } = require('../../app');
 const rolePermsUpdateLog = require('../../Loggers/Roles/rolePermsUpdateLog');
 const roleUpdateLog = require('../../Loggers/Roles/roleUpdateLog');
 
@@ -14,7 +15,8 @@ const roleUpdateCaseHandler = async (oldRole, newRole) => {
     colorChange,
     nameChange,
     hoistChange,
-    mentionableChange;
+    mentionableChange,
+    temp;
 
   //getting old and new perms
   oldPermsArray = oldRole.permissions.toArray();
@@ -68,8 +70,18 @@ ${sentenceCase(oldPermsArray[i])}`;
     );
   }
 
+  temp = myCache.get('previousRoleUpdateLogId');
+
   //checking if role name, color, etc was changed
-  if (nameChange || colorChange || mentionableChange || hoistChange) {
+  if (
+    nameChange ||
+    colorChange ||
+    mentionableChange ||
+    (hoistChange && roleUpdateAuditLog !== temp)
+  ) {
+    myCache.del('previousRoleUpdateLogId');
+    myCache.set('previousRoleUpdateLogId', roleUpdateAuditLog.id);
+
     await roleUpdateLog(
       roleUpdateAuditLog,
       nameChange,

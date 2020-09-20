@@ -1,6 +1,7 @@
 /*Function to log when a user joins*/
 
 const { MessageEmbed } = require('discord.js');
+const prettyMilliseconds = require('pretty-ms');
 
 const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
@@ -17,7 +18,12 @@ const userJoinLog = async (mem, logsChannel) => {
     .setColor(3066993)
     .setThumbnail(authorUrl)
     .setDescription(
-      `${mem.user} has joined the server. The total number of users is now at ${mem.guild.memberCount}`
+      `${mem.user} has joined the server. The total number of users is now at ${
+        mem.guild.memberCount
+      }.
+      Account was created ${prettyMilliseconds(
+        Date.now() - mem.user.createdTimestamp
+      )} ago.`
     )
     .setFooter(new Date());
 

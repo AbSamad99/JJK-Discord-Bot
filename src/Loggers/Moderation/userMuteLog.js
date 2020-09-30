@@ -8,7 +8,7 @@ const userMuteLog = async (msg, toMute, muteRole, reason, time, type) => {
   let logsChannel, muteEmbed;
 
   //getting logs channel
-  logsChannel = msg.guild.channels.cache.get('447513266395283476');
+  logsChannel = msg.guild.channels.cache.get('757852261329272853');
 
   //constructing the embed
   muteEmbed = new MessageEmbed()

@@ -74,10 +74,8 @@ ${sentenceCase(oldPermsArray[i])}`;
 
   //checking if role name, color, etc was changed
   if (
-    nameChange ||
-    colorChange ||
-    mentionableChange ||
-    (hoistChange && roleUpdateAuditLog !== temp)
+    (nameChange || colorChange || mentionableChange || hoistChange) &&
+    roleUpdateAuditLog !== temp
   ) {
     myCache.del('previousRoleUpdateLogId');
     myCache.set('previousRoleUpdateLogId', roleUpdateAuditLog.id);

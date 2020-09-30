@@ -77,9 +77,9 @@ client.on('messageDelete', (msg) => {
   messageDeleteCaseHandler(msg).catch(console.log);
 });
 
-client.on('messageDeleteBulk', (msgs) => {
-  messageBulkDeleteCaseHandler(msgs).catch(console.log);
-});
+// client.on('messageDeleteBulk', (msgs) => {
+//   messageBulkDeleteCaseHandler(msgs).catch(console.log);
+// });
 
 //all member case
 client.on('guildMemberAdd', (mem) => {

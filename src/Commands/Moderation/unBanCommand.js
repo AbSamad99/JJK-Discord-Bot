@@ -32,7 +32,7 @@ const unBanCommand = (msg) => {
       return;
     }
 
-    logsChannel = msg.guild.channels.cache.get('447513266395283476');
+    logsChannel = msg.guild.channels.cache.get('757852261329272853');
 
     msg.guild.members
       .unban(toUnBan)

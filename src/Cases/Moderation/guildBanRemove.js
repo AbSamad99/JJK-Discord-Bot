@@ -7,7 +7,7 @@ const guildBanRemoveCaseHandler = async (guild, mem) => {
   let banRemoveAuditLog, logsChannel;
 
   //getting the logs channel
-  logsChannel = guild.channels.cache.get('447513266395283476');
+  logsChannel = guild.channels.cache.get('757852261329272853');
 
   //fetching the ban remove audit log
   banRemoveAuditLog = await guild

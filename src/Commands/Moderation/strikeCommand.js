@@ -36,7 +36,7 @@ const strikeCommand = async (msg) => {
   toStrike = msg.mentions.members.array()[0];
 
   //getting logs channel
-  logsChannel = msg.guild.channels.cache.get('447513266395283476');
+  logsChannel = msg.guild.channels.cache.get('757852261329272853');
 
   //checking if user given is valid
   if (!toStrike) {

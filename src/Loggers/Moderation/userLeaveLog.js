@@ -1,11 +1,7 @@
 const { MessageEmbed } = require('discord.js');
-const TimeAgo = require('javascript-time-ago');
-const en = require('javascript-time-ago/locale/en');
 
 const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
-
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo('en-US');
+const millisecondsToTime=require('../../Functions/millisecondsToTime')
 
 const userLeaveLog = async (mem, logsChannel) => {
   let leaveEmbed, roles;
@@ -16,9 +12,9 @@ const userLeaveLog = async (mem, logsChannel) => {
     .setTitle('Member left')
     .setColor(10038562)
     .setDescription(
-      `${mem.user} has left the server. Joined ${timeAgo.format(
-        Date.now() - mem.joinedTimestamp
-      )}.`
+      `${mem.user} has left the server. Joined ${millisecondsToTime(
+        Date.now() - mem.joinedTimestamp,{secondsDecimalDigits:0}
+      )} ago.`
     )
     .setFooter(new Date());
 

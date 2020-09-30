@@ -136,16 +136,16 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
 
   //checking if user boosted the server
   if (
-    (!oldMem.premiumSince && newMem.premiumSince) ||
-    (oldMem.premiumSince != newMem.premiumSince && newMem.premiumSince)
+    (!oldMem.premiumSinceTimestamp && newMem.premiumSinceTimestamp) ||
+    (oldMem.premiumSinceTimestamp != newMem.premiumSinceTimestamp && newMem.premiumSinceTimestamp)
   ) {
-    chuuDo = newMem.guild.emojis.cache.get('578526!=612421738526');
-    // announcementChannel.send(
-    //   `Thank you for boosting the server ${newMem} ${chuuDo}`
-    // );
-    announcmentChannel.send(`${newMem}
-    old: ${oldMem.premiumSince}
-    new: ${newMem.premiumSince}`);
+    chuuDo = newMem.guild.emojis.cache.get('578526612421738526');
+    announcementChannel.send(
+      `Thank you for boosting the server ${newMem} ${chuuDo}`
+    );
+    announcementChannel.send(`${newMem}
+    old: ${oldMem.premiumSinceTimestamp}
+    new: ${newMem.premiumSinceTimestamp}`);
   }
 };
 

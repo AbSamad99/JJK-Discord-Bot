@@ -1,13 +1,9 @@
 /*Function to log when a user joins*/
 
 const { MessageEmbed } = require('discord.js');
-const TimeAgo = require('javascript-time-ago');
-const en = require('javascript-time-ago/locale/en');
 
 const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
-
-TimeAgo.addLocale(en);
-const timeAgo = new TimeAgo('en-US');
+const millisecondsToTime=require('../../Functions/millisecondsToTime')
 
 //logs when user joins the server
 const userJoinLog = async (mem, logsChannel) => {
@@ -24,10 +20,9 @@ const userJoinLog = async (mem, logsChannel) => {
     .setDescription(
       `${mem.user} has joined the server. The total number of users is now at ${
         mem.guild.memberCount
-      }.
-      Account was created ${timeAgo.format(
-        Date.now() - mem.user.createdTimestamp
-      )}.`
+      }. Account was created ${millisecondsToTime(
+        Date.now() - mem.user.createdTimestamp,{secondsDecimalDigits:0}
+      )} ago.`
     )
     .setFooter(new Date());
 

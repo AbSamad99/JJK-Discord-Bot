@@ -17,7 +17,7 @@ const emoteUpdateLog = async (emoteUpdateAuditLog, oldEmote, newEmote, msg) => {
       `${newEmote} has been update
 ${oldEmote.name} ➜ ${newEmote.name}`
     )
-    .setColor(10038562)
+    .setColor(15854089)
     .setFooter(new Date());
 
   if (!msg) {

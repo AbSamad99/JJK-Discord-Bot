@@ -32,6 +32,8 @@ const channelUpdateLog = async (
     (change) => change.key === 'nsfw'
   );
 
+  if (!channelNameChange && !channelSlowmodeChange && !channelTopicChange && !channelNsfwChange) return;
+
   channelUpdateEmbed = new MessageEmbed()
     .setAuthor(
       channelUpdateAuditLog.executor.tag,
@@ -55,14 +57,14 @@ After: ${channelNameChange.new}`,
     channelUpdateEmbed.addField(
       'Slowmode:',
       `Before: ${
-        channelSlowmodeChange.old
-          ? prettyMilliseconds(channelSlowmodeChange.old * 1000)
-          : 'Off'
+      channelSlowmodeChange.old
+        ? prettyMilliseconds(channelSlowmodeChange.old * 1000)
+        : 'Off'
       }
 After: ${
-        channelSlowmodeChange.new
-          ? prettyMilliseconds(channelSlowmodeChange.new * 1000)
-          : 'Off'
+      channelSlowmodeChange.new
+        ? prettyMilliseconds(channelSlowmodeChange.new * 1000)
+        : 'Off'
       }`,
       true
     );

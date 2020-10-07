@@ -9,16 +9,18 @@ const guildBanAddCaseHandler = async (guild, mem) => {
   //getting the logs channel
   logsChannel = guild.channels.cache.get('757852261329272853');
 
-  //fetching the ban audit log
-  banAuditLog = await guild
-    .fetchAuditLogs({
-      type: 'MEMBER_BAN_ADD',
-    })
-    .then((audit) => audit.entries.first());
-  
-  if (banAuditLog.executor.id === '730109162616389644') return;
+  setTimeout(async () => {
+    //fetching the ban audit log
+    banAuditLog = await guild
+      .fetchAuditLogs({
+        type: 'MEMBER_BAN_ADD',
+      })
+      .then((audit) => audit.entries.first());
 
-  userBanLog(banAuditLog, mem, logsChannel).catch(console.log);
+    if (banAuditLog.executor.id === '730109162616389644') return;
+
+    userBanLog(banAuditLog, mem, logsChannel).catch(console.log);
+  }, 2000);
 };
 
 module.exports = guildBanAddCaseHandler;

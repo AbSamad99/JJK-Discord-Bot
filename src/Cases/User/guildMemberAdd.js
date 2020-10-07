@@ -22,6 +22,11 @@ const guildMemberAddCaseHandler = async (mem) => {
   logsChannel = channelArray.get('447513266395283476');
   rulesAndInfoChannel = channelArray.get('742115447717232722');
 
+  //logging in logs channel
+  await userJoinLog(mem, logsChannel).catch(console.log);
+
+  if(mem.id==='756197027599220848') return;
+
   //constructing the message
   message = `${mem.user} has joined the server!`;
 
@@ -37,9 +42,6 @@ const guildMemberAddCaseHandler = async (mem) => {
 
   //sending message to the welcome channel
   welcomeChannel.send(message, { embed: messageEmbed }).catch(console.error);
-
-  //logging in logs channel
-  await userJoinLog(mem, logsChannel).catch(console.log);
 
   //fetching user from the database
   user = await UserSchema.findOne({ id: mem.user.id });

@@ -11,7 +11,7 @@ const changedUsernameAndDiscriminatorLog = require('../../Loggers/User/changedUs
 const changedAvatarLog = require('../../Loggers/User/changedAvatarLog.js');
 
 const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
-  let user, announcementChannel, chuuDo, temp, timeOutObj;
+  let user, temp, timeOutObj;
 
   user = await UserSchema.findOne({ id: newMem.user.id }).catch(console.log);
 
@@ -29,24 +29,24 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
   }
 
   //fetching audit logs - member update
-  const userLogs = await newMem.guild
+  let userLogs = await newMem.guild
     .fetchAuditLogs({
       type: 'MEMBER_UPDATE',
     })
     .then((audit) => audit.entries.first())
     .catch(console.log);
-
-  //fetching audit logs - member role update
-  const roleLogs = await newMem.guild
-    .fetchAuditLogs({
-      type: 'MEMBER_ROLE_UPDATE',
-    })
-    .then((audit) => audit.entries.first())
-    .catch(console.log);
+    
+    //fetching audit logs - member role update
+    let roleLogs = await newMem.guild
+      .fetchAuditLogs({
+        type: 'MEMBER_ROLE_UPDATE',
+      })
+      .then((audit) => audit.entries.first())
+      .catch(console.log);
 
   //getting required changes from the logs
   let nick = userLogs.changes[0];
-  let role = roleLogs.changes[0];
+    let role = roleLogs.changes[0];
 
   temp = myCache.get('previousMemberUpdateLogId');
 
@@ -108,10 +108,10 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
     ).catch(console.log);
   }
 
-  temp = myCache.get('previousMemberRoleUpdateLogId');
+  temp=myCache.get('previousMemberRoleUpdateLogId')
 
   //checking to see if role was updated
-  if (roleLogs.id !== temp) {
+  if (roleLogs.id!==temp) {
     myCache.del('previousMemberRoleUpdateLogId');
     myCache.set('previousMemberRoleUpdateLogId', roleLogs.id);
 
@@ -132,21 +132,22 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
         await changedRoleLog(newMem, roleLogs, 1).catch(console.log);
   }
 
-  announcementChannel = newMem.guild.channels.cache.get('720958791432011789');
-
   //checking if user boosted the server
-  if (
-    (!oldMem.premiumSinceTimestamp && newMem.premiumSinceTimestamp) ||
-    (oldMem.premiumSinceTimestamp != newMem.premiumSinceTimestamp && newMem.premiumSinceTimestamp)
-  ) {
-    chuuDo = newMem.guild.emojis.cache.get('578526612421738526');
-    announcementChannel.send(
-      `Thank you for boosting the server ${newMem} ${chuuDo}`
-    );
-    announcementChannel.send(`${newMem}
-    old: ${oldMem.premiumSinceTimestamp}
-    new: ${newMem.premiumSinceTimestamp}`);
-  }
+  // if (
+  //   (!oldMem.premiumSinceTimestamp && newMem.premiumSinceTimestamp) ||
+  //   (oldMem.premiumSinceTimestamp != newMem.premiumSinceTimestamp &&
+  //     newMem.premiumSinceTimestamp)
+  // ) {
+  //   let announcementChannel, chuuDo;
+  //   chuuDo = newMem.guild.emojis.cache.get('578526612421738526');
+  //   announcementChannel = newMem.guild.channels.cache.get('720958791432011789');
+  //   announcementChannel.send(
+  //     `Thank you for boosting the server ${newMem} ${chuuDo}`
+  //   );
+  //   announcementChannel.send(`${newMem}
+  //   old: ${oldMem.premiumSinceTimestamp}
+  //   new: ${newMem.premiumSinceTimestamp}`);
+  // }
 };
 
 module.exports = guildMemberUpdateCaseHandler;

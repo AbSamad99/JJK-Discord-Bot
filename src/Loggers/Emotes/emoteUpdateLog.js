@@ -14,7 +14,7 @@ const emoteUpdateLog = async (emoteUpdateAuditLog, oldEmote, newEmote, msg) => {
   emoteUpdateEmbed = new MessageEmbed()
     .setTitle('Emote updated')
     .setDescription(
-      `${newEmote} has been update
+      `${newEmote} has been updated
 ${oldEmote.name} ➜ ${newEmote.name}`
     )
     .setColor(15854089)

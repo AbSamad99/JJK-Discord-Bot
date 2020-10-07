@@ -36,7 +36,7 @@ const userBanLog = async (
       banEmbed.addField('Reason:', 'No Reason was provided');
     else banEmbed.addField('Reason:', banAuditLog.reason);
 
-    if (mem._roles&&mem._roles.length) {
+    if (mem._roles && mem._roles.length) {
       console.log(mem._roles);
       mem._roles.forEach((roleId) => {
         roles = `${roles} <@&${roleId}>`;
@@ -54,7 +54,7 @@ const userBanLog = async (
 
     msg.channel.send(banEmbed).catch(console.log);
 
-    if (toBan._roles.length) {
+    if (toBan._roles && toBan._roles.length) {
       toBan._roles.forEach((roleId) => {
         roles = `${roles} <@&${roleId}>`;
       });

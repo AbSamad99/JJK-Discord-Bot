@@ -34,7 +34,7 @@ const roleAssignCommand = async (msg) => {
     role = msg.guild.roles.cache.find(
       (role) => role.name.toLowerCase() === temp[i].toLowerCase()
     );
-    if (role) desiredRoles.push(role);
+    if (role && !desiredRoles.includes(role)) desiredRoles.push(role);
   }
 
   //checking if a valid name was provided or not

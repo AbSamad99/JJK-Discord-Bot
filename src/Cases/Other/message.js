@@ -62,14 +62,9 @@ const messageCaseHandler = async (msg) => {
     await discordLinkPostedLog(msg).catch(console.log);
   }
 
-  //mod response
-  if (temp.includes('mod')) {
-    bestModResponse(msg, temp);
-  }
-
-  //nfufu response
-  if (temp.includes('nfufu')) {
-    nfufuResponse(msg);
+  //sakuna response
+  if (sukunaArray.some((s) => temp.includes(s))) {
+    msg.channel.send(`It's Sukuna`).catch(console.log);
   }
 
   //weeb response
@@ -77,14 +72,51 @@ const messageCaseHandler = async (msg) => {
     weebResponse(msg);
   }
 
-  //sakuna response
-  if (sukunaArray.some((s) => temp.includes(s))) {
-    msg.channel.send(`It's Sukuna`).catch(console.log);
+  //nfufu response
+  if (temp.includes('nfufu')) {
+    nfufuResponse(msg);
   }
 
-  //series sucks response
-  if (sucksArray.some((s) => temp === s)) {
-    xSeriesSucksResponse(msg);
+  // //mod response
+  // if (temp.includes('mod')) {
+  //   bestModResponse(msg, temp);
+  // }
+
+  // //series sucks response
+  // if (sucksArray.some((s) => temp === s)) {
+  //   xSeriesSucksResponse(msg);
+  // }
+
+  //boost check
+  if (
+    msg.type == 'USER_PREMIUM_GUILD_SUBSCRIPTION' &&
+    msg.channel.id == '447513385211396096'
+  ) {
+    let msgArray, times, user1, user2, announcementChannel, chuuDo;
+    chuuDo = msg.guild.emojis.cache.get('578526612421738526');
+    announcementChannel = msg.guild.channels.cache.get('720958791432011789');
+    try {
+      // announcementChannel.send(msg.content).catch(console.log);
+      console.log(msg);
+      console.log(msg.content);
+      announcementChannel.send(`Server was boosted`);
+      msgArray = msg.content.split(' ');
+      user1 = msgArray[0];
+      user2 = msg.mentions.users.array()[0];
+      announcementChannel.send(`${user2}`).catch(console.log);
+      times = 1;
+      if (msgArray.length > 5) {
+        times = msgArray[5];
+      }
+      announcementChannel.send(
+        `Thank you for boosting the server${
+        times > 1 ? ` ${times} times` : ``
+        } ${user1}, ${user2}`
+      ).catch(console.log);
+    } catch (err) {
+      console.error(err);
+      announcementChannel.send(`There was an error`).catch(console.log)
+    }
   }
 };
 

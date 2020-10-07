@@ -14,45 +14,49 @@ const guildMemberRemoveCaseHandler = async (mem) => {
   //getting the logs channel
   logsChannel = mem.guild.channels.cache.get('447513266395283476');
 
-  //getting audit log - kick
-  kickAuditLog = await mem.guild
-    .fetchAuditLogs({
-      type: 'MEMBER_KICK',
-    })
-    .then((audit) => audit.entries.first());
+  setTimeout(async () => {
+    //getting audit log - kick
+    kickAuditLog = await mem.guild
+      .fetchAuditLogs({
+        type: 'MEMBER_KICK',
+      })
+      .then((audit) => audit.entries.first());
 
-  //getting audit log - ban
-  banAuditLog = await mem.guild
-    .fetchAuditLogs({
-      type: 'MEMBER_BAN_ADD',
-    })
-    .then((audit) => audit.entries.first());
+    //getting audit log - ban
+    banAuditLog = await mem.guild
+      .fetchAuditLogs({
+        type: 'MEMBER_BAN_ADD',
+      })
+      .then((audit) => audit.entries.first());
 
-  temp1 = myCache.get('previousMemberKickLogId');
-  temp2 = myCache.get('previousMemberBanLogId');
+    temp1 = myCache.get('previousMemberKickLogId');
+    temp2 = myCache.get('previousMemberBanLogId');
 
-  //checking if the user was kicked and then logging
-  if (kickAuditLog.id !== temp1) {
-    myCache.del('previousMemberKickLogId');
-    myCache.set('previousMemberKickLogId', kickAuditLog.id);
+    //checking if the user was kicked and then logging
+    if (kickAuditLog.id !== temp1) {
+      myCache.del('previousMemberKickLogId');
+      myCache.set('previousMemberKickLogId', kickAuditLog.id);
 
-    if (kickAuditLog.executor.id === '730109162616389644') return;
+      if (kickAuditLog.executor.id === '730109162616389644') return;
 
-    logsChannel = mem.guild.channels.cache.get('757852261329272853');
+      logsChannel = mem.guild.channels.cache.get('757852261329272853');
 
-    await userKickLog(kickAuditLog, mem, null, logsChannel).catch(console.log);
-  }
+      await userKickLog(kickAuditLog, mem, null, logsChannel).catch(
+        console.log
+      );
+    }
 
-  //checking if user was banned and then logging
-  else if (banAuditLog.id !== temp2) {
-    myCache.del('previousMemberKickLogId');
-    myCache.set('previousMemberKickLogId', banAuditLog.id);
-    return;
-  }
-  //logging that user left themselves
-  else {
-    await userLeaveLog(mem, logsChannel).catch(console.log);
-  }
+    //checking if user was banned and then logging
+    else if (banAuditLog.id !== temp2) {
+      myCache.del('previousMemberKickLogId');
+      myCache.set('previousMemberKickLogId', banAuditLog.id);
+      return;
+    }
+    //logging that user left themselves
+    else {
+      await userLeaveLog(mem, logsChannel).catch(console.log);
+    }
+  }, 2000);
 };
 
 module.exports = guildMemberRemoveCaseHandler;

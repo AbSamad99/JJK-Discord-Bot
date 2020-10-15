@@ -22,10 +22,12 @@
     "ms": "^2.1.2",
     "node-cache": "^5.1.2",
     "pretty-ms": "^7.0.0",
+    "snoostorm": "^1.5.1",
+    "snoowrap": "^1.21.0",
     "twit": "^2.2.11",
     "url-exist": "^2.0.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.5"
   }
 }

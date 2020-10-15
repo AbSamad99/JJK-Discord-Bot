@@ -11,13 +11,15 @@ export const myCache = new nodeCache();
 //importing setup functions
 const connectDB = require('./config/db.js');
 const twitSetup = require('./config/twit.js');
+const redditSetup = require('./config/reddit.js');
 
 //starting up our client
 export const client = new Discord.Client();
 
-//connecting to DB
+//connecting to DB, twitter and reddit
 connectDB();
-const stream = twitSetup();
+const twitterStream = twitSetup();
+const redditStream = redditSetup();
 
 //importing required case handlers
 const messageCaseHandler = require('./Cases/Other/message.js');
@@ -41,7 +43,7 @@ const emoteUpdateCaseHandler = require('./Cases/Emotes/emoteUpdate.js');
 const channelDeleteCaseHandler = require('./Cases/Channels/channelDelete.js');
 
 //whenever tweet is sent
-stream.on('tweet', (tweet) => {
+twitterStream.on('tweet', (tweet) => {
   if (
     tweet.retweeted_status ||
     tweet.in_reply_to_status_id ||
@@ -57,6 +59,35 @@ stream.on('tweet', (tweet) => {
     .send(twitterMessage)
     .catch(console.log);
   return false;
+});
+
+//reddit posts
+const startupTime = Date.now() / 1000;
+redditStream.on('item', (item) => {
+  if (item.created_utc < startupTime) return;
+  console.log(item);
+  let description = `**Link to post:-** [Click Here](https://www.reddit.com/${item.permalink})`;
+  const redditEmbed = new Discord.MessageEmbed()
+    .setTitle(item.title)
+    .setFooter(`Author: u/${item.author.name}`);
+  if (item.selftext && item.selftext.length) {
+    if (item.spoiler) {
+      redditEmbed.setDescription(`${description}
+||${item.selftext}||`);
+    } else {
+      redditEmbed.setDescription(`${description}
+${item.selftext}`);
+    }
+  } else {
+    redditEmbed.setDescription(description);
+  }
+  if (item.post_hint === 'image') {
+    redditEmbed.setImage(item.url);
+  }
+  client.channels.cache
+    .get('720958791432011789')
+    .send(redditEmbed)
+    .catch(console.log);
 });
 
 //when client is ready

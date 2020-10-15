@@ -62,20 +62,20 @@ const messageCaseHandler = async (msg) => {
     await discordLinkPostedLog(msg).catch(console.log);
   }
 
-  //sakuna response
-  if (sukunaArray.some((s) => temp.includes(s))) {
-    msg.channel.send(`It's Sukuna`).catch(console.log);
-  }
+  // //sakuna response
+  // if (sukunaArray.some((s) => temp.includes(s))) {
+  //   msg.channel.send(`It's Sukuna`).catch(console.log);
+  // }
 
-  //weeb response
-  else if (weebArray.some((w) => temp.includes(w))) {
-    weebResponse(msg);
-  }
+  // //weeb response
+  // else if (weebArray.some((w) => temp.includes(w))) {
+  //   weebResponse(msg);
+  // }
 
-  //nfufu response
-  if (temp.includes('nfufu')) {
-    nfufuResponse(msg);
-  }
+  // //nfufu response
+  // if (temp.includes('nfufu')) {
+  //   nfufuResponse(msg);
+  // }
 
   // //mod response
   // if (temp.includes('mod')) {
@@ -89,34 +89,14 @@ const messageCaseHandler = async (msg) => {
 
   //boost check
   if (
-    msg.type == 'USER_PREMIUM_GUILD_SUBSCRIPTION' &&
-    msg.channel.id == '447513385211396096'
+    msg.type === 'USER_PREMIUM_GUILD_SUBSCRIPTION'
   ) {
-    let msgArray, times, user1, user2, announcementChannel, chuuDo;
+    let announcementChannel, chuuDo;
     chuuDo = msg.guild.emojis.cache.get('578526612421738526');
-    announcementChannel = msg.guild.channels.cache.get('720958791432011789');
-    try {
-      // announcementChannel.send(msg.content).catch(console.log);
-      console.log(msg);
-      console.log(msg.content);
-      announcementChannel.send(`Server was boosted`);
-      msgArray = msg.content.split(' ');
-      user1 = msgArray[0];
-      user2 = msg.mentions.users.array()[0];
-      announcementChannel.send(`${user2}`).catch(console.log);
-      times = 1;
-      if (msgArray.length > 5) {
-        times = msgArray[5];
-      }
-      announcementChannel.send(
-        `Thank you for boosting the server${
-        times > 1 ? ` ${times} times` : ``
-        } ${user1}, ${user2}`
-      ).catch(console.log);
-    } catch (err) {
-      console.error(err);
-      announcementChannel.send(`There was an error`).catch(console.log)
-    }
+    announcementChannel = msg.guild.channels.cache.get('447513385211396096');
+    announcementChannel.send(
+      `Thank you for boosting the server ${msg.author} ${chuuDo}`
+    ).catch(error => msg.channel.send('Error Sending Boost Message')).finally(() => msg.channel.send('Boost Message Sent'));
   }
 };
 

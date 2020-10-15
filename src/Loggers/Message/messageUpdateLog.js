@@ -16,8 +16,8 @@ const messageUpdatedLog = async (oldMsg, newMsg) => {
     .setAuthor(newMsg.author.tag, await gifOrPngCheck(newMsg.author))
     .setTitle(`Message edited in #${newMsg.channel.name}`)
     .setColor(15854089)
-    .addField('Before:', oldMsg.content)
-    .addField('After:', newMsg.content)
+    .addField('Before:', `${oldMsg.content.length?oldMsg.content:'-'}`)
+    .addField('After:', `${newMsg.content.length?newMsg.content:'-'}`)
     .setFooter(new Date());
 
   //sending message to logs

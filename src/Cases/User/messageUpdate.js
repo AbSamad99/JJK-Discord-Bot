@@ -9,8 +9,10 @@ const messageUpdateCaseHandler = async (oldMsg, newMsg) => {
   //getting the honored one user
   let honoredOne = newMsg.guild.members.cache.get('730109162616389644');
 
+  if (newMsg.author.id === '730109162616389644') return;
+
   ///checking if the message updated doesnt belong to the honored one
-  if (newMsg.author.id !== honoredOne.id && oldMsg.content !== newMsg.content) {
+  if (oldMsg.content !== newMsg.content) {
     await messageUpdatedLog(oldMsg, newMsg).catch(console.log);
   }
 };

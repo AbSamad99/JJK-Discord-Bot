@@ -39,7 +39,7 @@ const guildMemberRemoveCaseHandler = async (mem) => {
 
       if (kickAuditLog.executor.id === '730109162616389644') return;
 
-      logsChannel = mem.guild.channels.cache.get('757852261329272853');
+      logsChannel = mem.guild.channels.cache.get('447513266395283476');
 
       await userKickLog(kickAuditLog, mem, null, logsChannel).catch(
         console.log

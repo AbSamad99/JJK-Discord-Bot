@@ -3,7 +3,7 @@
 const { MessageEmbed } = require('discord.js');
 
 const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
-const millisecondsToTime=require('../../Functions/millisecondsToTime')
+const millisecondsToTime = require('../../Functions/millisecondsToTime')
 
 //logs when user joins the server
 const userJoinLog = async (mem, logsChannel) => {
@@ -18,11 +18,7 @@ const userJoinLog = async (mem, logsChannel) => {
     .setColor(3066993)
     .setThumbnail(authorUrl)
     .setDescription(
-      `${mem.user} has joined the server. The total number of users is now at ${
-        mem.guild.memberCount
-      }. Account was created ${millisecondsToTime(
-        Date.now() - mem.user.createdTimestamp,{secondsDecimalDigits:0}
-      )} ago.`
+      `${mem.user} has joined the server. The total number of users is now at ${mem.guild.memberCount}. ${mem.user.createdTimestamp ? `Account was created ${millisecondsToTime(Date.now() - mem.user.createdTimestamp)} ago` : `Unknown when account was created`}`
     )
     .setFooter(new Date());
 

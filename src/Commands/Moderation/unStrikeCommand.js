@@ -5,14 +5,16 @@ const { MessageEmbed } = require('discord.js');
 const UserSchema = require('../../Schemas/UserSchema.js');
 const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
-const unstrikeCommand = async (msg) => {
+const unstrikeCommand =async (msg) => {
   if (
-    !(
-      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
-    ) &&
-    !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
-  )
-    return;
+      !(
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')
+        /*admin role*/||
+        msg.author.id === '390450196711997440'
+      )
+    )
+      return;
 
   let temp, toUnStrike, user, logsChannel, unStrikeEmbed;
 
@@ -28,7 +30,7 @@ const unstrikeCommand = async (msg) => {
 
   //checking if user given is valid
   if (!toUnStrike) {
-    toUnStrike = msg.guild.members.cache.get(temp[1]);
+    toUnStrike =msg.guild.members.cache.get(temp[1]);
   }
 
   //2nd check

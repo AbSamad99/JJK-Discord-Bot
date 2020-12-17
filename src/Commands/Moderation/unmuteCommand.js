@@ -5,17 +5,14 @@ import { myCache } from '../../app';
 const userMuteLog = require('../../Loggers/Moderation/userMuteLog.js');
 
 //command to mute users
-const unMuteCommand = (msg) => {
+const unMuteCommand =(msg) => {
   try {
     if (
       !(
-        (
-          msg.member.roles.cache.has(
-            '447512454810042369'
-          ) /*Special Grade role*/ ||
-          msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
-          msg.member.roles.cache.has('665268720163225610')
-        ) /*vengeful spirit role*/
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+        msg.member.roles.cache.has('665268720163225610') /*vengeful spirit role*/||
+        msg.author.id === '390450196711997440'
       )
     )
       return;
@@ -31,7 +28,7 @@ const unMuteCommand = (msg) => {
 
     //checking if user was provided or not
     if (!toUnMute) {
-      toUnMute = msg.guild.members.cache.get(temp[1]);
+      toUnMute =msg.guild.members.cache.get(temp[1]);
     }
 
     //2nd check

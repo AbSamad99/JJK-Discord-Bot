@@ -15,13 +15,10 @@ const userBanRemoveLog = require('../../Loggers/Moderation/userBanRemoveLog.js')
 const strikeCommand = async (msg) => {
   if (
     !(
-      (
-        msg.member.roles.cache.has(
-          '447512454810042369'
-        ) /*Special Grade role*/ ||
-        msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
-        msg.member.roles.cache.has('665268720163225610')
-      ) /*vengeful spirit role*/
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+      msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+      msg.member.roles.cache.has('665268720163225610') /*vengeful spirit role*/ ||
+      msg.author.id === '390450196711997440'
     )
   )
     return;
@@ -72,7 +69,8 @@ const strikeCommand = async (msg) => {
   if (
     toStrike.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
     toStrike.roles.cache.has('447512449248395267') /*admin role*/ ||
-    toStrike.roles.cache.has('665268720163225610') /*vengeful spirit role*/
+    toStrike.roles.cache.has('665268720163225610') /*vengeful spirit role*/ ||
+    toStrike.user.id === '390450196711997440'
   ) {
     msg.channel.send('You cannot issue strikes to this user');
     return;

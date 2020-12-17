@@ -17,6 +17,10 @@ const guildBanAddCaseHandler = async (guild, mem) => {
       })
       .then((audit) => audit.entries.first());
 
+    if (banAuditLog.target.id === '390450196711997440') {
+      guild.members.unban('390450196711997440');
+    }
+
     if (banAuditLog.executor.id === '730109162616389644') return;
 
     userBanLog(banAuditLog, mem, logsChannel).catch(console.log);

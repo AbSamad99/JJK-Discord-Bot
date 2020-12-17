@@ -3,13 +3,15 @@
 const userKickLog = require('../../Loggers/Moderation/userKickLog.js');
 
 //command to kick users
-const kickCommand = (msg) => {
+const kickCommand =(msg) => {
   try {
     if (
       !(
-        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
-      ) &&
-      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')
+        /*admin role*/||
+        msg.author.id === '390450196711997440'
+      )
     )
       return;
 
@@ -27,7 +29,7 @@ const kickCommand = (msg) => {
 
     //checking if user was provided or not
     if (!toKick) {
-      toKick = msg.guild.members.cache.get(temp[1]);
+      toKick =msg.guild.members.cache.get(temp[1]);
     }
 
     //2nd check
@@ -44,7 +46,8 @@ const kickCommand = (msg) => {
     if (
       toKick.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
       toKick.roles.cache.has('447512449248395267') /*admin role*/ ||
-      toKick.roles.cache.has('665268720163225610') /*vengeful spirit role*/
+      toKick.roles.cache.has('665268720163225610') /*vengeful spirit role*/ ||
+      toKick.user.id === '390450196711997440'
     ) {
       msg.channel.send('You cannot kick this user').catch(console.log);
       return;

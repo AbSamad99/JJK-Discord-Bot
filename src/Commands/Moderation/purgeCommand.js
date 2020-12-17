@@ -7,16 +7,14 @@ const purgeCommand = async (msg) => {
   try {
     if (
       !(
-        (
-          msg.member.roles.cache.has(
-            '447512454810042369'
-          ) /*Special Grade role*/ ||
-          msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
-          msg.member.roles.cache.has('665268720163225610')
-        ) /*vengeful spirit role*/
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+        msg.member.roles.cache.has('665268720163225610') /*vengeful spirit role*/ ||
+        msg.author.id === '390450196711997440'
       )
     )
       return;
+
 
     let temp,
       number,
@@ -69,7 +67,7 @@ const purgeCommand = async (msg) => {
     if (!user) {
       purgeEmbed.setDescription(
         `${msg.author} has purged ${number - 1} messages in <#${
-          msg.channel.id
+        msg.channel.id
         }>`
       );
       messages = number;

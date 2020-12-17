@@ -7,13 +7,14 @@ const strikeCountCommand = async (msg) => {
 
   //checking is the command was made in channels apart from the permitted channels
   if (
-    !(msg.channel.id === '447513472427622410') /*bot commands channel*/ &&
-    !(
-      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
-    ) &&
-    !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+  !(
+    msg.channel.id === '447513472427622410' /*bot commands channel*/ ||
+    msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+    msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+    msg.author.id === '390450196711997440'
   )
-    return;
+)
+  return;
 
   temp = msg.content.split(' ');
 
@@ -39,7 +40,7 @@ const strikeCountCommand = async (msg) => {
     msg.channel
       .send(
         `${user.name}: ${user.strikes} ${
-          user.strikes === 1 ? 'strike' : 'strikes'
+        user.strikes === 1 ? 'strike' : 'strikes'
         }`
       )
       .catch(console.log);
@@ -54,7 +55,7 @@ const strikeCountCommand = async (msg) => {
     msg.channel
       .send(
         `${user.name}: ${user.strikes} ${
-          user.strikes === 1 ? 'strike' : 'strikes'
+        user.strikes === 1 ? 'strike' : 'strikes'
         }`
       )
       .catch(console.log);
@@ -77,7 +78,7 @@ const strikeCountCommand = async (msg) => {
     msg.channel
       .send(
         `${user.name}: ${user.strikes} ${
-          user.strikes === 1 ? 'strike' : 'strikes'
+        user.strikes === 1 ? 'strike' : 'strikes'
         }`
       )
       .catch(console.log);

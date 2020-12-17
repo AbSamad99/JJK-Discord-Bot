@@ -36,6 +36,7 @@ const unBanCommand = require('./Commands/Moderation/unBanCommand');
 
 //all misc commands
 const chapterAnnouncement = require('./Commands/Other/chapterAnnouncement');
+const episodeAnnouncement = require('./Commands/Other/episodeAnnouncement');
 const strikeCountCommand = require('./Commands/Other/strikeCountCommand');
 const suggestionCommand = require('./Commands/Other/suggestionCommand');
 const helpCommand = require('./Commands/Other/helpCommand');
@@ -80,6 +81,7 @@ module.exports = {
   unstrike: unstrikeCommand,
   purge: purgeCommand,
   chapter: chapterAnnouncement,
+  episode: episodeAnnouncement,
   strikecount: strikeCountCommand,
   suggest: suggestionCommand,
   role: roleAssignCommand,

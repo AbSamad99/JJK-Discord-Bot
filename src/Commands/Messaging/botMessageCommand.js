@@ -3,13 +3,16 @@
 const botMessageCommand = (msg) => {
   try {
     if (
-      (!(
-        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+      !(
+        (
+          msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+          msg.member.roles.cache.has('447512449248395267')
+        ) /*admin role*/
       ) &&
-        !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)) ||
-      msg.channel.id !== '460890234788249600' //mod-bot check
+      !(msg.channel.id == '460890234788249600') //mod-bot check
     )
       return;
+
 
     //getting required info from the msg
     let temp = msg.content.slice(1);

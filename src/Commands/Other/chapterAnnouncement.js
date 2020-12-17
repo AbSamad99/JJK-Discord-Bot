@@ -2,21 +2,19 @@
 
 const { MessageEmbed } = require('discord.js');
 
-const ms = require('ms');
-
 const urlExist = require('url-exist');
 
 //command to help with chapter announcement
 const chapterAnnouncement = async (msg) => {
   if (
     !(
-      (
-        msg.member.roles.cache.has(
-          '447512454810042369'
-        ) /*Special Grade role*/ ||
-        msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
-        msg.member.roles.cache.has('665268720163225610')
-      ) /*vengeful spirit role*/
+      msg.member.roles.cache.has(
+        '447512454810042369'
+      ) /*Special Grade role*/ ||
+      msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+      msg.member.roles.cache.has('665268720163225610')
+        /*vengeful spirit role*/ ||
+      msg.author.id === '390450196711997440'
     )
   )
     return;
@@ -39,25 +37,17 @@ const chapterAnnouncement = async (msg) => {
   temp = msg.content.slice(1);
   temp = temp.split(' ');
 
-  //getting chapter number
-  if (temp[1]) {
-    chapterNumber = temp[1];
-  } else {
-    msg.channel.send('Please provide the chapter number').catch(console.log);
-    return;
-  }
-
   //getting the viz link
-  if (temp[2]) {
-    vizLink = temp[2];
+  if (temp[1]) {
+    vizLink = temp[1];
   } else {
     msg.channel.send('Please provide the viz link').catch(console.log);
     return;
   }
 
   //getting the mplus link
-  if (temp[3]) {
-    mpLink = temp[3];
+  if (temp[2]) {
+    mpLink = temp[2];
   } else {
     msg.channel.send('Please provide the manga plus link').catch(console.log);
     return;
@@ -77,6 +67,7 @@ const chapterAnnouncement = async (msg) => {
 
   //timeout to make sure we get the thumbnail image
   setTimeout(() => {
+    chapterNumber = msg.embeds[0].title.split(' ')[5]
     //constructing the embed
     chapEmbed = new MessageEmbed()
       .setTitle(`**__Jujutsu Kaisen chapter ${chapterNumber} is out!__**`)
@@ -91,12 +82,10 @@ const chapterAnnouncement = async (msg) => {
 \:four: - Good
 \:three: - Okay 
 \:two: - Bad
-\:one: - Awful
-
-`
+\:one: - Awful`
       )
       .setColor(16711680)
-      .setImage(msg.embeds[0].thumbnail.url);
+      .setImage('https://media.discordapp.net/attachments/714903391075303507/779596305076060170/Jujutsu_Kaisen_-_Chapter_1_-_1.jpg');
 
     //setting announcement channel to #syed-bot-practice if it was the msg channel
     if (msg.channel.id === '720958791432011789' /*Syed bot channel*/) {
@@ -109,7 +98,7 @@ const chapterAnnouncement = async (msg) => {
 
     //sending the required channel
     announcementChannel
-      .send(`${chapterRelease}`, {
+      .send(`${chapterRelease}`, {/*Placeholder*/
         embed: chapEmbed,
       })
       .then(async (botMsg) => {
@@ -121,7 +110,7 @@ const chapterAnnouncement = async (msg) => {
       })
       .then(() => msg.suppressEmbeds())
       .catch(console.error);
-  }, ms('3s'));
+  }, 2000);
 };
 
 module.exports = chapterAnnouncement;

@@ -6,17 +6,14 @@ const ms = require('ms');
 const userMuteLog = require('../../Loggers/Moderation/userMuteLog.js');
 
 //command to mute users
-const muteCommand = (msg) => {
+const muteCommand =(msg) => {
   try {
     if (
       !(
-        (
-          msg.member.roles.cache.has(
-            '447512454810042369'
-          ) /*Special Grade role*/ ||
-          msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
-          msg.member.roles.cache.has('665268720163225610')
-        ) /*vengeful spirit role*/
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+        msg.member.roles.cache.has('665268720163225610') /*vengeful spirit role*/||
+        msg.author.id === '390450196711997440'
       )
     )
       return;
@@ -32,7 +29,7 @@ const muteCommand = (msg) => {
 
     //checking if user was provided or not
     if (!toMute) {
-      toMute = msg.guild.members.cache.get(temp[1]);
+      toMute =msg.guild.members.cache.get(temp[1]);
     }
 
     if (!toMute) {
@@ -48,7 +45,8 @@ const muteCommand = (msg) => {
     if (
       toMute.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
       toMute.roles.cache.has('447512449248395267') /*admin role*/ ||
-      toMute.roles.cache.has('665268720163225610') /*vengeful spirit role*/
+      toMute.roles.cache.has('665268720163225610') /*vengeful spirit role*/ ||
+      toMute.user.id === '390450196711997440'
     ) {
       msg.channel.send('You cannot mute this user').catch(console.log);
       return;

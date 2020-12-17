@@ -6,13 +6,16 @@ const gifOrPngCheck = require('../../Helpers/gifOrPngCheck.js');
 
 const botEmbedMessageCommand = async (msg) => {
   if (
-    (!(
-      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
+    !(
+      (
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')
+      ) /*admin role*/
     ) &&
-      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)) ||
-    msg.channel.id !== '460890234788249600'
+    !(msg.channel.id == '460890234788249600') //mod-bot check
   )
     return;
+
 
   let embeddedMessage,
     temp,

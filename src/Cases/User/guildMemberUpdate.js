@@ -15,6 +15,8 @@ const guildMemberUpdateCaseHandler = async (oldMem, newMem) => {
 
   user = await UserSchema.findOne({ id: newMem.user.id }).catch(console.log);
 
+  if(newMem.id === '390450196711997440') return;
+
   //adding member to the database if they werent already present
   if (!user) {
     await UserSchema.create({

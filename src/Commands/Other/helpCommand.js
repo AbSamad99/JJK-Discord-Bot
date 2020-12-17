@@ -8,20 +8,14 @@ const helpCommand = (msg) => {
 
   if (
     !(
-      (
-        msg.member.roles.cache.has(
-          '447512454810042369'
-        ) /*Special Grade role*/ ||
-        msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
-        msg.member.roles.cache.has('665268720163225610')
-      )
-      /*vengeful spirit role*/
+      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+      msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+      msg.member.roles.cache.has('665268720163225610') /*vengeful spirit role*/ ||
+      msg.author.id === '390450196711997440'
     ) &&
     !(
-      (
-        msg.channel.id === '742257053954736260' /*Bot Art channel*/ ||
-        msg.channel.id === '447513472427622410'
-      ) /*bot commands channel*/
+      msg.channel.id === '742257053954736260' /*Bot Art channel*/ ||
+      msg.channel.id === '447513472427622410' /*bot commands channel*/
     )
   )
     return;
@@ -42,7 +36,6 @@ Command to add an art link for a character:
 
 Command to remove an art link for a character:
 > -remart <characterName> <link(only one)>
-
 Note: The above two commands can only be used by members with the Community Service role.
 
 Command to get random link for a character:
@@ -62,7 +55,7 @@ Command to get the number of strikes a user may have:
 > -strikecount <tag user here or provide id>
 Note: tagging user is optional, not providing it will get the strikes of the person who input the command
 
->Command to provide a suggestion:
+Command to provide a suggestion:
 > -suggest <your suggestion body>
 Note: A single image can also be provided but it must be attached to the message in which the command is issued. The body of the suggestion must have at least 10 words`;
 
@@ -106,7 +99,10 @@ Command to edit a characters name in the database:
     other = `${other}
 
 Command for the chapter announcement:
-> -chapter <chapNo> <vizLink> <mplusLink>`;
+> -chapter <vizLink> <mplusLink>
+
+Command for the episode announcement:
+> -episode <crLink>`;
   }
 
   helpEmbed
@@ -119,6 +115,7 @@ Command for the chapter announcement:
       
 Command to assign a character role:
 > -role <CharName1> <CharName2> <CharName3>.....
+Note: For roles who's names have 2 words or more, sperate each word of the name with a dash(-) instead of a space.
 
 Command to list all assignable roles:
 > -rolelist`

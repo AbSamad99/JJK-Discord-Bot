@@ -74,6 +74,8 @@ const lockedRolesArray = [
   'Rika',
   'Ino',
   'Kusakabe',
+  'Bakery Girl',
+  'Arata'
 ];
 
 const artLinksArray = [

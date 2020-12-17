@@ -7,15 +7,18 @@ const urlExist = require('url-exist');
 //adds an art
 const addArtCommand = async (msg) => {
   if (
-    (!(
-      msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
-    ) &&
-      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/) &&
-      !(msg.member.roles.cache.has('449481558559031296') /*Community role*/)) ||
-    (!(msg.channel.id === '742257053954736260') /*Bot Art channel*/ &&
-      !(msg.channel.id === '720958791432011789')) /*Syed bot channel*/
-  )
-    return;
+  !(
+    msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+    msg.member.roles.cache.has('447512449248395267') /*admin role*/ ||
+    msg.member.roles.cache.has('449481558559031296') /*Community role*/ ||
+    msg.author.id === '390450196711997440'
+  ) &&
+  !(
+    msg.channel.id === '742257053954736260' /*Bot Art channel*/ ||
+    msg.channel.id === '720958791432011789'
+  ) /*Syed bot channel*/
+)
+  return;
 
   let characterArtObj,
     temp,

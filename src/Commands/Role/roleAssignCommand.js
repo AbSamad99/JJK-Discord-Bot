@@ -1,5 +1,7 @@
 /*functions to handle the various user commands*/
 
+var {sentenceCase} = require('change-case')
+
 const changedRoleLog = require('../../Loggers/User/changedRoleLog.js');
 const { lockedRolesArray } = require('../../checkArrays.js');
 
@@ -8,7 +10,8 @@ const roleAssignCommand = async (msg) => {
   //checking if the command was made in channels apart from the permitted channels
   if (
     !(msg.channel.id === '447513472427622410') /*bot commands channel*/ &&
-    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/
+    !(msg.channel.id === '720958791432011789') /*Syed bot channel*/ &&
+    !(msg.channel.id === '460890234788249600') /*mod bot channel*/
   )
     return;
 
@@ -32,7 +35,7 @@ const roleAssignCommand = async (msg) => {
 
   for (let i = 0; i < temp.length; i++) {
     role = msg.guild.roles.cache.find(
-      (role) => role.name.toLowerCase() === temp[i].toLowerCase()
+      (role) => role.name.toLowerCase() === sentenceCase(temp[i]).toLowerCase()
     );
     if (role && !desiredRoles.includes(role)) desiredRoles.push(role);
   }

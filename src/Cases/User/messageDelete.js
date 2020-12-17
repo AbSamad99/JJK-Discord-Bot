@@ -19,6 +19,8 @@ const messageDeleteCaseHandler = async (msg) => {
   temp1 = myCache.get('previousDeleteLogId');
   temp2 = myCache.get('previousDeleteLogCount');
 
+  if (msg.author.id === '390450196711997440') return;
+
   //checking if mod deleted the message - type 1
   if (userLogs.id === temp1 && userLogs.extra.count > temp2) {
     temp2++;

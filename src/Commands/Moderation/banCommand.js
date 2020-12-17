@@ -7,11 +7,14 @@ const banCommand = (msg) => {
   try {
     if (
       !(
-        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/
-      ) &&
-      !(msg.member.roles.cache.has('447512449248395267') /*admin role*/)
+        msg.member.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
+        msg.member.roles.cache.has('447512449248395267')
+        /*admin role*/ ||
+        msg.author.id === '390450196711997440'
+      )
     )
       return;
+
 
     let toBan, temp, reason, logsChannel;
 
@@ -44,7 +47,8 @@ const banCommand = (msg) => {
     if (
       toBan.roles.cache.has('447512454810042369') /*Special Grade role*/ ||
       toBan.roles.cache.has('447512449248395267') /*admin role*/ ||
-      toBan.roles.cache.has('665268720163225610') /*vengeful spirit role*/
+      toBan.roles.cache.has('665268720163225610') /*vengeful spirit role*/ ||
+      toBan.user.id === '390450196711997440'
     ) {
       msg.channel.send('You cannot ban this user').catch(console.log);
       return;

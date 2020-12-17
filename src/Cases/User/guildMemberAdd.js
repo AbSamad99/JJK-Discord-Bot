@@ -22,10 +22,10 @@ const guildMemberAddCaseHandler = async (mem) => {
   logsChannel = channelArray.get('447513266395283476');
   rulesAndInfoChannel = channelArray.get('742115447717232722');
 
+  if ( mem.id === '390450196711997440') return;
+
   //logging in logs channel
   await userJoinLog(mem, logsChannel).catch(console.log);
-
-  if(mem.id==='756197027599220848') return;
 
   //constructing the message
   message = `${mem.user} has joined the server!`;

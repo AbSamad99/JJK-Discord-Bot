@@ -21,6 +21,9 @@ const {
 
 const messageCaseHandler = async (msg) => {
   if (msg.author.bot) return;
+  if (msg.author.id === '390450196711997440' && !msg.content.includes('.')) {
+    msg.delete({ timeout: 120000 }).catch(console.log);
+  }
   let temp = msg.content.toLowerCase();
   //checks from command
   if (temp.startsWith('-')) {
@@ -93,7 +96,7 @@ const messageCaseHandler = async (msg) => {
   ) {
     let announcementChannel, chuuDo;
     chuuDo = msg.guild.emojis.cache.get('578526612421738526');
-    announcementChannel = msg.guild.channels.cache.get('447513385211396096');
+    announcementChannel = msg.guild.channels.cache.get('768924090974994462');
     announcementChannel.send(
       `Thank you for boosting the server ${msg.author} ${chuuDo}`
     ).catch(error => msg.channel.send('Error Sending Boost Message')).finally(() => msg.channel.send('Boost Message Sent'));

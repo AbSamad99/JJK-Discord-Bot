@@ -11,7 +11,7 @@ const prequelLink =
   'https://mangakakalot.com/manga/tokyo_metropolitan_magic_technical_school';
 
 const todoLink =
-  'https://media.discordapp.net/attachments/447410298845003777/635705498624196608/K17.png';
+  'https://media.discordapp.net/attachments/624863331877912587/775661900309594142/K17-1.png';
 
 const guyLink = `https://media.discordapp.net/attachments/447410298845003777/684664171174166538/20191130_235504.jpg?width=736&height=671`;
 
